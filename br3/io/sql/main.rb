@@ -36,7 +36,7 @@ def create_table
 end
 
 def add_entry
-  puts "enter name:"
+  puts "enter name"
   name = gets.chomp
   puts "enter job"
   job = gets.chomp
@@ -44,6 +44,41 @@ def add_entry
   gender = gets.chomp
   puts "enter age"
   age = gets.chomp
-  $db.execute("INSERT INTO people (name, job, gender, age) VALUES (?, ?, ?, ?)"),
+  $db.execute("INSERT INTO people (name, job, gender, age) VALUES (?, ?, ?, ?)",
   name, job, gender, age)
+end
+
+def find_entry
+  puts "Enter name of id of a person"
+  id = gets.chomp
+  person = $db.execute("SELECT * FROM people WHERE name = ? OR id = ?", id, id.to_i).first
+  
+  unless person
+    puts "no result found"
+    return
+  end
+  
+  puts %Q{Name: #{person['name']}
+  Job: #{person['job']}
+  Gender: #{person['gender']}
+  Age: #{person['age']}}
+end
+
+loop do
+  puts %q{Please select and option:
+  1. create table
+  2. add and entry
+  3. find an entry
+  4. quit}
+  
+  case gets.chomp
+    when '1'
+    create_table
+    when '2'
+    add_entry
+    when '3'
+    find_entry
+    when '4'
+    disconnect_and_quit
+  end
 end
