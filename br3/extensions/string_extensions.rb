@@ -2,6 +2,6 @@
 
 class String
   def vowels
-    self.scan(/[aeiou]/i)
+    scan(/[aeiou]/i)
   end
 end

@@ -1,5 +1,5 @@
 require 'sqlite3'
-$db = SQLite3::Database.new("dbfile")
+$db = SQLite3::Database.new('dbfile')
 $db.results_as_hash = true # its not a good idea to make your db a global variable in real application, we make it use a hash rather then return as csv becasue it easier to use
 
 # some sql test stuff
@@ -18,13 +18,13 @@ $db.results_as_hash = true # its not a good idea to make your db a global variab
 
 def disconnect_and_quit
   $db.close
-  puts "bye!"
+  puts 'bye!'
   exit
 end
 
 def create_table
-  puts "Createing a table"
-  $db.execute %q{
+  puts 'Createing a table'
+  $db.execute '
     CREATE TABLE people(
     id integer primary key,
     name varchar(50),
@@ -32,44 +32,44 @@ def create_table
     gender varchar(6),
     age integer
     )
-  }
+  '
 end
 
 def add_entry
-  puts "enter name"
+  puts 'enter name'
   name = gets.chomp
-  puts "enter job"
+  puts 'enter job'
   job = gets.chomp
-  puts "enter gender"
+  puts 'enter gender'
   gender = gets.chomp
-  puts "enter age"
+  puts 'enter age'
   age = gets.chomp
-  $db.execute("INSERT INTO people (name, job, gender, age) VALUES (?, ?, ?, ?)",
+  $db.execute('INSERT INTO people (name, job, gender, age) VALUES (?, ?, ?, ?)',
               name, job, gender, age)
 end
 
 def find_entry
-  puts "Enter name of id of a person"
+  puts 'Enter name of id of a person'
   id = gets.chomp
-  person = $db.execute("SELECT * FROM people WHERE name = ? OR id = ?", id, id.to_i).first
+  person = $db.execute('SELECT * FROM people WHERE name = ? OR id = ?', id, id.to_i).first
 
   unless person
-    puts "no result found"
+    puts 'no result found'
     return
   end
 
-  puts %Q{Name: #{person['name']}
+  puts %(Name: #{person['name']}
   Job: #{person['job']}
   Gender: #{person['gender']}
-  Age: #{person['age']}}
+  Age: #{person['age']})
 end
 
 loop do
-  puts %q{Please select and option:
+  puts 'Please select and option:
   1. create table
   2. add and entry
   3. find an entry
-  4. quit}
+  4. quit'
 
   case gets.chomp
   when '1'
