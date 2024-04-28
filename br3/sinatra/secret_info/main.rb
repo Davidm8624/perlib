@@ -10,7 +10,7 @@ post '/secretdata' do
 end
 
 not_found do
-  "<html><body>Sorry your lost</body></html>"
+  '<html><body>Sorry your lost</body></html>'
 end
 
 __END__

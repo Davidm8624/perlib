@@ -35,7 +35,7 @@ class ChatServer < GServer
         @chat << [my_client_id, line]
       else
         # no data so print any new lines from the chat stream
-        @chat[my_position..(@chat.size - 1)].each_with_index do |line, index|
+        @chat[my_position..(@chat.size - 1)].each_with_index do |line, _index|
           io.puts("#{line[0]} says: #{line[1]}")
         end
         # move the position to one past the end of the array
