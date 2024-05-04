@@ -8,6 +8,7 @@ def mind_reader
     puts "what is your guess?"
     guess = gets.chomp.to_i
     break if attempts >= max_guesses
+
     attempts += 1
   end
   winner = "you got it!"
