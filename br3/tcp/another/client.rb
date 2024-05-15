@@ -29,7 +29,6 @@ class Client
   end
 end
 
-
 Client.host = '127.0.0.1'
 Client.port = 4002
 Client.request

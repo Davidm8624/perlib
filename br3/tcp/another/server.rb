@@ -26,6 +26,7 @@ class Server
     connection.close if request.nil?
     @connections.each do |client|
       next if client.closed?
+
       client.puts(request) if client != connection && !client.closed?
     end
   end
