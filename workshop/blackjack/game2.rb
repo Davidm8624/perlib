@@ -1,6 +1,6 @@
 def generate_deck
   cards = (1..13).to_a
-  suits = ["diamonds", "clubs", "hearts", "spades"]
+  suits = %w[diamonds clubs hearts spades]
   deck = []
 
   suits.each do |suit|
@@ -17,8 +17,8 @@ def shuffle_deck(deck)
 end
 
 def card_label(card, format: :short) # by default we will only show short so it will display suit symbols rather then name.
-  card_labels = { 1 => "Ace", 11 => "Jack", 12 => "Queen", 13 => "King" }
-  card_suit_labels = { "Diamonds" => "♦", "Clubs" => "♣", "Spades" => "♠", "Hearts" => "♥" }
+  card_labels = { 1 => 'Ace', 11 => 'Jack', 12 => 'Queen', 13 => 'King' }
+  card_suit_labels = { 'Diamonds' => '♦', 'Clubs' => '♣', 'Spades' => '♠', 'Hearts' => '♥' }
 
   card_index, card_suit = card
   label = card_labels[card_index] || card_index

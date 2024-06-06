@@ -3,7 +3,7 @@ def get_data(url, headers = {}, *params) # dont forget the splat here
   if headers.length > 0
     puts "headers: #{headers}"
   else
-    puts "no headers"
+    puts 'no headers'
   end
 
   params.each do |param|
@@ -12,13 +12,13 @@ def get_data(url, headers = {}, *params) # dont forget the splat here
 end
 
 def assemble_params(include_headers = false, include_date_in_search = false, only_show_my_records = true)
-  headers = { accept: "application/json" }
-  url = "example.com"
+  headers = { accept: 'application/json' }
+  url = 'example.com'
   args = [url]
   args << headers if include_headers
   params = []
   params << "date=#{Time.now}" if include_date_in_search
-  params << "myrecords=true" if only_show_my_records
+  params << 'myrecords=true' if only_show_my_records
   args << params if params.length > 0
 end
 

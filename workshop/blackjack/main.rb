@@ -1,7 +1,7 @@
 def generate_deck
   cards = (1..13).to_a
 
-  suits = ["Diamonds", "Clubs", "Spades", "Hearts"]
+  suits = %w[Diamonds Clubs Spades Hearts]
 
   deck = []
 
@@ -19,18 +19,18 @@ def shuffle_deck(deck)
 end
 
 def inspect_cards(cards, format: :short)
-  card_labels = { 1 => "Ace", 11 => "Jack", 12 => "Queen", 13 => "King" }
-  card_suit_labels = { "Diamonds" => "♦", "Clubs" => "♣", "Spades" => "♠", "Hearts" => "♥" }
+  card_labels = { 1 => 'Ace', 11 => 'Jack', 12 => 'Queen', 13 => 'King' }
+  card_suit_labels = { 'Diamonds' => '♦', 'Clubs' => '♣', 'Spades' => '♠', 'Hearts' => '♥' }
 
-  hand = cards.map { |c| card_label(c, format: format) }.join(",")
+  hand = cards.map { |c| card_label(c, format: format) }.join(',')
   total = calculate_total(cards)
 
   "#{hand} (#{total})"
 end
 
 def card_label(card, format: :short)
-  card_labels = { 1 => "Ace", 11 => "Jack", 12 => "Queen", 13 => "King" }
-  card_suit_labels = { "Diamonds" => "♦", "Clubs" => "♣", "Spades" => "♠", "Hearts" => "♥" }
+  card_labels = { 1 => 'Ace', 11 => 'Jack', 12 => 'Queen', 13 => 'King' }
+  card_suit_labels = { 'Diamonds' => '♦', 'Clubs' => '♣', 'Spades' => '♠', 'Hearts' => '♥' }
 
   card_index, card_suit = card
   label = card_labels[card_index] || card_index
@@ -64,20 +64,16 @@ def play(deck)
 
   choice = nil
 
-  while choice != 'stay' && calculate_total(player_hand) <= 21 do
-    print "Do you want to hit or stay?"
+  while choice != 'stay' && calculate_total(player_hand) <= 21
+    print 'Do you want to hit or stay?'
     choice = gets.chomp
 
-    if choice == 'hit'
-      player_hand += deal_cards(deck, 1)
-    end
+    player_hand += deal_cards(deck, 1) if choice == 'hit'
 
     puts "Your cards are now: #{inspect_cards(player_hand)}"
   end
 
-  while calculate_total(dealer_hand) <= 17 do
-    dealer_hand += deal_cards(deck, 1)
-  end
+  dealer_hand += deal_cards(deck, 1) while calculate_total(dealer_hand) <= 17
 
   player_total = calculate_total(player_hand)
   dealer_total = calculate_total(dealer_hand)
@@ -85,13 +81,13 @@ def play(deck)
   if player_total > 21
     puts "Player busts! #{player_total}"
   elsif player_total == 21 && dealer_total != 21
-    puts "21! A winner!"
+    puts '21! A winner!'
   elsif player_total > dealer_total || dealer_total > 21
-    puts "Player wins!"
+    puts 'Player wins!'
   elsif player_total == dealer_total
     puts "It's a tie!"
   else
-    puts "Dealer wins!"
+    puts 'Dealer wins!'
   end
 
   puts "Dealer hand: #{inspect_cards(dealer_hand)}"
@@ -102,12 +98,10 @@ shuffled_deck = shuffle_deck(generate_deck)
 
 choice = 'y'
 
-while shuffled_deck.length > 4 && choice.downcase != 'n' do
+while shuffled_deck.length > 4 && choice.downcase != 'n'
   puts "Deck has: #{shuffled_deck.length} cards left"
-  print "Do you want to play a hand?[Yn]"
+  print 'Do you want to play a hand?[Yn]'
   choice = gets.chomp
 
-  if choice.downcase == 'y'
-    play(shuffled_deck)
-  end
+  play(shuffled_deck) if choice.downcase == 'y'
 end

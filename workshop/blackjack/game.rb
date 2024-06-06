@@ -1,7 +1,7 @@
 def generate_deck
   cards = (1..13)
 
-  suits = ["Diamonds", "Clubs", "Spades", "Hearts"]
+  suits = %w[Diamonds Clubs Spades Hearts]
 
   deck = []
 
@@ -11,13 +11,13 @@ def generate_deck
     end
   end
 
-  return deck
+  deck
 end
 
 def shuffle_deck(deck)
   shuffled_deck = []
 
-  while (deck.length > 0) do
+  while deck.length > 0
 
     random_card_index = rand(deck.length)
 
@@ -25,7 +25,7 @@ def shuffle_deck(deck)
 
   end
 
-  return shuffled_deck
+  shuffled_deck
 end
 
 def inspect_cards(cards, format: :short)
@@ -67,23 +67,19 @@ def card_label(card, format: :short)
 
     choice = nil
 
-    while choice != 'stay' && calculate_total(player_hand) <= 21 do
+    while choice != 'stay' && calculate_total(player_hand) <= 21
 
       print "Do you want to hit or stay?"
 
       choice = gets.chomp
 
-      if choice == 'hit'
-
-        player_hand += deal_cards(deck, 1)
-
-      end
+      player_hand += deal_cards(deck, 1) if choice == 'hit'
 
       print "Your cards are now: #{inspect_cards(player_hand)}\n"
 
     end
 
-    while ((dealer_total = calculate_total(dealer_hand)) <= 21 && (dealer_total < 17)) do
+    while (dealer_total = calculate_total(dealer_hand)) <= 21 && (dealer_total < 17)
 
       dealer_hand += deal_cards(deck, 1)
 
@@ -181,22 +177,22 @@ def card_label(card, format: :short)
   end
 
   def deal_cards(cards, amount)
-    if cards.length >= amount
+    raise "No more cards to deal, game over!" unless cards.length >= amount
 
       cards.shift(amount)
 
-    else
+    
 
-      raise "No more cards to deal, game over!"
+      
 
-    end
+    
   end
 end
 shuffled_deck = shuffle_deck(generate_deck)
 
 choice = 'y'
 
-while (shuffled_deck.length > 4 && choice.downcase != 'n') do # need at least 4 cards to play
+while shuffled_deck.length > 4 && choice.downcase != 'n' # need at least 4 cards to play
 
   puts "Deck has: #{shuffled_deck.length} cards left"
 
@@ -204,10 +200,6 @@ while (shuffled_deck.length > 4 && choice.downcase != 'n') do # need at least 4 
 
   choice = gets.chomp
 
-  if choice.downcase == 'y'
-
-    play(shuffled_deck)
-
-  end
+  next unless choice.downcase == 'y'play(shuffled_deck) if choice.downcase == 'y'
 
 end

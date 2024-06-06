@@ -1,8 +1,8 @@
 class User
   attr_accessor :name, :address, :department
 
-  def User.roles # we could also use 'self.roles" here or "class << roles" then just "def roles" below it
-    ["employee", "manager", "director", "exec"]
+  def self.roles # we could also use 'self.roles" here or "class << roles" then just "def roles" below it
+    %w[employee manager director exec]
   end
 
   def initialize(name, address, department)
@@ -47,11 +47,11 @@ class Department
 end
 
 # setup data
-comp = Company.new("inc inc", "https://link.url")
-sales_dep = Department.new("sales")
-engineering_dep = Department.new("engineering")
-bob = User.new("Bobby smith", "house", sales_dep)
-sally = User.new("sally R", "condo", engineering_dep)
+comp = Company.new('inc inc', 'https://link.url')
+sales_dep = Department.new('sales')
+engineering_dep = Department.new('engineering')
+bob = User.new('Bobby smith', 'house', sales_dep)
+sally = User.new('sally R', 'condo', engineering_dep)
 
 # usage of our cast
 comp.departments = [sales_dep, engineering_dep]

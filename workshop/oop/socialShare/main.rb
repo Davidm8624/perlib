@@ -1,11 +1,11 @@
 class SocialShare
   @@platforms = {
-    facebook: "https://www.facebook.com/sharer/sharer.php?u=%{url}",
-    x: "https://x.com/intent/tweet?text=%{url} %{title}",
-    linkedin: "http://www.linkedin.com/shareArticles?mini=true&url=%{url}&title=%{title}&summary=%{summary}&source=Recognize"
+    facebook: 'https://www.facebook.com/sharer/sharer.php?u=%<url>s',
+    x: 'https://x.com/intent/tweet?text=%<url>s %<title>s',
+    linkedin: 'http://www.linkedin.com/shareArticles?mini=true&url=%<url>s&title=%<title>s&summary=%<summary>s&source=Recognize'
   }
 
-  def initialize(platform, title, url, summary = "")
+  def initialize(platform, title, url, summary = '')
     @platform = platform.to_sym
     @share_url = url
     @title = title
@@ -13,7 +13,7 @@ class SocialShare
   end
 
   def generate_url
-    @@platforms[@platform % { title: @title, url: @share_url, summary: @summary }]
+    @@platforms[format(@platform, title: @title, url: @share_url, summary: @summary)]
   end
 
   def url
