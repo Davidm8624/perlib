@@ -119,3 +119,56 @@ Processing by ArticlesController#index as HTML
 Completed 200 OK in 103ms (Views: 82.6ms | ActiveRecord: 2.1ms | Allocations: 54617)
 
 
+Started GET "/" for 127.0.0.1 at 2024-07-03 11:38:32 -0700
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ArticlesController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering articles/index.html.erb within layouts/application
+  [1m[36mArticle Load (0.3ms)[0m  [1m[34mSELECT "articles".* FROM "articles"[0m
+  ↳ app/views/articles/index.html.erb:4
+  Rendered articles/index.html.erb within layouts/application (Duration: 19.4ms | Allocations: 9684)
+  Rendered layout layouts/application.html.erb (Duration: 76.7ms | Allocations: 43663)
+Completed 200 OK in 106ms (Views: 79.0ms | ActiveRecord: 2.2ms | Allocations: 53484)
+
+
+Started GET "/help" for 127.0.0.1 at 2024-07-03 11:38:38 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/help"):
+  
+Started GET "/health" for 127.0.0.1 at 2024-07-03 11:39:02 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/health"):
+  
+Started GET "/rails/health" for 127.0.0.1 at 2024-07-03 11:39:19 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/rails/health"):
+  
+Started GET "/up" for 127.0.0.1 at 2024-07-03 11:39:28 -0700
+Processing by Rails::HealthController#show as HTML
+  Rendering html template
+  Rendered html template (Duration: 0.0ms | Allocations: 8)
+Completed 200 OK in 2ms (Views: 1.6ms | ActiveRecord: 0.0ms | Allocations: 605)
+
+
+Started GET "/rails/active_storage/disk/:encoded_key/*filename" for 127.0.0.1 at 2024-07-03 11:41:04 -0700
+Processing by ActiveStorage::DiskController#show as HTML
+  Parameters: {"encoded_key"=>"[FILTERED]", "filename"=>"*filename"}
+Completed 404 Not Found in 2ms (ActiveRecord: 0.0ms | Allocations: 434)
+
+
+Started GET "/rails/active_storage/disk/:encoded_key" for 127.0.0.1 at 2024-07-03 11:41:08 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/rails/active_storage/disk/:encoded_key"):
+  
+Started GET "/" for 127.0.0.1 at 2024-07-10 14:34:57 -0700
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ArticlesController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering articles/index.html.erb within layouts/application
+  [1m[36mArticle Load (0.4ms)[0m  [1m[34mSELECT "articles".* FROM "articles"[0m
+  ↳ app/views/articles/index.html.erb:4
+  Rendered articles/index.html.erb within layouts/application (Duration: 17.8ms | Allocations: 9685)
+  Rendered layout layouts/application.html.erb (Duration: 96.3ms | Allocations: 44774)
+Completed 200 OK in 126ms (Views: 98.5ms | ActiveRecord: 2.1ms | Allocations: 54597)
+
+
