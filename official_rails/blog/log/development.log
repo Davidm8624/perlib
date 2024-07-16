@@ -166,3 +166,24 @@ Processing by ArticlesController#index as HTML
 Completed 200 OK in 4ms (Views: 3.3ms | ActiveRecord: 0.1ms | Allocations: 1930)
 
 
+Started GET "/articles/new" for 127.0.0.1 at 2024-07-15 19:24:36 -0700
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ArticlesController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering articles/new.html.erb within layouts/application
+  Rendered articles/new.html.erb within layouts/application (Duration: 15.6ms | Allocations: 3780)
+  Rendered layout layouts/application.html.erb (Duration: 78.3ms | Allocations: 37444)
+Completed 200 OK in 119ms (Views: 83.0ms | ActiveRecord: 1.8ms | Allocations: 55022)
+
+
+Started GET "/articles" for 127.0.0.1 at 2024-07-15 19:24:44 -0700
+Processing by ArticlesController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering articles/index.html.erb within layouts/application
+  [1m[36mArticle Load (0.2ms)[0m  [1m[34mSELECT "articles".* FROM "articles"[0m
+  ↳ app/views/articles/index.html.erb:4
+  Rendered articles/index.html.erb within layouts/application (Duration: 2.5ms | Allocations: 887)
+  Rendered layout layouts/application.html.erb (Duration: 5.1ms | Allocations: 2142)
+Completed 200 OK in 12ms (Views: 5.4ms | ActiveRecord: 0.2ms | Allocations: 3501)
+
+
