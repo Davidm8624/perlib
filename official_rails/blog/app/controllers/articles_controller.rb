@@ -44,8 +44,8 @@ class ArticlesController < ApplicationController
 
   private
 
-  # this prevents the malicious users from submitting forms with more inputs then title & body
+  # this prevents the malicious users from submitting forms with more inputs then title & body & status
   def article_params
-    params.require(:article).permit(:title, :body)
+    params.require(:article).permit(:title, :body, :status)
   end
 end
