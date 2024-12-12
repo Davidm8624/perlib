@@ -20,15 +20,15 @@ end
 
 loop do
   Thread.start(server.accept) do |client|
-    client.puts "Welcome to my chat server! What is your nickname?"
+    client.puts 'Welcome to my chat server! What is your nickname?'
 
     nickname = client.gets
     next if nickname.nil?
 
     # Check if nickname is valid
     nickname = nickname.chomp
-    while !(valid_nickname?(nickname, connected_clients)) do
-      client.puts "Sorry that username is already taken, please choose another"
+    until valid_nickname?(nickname, connected_clients)
+      client.puts 'Sorry that username is already taken, please choose another'
       nickname = client.gets
       next if nickname.nil?
 

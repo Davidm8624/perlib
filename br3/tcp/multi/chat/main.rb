@@ -24,12 +24,12 @@ class ChatServer < GServer
         line = io.gets
 
         # if user says quit disconnect them
-        if line =~ /quit/
+        if line.include?('quit')
           @chat << [my_client_id, '<leaves the chat>']
           break
         end
         # shutdown if we hear shutdown
-        stop if line =~ /shutdown/
+        stop if line.include?('shutdown')
 
         # add the client text to the chat array with the id
         @chat << [my_client_id, line]

@@ -1,1 +1,1 @@
-puts 'hello from A'
+Rails.logger.debug 'hello from A'

@@ -14,7 +14,7 @@ end
 people = DB[:people]
 people.insert(:first_name => 'name1', :last_name => 'name1 part 2', age => '1')
 
-puts "there are #{people.count} people in the db"
+Rails.logger.debug { "there are #{people.count} people in the db" }
 
 people.each do |person|
   puts person [:first_name]

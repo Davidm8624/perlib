@@ -1,1 +1,1 @@
-puts ARGV.join('-')
+Rails.logger.debug ARGV.join('-')

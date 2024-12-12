@@ -4,9 +4,9 @@ server = TCPServer.new(1234)
 
 while connection = server.accept
   while line = connection.gets
-    break if line =~ /quit/
+    break if line.include?('quit')
 
-    puts line
+    Rails.logger.debug line
     connection.puts 'Recieved!'
   end
   connection.puts 'closing the connection bye!'

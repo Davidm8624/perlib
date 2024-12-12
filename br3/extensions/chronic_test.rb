@@ -1,3 +1,3 @@
 require 'chronic' # gem
 
-puts Chronic.parse('april 16th')
+Rails.logger.debug Chronic.parse('april 16th')

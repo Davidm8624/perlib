@@ -15,4 +15,4 @@ end
 
 arr = [64, 34, 25, 12, 22, 11, 90]
 sorted_arr = bubble_sort(arr)
-puts "Bubbly array = #{sorted_arr}"
+Rails.logger.debug { "Bubbly array = #{sorted_arr}" }

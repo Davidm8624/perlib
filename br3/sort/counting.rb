@@ -15,4 +15,4 @@ end
 arr = [4, 2, 2, 8, 3, 3, 1]
 max_value = arr.max
 sorted_arr = counting_sort(arr, max_value)
-puts "Counted array = #{sorted_arr}"
+Rails.logger.debug { "Counted array = #{sorted_arr}" }

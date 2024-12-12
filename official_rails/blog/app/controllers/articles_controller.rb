@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  http_basic_authenticate_with name: "david", password: "secret", except: [:index, :show]
+  http_basic_authenticate_with name: 'david', password: 'secret', except: %i[index show]
 
   def index
     @articles = Article.all
@@ -39,7 +39,7 @@ class ArticlesController < ApplicationController
 
   def destroy
     @article = Article.find(params[:id])
-    @article.destroy
+    @article.destroy!
 
     redirect_to root_path, status: :see_other
   end

@@ -1,9 +1,9 @@
 def get_data(url, headers = {}, *params) # dont forget the splat here
-  puts "calling #{url}"
+  Rails.logger.debug { "calling #{url}" }
   if headers.length > 0
-    puts "headers: #{headers}"
+    Rails.logger.debug { "headers: #{headers}" }
   else
-    puts 'no headers'
+    Rails.logger.debug 'no headers'
   end
 
   params.each do |param|

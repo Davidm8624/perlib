@@ -4,13 +4,13 @@ class Server
   def initialize(port)
     @server = TCPServer.new(port)
     @connections = []
-    puts "Listening on port #{port}"
+    Rails.logger.debug { "Listening on port #{port}" }
   end
 
   def start
     Socket.accept_loop(@server) do |connection|
       @connections << connection
-      puts @connections
+      Rails.logger.debug @connections
       Thread.new do
         loop do
           handle(connection)

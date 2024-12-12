@@ -13,4 +13,4 @@ laura.name = 'Laura Smith'
 laura.age = 23
 test_data = [fred, laura]
 
-puts test_data.to_yaml
+Rails.logger.debug test_data.to_yaml

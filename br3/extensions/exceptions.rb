@@ -12,25 +12,25 @@ class Person
 end
 
 p1 = Person.new('bob')
-puts p1.name
-p2 = Person.new('')
-puts p1.name
+Rails.logger.debug p1.name
+Person.new('')
+Rails.logger.debug p1.name
 
 # handler
 
 begin
-  puts 10 / 0 # cant divide by 0 error
+  Rails.logger.debug 10 / 0 # cant divide by 0 error
 rescue StandardError => e
-  puts "there was an error: #{e.class}"
+  Rails.logger.debug { "there was an error: #{e.class}" }
 end
 
 # catch & throw
 
 catch(:finish) do
   1000.times do
-    x = rand(1000)
-    throw :finish if x = 69
+    rand(1000)
+    throw :finish if 69
   end
 
-  puts 'was able to generate 1000 num without getting 69'
+  Rails.logger.debug 'was able to generate 1000 num without getting 69'
 end

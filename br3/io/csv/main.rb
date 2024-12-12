@@ -1,7 +1,7 @@
 require 'csv'
 
 people = CSV.read('text.csv')
-laura = people.find { |person| person[0] =~ /Laura/ }
+laura = people.find { |person| person[0].include?('Laura') }
 laura[0] = 'Lauren Smith'
 
 CSV.open('text.csv', 'w') do |csv|

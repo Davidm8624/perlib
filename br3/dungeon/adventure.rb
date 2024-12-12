@@ -16,7 +16,7 @@ class Dungeon
   end
 
   def show_current_description
-    puts find_room_in_dungeon(@player.location).full_description
+    Rails.logger.debug find_room_in_dungeon(@player.location).full_description
   end
 
   def find_room_in_dungeon(reference)
@@ -28,7 +28,7 @@ class Dungeon
   end
 
   def go(direction)
-    puts 'You go ' + direction.to_s
+    Rails.logger.debug 'You go ' + direction.to_s
     @player.location = find_room_in_direction(direction)
     show_current_description
   end
@@ -66,7 +66,7 @@ end
 
 me = Player.new('first last')
 my_dungeon = Dungeon.new(me)
-puts my_dungeon.player.name
+Rails.logger.debug my_dungeon.player.name
 
 # adding rooms
 my_dungeon.add_room(:largecave, 'Large Cave', 'a large cavernous cave', { west: :smallcave })

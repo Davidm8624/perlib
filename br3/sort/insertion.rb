@@ -13,4 +13,4 @@ end
 
 arr = [22, 11, 99, 88, 9, 7, 42]
 sorted_arr = insertion_sort(arr)
-puts "Inserted array = #{sorted_arr}"
+Rails.logger.debug { "Inserted array = #{sorted_arr}" }

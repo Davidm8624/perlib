@@ -4,8 +4,8 @@ def mind_reader
   attempts = 1
   guess = nil
   while guess != magic_number
-    print 'nope!' unless guess.nil?
-    puts 'what is your guess?'
+    Rails.logger.debug 'nope!' unless guess.nil?
+    Rails.logger.debug 'what is your guess?'
     guess = gets.chomp.to_i
     break if attempts >= max_guesses
 
@@ -13,7 +13,7 @@ def mind_reader
   end
   winner = 'you got it!'
   loser = 'ran outta guesses'
-  puts guess == magic_number ? winner : loser
+  Rails.logger.debug guess == magic_number ? winner : loser
 end
 
 mind_reader

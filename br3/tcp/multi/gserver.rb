@@ -4,7 +4,7 @@ class HelloServer < GServer
   def serve(io)
     io.puts('Hello')
     io.puts('to stop this server type shutdown')
-    stop of io.gets =~ /shutdown/
+    stop of io.gets.include?('shutdown')
   end
 end
 

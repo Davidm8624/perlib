@@ -6,7 +6,7 @@ require './string_extensions'
 # load 'string_extentions.rb'
 # you must use .rb for load or it wont be able to find it
 
-puts 'this is a test'.vowels.join('-')
+Rails.logger.debug 'this is a test'.vowels.join('-')
 
 # if you need to load alot of external files use:
 # %w{file1 file2 etc}.each {|file| require file}

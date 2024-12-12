@@ -51,7 +51,7 @@ comp = Company.new('inc inc', 'https://link.url')
 sales_dep = Department.new('sales')
 engineering_dep = Department.new('engineering')
 bob = User.new('Bobby smith', 'house', sales_dep)
-sally = User.new('sally R', 'condo', engineering_dep)
+User.new('sally R', 'condo', engineering_dep)
 
 # usage of our cast
 comp.departments = [sales_dep, engineering_dep]

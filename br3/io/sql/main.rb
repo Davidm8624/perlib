@@ -18,12 +18,12 @@ $db.results_as_hash = true # its not a good idea to make your db a global variab
 
 def disconnect_and_quit
   $db.close
-  puts 'bye!'
+  Rails.logger.debug 'bye!'
   exit
 end
 
 def create_table
-  puts 'Createing a table'
+  Rails.logger.debug 'Createing a table'
   $db.execute '
     CREATE TABLE people(
     id integer primary key,
@@ -36,40 +36,44 @@ def create_table
 end
 
 def add_entry
-  puts 'enter name'
+  Rails.logger.debug 'enter name'
   name = gets.chomp
-  puts 'enter job'
+  Rails.logger.debug 'enter job'
   job = gets.chomp
-  puts 'enter gender'
+  Rails.logger.debug 'enter gender'
   gender = gets.chomp
-  puts 'enter age'
+  Rails.logger.debug 'enter age'
   age = gets.chomp
   $db.execute('INSERT INTO people (name, job, gender, age) VALUES (?, ?, ?, ?)',
               name, job, gender, age)
 end
 
 def find_entry
-  puts 'Enter name of id of a person'
+  Rails.logger.debug 'Enter name of id of a person'
   id = gets.chomp
   person = $db.execute('SELECT * FROM people WHERE name = ? OR id = ?', id, id.to_i).first
 
   unless person
-    puts 'no result found'
+    Rails.logger.debug 'no result found'
     return
   end
 
-  puts %(Name: #{person['name']}
+  Rails.logger.debug do
+    %(Name: #{person['name']}
   Job: #{person['job']}
   Gender: #{person['gender']}
   Age: #{person['age']})
+  end
 end
 
 loop do
-  puts 'Please select and option:
+  Rails.logger.debug do
+    'Please select and option:
   1. create table
   2. add and entry
   3. find an entry
   4. quit'
+  end
 
   case gets.chomp
   when '1'
