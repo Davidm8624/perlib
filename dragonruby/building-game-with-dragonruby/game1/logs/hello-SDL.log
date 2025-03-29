@@ -1,0 +1,40 @@
+* [Engine] Log started at 2025/3/29 13:27:9
+* [Engine] DragonRuby Game Toolkit
+* [Engine]   Version: 6.23
+* [Engine]   Tier: Standard
+* [Engine]   GIT Hash: b9ba2652ac016be4bed171795e0ce6fa39d3ac82
+* [Engine]   Build Date: Mar 20 2025 19:12:10
+* [Engine] Platform: Linux
+* [Engine] 
+* [Engine] *******************************************************************************************
+* [Engine] *** This is the Standard license build!                                                 ***
+* [Engine] *** Get more with an Indie or Pro license such as C extensions, mobile dev, and Steam!  ***
+* [Engine] *** Details at http://dragonruby.org/#purchase                                          ***
+* [Engine] *******************************************************************************************
+* [Engine] 
+! [Engine] Metadata file does not have all required fields!
+- [Engine] Process Working Directory: /home/david/Documents/code/perlib/dragonruby/building-game-with-dragonruby/game1/
+- [Engine] Game Dir: /home/david/Documents/code/perlib/dragonruby/building-game-with-dragonruby/game1//mygame
+- [Engine] Game ID: hello-SDL
+- [Engine] Game Title: Update metadata/game_metadata.txt in your mygame directory to change this title.
+- [Engine] Game Version: 1.0
+- [Engine] Game Package ID: org.dragonruby.hello-SDL
+- [Engine] Game Developer ID: dragonruby
+- [Engine] Game Developer Title: DragonRuby LLC
+- [Engine] Production Build: no
+- [Engine] Remote Hotload: no
+? [Engine] Loading cvars from file 'metadata/cvars.txt' ...
+? [Engine] File 'metadata/cvars.txt' line 44 setting cvar 'log.filter_subsystems' to 'HTTPServer'
+? [Engine] File 'metadata/cvars.txt' complete
+- [Render] SDL video backend: x11
+- [Render] SDL renderer backend: opengl
+- [Render] Window size: 1280x720 (requested 1280x720)
+- [Render] Fullscreen Desktop mode: no
+- [Render] HD: no
+- [Render] HighDPI: no
+- [Render] Max texture size: 8192x8192 (system reported 8192x8192)
+- [Render] Logical render size: 1280x720
+- [Render] Native render size: 1280x720
+? [Engine] RNG seed has been set to 1743280029.
+- [Engine] Janitor is using 1 threads.
+* [Engine] Logging shutting down
