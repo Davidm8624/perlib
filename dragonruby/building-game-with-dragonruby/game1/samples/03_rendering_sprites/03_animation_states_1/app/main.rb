@@ -64,7 +64,7 @@ class Game
   end
 
   def sprite_horizontal_slash
-    tile_index   = player.slash_at.frame_index(5, player.slash_frames.idiv(5), false) || 0
+    tile_index = player.slash_at.frame_index(5, player.slash_frames.idiv(5), false) || 0
 
     {
       x: player.x + player.dir_x.sign * 9.25,
@@ -98,6 +98,7 @@ class Game
 
   def render_debug_layer
     return if !state.show_debug_layer
+
     outputs.borders << player.slash_collision_rect
   end
 
@@ -155,6 +156,7 @@ class Game
     # damage occurs half way into the slash animation
     return false if slash_complete?
     return false if (player.slash_at + player.slash_frames.idiv(2)) != Kernel.tick_count
+
     return true
   end
 

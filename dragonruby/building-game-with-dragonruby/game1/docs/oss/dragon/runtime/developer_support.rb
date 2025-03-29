@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2023 DragonRuby LLC
 # MIT License
 # developer_support.rb has been released under MIT (*only this file*).
@@ -40,19 +41,19 @@ module GTK
         directory ||= "sprites"
 
         if !GTK.stat_file(directory) && @is_resetting
-          log_warn <<-S
-* WARNING: ~GTK.reset_sprites~ skipped during GTK.reset.
-The directory =#{directory}= does not exist. ~GTK.reset_sprites~ requires a valid directory.
+          log_warn <<~S
+            * WARNING: ~GTK.reset_sprites~ skipped during GTK.reset.
+            The directory =#{directory}= does not exist. ~GTK.reset_sprites~ requires a valid directory.
 
-To explicitly provide a directory during reset, place the following code in =main.rb=:
+            To explicitly provide a directory during reset, place the following code in =main.rb=:
 
-#+begin_src ruby
-  # inside of main.rb
-  def reset args
-    GTK.reset_sprites directory: "DIRECTORY_NAME"
-  end
-#+end_src
-S
+            #+begin_src ruby
+              # inside of main.rb
+              def reset args
+                GTK.reset_sprites directory: "DIRECTORY_NAME"
+              end
+            #+end_src
+          S
           return
         end
 
@@ -110,6 +111,7 @@ S
         factor = factor.to_i
         factor = 1 if factor < 1
         return if @speedup_factor == factor
+
         if factor != 1
           notify! "Simulation loop sped up by #{factor}x. ~args.gtk.speedup! #{factor}~"
           log_info "Simulation loop sped up by #{factor}x. ~args.gtk.speedup! #{factor}~"
@@ -123,6 +125,7 @@ S
         factor = factor.to_i
         factor = 1 if factor < 1
         return if @slowmo_factor == factor
+
         if factor != 1
           if should_notify
             notify! "Simulation loop slowed down to #{(60 / factor).to_i} fps. ~args.gtk.slowmo! #{factor}~"

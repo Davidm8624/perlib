@@ -61,15 +61,15 @@ end
 # Outputs sprite onto screen
 def render grid, outputs, state
   outputs.background_color = [70, 70, 70]
-  outputs.sprites <<  { **destination_rect(state), # sets first four parameters of car sprite
-                        path: 'sprites/86.png',    # image path of car
-                        angle: state.angle,
-                        a: opacity,                # alpha
-                        **saturation,
-                        **source_rect(state),      # sprite sub division/tile (source x, y, w, h)
-                        flip_horizontally: false,
-                        flip_vertically: false,    # don't flip sprites
-                        **rotation_anchor }
+  outputs.sprites << { **destination_rect(state), # sets first four parameters of car sprite
+    path: 'sprites/86.png', # image path of car
+    angle: state.angle,
+    a: opacity,                # alpha
+    **saturation,
+    **source_rect(state),      # sprite sub division/tile (source x, y, w, h)
+    flip_horizontally: false,
+    flip_vertically: false,    # don't flip sprites
+    **rotation_anchor }
 end
 
 # Calls the calc_pos and calc_wrap methods.
@@ -90,7 +90,6 @@ end
 # The screen's dimensions are 1280x720. If the car goes out of scope,
 # it loops back around on the screen.
 def calc_wrap state
-
   # car returns to left side of screen if it disappears on right side of screen
   # sprite.width refers to tile's size, which is multipled by scale (4) to make it bigger
   state.x = -state.sprite.width * state.sprite.scale if state.x - 20 > 1280
@@ -108,7 +107,6 @@ end
 
 # Changes angle of sprite based on user input from keyboard or controller
 def process_inputs args
-
   # NOTE: increasing the angle doesn't mean that the car will continue to go
   # in a specific direction. The angle is increasing, which means that if the
   # left key was kept in the "down" state, the change in the angle would cause

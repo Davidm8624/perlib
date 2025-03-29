@@ -2,25 +2,25 @@ def write_src path, src
   GTK.write_file path, src
 end
 
-write_src 'app/unit_testing_game.rb', <<-S
-module UnitTesting
-  class Game
+write_src 'app/unit_testing_game.rb', <<~S
+  module UnitTesting
+    class Game
+    end
   end
-end
 S
 
-write_src 'lib/unit_testing_lib.rb', <<-S
-module UnitTesting
-  class Lib
+write_src 'lib/unit_testing_lib.rb', <<~S
+  module UnitTesting
+    class Lib
+    end
   end
-end
 S
 
-write_src 'app/nested/unit_testing_nested.rb', <<-S
-module UnitTesting
-  class Nested
+write_src 'app/nested/unit_testing_nested.rb', <<~S
+  module UnitTesting
+    class Nested
+    end
   end
-end
 S
 
 require 'app/unit_testing_game.rb'

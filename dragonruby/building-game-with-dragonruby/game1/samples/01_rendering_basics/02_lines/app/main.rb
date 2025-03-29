@@ -34,30 +34,30 @@ def tick args
   # These examples utilize Kernel.tick_count to change the length of the lines over time
   # Kernel.tick_count is the ticks that have occurred in the game
   # This is accomplished by making either the starting or ending point based on the Kernel.tick_count
-  args.outputs.lines  << { x:  380,
-                           y:  370,
+  args.outputs.lines  << { x: 380,
+                           y: 370,
                            x2: 875,
                            y2: 370,
-                           r:  Kernel.tick_count % 255,
-                           g:  0,
-                           b:  0,
-                           a:  255 }
+                           r: Kernel.tick_count % 255,
+                           g: 0,
+                           b: 0,
+                           a: 255 }
 
-  args.outputs.lines  << { x:  380,
-                           y:  330 - Kernel.tick_count % 25,
+  args.outputs.lines  << { x: 380,
+                           y: 330 - Kernel.tick_count % 25,
                            x2: 875,
                            y2: 330,
-                           r:  0,
-                           g:  0,
-                           b:  0,
-                           a:  255 }
+                           r: 0,
+                           g: 0,
+                           b: 0,
+                           a: 255 }
 
-  args.outputs.lines  << { x:  380 + Kernel.tick_count % 400,
-                           y:  290,
+  args.outputs.lines  << { x: 380 + Kernel.tick_count % 400,
+                           y: 290,
                            x2: 875,
                            y2: 290,
-                           r:  0,
-                           g:  0,
-                           b:  0,
-                           a:  255 }
+                           r: 0,
+                           g: 0,
+                           b: 0,
+                           a: 255 }
 end

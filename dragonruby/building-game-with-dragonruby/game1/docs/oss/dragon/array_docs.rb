@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # array_docs.rb has been released under MIT (*only this file*).
@@ -19,37 +20,37 @@ module ArrayDocs
   end
 
   def docs_include_any?
-    <<-'S'
-** ~include_any?~
+    <<~'S'
+      ** ~include_any?~
 
-Given a collection of items, the function will return
-~true~ if any of ~self~'s items exists in the collection of items passed in:
+      Given a collection of items, the function will return
+      ~true~ if any of ~self~'s items exists in the collection of items passed in:
 
-#+begin_src
-  l1 = [:a, :b, :c]
-  result = l1.include_any?(:b, :c, :d)
-  puts result # true
+      #+begin_src
+        l1 = [:a, :b, :c]
+        result = l1.include_any?(:b, :c, :d)
+        puts result # true
 
-  l1 = [:a, :b, :c]
-  l2 = [:b, :c, :d]
-  # returns true, but requires the parameter to be "splatted"
-  # consider using (l1 & l2) instead
-  result = l1.include_any?(*l2)
-  puts result # true
+        l1 = [:a, :b, :c]
+        l2 = [:b, :c, :d]
+        # returns true, but requires the parameter to be "splatted"
+        # consider using (l1 & l2) instead
+        result = l1.include_any?(*l2)
+        puts result # true
 
-  # & (bit-wise and) operator usage
-  l1 = [:a, :b, :c]
-  l2 = [:d, :c]
-  result = (l1 & l2)
-  puts result # [:c]
+        # & (bit-wise and) operator usage
+        l1 = [:a, :b, :c]
+        l2 = [:d, :c]
+        result = (l1 & l2)
+        puts result # [:c]
 
-  # | (bit-wise or) operator usage
-  l1 = [:a, :b, :c, :a]
-  l2 = [:d, :f, :a]
-  result = l1 | l2
-  puts result # [:d, :f, :a, :b, :c]
-#+end_src
-S
+        # | (bit-wise or) operator usage
+        l1 = [:a, :b, :c, :a]
+        l2 = [:d, :f, :a]
+        result = l1 | l2
+        puts result # [:d, :f, :a, :b, :c]
+      #+end_src
+    S
   end
 
   def docs_class

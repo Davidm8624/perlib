@@ -1,5 +1,5 @@
 def tick args
-  #tick_instructions args, "Use LEFT and RIGHT arrow keys to move and SPACE to jump."
+  # tick_instructions args, "Use LEFT and RIGHT arrow keys to move and SPACE to jump."
   defaults args
   render args
   input args
@@ -13,7 +13,7 @@ def defaults args
 
   Kernel.tick_count = Kernel.tick_count
   args.state.bridge_top = 128
-  args.state.player.x  ||= 0                        # initializes player's properties
+  args.state.player.x  ||= 0 # initializes player's properties
   args.state.player.y  ||= args.state.bridge_top
   args.state.player.w  ||= 64
   args.state.player.h  ||= 64
@@ -21,19 +21,19 @@ def defaults args
   args.state.player.dx ||= 0
   args.state.player.r  ||= 0
   args.state.game_over_at ||= 0
-  args.state.animation_time ||=0
+  args.state.animation_time ||= 0
 
-  args.state.timeleft ||=0
-  args.state.timeright ||=0
-  args.state.lastpush ||=0
+  args.state.timeleft ||= 0
+  args.state.timeright ||= 0
+  args.state.lastpush ||= 0
 
-  args.state.inputlist ||=  ["j","k","l"]
+  args.state.inputlist ||= ["j", "k", "l"]
 end
 
 # sets enemy, player, hammer values
 def fiddle args
   args.state.gravity                     = -0.5
-  args.state.player_jump_power           = 10      # sets player values
+  args.state.player_jump_power           = 10 # sets player values
   args.state.player_jump_power_duration  = 5
   args.state.player_max_run_speed        = 20
   args.state.player_speed_slowdown_rate  = 0.9
@@ -46,20 +46,20 @@ def render args
     args.state.player.dx = 0
   end
 
-  #move list
+  # move list
   (Layout.rect_group row: 0, col_from_right: 8, drow: 0.3,
-                          merge: { vertical_alignment_enum: 0, size_enum: -2 },
-                          group: [
-                            { text: "move:             WASD" },
-                            { text: "jump:             Space" },
-                            { text: "attack forwards:  J (while on ground" },
-                            { text: "attack upwards:   K (while on groud)" },
-                            { text: "attack backwards: J (while on ground and holding A)" },
-                            { text: "attack downwards: K (while in air)" },
-                            { text: "dash attack:      J, K in quick succession." },
-                            { text: "shield: hold      J, K at the same time." },
-                            { text: "dash backwards:   A, A in quick succession." },
-                          ]).into args.outputs.labels
+                     merge: { vertical_alignment_enum: 0, size_enum: -2 },
+                     group: [
+                       { text: "move:             WASD" },
+                       { text: "jump:             Space" },
+                       { text: "attack forwards:  J (while on ground" },
+                       { text: "attack upwards:   K (while on groud)" },
+                       { text: "attack backwards: J (while on ground and holding A)" },
+                       { text: "attack downwards: K (while in air)" },
+                       { text: "dash attack:      J, K in quick succession." },
+                       { text: "shield: hold      J, K at the same time." },
+                       { text: "dash backwards:   A, A in quick succession." },
+                     ]).into args.outputs.labels
 
   # registered moves
   args.outputs.labels << { x: 0.to_layout_col,
@@ -74,8 +74,7 @@ def render args
     (Layout.rect_group row: 0.3, col: 0, drow: 0.3, group: group).into args.outputs.labels
   end
 
-
-  #sprites
+  # sprites
   player = [args.state.player.x, args.state.player.y,
             args.state.player.w, args.state.player.h,
             "sprites/square/white.png",
@@ -96,7 +95,7 @@ def render args
   playerupper = [args.state.player.x, args.state.player.y + 32,
                  args.state.player.w, args.state.player.h,
                  "sprites/isometric/indigo.png",
-                 args.state.player.r+90,
+                 args.state.player.r + 90,
                  0]
 
   if ((Kernel.tick_count - args.state.lastpush) <= 15)
@@ -181,7 +180,7 @@ def calc args
 
   # player is not falling if it is located on the top of the bridge
   args.state.player.falling = false if args.state.player.y == args.state.bridge_top
-  #args.state.player.rect = [args.state.player.x, args.state.player.y, args.state.player.h, args.state.player.w] # sets definition for player
+  # args.state.player.rect = [args.state.player.x, args.state.player.y, args.state.player.h, args.state.player.w] # sets definition for player
 end
 
 # Resets the player by changing its properties back to the values they had at initialization
@@ -221,7 +220,7 @@ def input args
     elsif (args.inputs.keyboard.key_down.j && args.inputs.keyboard.a) ||
           (args.inputs.controller_one.key_down.x && args.inputs.controller_one.key_down.left)
       args.state.inputlist.unshift("back-attack")
-    elsif ( args.inputs.controller_one.key_down.x || args.inputs.keyboard.key_down.j)
+    elsif (args.inputs.controller_one.key_down.x || args.inputs.keyboard.key_down.j)
       args.state.inputlist.unshift("forward-attack")
     elsif (args.inputs.keyboard.key_down.k || args.inputs.controller_one.key_down.y) &&
           (args.state.player.y > 128)
@@ -243,7 +242,7 @@ def input args
     args.state.lastpush = Kernel.tick_count
   end
 
-  if args.inputs.keyboard.space || args.inputs.controller_one.r2   # if the user presses the space bar
+  if args.inputs.keyboard.space || args.inputs.controller_one.r2 # if the user presses the space bar
     args.state.player.jumped_at ||= Kernel.tick_count # jumped_at is set to current frame
 
     # if the time that has passed since the jump is less than the player's jump duration and
@@ -276,13 +275,14 @@ def input args
     args.state.player.dx *= args.state.player_speed_slowdown_rate # dx is scaled down
   end
 
-  if ((args.state.player.dx).abs > 5) #&& ((Kernel.tick_count - args.state.lastpush) <= 10)
+  if ((args.state.player.dx).abs > 5) # && ((Kernel.tick_count - args.state.lastpush) <= 10)
     args.state.player.dx *= 0.95
   end
 end
 
 def tick_instructions args, text, y = 715
   return if args.state.key_event_occurred
+
   if args.inputs.mouse.click ||
      args.inputs.keyboard.directional_vector ||
      args.inputs.keyboard.key_down.enter ||
@@ -293,5 +293,5 @@ def tick_instructions args, text, y = 715
 
   args.outputs.debug << [0, y - 50, 1280, 60].solid
   args.outputs.debug << [640, y, text, 1, 1, 255, 255, 255].label
-  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)" , -2, 1, 255, 255, 255].label
+  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)", -2, 1, 255, 255, 255].label
 end

@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # console_prompt.rb has been released under MIT (*only this file*).
@@ -30,7 +31,8 @@ module GTK
       end
 
       def update_cursor_position_px
-        w, _ = $gtk.calcstringbox (@prompt + @current_input_str[0...@cursor_position]), @font_style.size_enum, @font_style.font
+        w, _ = $gtk.calcstringbox (@prompt + @current_input_str[0...@cursor_position]), @font_style.size_enum,
+                                  @font_style.font
         @cursor_position_px = w
       end
 
@@ -74,7 +76,7 @@ module GTK
 
         new_pos = @cursor_position - 1
         (is_word_boundary? @current_input_str[new_pos]) ?
-            (new_pos -= 1 until !(is_word_boundary? @current_input_str[new_pos - 1]) || new_pos.zero?):
+            (new_pos -= 1 until !(is_word_boundary? @current_input_str[new_pos - 1]) || new_pos.zero?) :
             (new_pos -= 1 until (is_word_boundary? @current_input_str[new_pos - 1]) || new_pos.zero?)
 
         @cursor_position = new_pos
@@ -91,7 +93,7 @@ module GTK
 
         new_pos = @cursor_position + 1
         (is_word_boundary? @current_input_str[new_pos]) ?
-            (new_pos += 1 until !(is_word_boundary? @current_input_str[new_pos]) || (new_pos.equal? str_len)):
+            (new_pos += 1 until !(is_word_boundary? @current_input_str[new_pos]) || (new_pos.equal? str_len)) :
             (new_pos += 1 until (is_word_boundary? @current_input_str[new_pos]) || (new_pos.equal? str_len))
 
         @cursor_position = new_pos
@@ -138,11 +140,11 @@ module GTK
 
       def pretty_print_strings_as_table items
         if items.length == 0
-          puts <<-S.strip
-+--------+
-| (none) |
-+--------+
-S
+          puts <<~S.strip
+            +--------+
+            | (none) |
+            +--------+
+          S
         else
           # figure out the largest string
           string_width = items.sort_by { |c| -c.to_s.length }.first
@@ -173,7 +175,7 @@ S
 
         # right align each cell value
         formated_row = "|" + cells.map do |c|
-          "#{" " * (string_width.length - c.length) } #{c} |"
+          "#{" " * (string_width.length - c.length)} #{c} |"
         end.join
 
         # remove separators between empty values
@@ -191,7 +193,8 @@ S
       end
 
       def render(args, x:, y:)
-        args.outputs.reserved << font_style.label(x: x, y: y, text: "#{@prompt}#{current_input_str}", color: @text_color)
+        args.outputs.reserved << font_style.label(x: x, y: y, text: "#{@prompt}#{current_input_str}",
+                                                  color: @text_color)
         args.outputs.reserved << (@cursor_color.to_h.merge x: x + @cursor_position_px + 0.5,
                                                            y: y + 5,
                                                            x2: x + @cursor_position_px + 0.5,

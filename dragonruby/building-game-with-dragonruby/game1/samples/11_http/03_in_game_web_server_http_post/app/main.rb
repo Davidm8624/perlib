@@ -15,18 +15,18 @@ def tick args
   args.state.post_button.yield_self do |b|
     args.outputs.borders << b
     args.outputs.labels  << b.merge(text: b.text,
-                                    y:    b.y + 30,
-                                    x:    b.x + 10)
+                                    y: b.y + 30,
+                                    x: b.x + 10)
   end
 
   args.state.post_body_button.yield_self do |b|
     args.outputs.borders << b
     args.outputs.labels  << b.merge(text: b.text,
-                                    y:    b.y + 30,
-                                    x:    b.x + 10)
+                                    y: b.y + 30,
+                                    x: b.x + 10)
   end
 
-  draw_label args, 0,  6, "Request:", args.state.request_to_s
+  draw_label args, 0, 6, "Request:", args.state.request_to_s
   draw_label args, 0, 14, "Request Body Unaltered:", args.state.request_body
 
   # input
@@ -38,8 +38,8 @@ def tick args
       # ==================================
 
       GTK.http_post "http://localhost:9001/testing",
-                         form_fields,
-                         ["Content-Type: application/x-www-form-urlencoded"]
+                    form_fields,
+                    ["Content-Type: application/x-www-form-urlencoded"]
 
       GTK.notify! "http_post"
     end
@@ -51,8 +51,8 @@ def tick args
       # ==================================
 
       GTK.http_post_body "http://localhost:9001/testing",
-                              json,
-                              ["Content-Type: application/json", "Content-Length: #{json.length}"]
+                         json,
+                         ["Content-Type: application/json", "Content-Length: #{json.length}"]
 
       GTK.notify! "http_post_body"
     end

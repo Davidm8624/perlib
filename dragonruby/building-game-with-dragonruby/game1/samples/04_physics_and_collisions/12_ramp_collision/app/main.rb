@@ -234,7 +234,6 @@ def calc_collision args
       # can jump from the new_y position
       diff_bottom = new_y - player.y
 
-
       # if the player's current rising speed can cover the distance to the
       # new y position, then set the player's y position to the new y position
       # an mark them as being on the floor so that gravity no longer get's processed
@@ -410,6 +409,7 @@ def tick_toolbar args
     args.state.terrain = world.map do |tile|
       template = tile_by_name(args, tile.name)
       next if !template
+
       grid_rect = grid_rect_for(tile.row, tile.col)
       new_terrain_definition(grid_rect, template)
     end
@@ -429,7 +429,6 @@ def tick_toolbar args
 
   # determine if the mouse click occurred over a tile in the terrain
   terrain_tile = Geometry.find_intersect_rect mouse_grid_aligned_rect, args.state.terrain
-
 
   # if a mouse click occurs....
   if args.inputs.mouse.click
@@ -472,8 +471,8 @@ def tick_toolbar args
       }
 
       args.outputs.lines << {
-        x:  grid_aligned_rect.x,
-        y:  grid_aligned_rect.y + args.state.selected_tile.left_height,
+        x: grid_aligned_rect.x,
+        y: grid_aligned_rect.y + args.state.selected_tile.left_height,
         x2: grid_aligned_rect.x + grid_aligned_rect.w,
         y2: grid_aligned_rect.y + args.state.selected_tile.right_height,
       }
@@ -497,8 +496,8 @@ def tick_toolbar args
         g: 128
       },
       {
-        x:  toolbar_tile.button_rect.x,
-        y:  toolbar_tile.button_rect.y + toolbar_tile.left_height * scale,
+        x: toolbar_tile.button_rect.x,
+        y: toolbar_tile.button_rect.y + toolbar_tile.left_height * scale,
         x2: toolbar_tile.button_rect.x + toolbar_tile.button_rect.w,
         y2: toolbar_tile.button_rect.y + toolbar_tile.right_height * scale
       }
@@ -527,8 +526,8 @@ def new_terrain_definition grid_rect, tile
   grid_rect.merge(
     tile: tile,
     line: {
-      x:  grid_rect.x,
-      y:  grid_rect.y + tile.left_height,
+      x: grid_rect.x,
+      y: grid_rect.y + tile.left_height,
       x2: grid_rect.x + grid_rect.w,
       y2: grid_rect.y + tile.right_height
     }

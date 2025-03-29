@@ -142,7 +142,6 @@ class Game
   def how_to_animate_a_sprite
     start_animation_on_tick = 180
 
-
     # Get the frame_index given start_at, frame_count, hold_for, and repeat
     sprite_index = Numeric.frame_index start_at: start_animation_on_tick,  # when to start the animation?
                                        frame_count: 7,                     # how many sprites?
@@ -163,7 +162,7 @@ class Game
     # Numeric.frame_index will return nil if the frame hasn't arrived yet
     if sprite_index
       # if the sprite_index is populated, use it to determine the sprite path and render it
-      sprite_path  = "sprites/explosion-#{sprite_index}.png"
+      sprite_path = "sprites/explosion-#{sprite_index}.png"
       nokia.sprites << { x: 84 / 2 - 16,
                          y: 48 / 2 - 16,
                          w: 32,
@@ -183,7 +182,6 @@ class Game
 
   def how_to_animate_a_sprite_sheet
     start_animation_on_tick = 180
-
 
     # Get the frame_index given start_at, frame_count, hold_for, and repeat
     sprite_index = Numeric.frame_index start_at: start_animation_on_tick,  # when to start the animation?
@@ -210,7 +208,7 @@ class Game
         y: 48 / 2 - 16,
         w: 32,
         h: 32,
-        path:  "sprites/explosion-sheet.png",
+        path: "sprites/explosion-sheet.png",
         source_x: 32 * sprite_index,
         source_y: 0,
         source_w: 32,
@@ -220,11 +218,11 @@ class Game
       # if the sprite_index is nil, render a countdown instead
       countdown_in_seconds = ((start_animation_on_tick - Kernel.tick_count) / 60).round(1)
 
-      nokia.labels  << sm_label.merge(x: 84 / 2,
-                                      y: 48 / 2,
-                                      text: "Count Down: #{countdown_in_seconds.to_sf}",
-                                      anchor_x: 0.5,
-                                      anchor_y: 0.5)
+      nokia.labels << sm_label.merge(x: 84 / 2,
+                                     y: 48 / 2,
+                                     text: "Count Down: #{countdown_in_seconds.to_sf}",
+                                     anchor_x: 0.5,
+                                     anchor_y: 0.5)
     end
   end
 
@@ -334,7 +332,6 @@ class Game
                                    text: "Press a Button!",
                                    anchor_x: 0.5,
                                    anchor_y: 0.5)
-
 
     # Create button one using a border and a label
     state.button_one_border ||= { x: 1, y: 28, w: 82, h: 10 }

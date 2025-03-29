@@ -32,7 +32,8 @@ def serenity_alive_path_to_observatory args
       [0, 26, 5, 5, :serenity_alive_observatory]
     ],
     storylines: [
-      [22, 20, 10, 10, "This spot--, on the mountain, right here, it's-- perfect. This- is where- I'll-- yeet-- the person-- who is playing-- this- prank- on me."]
+      [22, 20, 10, 10,
+       "This spot--, on the mountain, right here, it's-- perfect. This- is where- I'll-- yeet-- the person-- who is playing-- this- prank- on me."]
     ],
     render_override: :blinking_light_path_to_observatory_render
   }
@@ -71,7 +72,7 @@ def serenity_alive_inside_mainframe args
     ],
     storylines: [
       [22, 45, 17, 4, (serenity_alive_last_reply args)],
-      [45, 45,  4, 4, (serenity_alive_current_message args)],
+      [45, 45, 4, 4, (serenity_alive_current_message args)],
     ]
   }
 end
@@ -85,8 +86,9 @@ def serenity_alive_ship_status args
       [30, 50, 4, 4, :serenity_alive_ship_status_reviewed]
     ],
     storylines: [
-      [30,  8, 4, 4, "Serenity? THE--- Mission-- Serenity?! How is that possible? They- are supposed-- to be dead."],
-      [30, 10, 4, 4, "I... can't-- believe-- it. I- can access-- Serenity's-- computer? I- guess my \"superpower----\" isn't limited-- by proximity-- to- a machine--."],
+      [30, 8, 4, 4, "Serenity? THE--- Mission-- Serenity?! How is that possible? They- are supposed-- to be dead."],
+      [30, 10, 4, 4,
+       "I... can't-- believe-- it. I- can access-- Serenity's-- computer? I- guess my \"superpower----\" isn't limited-- by proximity-- to- a machine--."],
       *serenity_alive_shared_ship_status(args)
     ]
   }
@@ -100,25 +102,26 @@ def serenity_alive_ship_status_reviewed args
       [*hotspot_bottom, :serenity_alive_time_to_reply]
     ],
     storylines: [
-      [0, 62, 62, 3, "Okay. Reviewing-- everything--, it looks- like- I- can- take- the batteries--- from the Stasis--- Chambers--- and- Engine--- to keep- the crew-- alive-- and-- their-- location--- pinpointed---."],
+      [0, 62, 62, 3,
+       "Okay. Reviewing-- everything--, it looks- like- I- can- take- the batteries--- from the Stasis--- Chambers--- and- Engine--- to keep- the crew-- alive-- and-- their-- location--- pinpointed---."],
     ]
   }
 end
 
 def serenity_alive_time_to_reply args
   decision_graph serenity_alive_current_message(args),
-                  "Okay... time to deliver the bad news...",
-                  [:replied_to_serenity_alive_firmly, "Firm-- Reply", serenity_alive_firm_reply],
-                  [:replied_to_serenity_alive_kindly, "Sugar-- Coated---- Reply", serenity_alive_sugarcoated_reply]
+                 "Okay... time to deliver the bad news...",
+                 [:replied_to_serenity_alive_firmly, "Firm-- Reply", serenity_alive_firm_reply],
+                 [:replied_to_serenity_alive_kindly, "Sugar-- Coated---- Reply", serenity_alive_sugarcoated_reply]
 end
 
 def serenity_alive_shared_ship_status args
   [
-    *ship_control_hotspot( 0, 50,
-                           "Stasis-- Chambers--: Online, All chambers-- are powered. Battery--- Allocation---: 3--- of-- 3--, Hmmm. They don't-- need this to be powered-- right- now. Everyone-- is awake.",
-                           nil,
-                           nil,
-                           nil),
+    *ship_control_hotspot(0, 50,
+                          "Stasis-- Chambers--: Online, All chambers-- are powered. Battery--- Allocation---: 3--- of-- 3--, Hmmm. They don't-- need this to be powered-- right- now. Everyone-- is awake.",
+                          nil,
+                          nil,
+                          nil),
     *ship_control_hotspot(12, 35,
                           "Life- Support--: Offline, Unable--- to- Sustain-- Life. Battery--- Allocation---: 0--- of-- 3---, Okay. That is definitely---- not a good thing.",
                           nil,
@@ -189,7 +192,8 @@ def serenity_alive_path_from_observatory args
       [*hotspot_bottom_right, :serenity_bio_infront_of_home]
     ],
     storylines: [
-      [22, 20, 10, 10, "I'm not sure what's-- worse. Waiting-- for Sasha's-- reply. Or jumping-- off- from- right- here."]
+      [22, 20, 10, 10,
+       "I'm not sure what's-- worse. Waiting-- for Sasha's-- reply. Or jumping-- off- from- right- here."]
     ]
   }
 end

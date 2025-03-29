@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # autocomplete.rb has been released under MIT (*only this file*).
@@ -25,20 +26,22 @@ module GTK
           sub_index       = index - previous_line[:sum]
           word            = (cursor_line[:line][0..sub_index - 1]).strip
           token           = (word.split " ")[-1]
-          dots            = (token.split ".").flat_map { |s| s.split "[" }.flat_map { |s| s.split "]" }.flat_map { |s| s.split "(" }.flat_map { |s| s.split ")" }
-          dot             = dots[-1]
+          dots            = (token.split ".").flat_map { |s|
+            s.split "["
+          }.flat_map { |s| s.split "]" }.flat_map { |s| s.split "(" }.flat_map { |s| s.split ")" }
+          dot = dots[-1]
         end
 
         {
-          text:          opts[:text],
-          file:          opts[:file],
-          index:         opts[:index],
-          cursor_line:   cursor_line,
+          text: opts[:text],
+          file: opts[:file],
+          index: opts[:index],
+          cursor_line: cursor_line,
           previous_line: previous_line,
-          word:          word,
-          token:         token,
-          dots:          dots,
-          dot:           dot
+          word: word,
+          token: token,
+          dots: dots,
+          dot: dot
         }
       end
 
@@ -52,23 +55,23 @@ module GTK
                      .reject { |k| k.start_with? "#" }
 
         @autocomplete_always_ignore ||= ["def", "end"] +
-                                        [ :entity_keys_by_ref,
-                                          :entity_name,
-                                          :as_hash,
-                                          :clear!,
-                                          :created_at_elapsed,
-                                          :entity_id,
-                                          "entity_id=",
-                                          "tick_count=",
-                                          :global_created_at_elapsed,
-                                          :load_entity_data!,
-                                          :meta,
-                                          :meta!,
-                                          :new?,
-                                          :old?,
-                                          :__original_eq_eq__, :set!,
-                                          :update_entity_keys_by_ref,
-                                          :with_meta]
+                                        [:entity_keys_by_ref,
+                                         :entity_name,
+                                         :as_hash,
+                                         :clear!,
+                                         :created_at_elapsed,
+                                         :entity_id,
+                                         "entity_id=",
+                                         "tick_count=",
+                                         :global_created_at_elapsed,
+                                         :load_entity_data!,
+                                         :meta,
+                                         :meta!,
+                                         :new?,
+                                         :old?,
+                                         :__original_eq_eq__, :set!,
+                                         :update_entity_keys_by_ref,
+                                         :with_meta]
 
         others = @autocomplete_always_ignore +
                  ignores + keys.find_all { |k| k.to_s.to_i.to_s == k.to_s }
@@ -80,6 +83,7 @@ module GTK
       def suggest_autocompletion opts
         parse_result = autocomplete_parse opts
         return [] unless parse_result[:cursor_line]
+
         text  = parse_result[:text]
         word  = parse_result[:word]
         token = parse_result[:token]
@@ -90,12 +94,12 @@ module GTK
 
         if word[-1] == "." && token
           @autocomplete_lookup ||= {
-            'args'     => lambda { $gtk.args.autocomplete_methods },
-            'inputs'   => lambda { $gtk.args.inputs.autocomplete_methods },
+            'args' => lambda { $gtk.args.autocomplete_methods },
+            'inputs' => lambda { $gtk.args.inputs.autocomplete_methods },
             'geometry' => lambda { $gtk.args.geometry.autocomplete_methods },
-            'assert'   => lambda { GTK::Assert.instance_methods(false) },
-            'outputs'  => lambda { $gtk.args.outputs.autocomplete_methods },
-            'layout'   => lambda { $gtk.args.layouts.autocomplete_methods },
+            'assert' => lambda { GTK::Assert.instance_methods(false) },
+            'outputs' => lambda { $gtk.args.outputs.autocomplete_methods },
+            'layout' => lambda { $gtk.args.layouts.autocomplete_methods },
             'keyboard' => lambda { $gtk.args.keyboard.autocomplete_methods },
             'controller_one' => lambda { $gtk.args.controller_one.autocomplete_methods },
             'controller_two' => lambda { $gtk.args.controller_one.autocomplete_methods },
@@ -108,19 +112,19 @@ module GTK
                 $gtk.args.controller_one.key_down.autocomplete_methods
               end
             end,
-            'key_up'   => lambda do
+            'key_up' => lambda do
               if dots.include? "keyboard"
                 $gtk.args.keyboard.key_up.autocomplete_methods
               else
                 $gtk.args.controller_one.key_up.autocomplete_methods
               end
             end,
-            'state'    => lambda { $gtk.args.state.autocomplete_methods },
-            'fn'       => lambda { $gtk.args.fn.autocomplete_methods },
-            '$gtk'     => lambda { $gtk.autocomplete_methods },
-            'gtk'      => lambda { $gtk.autocomplete_methods },
-            'mouse'    => lambda { $gtk.args.inputs.mouse.autocomplete_methods },
-            'click'    => lambda { [:x, :y, :point] }
+            'state' => lambda { $gtk.args.state.autocomplete_methods },
+            'fn' => lambda { $gtk.args.fn.autocomplete_methods },
+            '$gtk' => lambda { $gtk.autocomplete_methods },
+            'gtk' => lambda { $gtk.autocomplete_methods },
+            'mouse' => lambda { $gtk.args.inputs.mouse.autocomplete_methods },
+            'click' => lambda { [:x, :y, :point] }
           }
 
           lookup = @autocomplete_lookup
@@ -154,7 +158,6 @@ module GTK
             return autocomplete_filter_methods target.autocomplete_methods
           end
         end
-
 
         text = text.each_line.reject { |l| l.strip.start_with? "#" }.join "\n"
         text = text.each_line.map { |l| l.split("#").first }.join "\n"

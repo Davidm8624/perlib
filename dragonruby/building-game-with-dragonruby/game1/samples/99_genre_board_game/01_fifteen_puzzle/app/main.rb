@@ -80,9 +80,9 @@ class Game
       # fade in the win message stay visible for a little bit
       # then fade out
       spline = [
-        [  0, 0.25, 0.75, 1.0],
-        [1.0, 1.0,  1.0,  1.0],
-        [1.0, 0.75, 0.25,   0]
+        [0, 0.25, 0.75, 1.0],
+        [1.0, 1.0,  1.0, 1.0],
+        [1.0, 0.75, 0.25, 0]
       ]
 
       alpha_percentage = Easing.spline state.won_at,
@@ -235,7 +235,7 @@ class Game
   def find_cell cell, d_row, d_col
     board.find do |other_cell|
       cell.loc.row == other_cell.loc.row + d_row &&
-      cell.loc.col == other_cell.loc.col + d_col
+        cell.loc.col == other_cell.loc.col + d_col
     end
   end
 

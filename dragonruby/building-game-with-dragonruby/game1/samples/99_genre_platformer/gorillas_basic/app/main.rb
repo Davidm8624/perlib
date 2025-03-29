@@ -39,17 +39,18 @@ class YouSoBasicGorillas
   def render_score
     outputs.primitives << [0, 0, 1280, 31, fancy_white].solid
     outputs.primitives << [1, 1, 1279, 29].solid
-    outputs.labels << [  10, 25, "Score: #{state.player_1_score}", 0, 0, fancy_white]
+    outputs.labels << [10, 25, "Score: #{state.player_1_score}", 0, 0, fancy_white]
     outputs.labels << [1270, 25, "Score: #{state.player_2_score}", 0, 2, fancy_white]
   end
 
   def render_wind
     outputs.primitives << [640, 12, state.wind * 500 + state.wind * 10 * rand, 4, 35, 136, 162].solid
-    outputs.lines     <<  [640, 30, 640, 0, fancy_white]
+    outputs.lines << [640, 30, 640, 0, fancy_white]
   end
 
   def render_game_over
     return unless state.over
+
     outputs.primitives << [grid.rect, 0, 0, 0, 200].solid
     outputs.primitives << [640, 370, "Game Over!!", 5, 1, fancy_white].label
     if state.winner == :player_1
@@ -70,6 +71,7 @@ class YouSoBasicGorillas
 
   def render_gorilla gorilla, id
     return unless gorilla
+
     if state.banana && state.banana.owner == gorilla
       animation_index  = state.banana.created_at.frame_index(3, 5, false)
     end
@@ -90,10 +92,10 @@ class YouSoBasicGorillas
     return if state.over
 
     if    state.current_turn == :player_1_angle
-      outputs.labels << [  10, 710, "Angle:    #{state.player_1_angle}_",    fancy_white]
+      outputs.labels << [10, 710, "Angle:    #{state.player_1_angle}_",    fancy_white]
     elsif state.current_turn == :player_1_velocity
-      outputs.labels << [  10, 710, "Angle:    #{state.player_1_angle}",     fancy_white]
-      outputs.labels << [  10, 690, "Velocity: #{state.player_1_velocity}_", fancy_white]
+      outputs.labels << [10, 710, "Angle:    #{state.player_1_angle}",     fancy_white]
+      outputs.labels << [10, 690, "Velocity: #{state.player_1_velocity}_", fancy_white]
     elsif state.current_turn == :player_2_angle
       outputs.labels << [1120, 710, "Angle:    #{state.player_2_angle}_",    fancy_white]
     elsif state.current_turn == :player_2_velocity
@@ -104,6 +106,7 @@ class YouSoBasicGorillas
 
   def render_banana
     return unless state.banana
+
     rotation = Kernel.tick_count.%(360) * 20
     rotation *= -1 if state.banana.dx > 0
     outputs.sprites << [state.banana.x, state.banana.y, 15, 15, 'sprites/banana.png', rotation]
@@ -113,7 +116,7 @@ class YouSoBasicGorillas
     outputs.sprites << state.holes.map do |s|
       animation_index = s.created_at.frame_index(7, 3, false)
       if animation_index
-        [s.sprite, [s.sprite.rect, "sprites/explosion#{animation_index}.png" ]]
+        [s.sprite, [s.sprite.rect, "sprites/explosion#{animation_index}.png"]]
       else
         s.sprite
       end
@@ -146,11 +149,11 @@ class YouSoBasicGorillas
 
     building_two = state.buildings[1]
     state.player_1 = new_player(building_two.x + building_two.w.fdiv(2),
-                               building_two.h)
+                                building_two.h)
 
     building_nine = state.buildings[-3]
     state.player_2 = new_player(building_nine.x + building_nine.w.fdiv(2),
-                               building_nine.h)
+                                building_nine.h)
     state.stage_generated = true
     state.wind = 1.randomize(:ratio, :sign)
   end
@@ -235,6 +238,7 @@ class YouSoBasicGorillas
   def process_inputs_game_over
     return unless state.over
     return unless inputs.keyboard.key_down.truthy_keys.any?
+
     state.over = false
     outputs.static_solids.clear
     state.buildings.clear
@@ -295,24 +299,23 @@ class YouSoBasicGorillas
   end
 
   def random_building_color
-    [[ 99,   0, 107],
-     [ 35,  64, 124],
-     [ 35, 136, 162],
-     ].sample
+    [[99, 0, 107],
+     [35, 64, 124],
+     [35, 136, 162],].sample
   end
 
   def random_window_color
-    [[ 88,  62, 104],
+    [[88, 62, 104],
      [253, 224, 187]].sample
   end
 
   def windows_for_building starting_x, floors, rooms
     floors.-(1).combinations(rooms - 1).map do |floor, room|
       [starting_x +
-       state.building_room_width.*(room) +
-       state.building_room_spacing.*(room + 1),
+        state.building_room_width.*(room) +
+        state.building_room_spacing.*(room + 1),
        state.building_room_height.*(floor) +
-       state.building_room_spacing.*(floor + 1),
+         state.building_room_spacing.*(floor + 1),
        state.building_room_width,
        state.building_room_height,
        random_window_color]
@@ -367,7 +370,7 @@ $you_so_basic_gorillas = YouSoBasicGorillas.new
 def tick args
   $you_so_basic_gorillas.outputs = args.outputs
   $you_so_basic_gorillas.grid    = args.grid
-  $you_so_basic_gorillas.state    = args.state
-  $you_so_basic_gorillas.inputs  = args.inputs
+  $you_so_basic_gorillas.state = args.state
+  $you_so_basic_gorillas.inputs = args.inputs
   $you_so_basic_gorillas.tick
 end

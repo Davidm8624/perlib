@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2023 DragonRuby LLC
 # MIT License
 # download_stb_rb.rb has been released under MIT (*only this file*).
@@ -8,25 +9,25 @@ module GTK
     module DownloadStbRb
       def download_stb_rb_print_usage
         puts <<~S
-        * INFO: download_stb_rb usage.
-        From the DragonRuby console enter:
+          * INFO: download_stb_rb usage.
+          From the DragonRuby console enter:
 
-        #+begin_src ruby
-          $gtk.download_stb_rb GITHUB_URL_TO_FILE_ENDING_IN_RB
-        #+end_src
+          #+begin_src ruby
+            $gtk.download_stb_rb GITHUB_URL_TO_FILE_ENDING_IN_RB
+          #+end_src
 
-        OR
+          OR
 
-        #+begin_src ruby
-          $gtk.download_stb_rb USER_NAME, REPO_NAME, FILE_NAME_ENDING_IN_RB
-        #+end_src
+          #+begin_src ruby
+            $gtk.download_stb_rb USER_NAME, REPO_NAME, FILE_NAME_ENDING_IN_RB
+          #+end_src
 
-        If the code you are trying to download isn't a github repository, then
-        consider using
+          If the code you are trying to download isn't a github repository, then
+          consider using
 
-        #+begin_src ruby
-          $gtk.download_stb_rb_raw DOWNLOAD_URL_TO_TEXT_CONTENT, SAVE_PATH
-        #+end_src
+          #+begin_src ruby
+            $gtk.download_stb_rb_raw DOWNLOAD_URL_TO_TEXT_CONTENT, SAVE_PATH
+          #+end_src
         S
       end
 
@@ -57,7 +58,7 @@ module GTK
           end
 
           raw_content_url = url_or_user_name.gsub("github.com", "raw.githubusercontent.com")
-                                           .gsub("/blob/", "/")
+                                            .gsub("/blob/", "/")
 
           resolved_user_name = url_or_user_name.split("github.com/").last.split("/").first.strip
           resolved_file_name = url_or_user_name.split("/").last.strip
@@ -79,9 +80,9 @@ module GTK
         puts "** raw_content_url: #{raw_content_url}"
 
         metadata = {
-          user_name:       resolved_user_name,
-          repo_name:       resolved_repo_name,
-          file_name:       resolved_file_name
+          user_name: resolved_user_name,
+          repo_name: resolved_repo_name,
+          file_name: resolved_file_name
         }
 
         download_stb_rb_raw raw_content_url, save_path, metadata
@@ -97,19 +98,19 @@ module GTK
             $gtk.write_file entry.save_path, entry.request.response_data
             puts <<~S
 
-                 * INFO: File written to #{entry.save_path}
-                 Verify the contents of the file and then add the following to the top of main.rb:
-                 #+begin_src ruby
-                   require "#{entry.save_path}"
-                 #+end_src
-                 S
+              * INFO: File written to #{entry.save_path}
+              Verify the contents of the file and then add the following to the top of main.rb:
+              #+begin_src ruby
+                require "#{entry.save_path}"
+              #+end_src
+            S
             $gtk.show_console
           elsif entry.request.http_response_code != 200 && entry.request.complete
             puts <<~S
 
-                 * ERROR: Failed to download #{url}.
-                 Response code: #{entry.request.http_response_code}
-                 S
+              * ERROR: Failed to download #{url}.
+              Response code: #{entry.request.http_response_code}
+            S
             $gtk.show_console
           end
         end

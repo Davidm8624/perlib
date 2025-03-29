@@ -139,6 +139,7 @@ class Camera
 
     def to_world_space camera, rect
       return nil if !rect
+
       x = (rect.x - world_size_w_half + camera.x * camera.scale - offset_x) / camera.scale
       y = (rect.y - world_size_h_half + camera.y * camera.scale - offset_y) / camera.scale
       w = rect.w / camera.scale
@@ -148,6 +149,7 @@ class Camera
 
     def to_screen_space camera, rect
       return nil if !rect
+
       x = rect.x * camera.scale - camera.x * camera.scale + world_size_w_half
       y = rect.y * camera.scale - camera.y * camera.scale + world_size_h_half
       w = rect.w * camera.scale

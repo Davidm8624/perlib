@@ -1,44 +1,48 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # log.rb has been released under MIT (*only this file*).
 
 XTERM_COLOR = {
-  black:          "\u001b[30m",
-  red:            "\u001b[31m",
-  green:          "\u001b[32m",
-  yellow:         "\u001b[33m",
-  blue:           "\u001b[34m",
-  magenta:        "\u001b[35m",
-  cyan:           "\u001b[36m",
-  white:          "\u001b[37m",
-  bright_black:   "\u001b[30;1m",
-  bright_red:     "\u001b[31;1m",
-  bright_green:   "\u001b[32;1m",
-  bright_yellow:  "\u001b[33;1m",
-  bright_blue:    "\u001b[34;1m",
+  black: "\u001b[30m",
+  red: "\u001b[31m",
+  green: "\u001b[32m",
+  yellow: "\u001b[33m",
+  blue: "\u001b[34m",
+  magenta: "\u001b[35m",
+  cyan: "\u001b[36m",
+  white: "\u001b[37m",
+  bright_black: "\u001b[30;1m",
+  bright_red: "\u001b[31;1m",
+  bright_green: "\u001b[32;1m",
+  bright_yellow: "\u001b[33;1m",
+  bright_blue: "\u001b[34;1m",
   bright_magenta: "\u001b[35;1m",
-  bright_cyan:    "\u001b[36;1m",
-  bright_white:   "\u001b[37;1m",
-  reset:          "\u001b[0m",
+  bright_cyan: "\u001b[36;1m",
+  bright_white: "\u001b[37;1m",
+  reset: "\u001b[0m",
 }
 
 module GTK
   class Log
     def self.write_to_log_and_puts *args
       return if $gtk.production
+
       $gtk.append_file_root 'logs/all.log', args.join("\n") + "\n"
       args.each { |obj| $gtk.log obj, self }
     end
 
     def self.write_to_log_and_print *args
       return if $gtk.production
+
       $gtk.append_file_root 'logs/all.log', args.join("\n")
       Object.print(*args)
     end
 
     def self.puts_important *args, message_code: nil
       return if $gtk.production
+
       $gtk.append_file_root 'logs/all.log', args.join("\n")
       if message_code
         $gtk.notify! "An important notification occurred. Open Console to see details. #{message_code}"
@@ -56,6 +60,7 @@ module GTK
 
     def self.multiline? *args
       return true if args.length > 1
+
       return !args[0].to_s.multiline?
     end
 
@@ -63,6 +68,7 @@ module GTK
       return "" if args.length == 0
       return args if args.is_a? String
       return args[0] if args.length == 1
+
       return args.to_s.join("\n")
     end
 
@@ -71,7 +77,7 @@ module GTK
       @asterisk_count = @asterisk_count.greater(1)
       result_from_yield = join_lines yield
       result_from_yield = result_from_yield.each_line.map { |l| "  #{l}" }.join
-      r ="#{"*" * @asterisk_count} #{name}\n#{result_from_yield}"
+      r = "#{"*" * @asterisk_count} #{name}\n#{result_from_yield}"
       @asterisk_count -= 1
       @asterisk_count = @asterisk_count.greater(1)
       r
@@ -142,6 +148,7 @@ module GTK
       id = "#{ids}"
       @once ||= {}
       return if @once[id]
+
       @once[id] = id
       if !$gtk.cli_arguments[:replay] && !$gtk.cli_arguments[:record]
         $gtk.notify!("Open the DragonRuby Console by pressing [`] [~] [²] [^] [º] or [§]. [Message ID: #{id}].")
@@ -157,6 +164,7 @@ module GTK
       id = "#{ids}"
       @once ||= {}
       return if @once[id]
+
       @once[id] = id
       puts_important "#{message}", message_code: id
     end
@@ -165,6 +173,7 @@ module GTK
       id = "#{ids}"
       @once ||= {}
       return if @once[id]
+
       @once[id] = id
       log_info message
     end

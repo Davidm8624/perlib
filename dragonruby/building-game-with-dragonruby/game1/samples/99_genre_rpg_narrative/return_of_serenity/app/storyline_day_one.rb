@@ -6,7 +6,7 @@ def day_one_beginning args
       [0, 0, 64, 2, :day_one_infront_of_home],
     ],
     storylines: [
-      [35, 10, 6, 6,  "Man. Hard to believe- that today- is the 20th--- anniversary-- of The Impact."]
+      [35, 10, 6, 6, "Man. Hard to believe- that today- is the 20th--- anniversary-- of The Impact."]
     ]
   }
 end
@@ -70,9 +70,12 @@ def day_one_ceremony args
       [0, 24, 2, 40, :day_one_infront_of_library]
     ],
     storylines: [
-      [53, 12, 3,  8,  "It's- been twenty- years since The Impact. Twenty- years, since Halley's-- Comet-- set Earth's- blue- sky on fire."],
-      [45, 12, 3,  8,  "The space mission- sent to prevent- Earth's- total- destruction--, was a success. Only- 99.9%------ of the world's- population-- died-- that day. Hey, it's- better-- than 100%---- of humanity-- dying."],
-      [20, 12, 23, 4, "The monument--- reads:---- Here- stands- the tribute-- to Space- Mission-- Serenity--- and- its- crew. You- have- given-- humanity--- a second-- chance."],
+      [53, 12, 3,  8,
+       "It's- been twenty- years since The Impact. Twenty- years, since Halley's-- Comet-- set Earth's- blue- sky on fire."],
+      [45, 12, 3,  8,
+       "The space mission- sent to prevent- Earth's- total- destruction--, was a success. Only- 99.9%------ of the world's- population-- died-- that day. Hey, it's- better-- than 100%---- of humanity-- dying."],
+      [20, 12, 23, 4,
+       "The monument--- reads:---- Here- stands- the tribute-- to Space- Mission-- Serenity--- and- its- crew. You- have- given-- humanity--- a second-- chance."],
       [15, 12, 3,  8, "Rest- in- peace--- Matthew----, Sasha----, Aanka----"],
     ]
   }
@@ -87,7 +90,8 @@ def day_one_infront_of_library args
       [49, 39, 6, 9, :day_one_library]
     ],
     storylines: [
-      [50, 20, 4, 8,  "Shipping- containers-- as far- as the eye- can see. It's- rather- beautiful-- if you ask me. Even- though-- this- view- represents-- all- that's-- left- of humanity-."]
+      [50, 20, 4, 8,
+       "Shipping- containers-- as far- as the eye- can see. It's- rather- beautiful-- if you ask me. Even- though-- this- view- represents-- all- that's-- left- of humanity-."]
     ]
   }
 end
@@ -100,7 +104,8 @@ def day_one_library args
       [0, 0, 64, 2, :end_day_one_infront_of_library]
     ],
     storylines: [
-      [28, 22, 8, 4,  "I grew- up- in this library. I've- read every- book- here. My favorites-- were- of course-- anything- computer-- related."],
+      [28, 22, 8, 4,
+       "I grew- up- in this library. I've- read every- book- here. My favorites-- were- of course-- anything- computer-- related."],
       [6, 32, 10, 6, "My favorite-- area--- of the library. The Science-- Section."]
     ]
   }
@@ -170,7 +175,8 @@ def end_day_one_dream args
     storylines: [
       [10, 10, 4, 4, "Why- does this- moment-- always- haunt- my dreams?"],
       [20, 10, 4, 4, "This kid- reads these computer--- science--- books- nonstop-. What's- wrong with him?"],
-      [30, 10, 4, 4, "There- is nothing-- wrong- with him. This behavior-- should be encouraged---! In fact-, I think- he's- special---. Have- you seen- him use- a computer---? It's-- almost-- as if he can- speak-- to it."]
+      [30, 10, 4, 4,
+       "There- is nothing-- wrong- with him. This behavior-- should be encouraged---! In fact-, I think- he's- special---. Have- you seen- him use- a computer---? It's-- almost-- as if he can- speak-- to it."]
     ]
   }
 end
@@ -197,7 +203,8 @@ def explaining_the_special_power_inside_computer args
       [0, 62, 64, 3, :the_blinking_light]
     ],
     storylines: [
-      [14, 20, 24, 4, "So... I have a special-- power--. I don't-- need a mouse-, keyboard--, or even-- a monitor--- to control-- a computer--."],
+      [14, 20, 24, 4,
+       "So... I have a special-- power--. I don't-- need a mouse-, keyboard--, or even-- a monitor--- to control-- a computer--."],
       [14, 25, 24, 4, "I only-- pretend-- to use peripherals---, so as not- to freak- anyone--- out."],
       [14, 30, 24, 4, "Inside-- this silicon--- Universe---, is the only-- place I- feel- at peace."],
       [14, 35, 24, 4, "It's-- the only-- place where I don't-- feel alone."]

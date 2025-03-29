@@ -25,7 +25,8 @@ def tick args
   update_enemies args
   render args
   args.outputs.sprites << { x: 0, y: 0, w: 1280 * 1.5, h: 720 * 1.2, path: :screen }
-  args.outputs.labels  << { x: 30, y: 30.from_top, text: "FPS: #{GTK.current_framerate.to_sf} X: #{args.state.player.x} Y: #{args.state.player.y}" }
+  args.outputs.labels  << { x: 30, y: 30.from_top,
+                            text: "FPS: #{GTK.current_framerate.to_sf} X: #{args.state.player.x} Y: #{args.state.player.y}" }
 end
 
 def defaults args
@@ -64,7 +65,6 @@ end
 
 # Update the player's input and movement
 def update_player args
-
   player = args.state.player
   player.fire_cooldown_wait -= 1 if player.fire_cooldown_wait > 0
 
@@ -147,15 +147,15 @@ def update_missiles args
     new_y = m.y - m.angle.sin_d * m.speed
     # Hit enemies
     args.state.enemies.each do |e|
-        if (new_x - e.x).abs < 16 && (new_y - e.y).abs < 16
-            e.expired = true
-            m.expired = true
-            args.state.splashes << { x: m.x, y: m.y, ttl: 5, type: :splash, bright: true }
-            next
-        end
+      if (new_x - e.x).abs < 16 && (new_y - e.y).abs < 16
+        e.expired = true
+        m.expired = true
+        args.state.splashes << { x: m.x, y: m.y, ttl: 5, type: :splash, bright: true }
+        next
+      end
     end
     # Hit walls
-    if(args.state.stage.layout[(new_y / 64).to_i * args.state.stage.w + (new_x / 64).to_i] != 0)
+    if (args.state.stage.layout[(new_y / 64).to_i * args.state.stage.w + (new_x / 64).to_i] != 0)
       m.expired = true
       args.state.splashes << { x: m.x, y: m.y, ttl: 5, type: :splash, bright: true }
     else
@@ -171,8 +171,8 @@ def update_missiles args
 end
 
 def update_enemies args
-    args.state.enemies.map! { |e| e.expired ?  nil : e }
-    args.state.enemies.compact!
+  args.state.enemies.map! { |e| e.expired ? nil : e }
+  args.state.enemies.compact!
 end
 
 def render args
@@ -208,7 +208,6 @@ def render args
 
   # Cast 120 rays across 60 degress - we'll consider the next 0.5 degrees each ray
   120.times do |r|
-
     # The next ~120 lines are largely the same as the previous sample. The changes are:
     # - Increment by 0.5 degrees instead of 1 degree for the next ray.
     # - When a wall hit is found, the distance is stored in the `depths` array.
@@ -350,66 +349,68 @@ def render args
   # Do a first-pass on the things to draw, calculate distance from player and then
   # sort so more-distant things are drawn first.
   things_to_draw.each do |t|
-    t[:dist] = Geometry.distance([args.state.player[:x],args.state.player[:y]],[t[:x],t[:y]]).abs
+    t[:dist] = Geometry.distance([args.state.player[:x], args.state.player[:y]], [t[:x], t[:y]]).abs
   end
   things_to_draw = things_to_draw.sort_by { |t| t[:dist] }.reverse
 
   # Now draw everything, most distant entities first.
   things_to_draw.each do |t|
-      distance_to_thing = t[:dist]
-      # The crux of drawing a sprite in a raycast view is to:
-      #   1. rotate the enemy around the player's position and viewing angle to get a position relative to the view.
-      #   2. Translate that position from "3D space" to screen pixels.
-      # The next 6 lines get the entitiy's position relative to the player position and angle:
-      tx = t[:x] - args.state.player.x
-      ty = t[:y] - args.state.player.y
-      cs = Math.cos(args.state.player.angle * Math::PI / 180)
-      sn = Math.sin(args.state.player.angle * Math::PI / 180)
-      dx = ty * cs + tx * sn
-      dy = tx * cs - ty * sn
+    distance_to_thing = t[:dist]
+    # The crux of drawing a sprite in a raycast view is to:
+    #   1. rotate the enemy around the player's position and viewing angle to get a position relative to the view.
+    #   2. Translate that position from "3D space" to screen pixels.
+    # The next 6 lines get the entitiy's position relative to the player position and angle:
+    tx = t[:x] - args.state.player.x
+    ty = t[:y] - args.state.player.y
+    cs = Math.cos(args.state.player.angle * Math::PI / 180)
+    sn = Math.sin(args.state.player.angle * Math::PI / 180)
+    dx = ty * cs + tx * sn
+    dy = tx * cs - ty * sn
 
-      # The next 5 lines determine the screen x and y of (the center of) the entity, and a scale
-      next if dy == 0 # Avoid invalid Infinity/NaN calculations if the projected Y is 0
-      ody = dy
-      dx = dx*640/(dy) + 480
-      dy = 32/dy + 192
-      scale = 64*360/(ody / 2)
+    # The next 5 lines determine the screen x and y of (the center of) the entity, and a scale
+    next if dy == 0 # Avoid invalid Infinity/NaN calculations if the projected Y is 0
 
-      tint = t[:bright] ? 1.0 : 1.0 - (distance_to_thing / 500)
+    ody = dy
+    dx = dx * 640 / (dy) + 480
+    dy = 32 / dy + 192
+    scale = 64 * 360 / (ody / 2)
 
-      # Now we know the x and y on-screen for the entity, and its scale, we can draw it.
-      # Simply drawing the sprite on the screen doesn't work in a raycast view because the entity might be partly obscured by a wall.
-      # Instead we draw the entity in vertical strips, skipping strips if a wall is closer to the player on that strip of the screen.
+    tint = t[:bright] ? 1.0 : 1.0 - (distance_to_thing / 500)
 
-      # Since dx stores the center x of the enemy on-screen, we start half the scale of the enemy to the left of dx
-      x = dx - scale/2
-      next if (x > 960 or (dx + scale/2 <= 0)) # Skip rendering if the X position is entirely off-screen
-      strip = 0                    # Keep track of the number of strips we've drawn
-      strip_width = scale / 64     # Draw the sprite in 64 strips
-      sample_width = 1             # For each strip we will sample 1/64 of sprite image, here we assume 64x64 sprites
+    # Now we know the x and y on-screen for the entity, and its scale, we can draw it.
+    # Simply drawing the sprite on the screen doesn't work in a raycast view because the entity might be partly obscured by a wall.
+    # Instead we draw the entity in vertical strips, skipping strips if a wall is closer to the player on that strip of the screen.
 
-      until x >= dx + scale/2 do
-          if x > 0 && x < 960
-              # Here we get the distance to the wall for this strip on the screen
-              wall_depth = depths[(x.to_i/8)]
-              if ((distance_to_thing < wall_depth))
-                  sprites_to_draw << {
-                      x: x,
-                      y: dy + 120 - scale * 0.6,
-                      w: strip_width,
-                      h: scale,
-                      path: "sprites/#{t[:type]}.png",
-                      source_x: strip * sample_width,
-                      source_w: sample_width,
-                      r: 255 * tint,
-                      g: 255 * tint,
-                      b: 255 * tint
-                  }
-              end
-          end
-          x += strip_width
-          strip += 1
+    # Since dx stores the center x of the enemy on-screen, we start half the scale of the enemy to the left of dx
+    x = dx - scale / 2
+    next if (x > 960 or (dx + scale / 2 <= 0)) # Skip rendering if the X position is entirely off-screen
+
+    strip = 0                    # Keep track of the number of strips we've drawn
+    strip_width = scale / 64     # Draw the sprite in 64 strips
+    sample_width = 1             # For each strip we will sample 1/64 of sprite image, here we assume 64x64 sprites
+
+    until x >= dx + scale / 2 do
+      if x > 0 && x < 960
+        # Here we get the distance to the wall for this strip on the screen
+        wall_depth = depths[(x.to_i / 8)]
+        if ((distance_to_thing < wall_depth))
+          sprites_to_draw << {
+            x: x,
+            y: dy + 120 - scale * 0.6,
+            w: strip_width,
+            h: scale,
+            path: "sprites/#{t[:type]}.png",
+            source_x: strip * sample_width,
+            source_w: sample_width,
+            r: 255 * tint,
+            g: 255 * tint,
+            b: 255 * tint
+          }
+        end
       end
+      x += strip_width
+      strip += 1
+    end
   end
 
   # Draw all the sprites we collected in the array to the render target

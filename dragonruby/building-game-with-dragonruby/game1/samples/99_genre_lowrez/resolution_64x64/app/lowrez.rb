@@ -5,7 +5,7 @@ LOWREZ_SIZE            = 64
 LOWREZ_ZOOM            = 10
 LOWREZ_ZOOMED_SIZE     = LOWREZ_SIZE * LOWREZ_ZOOM
 LOWREZ_X_OFFSET        = (1280 - LOWREZ_ZOOMED_SIZE).half
-LOWREZ_Y_OFFSET        = ( 720 - LOWREZ_ZOOMED_SIZE).half
+LOWREZ_Y_OFFSET        = (720 - LOWREZ_ZOOMED_SIZE).half
 
 LOWREZ_FONT_XL         = -1
 LOWREZ_FONT_XL_HEIGHT  = 20
@@ -20,7 +20,6 @@ LOWREZ_FONT_SM         = -8.5
 LOWREZ_FONT_SM_HEIGHT  = 5
 
 LOWREZ_FONT_PATH       = 'fonts/lowrez.ttf'
-
 
 class LowrezOutputs
   attr_accessor :width, :height
@@ -44,6 +43,7 @@ class LowrezOutputs
 
   def outputs_lowrez
     return @args.outputs if Kernel.tick_count <= 0
+
     return @args.outputs[:lowrez]
   end
 
@@ -88,6 +88,7 @@ class LowrezOutputs
 
   def click
     return nil unless @args.inputs.mouse.click
+
     mouse
   end
 
@@ -122,6 +123,7 @@ end
 class GTK::Args
   def init_lowrez
     return if @lowrez
+
     @lowrez = LowrezOutputs.new self
   end
 

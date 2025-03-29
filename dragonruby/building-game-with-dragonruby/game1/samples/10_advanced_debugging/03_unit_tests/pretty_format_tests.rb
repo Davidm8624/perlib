@@ -16,19 +16,19 @@ def test_pretty_print args, assert
   # hash with single value
   # =============================
   input = (H first_name: "John")
-  expected = <<-S
-{:first_name "John"}
-S
+  expected = <<~S
+    {:first_name "John"}
+  S
   (assert_format args, assert, input, expected)
 
   # =============================
   # hash with two values
   # =============================
   input = (H first_name: "John", last_name: "Smith")
-  expected = <<-S
-{:first_name "John"
- :last_name "Smith"}
-S
+  expected = <<~S
+    {:first_name "John"
+     :last_name "Smith"}
+  S
 
   (assert_format args, assert, input, expected)
 
@@ -42,17 +42,17 @@ S
                     last_name: "Tsenacommacah"),
              friends: (A (H first_name: "Side", last_name: "Kick"),
                          (H first_name: "Tim", last_name: "Wizard")))
-  expected = <<-S
-{:first_name "John"
- :last_name "Smith"
- :middle_initial "I"
- :so {:first_name "Pocahontas"
-      :last_name "Tsenacommacah"}
- :friends [{:first_name "Side"
-            :last_name "Kick"}
-           {:first_name "Tim"
-            :last_name "Wizard"}]}
-S
+  expected = <<~S
+    {:first_name "John"
+     :last_name "Smith"
+     :middle_initial "I"
+     :so {:first_name "Pocahontas"
+          :last_name "Tsenacommacah"}
+     :friends [{:first_name "Side"
+                :last_name "Kick"}
+               {:first_name "Tim"
+                :last_name "Wizard"}]}
+  S
 
   (assert_format args, assert, input, expected)
 
@@ -60,20 +60,20 @@ S
   # array with one value
   # =============================
   input = (A 1)
-  expected = <<-S
-[1]
-S
+  expected = <<~S
+    [1]
+  S
   (assert_format args, assert, input, expected)
 
   # =============================
   # array with multiple values
   # =============================
   input = (A 1, 2, 3)
-  expected = <<-S
-[1
- 2
- 3]
-S
+  expected = <<~S
+    [1
+     2
+     3]
+  S
   (assert_format args, assert, input, expected)
 
   # =============================
@@ -81,12 +81,12 @@ S
   # =============================
   input = (A (H first_name: "Side", last_name: "Kick"),
              (H first_name: "Tim", last_name: "Wizard"))
-  expected = <<-S
-[{:first_name "Side"
-  :last_name "Kick"}
- {:first_name "Tim"
-  :last_name "Wizard"}]
-S
+  expected = <<~S
+    [{:first_name "Side"
+      :last_name "Kick"}
+     {:first_name "Tim"
+      :last_name "Wizard"}]
+  S
 
   (assert_format args, assert, input, expected)
 end
@@ -103,28 +103,28 @@ def test_nested_nested args, assert
                                              text: "Level 2",
                                              children: [])))))
 
-  expected = <<-S
-{:type :root
- :text "Root"
- :children [{:level 1
-             :text "Level 1"
-             :children [{:level 2
-                         :text "Level 2"
-                         :children []}]}]}
+  expected = <<~S
+    {:type :root
+     :text "Root"
+     :children [{:level 1
+                 :text "Level 1"
+                 :children [{:level 2
+                             :text "Level 2"
+                             :children []}]}]}
 
-S
+  S
 
   (assert_format args, assert, input, expected)
 end
 
 def test_scene args, assert
-  script = <<-S
-* Scene 1
-** Narrator
-They say happy endings don't exist.
-** Narrator
-They say true love is a lie.
-S
+  script = <<~S
+    * Scene 1
+    ** Narrator
+    They say happy endings don't exist.
+    ** Narrator
+    They say true love is a lie.
+  S
   input = parse_org args, script
   puts (args.fn.pretty_format input)
 end

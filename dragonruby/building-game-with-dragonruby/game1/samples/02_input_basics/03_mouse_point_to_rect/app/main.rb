@@ -24,8 +24,9 @@ def tick args
   end
 
   # render
-  args.outputs.labels << { x: 640, y: 700, anchor_x: 0.5, anchor_y: 0.5, text: "Sample app shows how to determine if a click happened inside a rectangle." }
-  args.outputs.labels << { x: 340, y: 420, text:  "Click inside (or outside) the blue box ---->" }
+  args.outputs.labels << { x: 640, y: 700, anchor_x: 0.5, anchor_y: 0.5,
+                           text: "Sample app shows how to determine if a click happened inside a rectangle." }
+  args.outputs.labels << { x: 340, y: 420, text: "Click inside (or outside) the blue box ---->" }
 
   args.outputs.borders << args.state.box
 

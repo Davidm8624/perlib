@@ -122,6 +122,7 @@ class DuelingSpaceships
 
   def apply_round_finished_alpha entity
     return entity unless state.round_finished_at
+
     entity.merge(a: (entity.a || 0) * state.round_finished_at.ease(2.seconds, :flip))
   end
 
@@ -183,6 +184,7 @@ class DuelingSpaceships
     explode_bullet! bullet, particle_count: 5 if bullet.created_at.elapsed_time > bullet.lifetime
     return if bullet.exploded
     return if state.round_finished
+
     alive_ships.each do |s|
       if s != bullet.owner && s.intersect_rect?(bullet)
         explode_bullet! bullet, particle_count: 10
@@ -241,6 +243,7 @@ class DuelingSpaceships
     return if all_ships.any? { |s| s.dead }
     return if state.round_finished
     return unless state.ship_blue.intersect_rect?(state.ship_red)
+
     state.ship_blue.damage = 5
     state.ship_red.damage  = 5
   end
@@ -365,8 +368,10 @@ class DuelingSpaceships
 
   def calc_reset_ships
     return unless state.round_finished
+
     state.round_finished_at ||= Kernel.tick_count
     return if state.round_finished_at.elapsed_time <= 2.seconds
+
     start_new_round!
   end
 

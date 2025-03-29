@@ -137,9 +137,11 @@ def render args
   # render instructions
   args.outputs.sprites << { x: 0, y: 110.from_top, w: 1280, h: 110, path: :pixel, r: 0, g: 0, b: 0, a: 200 }
   label_style = { r: 255, g: 255, b: 255, anchor_y: 0.5 }
-  args.outputs.labels << { x: 30, y: 30.from_top, text: "I/O or +/- keys to zoom in and zoom out (0 to reset camera, R to reset everything).", **label_style }
+  args.outputs.labels << { x: 30, y: 30.from_top,
+                           text: "I/O or +/- keys to zoom in and zoom out (0 to reset camera, R to reset everything).", **label_style }
   args.outputs.labels << { x: 30, y: 60.from_top, text: "Click to center on square.", **label_style }
-  args.outputs.labels << { x: 30, y: 90.from_top, text: "Mouse location in world: #{(Camera.to_world_space args.state.camera, args.inputs.mouse).to_sf}", **label_style }
+  args.outputs.labels << { x: 30, y: 90.from_top,
+                           text: "Mouse location in world: #{(Camera.to_world_space args.state.camera, args.inputs.mouse).to_sf}", **label_style }
 end
 
 # helper methods to create a camera and go to and from screen space and world space

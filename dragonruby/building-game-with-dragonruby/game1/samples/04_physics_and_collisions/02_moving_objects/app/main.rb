@@ -126,7 +126,6 @@ end
 
 # Performs calculations to move objects on the screen
 def calc args
-
   # Since velocity is the change in position, the change in x increases by dx. Same with y and dy.
   args.state.player.x  += args.state.player.dx
   args.state.player.y  += args.state.player.dy
@@ -159,9 +158,9 @@ def calc args
   # objects that go up must come down because of gravity
   args.state.enemy.dy += args.state.gravity
 
-  args.state.enemy.y  = args.state.enemy.y.greater(args.state.bridge_top)
+  args.state.enemy.y = args.state.enemy.y.greater(args.state.bridge_top)
 
-  #sets definition of enemy
+  # sets definition of enemy
   args.state.enemy.rect = [args.state.enemy.x, args.state.enemy.y, args.state.enemy.h, args.state.enemy.w]
 
   if args.state.enemy.y == args.state.bridge_top # if enemy is located on the top of the bridge
@@ -177,7 +176,7 @@ def calc args
   if Kernel.tick_count.mod_zero?(args.state.hammer_throw_interval) || args.state.game_over_at.elapsed_time == 5
     # rand will return a number greater than or equal to 0 and less than given variable's value (since max is excluded)
     # that is why we're adding 1, to include the max possibility
-    volley_dx   = (rand(args.state.hammer_launch_power_default) + 1) * -1 # horizontal movement (follow order of operations)
+    volley_dx = (rand(args.state.hammer_launch_power_default) + 1) * -1 # horizontal movement (follow order of operations)
 
     # if the horizontal distance between the player and enemy is less than 128 pixels
     if (args.state.player.x - args.state.enemy.x).abs < 128
@@ -286,6 +285,7 @@ end
 
 def tick_instructions args, text, y = 715
   return if args.state.key_event_occurred
+
   if args.inputs.mouse.click ||
      args.inputs.keyboard.directional_vector ||
      args.inputs.keyboard.key_down.enter ||
@@ -296,5 +296,5 @@ def tick_instructions args, text, y = 715
 
   args.outputs.debug << [0, y - 50, 1280, 60].solid
   args.outputs.debug << [640, y, text, 1, 1, 255, 255, 255].label
-  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)" , -2, 1, 255, 255, 255].label
+  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)", -2, 1, 255, 255, 255].label
 end

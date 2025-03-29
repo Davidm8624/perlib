@@ -43,14 +43,14 @@ def repeating_texture args, x:, y:, w:, h:, path:, anchor_x: 0, anchor_y: 0
   # generate the repeating texture using a render target
   # this only needs to be done once and will be cached
   args.outputs[rt_name].sprites << rows.map do |r|
-                                     cols.map do |c|
-                                       { x: sprite_w * c,
-                                         y:  h - sprite_h * (r + 1),
-                                         w: sprite_w,
-                                         h: sprite_h,
-                                         path: path }
-                                     end
-                                   end
+    cols.map do |c|
+      { x: sprite_w * c,
+        y: h - sprite_h * (r + 1),
+        w: sprite_w,
+        h: sprite_h,
+        path: path }
+    end
+  end
 
   # store a flag in state denoting that the repeating
   # texture has been generated

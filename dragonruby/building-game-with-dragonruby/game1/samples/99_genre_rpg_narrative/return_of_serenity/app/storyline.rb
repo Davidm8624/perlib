@@ -25,7 +25,7 @@ def blinking_light_side_of_home_render args, lowrez_sprites, lowrez_labels, lowr
 end
 
 def blinking_light_mountain_pass_render args, lowrez_sprites, lowrez_labels, lowrez_solids
-  lowrez_sprites << [18, 47, 5, 5, 'sprites/square.png', 0,  50 * (Kernel.tick_count % 50).fdiv(50), 0, 255, 0]
+  lowrez_sprites << [18, 47, 5, 5, 'sprites/square.png', 0, 50 * (Kernel.tick_count % 50).fdiv(50), 0, 255, 0]
   lowrez_sprites << [19, 48, 3, 3, 'sprites/square.png', 0, 100 * (Kernel.tick_count % 50).fdiv(50), 0, 255, 0]
   lowrez_sprites << [20, 49, 1, 1, 'sprites/square.png', 0, 255 * (Kernel.tick_count % 50).fdiv(50), 0, 255, 0]
 end
@@ -37,18 +37,19 @@ def blinking_light_path_to_observatory_render args, lowrez_sprites, lowrez_label
 end
 
 def blinking_light_observatory_render args, lowrez_sprites, lowrez_labels, lowrez_solids
-  lowrez_sprites << [23, 59, 5, 5, 'sprites/square.png', 0,  50 * (Kernel.tick_count % 50).fdiv(50), 0, 255, 0]
+  lowrez_sprites << [23, 59, 5, 5, 'sprites/square.png', 0, 50 * (Kernel.tick_count % 50).fdiv(50), 0, 255, 0]
   lowrez_sprites << [24, 60, 3, 3, 'sprites/square.png', 0, 100 * (Kernel.tick_count % 50).fdiv(50), 0, 255, 0]
   lowrez_sprites << [25, 61, 1, 1, 'sprites/square.png', 0, 255 * (Kernel.tick_count % 50).fdiv(50), 0, 255, 0]
 end
 
 def blinking_light_inside_observatory_render args, lowrez_sprites, lowrez_labels, lowrez_solids
-  lowrez_sprites << [30, 30, 5, 5, 'sprites/square.png', 0,  50 * (Kernel.tick_count % 50).fdiv(50), 0, 255, 0]
+  lowrez_sprites << [30, 30, 5, 5, 'sprites/square.png', 0, 50 * (Kernel.tick_count % 50).fdiv(50), 0, 255, 0]
   lowrez_sprites << [31, 31, 3, 3, 'sprites/square.png', 0, 100 * (Kernel.tick_count % 50).fdiv(50), 0, 255, 0]
   lowrez_sprites << [32, 32, 1, 1, 'sprites/square.png', 0, 255 * (Kernel.tick_count % 50).fdiv(50), 0, 255, 0]
 end
 
-def decision_graph context_message, context_action, context_result_one, context_result_two, context_result_three = [], context_result_four = []
+def decision_graph context_message, context_action, context_result_one, context_result_two, context_result_three = [],
+                   context_result_four = []
   result_one_scene, result_one_label, result_one_text = context_result_one
   result_two_scene, result_two_label, result_two_text = context_result_two
   result_three_scene, result_three_label, result_three_text = context_result_three
@@ -58,35 +59,35 @@ def decision_graph context_message, context_action, context_result_one, context_
     background: 'sprites/decision.png',
     fade: 60,
     player: [20, 36],
-    storylines: [ ],
-    scenes: [ ]
+    storylines: [],
+    scenes: []
   }
 
   confirmation_result_one_hash = {
     background: 'sprites/decision.png',
-    scenes: [ ],
-    storylines: [ ]
+    scenes: [],
+    storylines: []
   }
 
   confirmation_result_two_hash = {
     background: 'sprites/decision.png',
-    scenes: [ ],
-    storylines: [ ]
+    scenes: [],
+    storylines: []
   }
 
   confirmation_result_three_hash = {
     background: 'sprites/decision.png',
-    scenes: [ ],
-    storylines: [ ]
+    scenes: [],
+    storylines: []
   }
 
   confirmation_result_four_hash = {
     background: 'sprites/decision.png',
-    scenes: [ ],
-    storylines: [ ]
+    scenes: [],
+    storylines: []
   }
 
-  top_level_hash[:storylines] << [ 5, 35, 4, 4, context_message]
+  top_level_hash[:storylines] << [5, 35, 4, 4, context_message]
   top_level_hash[:storylines] << [20, 35, 4, 4, context_action]
 
   confirmation_result_one_hash[:scenes]       << [20, 35, 4, 4, top_level_hash]
@@ -127,10 +128,10 @@ end
 
 def ship_control_hotspot offset_x, offset_y, a, b, c, d
   results = []
-  results << [ 6 + offset_x, 0 + offset_y, 4, 4, a]  if a
-  results << [ 1 + offset_x, 5 + offset_y, 4, 4, b]  if b
-  results << [ 6 + offset_x, 5 + offset_y, 4, 4, c]  if c
-  results << [ 11 + offset_x, 5 + offset_y, 4, 4, d] if d
+  results << [6 + offset_x, 0 + offset_y, 4, 4, a]  if a
+  results << [1 + offset_x, 5 + offset_y, 4, 4, b]  if b
+  results << [6 + offset_x, 5 + offset_y, 4, 4, c]  if c
+  results << [11 + offset_x, 5 + offset_y, 4, 4, d] if d
   results
 end
 

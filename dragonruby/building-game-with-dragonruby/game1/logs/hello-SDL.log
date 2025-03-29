@@ -1,4 +1,4 @@
-* [Engine] Log started at 2025/3/29 13:27:9
+* [Engine] Log started at 2025/3/29 13:35:44
 * [Engine] DragonRuby Game Toolkit
 * [Engine]   Version: 6.23
 * [Engine]   Tier: Standard
@@ -35,6 +35,86 @@
 - [Render] Max texture size: 8192x8192 (system reported 8192x8192)
 - [Render] Logical render size: 1280x720
 - [Render] Native render size: 1280x720
-? [Engine] RNG seed has been set to 1743280029.
+? [Engine] RNG seed has been set to 1743280544.
 - [Engine] Janitor is using 1 threads.
-* [Engine] Logging shutting down
+- [Game] * EXCEPTION POSSIBLY CAUSED BY CALLING ~gtk.reset~: maybe use ~$gtk.reset_next_tick~ instead.
+An exception occurred soon after ~$gtk.reset~ was invoked.
+
+Keep in mind that ~$gtk.reset~ doesn't stop the rest of your ~tick~ method from being invoked.
+
+You may have attempted to interact with properties on ~args.state~ that no longer have a value.
+
+There are a few ways to fix exceptions that fall into this category:
+
+1. Wherever you are using ~$gtk.reset~ within ~tick~, replace
+   with ~$gtk.reset_next_tick~ (this function will tell DragonRuby to
+   reset on the next frame before invoking your ~tick~ method).
+2. Anywhere you are using ~$gtk.reset~, immediately set default values for
+   properties on ~args.state~ that are needed to complete the execution
+   of the rest of your ~tick~ function successfully.
+3. Do not use ~$gtk.reset~ and instead create a function that reinitializes your game
+   and ensures it has a consistent/valid state.
+
+   Take a look at the following sample apps for insights on how to do this:
+   - =./samples/99_genre_boss_battle/boss_battle_game_jam/app/main.rb=
+   - =./samples/99_genre_platformer/shadows/app/main.rb=
+
+** NOTE:
+The options above are ordered by quickest to implement (but probably not
+bulletproof), to more work to implement (but a better design long term).
+
+* EXCEPTION THROWN:
+** Failed to load/reload app/main.rb.
+line 3:22: syntax error, unexpected ','
+
+
+
+** Backtrace:
+
+* Backtrace ~$gtk.reset~ last invocation: (2611)
+- [Game] 
+- [Game] Easing::ease can be expensive to invoke, consider using Easing.smooth_(start|stop|step) instead.
+- [Game] 
+- [Game] [Message ID: [:consider_smooth!]]
+- [Game] 
+? [Engine] Reloaded app/main.rb. (4651)
+? [Engine] Reloaded app/main.rb. (13200)
+? [Engine] Reloaded app/main.rb. (18775)
+? [Engine] Reloaded app/main.rb. (20512)
+? [Engine] Reloaded app/main.rb. (26811)
+? [Engine] Reloaded app/main.rb. (32930)
+? [Engine] Reloaded app/main.rb. (94550)
+? [Engine] Reloaded app/main.rb. (96977)
+? [Engine] Reloaded app/main.rb. (97918)
+? [Engine] Reloaded app/main.rb. (98518)
+? [Engine] Reloaded app/main.rb. (99175)
+? [Engine] Reloaded app/main.rb. (100494)
+? [Engine] Reloaded app/main.rb. (103794)
+? [Engine] Reloaded app/main.rb. (109373)
+? [Engine] Reloaded app/main.rb. (111289)
+? [Engine] Reloaded app/main.rb. (113508)
+? [Engine] Reloaded app/main.rb. (116924)
+? [Engine] Reloaded app/main.rb. (126461)
+? [Engine] Reloaded app/main.rb. (169835)
+? [Engine] Reloaded app/main.rb. (171033)
+- [Game] * INFO - Game state and exception will be written to logs/exceptions/game_state_169379.txt and logs/exceptions/current.txt.
+- [Game]   global_tick_count: 171419
+- [Game]   tick_count: 169379
+- [Game] * EXCEPTION: 'player_x': wrong number of arguments (1 for 0)
+** Backtrace:
+*** app/main.rb:25:in tick (171419)
+? [Engine] ~reset~ has been invoked (174545).
+? [Engine] RNG seed has been set to 1743280544.
+- [Game] * INFO - Game state and exception will be written to logs/exceptions/game_state_481.txt and logs/exceptions/current.txt.
+- [Game]   global_tick_count: 175026
+- [Game]   tick_count: 481
+- [Game] * EXCEPTION: 'player_x': wrong number of arguments (1 for 0)
+** Backtrace:
+*** app/main.rb:25:in tick (175026)
+? [Engine] Reloaded app/main.rb. (177753)
+? [Engine] Reloaded app/main.rb. (180592)
+? [Engine] Reloaded app/main.rb. (189172)
+? [Engine] Reloaded app/main.rb. (190551)
+? [Engine] Reloaded app/main.rb. (209209)
+? [Engine] Reloaded app/repl.rb. (209209)
+? [Engine] Reloaded app/repl.rb. (209263)

@@ -24,8 +24,8 @@ def tick args
   )
 
   args.outputs.solids << {
-    x:  col_1,
-    y:  row_0,
+    x: col_1,
+    y: row_0,
     x2: col_1 + dragonruby_logo_width.half,
     y2: row_0 + dragonruby_logo_height,
     x3: col_1 + dragonruby_logo_width,
@@ -33,38 +33,38 @@ def tick args
   }
 
   args.outputs.sprites << {
-    x:  col_2,
-    y:  row_0,
-    w:  dragonruby_logo_width,
-    h:  dragonruby_logo_height,
+    x: col_2,
+    y: row_0,
+    w: dragonruby_logo_width,
+    h: dragonruby_logo_height,
     path: 'dragonruby.png'
   }
 
   args.outputs.sprites << {
-    x:  col_3,
-    y:  row_0,
+    x: col_3,
+    y: row_0,
     x2: col_3 + dragonruby_logo_width.half,
     y2: row_0 + dragonruby_logo_height,
     x3: col_3 + dragonruby_logo_width,
     y3: row_0,
     path: 'dragonruby.png',
-    source_x:  0,
-    source_y:  0,
+    source_x: 0,
+    source_y: 0,
     source_x2: dragonruby_logo_width.half,
     source_y2: dragonruby_logo_height,
     source_x3: dragonruby_logo_width,
     source_y3: 0
   }
 
-  args.outputs.sprites << TriangleLogo.new(x:  col_4,
-                                           y:  row_0,
+  args.outputs.sprites << TriangleLogo.new(x: col_4,
+                                           y: row_0,
                                            x2: col_4 + dragonruby_logo_width.half,
                                            y2: row_0 + dragonruby_logo_height,
                                            x3: col_4 + dragonruby_logo_width,
                                            y3: row_0,
                                            path: 'dragonruby.png',
-                                           source_x:  0,
-                                           source_y:  0,
+                                           source_x: 0,
+                                           source_y: 0,
                                            source_x2: dragonruby_logo_width.half,
                                            source_y2: dragonruby_logo_height,
                                            source_x3: dragonruby_logo_width,
@@ -83,38 +83,38 @@ def tick args
   )
 
   args.outputs.primitives << {
-    x:  col_1,
-    y:  row_1,
+    x: col_1,
+    y: row_1,
     x2: col_1 + dragonruby_logo_width.half,
     y2: row_1 + dragonruby_logo_height,
     x3: col_1 + dragonruby_logo_width,
     y3: row_1,
-    r:  0, g: 0, b: 0, a: Kernel.tick_count.to_radians.sin_r.abs * 255
+    r: 0, g: 0, b: 0, a: Kernel.tick_count.to_radians.sin_r.abs * 255
   }
 
   args.outputs.sprites << {
-    x:  col_2,
-    y:  row_1,
-    w:  dragonruby_logo_width,
-    h:  dragonruby_logo_height,
+    x: col_2,
+    y: row_1,
+    w: dragonruby_logo_width,
+    h: dragonruby_logo_height,
     path: 'dragonruby.png',
-    source_x:  0,
-    source_y:  0,
-    source_w:  dragonruby_logo_width,
-    source_h:  dragonruby_logo_height.half +
-               dragonruby_logo_height.half * Math.sin(Kernel.tick_count.to_radians).abs,
+    source_x: 0,
+    source_y: 0,
+    source_w: dragonruby_logo_width,
+    source_h: dragonruby_logo_height.half +
+              dragonruby_logo_height.half * Math.sin(Kernel.tick_count.to_radians).abs,
   }
 
   args.outputs.primitives << {
-    x:  col_3,
-    y:  row_1,
+    x: col_3,
+    y: row_1,
     x2: col_3 + dragonruby_logo_width.half,
     y2: row_1 + dragonruby_logo_height,
     x3: col_3 + dragonruby_logo_width,
     y3: row_1,
     path: 'dragonruby.png',
-    source_x:  0,
-    source_y:  0,
+    source_x: 0,
+    source_y: 0,
     source_x2: dragonruby_logo_width.half,
     source_y2: dragonruby_logo_height.half +
                dragonruby_logo_height.half * Math.sin(Kernel.tick_count.to_radians).abs,
@@ -122,15 +122,15 @@ def tick args
     source_y3: 0
   }
 
-  args.outputs.primitives << TriangleLogo.new(x:  col_4,
-                                              y:  row_1,
+  args.outputs.primitives << TriangleLogo.new(x: col_4,
+                                              y: row_1,
                                               x2: col_4 + dragonruby_logo_width.half,
                                               y2: row_1 + dragonruby_logo_height,
                                               x3: col_4 + dragonruby_logo_width,
                                               y3: row_1,
                                               path: 'dragonruby.png',
-                                              source_x:  0,
-                                              source_y:  0,
+                                              source_x: 0,
+                                              source_y: 0,
                                               source_x2: dragonruby_logo_width.half,
                                               source_y2: dragonruby_logo_height.half +
                                                          dragonruby_logo_height.half * Math.sin(Kernel.tick_count.to_radians).abs,
@@ -152,7 +152,8 @@ end
 class TriangleLogo
   attr_sprite
 
-  def initialize x:, y:, x2:, y2:, x3:, y3:, path:, source_x:, source_y:, source_x2:, source_y2:, source_x3:, source_y3:;
+  def initialize x:, y:, x2:, y2:, x3:, y3:, path:, source_x:, source_y:, source_x2:, source_y2:, source_x3:,
+                 source_y3:;
     @x         = x
     @y         = y
     @x2        = x2

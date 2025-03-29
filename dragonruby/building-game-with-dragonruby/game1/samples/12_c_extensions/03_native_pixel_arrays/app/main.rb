@@ -4,7 +4,7 @@ include FFI::CExt
 def tick args
   args.state.rotation ||= 0
 
-  update_scanner_texture   # this calls into a C extension!
+  update_scanner_texture # this calls into a C extension!
 
   # New/changed pixel arrays get uploaded to the GPU before we render
   #  anything. At that point, they can be scaled, rotated, and otherwise
@@ -19,4 +19,3 @@ def tick args
 
   args.outputs.primitives << GTK.current_framerate_primitives
 end
-

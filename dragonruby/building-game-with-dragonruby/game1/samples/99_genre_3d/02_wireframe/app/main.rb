@@ -57,14 +57,16 @@ class Object3D
 
   def _init_from_file path
     file_lines = GTK.read_file(path).split("\n")
-                     .reject { |line| line.start_with?('#') || line.split(' ').length == 0 } # Strip out simple comments and blank lines
-                     .map { |line| line.split('#')[0] } # Strip out end of line comments
-                     .map { |line| line.split(' ') } # Tokenize by splitting on whitespace
+                    .reject { |line| line.start_with?('#') || line.split(' ').length == 0 } # Strip out simple comments and blank lines
+                    .map { |line| line.split('#')[0] } # Strip out end of line comments
+                    .map { |line| line.split(' ') } # Tokenize by splitting on whitespace
     raise "OFF file did not start with OFF." if file_lines.shift != ["OFF"] # OFF meshes are supposed to begin with "OFF" as the first line.
     raise "<NVertices NFaces NEdges> line malformed" if file_lines[0].length != 3 # The second line needs to have 3 numbers. Raise an error if it doesn't.
+
     @vert_count, @face_count, @edge_count = file_lines.shift&.map(&:to_i) # Update the counts
     # Only the vertex and face counts need to be accurate. Raise an error if they are inaccurate.
     raise "Incorrect number of vertices and/or faces (Parsed VFE header: #{@vert_count} #{@face_count} #{@edge_count})" if file_lines.length != @vert_count + @face_count
+
     # Grab all the lines describing vertices.
     vert_lines = file_lines[0, @vert_count]
     # Grab all the lines describing faces.
@@ -86,7 +88,6 @@ class Object3D
 end
 
 class Face
-
   attr_reader :verts, :edges
 
   def initialize(data, verts)
@@ -113,9 +114,10 @@ class Edge
 
   def draw_override ffi
     ffi.draw_line(@point_a.render_x, @point_a.render_y, @point_b.render_x, @point_b.render_y, 255, 0, 0, 128)
-    ffi.draw_line(@point_a.render_x+1, @point_a.render_y, @point_b.render_x+1, @point_b.render_y, 255, 0, 0, 128)
-    ffi.draw_line(@point_a.render_x, @point_a.render_y+1, @point_b.render_x, @point_b.render_y+1, 255, 0, 0, 128)
-    ffi.draw_line(@point_a.render_x+1, @point_a.render_y+1, @point_b.render_x+1, @point_b.render_y+1, 255, 0, 0, 128)
+    ffi.draw_line(@point_a.render_x + 1, @point_a.render_y, @point_b.render_x + 1, @point_b.render_y, 255, 0, 0, 128)
+    ffi.draw_line(@point_a.render_x, @point_a.render_y + 1, @point_b.render_x, @point_b.render_y + 1, 255, 0, 0, 128)
+    ffi.draw_line(@point_a.render_x + 1, @point_a.render_y + 1, @point_b.render_x + 1, @point_b.render_y + 1, 255, 0,
+                  0, 128)
   end
 
   def primitive_marker

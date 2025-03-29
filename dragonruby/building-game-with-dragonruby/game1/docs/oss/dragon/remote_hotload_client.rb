@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # remote_hotload_client.rb has been released under MIT (*only this file*).
@@ -75,6 +76,7 @@ module GTK
 
     def server_available?
       return false if $gtk.platform == 'Emscripten'
+
       get_server_ip_address.length != 0
     end
 
@@ -89,6 +91,7 @@ module GTK
 
     def tick_http_boot
       return if local_state.booted_at
+
       local_state.http_boot_debounce ||= 0
       local_state.http_boot_debounce  -= 1
       local_state.http_boot_debounce   = local_state.http_boot_debounce.clamp(0, 120)
@@ -100,7 +103,7 @@ module GTK
         # latest file                              update_time  key
         # tmp/src_backup/src_backup_app_main.rb, 1597926596,  app/main.rb
         log_spam "* REMOTE HOTLOAD INFO: Attempting http_get of #{get_server_url('dragon/boot/')}"
-        local_state.http_boot    = args.gtk.http_get(get_server_url('dragon/boot/'))
+        local_state.http_boot = args.gtk.http_get(get_server_url('dragon/boot/'))
       elsif local_state.http_boot && local_state.http_boot[:http_response_code] == 200
         local_state.last_greatest_tick = local_state.http_boot[:response_data].strip.to_i
         local_state.greatest_tick = local_state.http_boot[:response_data].strip.to_i

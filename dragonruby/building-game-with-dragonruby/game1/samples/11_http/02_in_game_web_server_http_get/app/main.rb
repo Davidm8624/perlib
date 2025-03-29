@@ -28,7 +28,7 @@ def tick args
     puts("METHOD: #{req.method}");
     puts("URI: #{req.uri}");
     puts("HEADERS:");
-    req.headers.each { |k,v| puts("  #{k}: #{v}") }
+    req.headers.each { |k, v| puts("  #{k}: #{v}") }
 
     if (req.uri == '/')
       # headers and body can be nil if you don't care about them.
@@ -36,7 +36,8 @@ def tick args
       #  "text/html; charset=utf-8".
       # Don't set Content-Length; we'll ignore it and calculate it for you
       args.state.reqnum += 1
-      req.respond 200, "<html><head><title>hello</title></head><body><h1>This #{req.method} was request number #{args.state.reqnum}!</h1></body></html>\n", { 'X-DRGTK-header' => 'Powered by DragonRuby!' }
+      req.respond 200,
+                  "<html><head><title>hello</title></head><body><h1>This #{req.method} was request number #{args.state.reqnum}!</h1></body></html>\n", { 'X-DRGTK-header' => 'Powered by DragonRuby!' }
     else
       req.reject
     end

@@ -66,9 +66,11 @@ def blinking_light_inside_mainframe args
       [62, 32, 4, 32, :reply_to_introduction]
     ],
     storylines: [
-      [43, 43,  8, 8, "\"Mission-- control--, your- main- comm-- channels-- seem-- to be down. My apologies-- for- using-- this low- level-- exploit--. What's-- going-- on down there? We are ready-- for reentry--.\" Message--- Timestamp---: 4- hours-- 23--- minutes-- ago--."],
+      [43, 43,  8, 8,
+       "\"Mission-- control--, your- main- comm-- channels-- seem-- to be down. My apologies-- for- using-- this low- level-- exploit--. What's-- going-- on down there? We are ready-- for reentry--.\" Message--- Timestamp---: 4- hours-- 23--- minutes-- ago--."],
       [30, 30,  4, 4, "There's-- a low- level-- message-- here... NANI.T.F?"],
-      [14, 10, 24, 4, "Oh interesting---. This transistor--- needed-- to be activated--- for the- mainframe-- to work."],
+      [14, 10, 24, 4,
+       "Oh interesting---. This transistor--- needed-- to be activated--- for the- mainframe-- to work."],
       [14, 20, 24, 4, "What the heck activated--- this thing- though?"]
     ]
   }

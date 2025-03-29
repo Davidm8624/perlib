@@ -165,7 +165,7 @@ class Game
   end
 
   def left_margin
-    40  # sets left margin
+    40 # sets left margin
   end
 
   def bottom_margin
@@ -184,14 +184,14 @@ class Game
     newly_visible = variations.product(variations).flat_map do |rise, run| # combo of all elements
       thick_line_of_sight state.x, state.y, rise, run, 15, # calls thick_line_of_sight method
                           lambda { |x, y| dungeon_cell_exists? x, y } # checks whether or not cell exists
-    end.uniq# removes duplicates
+    end.uniq # removes duplicates
 
     state.dungeon.each do |d| # perform action on each element of dungeons collection
       d.is_visible = newly_visible.find { |v| v.x == d.x && v.y == d.y } # finds match inside newly_visible collection
     end
   end
 
-  #Returns a boolean value
+  # Returns a boolean value
   def dungeon_cell_exists? x, y
     # Finds cell coordinates inside dungeon collection to determine if dungeon cell exists
     state.dungeon.find { |d| d.x == x && d.y == y }
@@ -242,10 +242,10 @@ class Game
     # Sets the alpha value (opacity) for each dungeon cell and calls the cell_border method.
     outputs.borders << state.dungeon.map do |d| # for each element in dungeon collection
       d.alpha += if d.is_visible # if cell is visible
-                 255.fdiv(30) # increment opacity (transparency)
-               else # if cell is not visible
-                 255.fdiv(600) * -1 # decrease opacity
-               end
+                   255.fdiv(30) # increment opacity (transparency)
+                 else # if cell is not visible
+                   255.fdiv(600) * -1 # decrease opacity
+                 end
       d.alpha = d.alpha.cap_min_max(0, 255)
       cell_border d.x, d.y, [*blue, d.alpha] # sets blue border using alpha value
     end.reject_nil
@@ -253,19 +253,19 @@ class Game
 
   # Sets definition of a cell border using the parameters
   def cell_border x, y, color = nil
-    [left_margin   + x * grid_size,
-    bottom_margin + y * grid_size,
-    grid_size,
-    grid_size,
-    *color]
+    [left_margin + x * grid_size,
+     bottom_margin + y * grid_size,
+     grid_size,
+     grid_size,
+     *color]
   end
 
   # Sets the values for the player and outputs it as a label
   def render_player
     outputs.labels << [grid_x(state.x) + 20, # positions "@" text in center of grid square
-                     grid_y(state.y) + 35,
-                     "@", # player is represented by a white "@" character
-                     1, 1, *white]
+                       grid_y(state.y) + 35,
+                       "@", # player is represented by a white "@" character
+                       1, 1, *white]
   end
 
   def grid_x x
@@ -283,19 +283,21 @@ class Game
 
       # Outputs an enemy using a label.
       outputs.labels << [
-                   left_margin + 20 +  e.x * grid_size, # positions enemy's "r" text in center of grid square
-                   bottom_margin + 35 + e.y * grid_size,
-                   "r", # enemy's text
-                   1, 1, *white, alpha]
+        left_margin + 20 + e.x * grid_size, # positions enemy's "r" text in center of grid square
+        bottom_margin + 35 + e.y * grid_size,
+        "r", # enemy's text
+        1, 1, *white, alpha
+      ]
 
       # Creates a red border around an enemy.
       outputs.borders << [grid_x(e.x), grid_y(e.y), grid_size, grid_size, *red]
     end
   end
 
-  #White labels are output for the cell coordinates of each element in the dungeon collection.
+  # White labels are output for the cell coordinates of each element in the dungeon collection.
   def print_cell_coordinates
     return unless state.debug
+
     state.dungeon.each do |d|
       outputs.labels << [grid_x(d.x) + 2,
                          grid_y(d.y) - 2,
@@ -307,6 +309,7 @@ class Game
   # Adds new elements into the canvas collection and sets their values.
   def calc_canvas
     return if state.canvas.length > 0 # return if canvas collection has at least one element
+
     15.times do |x| # 15 times perform an action
       15.times do |y|
         state.canvas << state.new_entity(:canvas) do |c| # declare canvas element as new entity
@@ -339,7 +342,7 @@ class Game
     state.enemies.find { |e| e.x == x && e.y == y && !e.is_dead }
   end
 
-  #M oves the user based on their keyboard input and sets values for target cell
+  # M oves the user based on their keyboard input and sets values for target cell
   def input_target_cell
     if inputs.keyboard.key_down.up # if "up" key is in "down" state
       [state.x, state.y + 1,  0,  1] # user moves up
@@ -350,13 +353,14 @@ class Game
     elsif inputs.keyboard.key_down.right # if "right" key is pressed
       [state.x + 1, state.y,  1,  0] # user moves right
     else
-      nil  # otherwise, empty
+      nil # otherwise, empty
     end
   end
 
   # Goes through the canvas collection to find if the mouse was clicked inside of the borders of an element.
   def input_click_map
     return unless inputs.mouse.click # return unless the mouse is clicked
+
     canvas_entry = state.canvas.find do |c| # find element from canvas collection that meets requirements
       inputs.mouse.click.inside_rect? c.border # find border that mouse was clicked inside of
     end
@@ -408,7 +412,7 @@ class Game
   # Returns a boolean value.
   def visible? cell
     # finds cell's coordinates inside visible_cells collections to determine if cell is visible
-    state.visible_cells.find { |c| c.x == cell.x && c.y == cell.y}
+    state.visible_cells.find { |c| c.x == cell.x && c.y == cell.y }
   end
 
   # Exports dungeon by printing dungeon cell coordinates

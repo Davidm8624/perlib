@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # hotload.rb has been released under MIT (*only this file*).
@@ -15,7 +16,7 @@ module GTK
         #                last:    (Time as Fixnum) },
         #   FILE_PATH: { current: (Time as Fixnum),
         #                last:    (Time as Fixnum) } }
-        @file_mtimes = { }
+        @file_mtimes = {}
 
         files_to_reload.each { |f| init_mtimes f }
       end
@@ -142,12 +143,14 @@ module GTK
 
         @hotload_debounce += fps_diff
         return unless @hotload_debounce >= 60
+
         @hotload_debounce = 0
         files_to_reload.each { |f| reload_if_needed f }
       end
 
       def tick_hotload
         return if Kernel.tick_count <= 0 && !paused?
+
         hotload_source_files
       end
 
@@ -174,6 +177,7 @@ module GTK
         @file_mtimes[file] ||= { current: @ffi_file.mtime(file), last: @ffi_file.mtime(file) }
         @file_mtimes[file].current = @ffi_file.mtime(file)
         return if !force && @file_mtimes[file].current == @file_mtimes[file].last
+
         @hotload_global_at = Kernel.global_tick_count
         # in the event that an exception was thrown on initial load, if
         # a file is changed, set load status to :dragonruby_started

@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # draw.rb has been released under MIT (*only this file*).
@@ -8,6 +9,7 @@ module GTK
     module Draw
       def draw_solid s
         return unless s
+
         if s.respond_to? :draw_override
           s.draw_override @ffi_draw
         else
@@ -37,6 +39,7 @@ module GTK
 
       def draw_sprite s
         return unless s
+
         if s.respond_to? :draw_override
           s.draw_override @ffi_draw
         else
@@ -89,6 +92,7 @@ module GTK
 
       def draw_screenshot s
         return unless s
+
         if s.respond_to? :draw_override
           s.draw_override @ffi_draw
         else
@@ -108,6 +112,7 @@ module GTK
 
       def draw_label l
         return unless l
+
         if l.respond_to? :draw_override
           l.draw_override @ffi_draw
         else
@@ -146,6 +151,7 @@ module GTK
 
       def draw_line l
         return unless l
+
         if l.respond_to? :draw_override
           l.draw_override @ffi_draw
         else
@@ -172,6 +178,7 @@ module GTK
 
       def draw_border s
         return unless s
+
         if s.respond_to? :draw_override
           s.draw_override @ffi_draw
         else
@@ -193,8 +200,8 @@ module GTK
       end
 
       def pixel_arrays
-        @args.pixel_arrays.each { |k,v|
-          if v.pixels.length == (v.width * v.height)  # !!! FIXME: warning? exception? Different API?
+        @args.pixel_arrays.each { |k, v|
+          if v.pixels.length == (v.width * v.height) # !!! FIXME: warning? exception? Different API?
             @ffi_draw.upload_pixel_array k.to_s, v.width.to_i, v.height.to_i, v.pixels
           end
         }
@@ -217,16 +224,16 @@ module GTK
         elsif p.primitive_marker == :border
           return draw_border p
         else
-          raise <<-S
-* ERROR:
-#{p}
+          raise <<~S
+            * ERROR:
+            #{p}
 
-I don't know how to use the above #{p.class} with SDL's FFI. Please
-add a method on the object called ~primitive_marker~ that
-returns :solid, :sprite, :label, :line, or :border. If the object
-is a Hash, please add { primitive_marker: :PRIMITIVE_SYMBOL } to the Hash.
+            I don't know how to use the above #{p.class} with SDL's FFI. Please
+            add a method on the object called ~primitive_marker~ that
+            returns :solid, :sprite, :label, :line, or :border. If the object
+            is a Hash, please add { primitive_marker: :PRIMITIVE_SYMBOL } to the Hash.
 
-S
+          S
         end
       rescue Exception => e
         pause!

@@ -5,7 +5,7 @@ class HexagonTileGame
     state.tile_scale      = 1.3
     state.tile_size       = 80
     state.tile_w          = Math.sqrt(3) * state.tile_size.half
-    state.tile_h          = state.tile_size * 3/4
+    state.tile_h          = state.tile_size * 3 / 4
     state.tiles_x_count   = 1280.idiv(state.tile_w) - 1
     state.tiles_y_count   = 720.idiv(state.tile_h) - 1
     state.world_width_px  = state.tiles_x_count * state.tile_w

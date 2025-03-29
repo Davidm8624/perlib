@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # console_font_style.rb has been released under MIT (*only this file*).
@@ -29,7 +30,7 @@ module GTK
       def label(x:, y:, text:, color:, alignment_enum: 0)
         {
           x: x,
-          y: y.shift_up(line_height_px),  # !!! FIXME: remove .shift_up(line_height_px) when we fix coordinate origin on labels.
+          y: y.shift_up(line_height_px), # !!! FIXME: remove .shift_up(line_height_px) when we fix coordinate origin on labels.
           text: text,
           font: font,
           size_enum: size_enum,

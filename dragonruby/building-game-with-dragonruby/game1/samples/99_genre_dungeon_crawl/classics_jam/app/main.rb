@@ -150,18 +150,18 @@ class Game
 
   def create_level level_template
     {
-      walls:           level_template.walls.map { |w| to_cell(w.ordinal_x, w.ordinal_y).merge(w) },
-      enemies:         [],
+      walls: level_template.walls.map { |w| to_cell(w.ordinal_x, w.ordinal_y).merge(w) },
+      enemies: [],
       spawn_locations: level_template.spawn_locations.map { |s| to_cell(s.ordinal_x, s.ordinal_y).merge(s) }
     }
   end
 
   def level_one_template
     {
-      walls:           [{ ordinal_x: 25, ordinal_y: 20},
-                        { ordinal_x: 25, ordinal_y: 21},
-                        { ordinal_x: 25, ordinal_y: 22},
-                        { ordinal_x: 25, ordinal_y: 23}],
+      walls: [{ ordinal_x: 25, ordinal_y: 20 },
+              { ordinal_x: 25, ordinal_y: 21 },
+              { ordinal_x: 25, ordinal_y: 22 },
+              { ordinal_x: 25, ordinal_y: 23 }],
       spawn_locations: [{ ordinal_x: 10, ordinal_y: 10, rate: 120, countdown: 0, hp: 5 }]
     }
   end
@@ -188,13 +188,13 @@ class Game
 
   def future_entity_position dx, dy, entity
     {
-      dx:   entity.merge(x: entity.x + dx),
-      dy:   entity.merge(y: entity.y + dy),
+      dx: entity.merge(x: entity.x + dx),
+      dy: entity.merge(y: entity.y + dy),
       both: entity.merge(x: entity.x + dx, y: entity.y + dy)
     }
   end
 
-  def future_player_position  dx, dy
+  def future_player_position dx, dy
     future_entity_position dx, dy, player
   end
 

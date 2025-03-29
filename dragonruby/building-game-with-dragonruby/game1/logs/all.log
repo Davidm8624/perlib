@@ -1,0 +1,5 @@
+
+Easing::ease can be expensive to invoke, consider using Easing.smooth_(start|stop|step) instead.
+
+[Message ID: [:consider_smooth!]]
+

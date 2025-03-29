@@ -21,11 +21,12 @@ APIs listing that haven't been encountered in a previous sample apps:
 # args.inputs.keyboard.key_up.a will check to see if the a key has been pressed
 # This will work with the other keys as well
 
-
 def tick args
   tick_instructions args, "Sample app shows how keyboard events are registered and accessed.", 360
-  args.outputs.labels << { x: 460, y: row_to_px(args, 0), text: "Current game time: #{Kernel.tick_count}", size_enum: -1 }
-  args.outputs.labels << { x: 460, y: row_to_px(args, 2), text: "Keyboard input: args.inputs.keyboard.key_up.h", size_enum: -1 }
+  args.outputs.labels << { x: 460, y: row_to_px(args, 0), text: "Current game time: #{Kernel.tick_count}",
+                           size_enum: -1 }
+  args.outputs.labels << { x: 460, y: row_to_px(args, 2), text: "Keyboard input: args.inputs.keyboard.key_up.h",
+                           size_enum: -1 }
   args.outputs.labels << { x: 460, y: row_to_px(args, 3), text: "Press \"h\" on the keyboard.", size_enum: -1 }
 
   # Input on a specifc key can be found through args.inputs.keyboard.key_up followed by the key
@@ -37,7 +38,8 @@ def tick args
   args.state.h_pressed_at ||= false
 
   if args.state.h_pressed_at
-    args.outputs.labels << { x: 460, y: row_to_px(args, 4), text: "\"h\" was pressed at time: #{args.state.h_pressed_at}", size_enum: -1 }
+    args.outputs.labels << { x: 460, y: row_to_px(args, 4),
+                             text: "\"h\" was pressed at time: #{args.state.h_pressed_at}", size_enum: -1 }
   else
     args.outputs.labels << { x: 460, y: row_to_px(args, 4), text: "\"h\" has never been pressed.", size_enum: -1 }
   end
@@ -79,14 +81,16 @@ def tick_help_text args
     end
   end
 
-  args.outputs.labels << { x: 10, y: row_to_px(args, 6), text: "This is the api for the keys you've pressed:", size_enum: -1, r: 180 }
+  args.outputs.labels << { x: 10, y: row_to_px(args, 6), text: "This is the api for the keys you've pressed:",
+                           size_enum: -1, r: 180 }
 
   if !args.state.help_available
-    args.outputs.labels << [10, row_to_px(args, 7),  "Press a key and I'll show code to access the key and what value will be returned if you used the code."]
+    args.outputs.labels << [10, row_to_px(args, 7),
+                            "Press a key and I'll show code to access the key and what value will be returned if you used the code."]
     return
   end
 
-  args.outputs.labels << { x: 10 , y: row_to_px(args, 7), text: "args.inputs.keyboard",          size_enum: -2 }
+  args.outputs.labels << { x: 10, y: row_to_px(args, 7), text: "args.inputs.keyboard", size_enum: -2 }
   args.outputs.labels << { x: 330, y: row_to_px(args, 7), text: "args.inputs.keyboard.key_down", size_enum: -2 }
   args.outputs.labels << { x: 650, y: row_to_px(args, 7), text: "args.inputs.keyboard.key_held", size_enum: -2 }
   args.outputs.labels << { x: 990, y: row_to_px(args, 7), text: "args.inputs.keyboard.key_up",   size_enum: -2 }
@@ -123,11 +127,11 @@ end
 def render_help_labels args, history_key, state_key, keyboard_method, x
   idx = 8
   args.outputs.labels << args.state
-                           .as_hash[history_key]
-                           .keys
-                           .reverse
-                           .map
-                           .with_index do |k, i|
+                             .as_hash[history_key]
+                             .keys
+                             .reverse
+                             .map
+                             .with_index do |k, i|
     v = args.state.as_hash[history_key][k]
     current_value = args.inputs.keyboard.send(k)
     if keyboard_method
@@ -141,9 +145,9 @@ def render_help_labels args, history_key, state_key, keyboard_method, x
   end
 end
 
-
 def tick_instructions args, text, y = 715
   return if args.state.key_event_occurred
+
   if args.inputs.mouse.click ||
      args.inputs.keyboard.directional_vector ||
      args.inputs.keyboard.key_down.enter ||

@@ -1,5 +1,6 @@
 def tick args
-  args.state.player         ||= {x: 600, y: 320, w: 80, h: 80, path: 'sprites/circle-white.png', vx: 0, vy: 0, health: 10, cooldown: 0, score: 0}
+  args.state.player         ||= { x: 600, y: 320, w: 80, h: 80, path: 'sprites/circle-white.png', vx: 0, vy: 0,
+                                  health: 10, cooldown: 0, score: 0 }
   args.state.enemies        ||= []
   args.state.player_bullets ||= []
   spawn_enemies args
@@ -8,16 +9,17 @@ def tick args
   move_bullets args
   move_player args
   fire_player args
-  args.state.player[:r] = args.state.player[:g] = args.state.player[:b] = (args.state.player[:health] * 25.5).clamp(0, 255)
+  args.state.player[:r] =
+    args.state.player[:g] = args.state.player[:b] = (args.state.player[:health] * 25.5).clamp(0, 255)
   label_color           = args.state.player[:health] <= 5 ? 255 : 0
   args.outputs.labels << [
-      {
-          x: args.state.player.x + 40, y: args.state.player.y + 60, alignment_enum: 1, text: "#{args.state.player[:health]} HP",
-          r: label_color, g: label_color, b: label_color
-      }, {
-          x: args.state.player.x + 40, y: args.state.player.y + 40, alignment_enum: 1, text: "#{args.state.player[:score]} PTS",
-          r: label_color, g: label_color, b: label_color, size_enum: 2 - args.state.player[:score].to_s.length,
-      }
+    {
+      x: args.state.player.x + 40, y: args.state.player.y + 60, alignment_enum: 1, text: "#{args.state.player[:health]} HP",
+      r: label_color, g: label_color, b: label_color
+    }, {
+      x: args.state.player.x + 40, y: args.state.player.y + 40, alignment_enum: 1, text: "#{args.state.player[:score]} PTS",
+      r: label_color, g: label_color, b: label_color, size_enum: 2 - args.state.player[:score].to_s.length,
+    }
   ]
   args.outputs.sprites << [args.state.player, args.state.enemies, args.state.player_bullets]
   args.state.clear! if args.state.player[:health] < 0 # Reset the game if the player's health drops below zero
@@ -25,11 +27,11 @@ end
 
 def spawn_enemies args
   # Spawn enemies more frequently as the player's score increases.
-  if rand < (100+args.state.player[:score])/(10000 + args.state.player[:score]) || Kernel.tick_count.zero?
+  if rand < (100 + args.state.player[:score]) / (10000 + args.state.player[:score]) || Kernel.tick_count.zero?
     theta = rand * Math::PI * 2
     args.state.enemies << {
-        x: 600 + Math.cos(theta) * 800, y: 320 + Math.sin(theta) * 800, w: 80, h: 80, path: 'sprites/circle-white.png',
-        r: (256 * rand).floor, g: (256 * rand).floor, b: (256 * rand).floor
+      x: 600 + Math.cos(theta) * 800, y: 320 + Math.sin(theta) * 800, w: 80, h: 80, path: 'sprites/circle-white.png',
+      r: (256 * rand).floor, g: (256 * rand).floor, b: (256 * rand).floor
     }
   end
 end
@@ -37,13 +39,13 @@ end
 def kill_enemies args
   args.state.enemies.reject! do |enemy|
     # Check if enemy and player are within 80 pixels of each other (i.e. overlapping)
-    if 6400 > (enemy.x - args.state.player.x) ** 2 + (enemy.y - args.state.player.y) ** 2
+    if 6400 > (enemy.x - args.state.player.x)**2 + (enemy.y - args.state.player.y)**2
       # Enemy is touching player. Kill enemy, and reduce player HP by 1.
       args.state.player[:health] -= 1
     else
       args.state.player_bullets.any? do |bullet|
         # Check if enemy and bullet are within 50 pixels of each other (i.e. overlapping)
-        if 2500 > (enemy.x - bullet.x + 30) ** 2 + (enemy.y - bullet.y + 30) ** 2
+        if 2500 > (enemy.x - bullet.x + 30)**2 + (enemy.y - bullet.y + 30)**2
           # Increase player health by one for each enemy killed by a bullet after the first enemy, up to a maximum of 10 HP
           args.state.player[:health] += 1 if args.state.player[:health] < 10 && bullet[:kills] > 0
           # Keep track of how many enemies have been killed by this particular bullet
@@ -83,8 +85,8 @@ end
 def move_player args
   # Get the currently held direction.
   dx, dy                 = move_directional_vector args
-  # Take the weighted average of the old velocities and the desired velocities. 
-  # Since move_directional_vector returns values between -1 and 1, 
+  # Take the weighted average of the old velocities and the desired velocities.
+  # Since move_directional_vector returns values between -1 and 1,
   #   and we want to limit the speed to 7.5, we multiply dx and dy by 7.5*0.1 to get 0.75
   args.state.player[:vx] = args.state.player[:vx] * 0.9 + dx * 0.75
   args.state.player[:vy] = args.state.player[:vy] * 0.9 + dy * 0.75
@@ -96,7 +98,6 @@ def move_player args
   args.state.player.y    = args.state.player.y.clamp(0, 640)
 end
 
-
 def fire_player args
   # Reduce the firing cooldown each tick
   args.state.player[:cooldown] -= 1
@@ -104,15 +105,16 @@ def fire_player args
   if args.state.player[:cooldown] <= 0
     dx, dy = shoot_directional_vector args # Get the bullet velocity
     return if dx == 0 && dy == 0 # If the velocity is zero, the player doesn't want to fire. Therefore, we just return early.
+
     # Add a new bullet to the list of player bullets.
     args.state.player_bullets << {
-        x:     args.state.player.x + 30 + 40 * dx,
-        y:     args.state.player.y + 30 + 40 * dy,
-        w:     20, h: 20,
-        path:  'sprites/circle-white.png',
-        r:     0, g: 0, b: 0,
-        vx:    10 * dx + args.state.player[:vx] / 7.5, vy: 10 * dy + args.state.player[:vy] / 7.5, # Factor in a bit of the player's velocity
-        kills: 0
+      x: args.state.player.x + 30 + 40 * dx,
+      y: args.state.player.y + 30 + 40 * dy,
+      w: 20, h: 20,
+      path: 'sprites/circle-white.png',
+      r: 0, g: 0, b: 0,
+      vx: 10 * dx + args.state.player[:vx] / 7.5, vy: 10 * dy + args.state.player[:vy] / 7.5, # Factor in a bit of the player's velocity
+      kills: 0
     }
     args.state.player[:cooldown] = 30 # Reset the cooldown
   end

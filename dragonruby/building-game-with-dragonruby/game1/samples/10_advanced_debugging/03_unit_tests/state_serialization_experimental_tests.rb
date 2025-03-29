@@ -7,6 +7,7 @@ end
 
 def partition target
   return [] unless needs_partitioning? target
+
   if target[:value].is_a? GTK::OpenEntity
     target[:value] = target[:value].hash
   end
@@ -19,7 +20,7 @@ def partition target
   end
   left, right = Hash[left], Hash[right]
   left = { value: left }
-  right = { value: right}
+  right = { value: right }
   [left, right]
 end
 
@@ -50,7 +51,7 @@ def state_to_string state
                 [],
                 parts_queue,
                 final_queue)
-  final_queue.reject {|i| i[:value].keys.length == 0}.map do |i|
+  final_queue.reject { |i| i[:value].keys.length == 0 }.map do |i|
     i[:value].to_s
   end.join("\n#==================================================#\n")
 end

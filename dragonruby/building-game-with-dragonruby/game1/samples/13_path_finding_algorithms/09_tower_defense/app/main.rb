@@ -42,7 +42,7 @@ def defaults args
   # Walls are also added where the turrets are to prevent tanks from pathing over them
   args.state.turrets ||= [
     [2, 2]
-  ].each { |turret| args.state.walls[turret] = true}.map do |x, y|
+  ].each { |turret| args.state.walls[turret] = true }.map do |x, y|
     {
       x: x * args.state.tile_size,
       y: y * args.state.tile_size,
@@ -76,7 +76,7 @@ def render_grid args
   }.merge(grid_color)
 
   # Draw lines across the grid to show tiles
-  (args.state.grid_size + 1).times do | value |
+  (args.state.grid_size + 1).times do |value|
     render_horizontal_line(args, value)
     render_vertical_line(args, value)
   end
@@ -167,14 +167,14 @@ def move_tanks args
   args.state.tanks.reject! { |tank| tank[:a_star].empty? }
 
   # Tanks have an array that has each tile it has to go to in order from a* path
-  args.state.tanks.each do | tank |
+  args.state.tanks.each do |tank|
     destination = tank[:a_star][0]
     # Move the tank towards the destination
     tank[:x] += copy_sign(args.state.tank_speed, ((destination.x * args.state.tile_size) - tank[:x]))
     tank[:y] += copy_sign(args.state.tank_speed, ((destination.y * args.state.tile_size) - tank[:y]))
     # If the tank has reached its destination
     if (destination.x * args.state.tile_size) == tank[:x] &&
-        (destination.y * args.state.tile_size) == tank[:y]
+       (destination.y * args.state.tile_size) == tank[:y]
       # Set the destination to the next point in the path
       tank[:a_star].shift
     end
@@ -183,11 +183,12 @@ end
 
 def calc_turrets args
   return unless Kernel.tick_count.mod_zero? args.state.turret_shoot_period
-  args.state.turrets.each do | turret |
+
+  args.state.turrets.each do |turret|
     # Finds the closest tank
     target = nil
     shortest_distance = turret[:range] + 1
-    args.state.tanks.each do | tank |
+    args.state.tanks.each do |tank|
       distance = distance_between(turret[:x], turret[:y], tank[:x], tank[:y])
       if distance < shortest_distance
         target = tank
@@ -212,7 +213,7 @@ end
 
 def calc_bullets args
   # Bullets aim for the center of their targets
-  args.state.bullets.each { |bullet| move bullet, center_of(bullet[:target])}
+  args.state.bullets.each { |bullet| move bullet, center_of(bullet[:target]) }
   args.state.bullets.reject! { |b| b.intersect_rect? b[:target] }
 end
 
@@ -227,7 +228,7 @@ def render_a_star args
   args.state.a_star.path.map do |tile|
     # Map each x, y coordinate to the center of the tile and scale up
     [(tile.x + 0.5) * args.state.tile_size, (tile.y + 0.5) * args.state.tile_size]
-  end.inject do | point_a,  point_b |
+  end.inject do |point_a, point_b|
     # Render the line between each point
     args.outputs.lines << [point_a.x, point_a.y, point_b.x, point_b.y, a_star_color]
     point_b
@@ -245,19 +246,20 @@ def move object, target, speed = 1
   end
 end
 
-
 def distance_between a_x, a_y, b_x, b_y
-  (((b_x - a_x) ** 2) + ((b_y - a_y) ** 2)) ** 0.5
+  (((b_x - a_x)**2) + ((b_y - a_y)**2))**0.5
 end
 
 def copy_sign value, sign
   return 0 if sign == 0
   return value if sign > 0
+
   -value
 end
 
 def spawn_tank args
   return unless Kernel.tick_count.mod_zero? args.state.tank_spawn_period
+
   args.state.tanks << {
     x: args.state.grid_start.x,
     y: args.state.grid_start.y,

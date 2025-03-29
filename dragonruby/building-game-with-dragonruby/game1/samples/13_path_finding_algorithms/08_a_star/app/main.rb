@@ -424,7 +424,7 @@ class A_Star_Algorithm
     y = cell.y * grid.cell_size
     w = cell.w.zero? ? grid.cell_size : cell.w * grid.cell_size
     h = cell.h.zero? ? grid.cell_size : cell.h * grid.cell_size
-    {x: x, y: y, w: w, h: h}
+    { x: x, y: y, w: w, h: h }
   end
 
   # Translates the given cell grid.width + 1 to the right and then scales up
@@ -487,7 +487,7 @@ class A_Star_Algorithm
 
   # Signal that the user is going to be removing walls from the first grid
   def dijkstra_mouse_over_wall?
-    grid.walls.each_key do | wall |
+    grid.walls.each_key do |wall|
       return true if inputs.mouse.point.inside_rect?(dijkstra_scale_up(wall))
     end
 
@@ -496,7 +496,7 @@ class A_Star_Algorithm
 
   # Signal that the user is going to be removing walls from the second grid
   def greedy_mouse_over_wall?
-    grid.walls.each_key do | wall |
+    grid.walls.each_key do |wall|
       return true if inputs.mouse.point.inside_rect?(greedy_scale_up(wall))
     end
 
@@ -505,7 +505,7 @@ class A_Star_Algorithm
 
   # Signal that the user is going to be removing walls from the third grid
   def a_star_mouse_over_wall?
-    grid.walls.each_key do | wall |
+    grid.walls.each_key do |wall|
       return true if inputs.mouse.point.inside_rect?(a_star_scale_up(wall))
     end
 
@@ -756,9 +756,9 @@ class A_Star_Algorithm
     # Until the target is found or there are no more cells to explore from
     until dijkstra.came_from.key?(grid.target) or dijkstra.frontier.empty?
       # Take the next frontier cell. The first element is the cell, the second is the priority.
-      new_frontier = dijkstra.frontier.shift#[0]
+      new_frontier = dijkstra.frontier.shift # [0]
       # For each of its neighbors
-      adjacent_neighbors(new_frontier).each do | neighbor |
+      adjacent_neighbors(new_frontier).each do |neighbor|
         # That have not been visited and are not walls
         unless dijkstra.came_from.key?(neighbor) or grid.walls.key?(neighbor)
           # Add them to the frontier and mark them as visited
@@ -770,10 +770,9 @@ class A_Star_Algorithm
 
       # Sort the frontier so that cells that are in a zigzag pattern are prioritized over those in an line
       # Comment this line and let a path generate to see the difference
-      dijkstra.frontier = dijkstra.frontier.sort_by {| cell | proximity_to_star(cell) }
-      dijkstra.frontier = dijkstra.frontier.sort_by {| cell | dijkstra.cost_so_far[cell] }
+      dijkstra.frontier = dijkstra.frontier.sort_by { |cell| proximity_to_star(cell) }
+      dijkstra.frontier = dijkstra.frontier.sort_by { |cell| dijkstra.cost_so_far[cell] }
     end
-
 
     # If the search found the target
     if dijkstra.came_from.key?(grid.target)
@@ -792,7 +791,7 @@ class A_Star_Algorithm
       # Take the next frontier cell
       new_frontier = greedy.frontier.shift
       # For each of its neighbors
-      adjacent_neighbors(new_frontier).each do | neighbor |
+      adjacent_neighbors(new_frontier).each do |neighbor|
         # That have not been visited and are not walls
         unless greedy.came_from.key?(neighbor) or grid.walls.key?(neighbor)
           # Add them to the frontier and mark them as visited
@@ -802,11 +801,10 @@ class A_Star_Algorithm
       end
       # Sort the frontier so that cells that are in a zigzag pattern are prioritized over those in an line
       # Comment this line and let a path generate to see the difference
-      greedy.frontier = greedy.frontier.sort_by {| cell | proximity_to_star(cell) }
+      greedy.frontier = greedy.frontier.sort_by { |cell| proximity_to_star(cell) }
       # Sort the frontier so cells that are close to the target are then prioritized
-      greedy.frontier = greedy.frontier.sort_by {| cell | greedy_heuristic(cell)  }
+      greedy.frontier = greedy.frontier.sort_by { |cell| greedy_heuristic(cell)  }
     end
-
 
     # If the search found the target
     if greedy.came_from.key?(grid.target)
@@ -827,7 +825,7 @@ class A_Star_Algorithm
       current_frontier = a_star.frontier.shift
 
       # For each of that cells neighbors
-      adjacent_neighbors(current_frontier).each do | neighbor |
+      adjacent_neighbors(current_frontier).each do |neighbor|
         # That have not been visited and are not walls
         unless a_star.came_from.key?(neighbor) or grid.walls.key?(neighbor)
           # Add them to the frontier and mark them as visited
@@ -839,8 +837,8 @@ class A_Star_Algorithm
 
       # Sort the frontier so that cells that are in a zigzag pattern are prioritized over those in an line
       # Comment this line and let a path generate to see the difference
-      a_star.frontier = a_star.frontier.sort_by {| cell | proximity_to_star(cell) }
-      a_star.frontier = a_star.frontier.sort_by {| cell | a_star.cost_so_far[cell] + greedy_heuristic(cell) }
+      a_star.frontier = a_star.frontier.sort_by { |cell| proximity_to_star(cell) }
+      a_star.frontier = a_star.frontier.sort_by { |cell| a_star.cost_so_far[cell] + greedy_heuristic(cell) }
     end
 
     # If the search found the target
@@ -918,10 +916,10 @@ class A_Star_Algorithm
 
     # Gets all the valid neighbors into the array
     # From southern neighbor, clockwise
-    neighbors << [cell.x    , cell.y - 1] unless cell.y == 0
-    neighbors << [cell.x - 1, cell.y    ] unless cell.x == 0
-    neighbors << [cell.x    , cell.y + 1] unless cell.y == grid.height - 1
-    neighbors << [cell.x + 1, cell.y    ] unless cell.x == grid.width - 1
+    neighbors << [cell.x, cell.y - 1] unless cell.y == 0
+    neighbors << [cell.x - 1, cell.y] unless cell.x == 0
+    neighbors << [cell.x, cell.y + 1] unless cell.y == grid.height - 1
+    neighbors << [cell.x + 1, cell.y] unless cell.x == grid.width - 1
 
     neighbors
   end
@@ -982,11 +980,9 @@ class A_Star_Algorithm
   end
 end
 
-
 # Method that is called by DragonRuby periodically
 # Used for updating animations and calculations
 def tick args
-
   # Pressing r will reset the application
   if args.inputs.keyboard.key_down.r
     GTK.reset
@@ -999,7 +995,6 @@ def tick args
   $a_star_algorithm.args = args
   $a_star_algorithm.tick
 end
-
 
 def reset
   $a_star_algorithm = nil

@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # numeric.rb has been released under MIT (*only this file*).
@@ -10,15 +11,15 @@ class Numeric
   def to_layout_row opts = {}
     $layout.rect(row: self,
                  col: opts.col || 0,
-                 w:   opts.w || 0,
-                 h:   opts.h || 0).y
+                 w: opts.w || 0,
+                 h: opts.h || 0).y
   end
 
   def to_layout_col opts = {}
     $layout.rect(row: 0,
                  col: self,
-                 w:   opts.w || 0,
-                 h:   opts.h || 0).x
+                 w: opts.w || 0,
+                 h: opts.h || 0).x
   end
 
   def to_layout_w
@@ -62,6 +63,7 @@ class Numeric
   def clamp min, max = nil
     return min if min && self < min
     return max if max && self > max
+
     return self
   end
 
@@ -91,25 +93,27 @@ class Numeric
     (self + offset) < tick_count_override
   end
 
-  def Numeric.frame_index_no_repeat start_at: 0, count: nil, frame_count: nil, hold_for: 1, tick_count_override: Kernel.tick_count, **ignored
+  def Numeric.frame_index_no_repeat start_at: 0, count: nil, frame_count: nil, hold_for: 1,
+                                    tick_count_override: Kernel.tick_count, **ignored
     hold_for ||= 1
     frame_count ||= count
 
     if !frame_count
-      raise <<-S
-* ERROR:
-Numeric::frame_index_no_repeat must be given either ~count~ or ~frame_count~.
+      raise <<~S
+        * ERROR:
+        Numeric::frame_index_no_repeat must be given either ~count~ or ~frame_count~.
 
-Example:
-#+begin_src
-  Numeric.frame_index_no_repeat start_at: 0, count: 5, hold_for: 5
-  # OR
-  Numeric.frame_index_no_repeat start_at: 0, frame_count: 5, hold_for: 5
-#+end_src
-S
+        Example:
+        #+begin_src
+          Numeric.frame_index_no_repeat start_at: 0, count: 5, hold_for: 5
+          # OR
+          Numeric.frame_index_no_repeat start_at: 0, frame_count: 5, hold_for: 5
+        #+end_src
+      S
     end
 
     return nil if tick_count_override < start_at
+
     animation_length = hold_for * frame_count
     current_elapsed_time = start_at.elapsed_time tick_count_override
 
@@ -120,24 +124,26 @@ S
     current_elapsed_time.idiv(hold_for) % frame_count
   end
 
-  def Numeric.frame_index start_at: 0, count: nil, frame_count: nil, hold_for: 1, repeat: false,  repeat_index: 0, tick_count_override: Kernel.tick_count, **ignored
+  def Numeric.frame_index start_at: 0, count: nil, frame_count: nil, hold_for: 1, repeat: false, repeat_index: 0,
+                          tick_count_override: Kernel.tick_count, **ignored
     hold_for ||= 1
     frame_count ||= count
     if !frame_count
-      raise <<-S
-* ERROR:
-Numeric::frame_index must be given either ~count~ or ~frame_count~.
+      raise <<~S
+        * ERROR:
+        Numeric::frame_index must be given either ~count~ or ~frame_count~.
 
-Example:
-#+begin_src
-  Numeric.frame_index start_at: 0, count: 5, hold_for: 5
-  # OR
-  Numeric.frame_index start_at: 0, frame_count: 5, hold_for: 5
-#+end_src
-S
+        Example:
+        #+begin_src
+          Numeric.frame_index start_at: 0, count: 5, hold_for: 5
+          # OR
+          Numeric.frame_index start_at: 0, frame_count: 5, hold_for: 5
+        #+end_src
+      S
     end
 
     return nil if tick_count_override < start_at
+
     frame_count ||= count
 
     animation_length = hold_for * frame_count
@@ -272,6 +278,7 @@ S
 
   def rand_sign
     return -1 if Kernel.rand > 0.5
+
     1
   end
 
@@ -353,12 +360,12 @@ S
 
   # Returns a normal vector for a number that represents an angle in degrees.
   def vector max_value = 1
-    log_once :consider_to_vector!, <<-S
-* WARNGING: ~Numeric#vector~ is deprecated. Use ~Numeric#to_vector~.
-~Numeric#to_vector~ is more preformant and returns a ~Hash~ containing the keys ~x~ and ~y~ as opposed
-to an ~Array~ of ~[x, y]~. Please note that you will lose the ability to destucture the values of a ~Hash~.
+    log_once :consider_to_vector!, <<~S
+      * WARNGING: ~Numeric#vector~ is deprecated. Use ~Numeric#to_vector~.
+      ~Numeric#to_vector~ is more preformant and returns a ~Hash~ containing the keys ~x~ and ~y~ as opposed
+      to an ~Array~ of ~[x, y]~. Please note that you will lose the ability to destucture the values of a ~Hash~.
 
-S
+    S
     [vector_x(max_value), vector_y(max_value)]
   end
 
@@ -436,13 +443,15 @@ S
   end
 
   # Returns a numeric value that is a quantity `magnitude` closer to
-  #`self`. If the distance between `self` and `target` is less than
-  #the `magnitude` then `target` is returned.
+  # `self`. If the distance between `self` and `target` is less than
+  # the `magnitude` then `target` is returned.
   def towards target, magnitude
     return self if self == target
+
     delta = (self - target).abs
     return target if delta < magnitude
     return self - magnitude if self > target
+
     return self + magnitude
   end
 
@@ -493,22 +502,26 @@ S
 
   def cap i
     return i if self > i
+
     self
   end
 
   def cap_min_max min, max
     return min if self < min
     return max if self > max
+
     self
   end
 
   def lesser other
     return other if other < self
+
     self
   end
 
   def greater other
     return other if other > self
+
     self
   end
 
@@ -614,16 +627,16 @@ S
   end
 
   def __raise_arithmetic_exception__ other, m, e
-    raise <<-S
-* ERROR:
-Attempted to invoke :#{m} on #{self} with the right hand argument of:
+    raise <<~S
+      * ERROR:
+      Attempted to invoke :#{m} on #{self} with the right hand argument of:
 
-#{other}
+      #{other}
 
-The object above is not a Numeric.
+      The object above is not a Numeric.
 
-#{e}
-S
+      #{e}
+    S
   end
 
   def serialize
@@ -632,6 +645,7 @@ S
 
   def self.from_top n
     return 720 - n unless $gtk
+
     $gtk.args.grid.top - n
   end
 
@@ -641,6 +655,7 @@ S
 
   def self.from_right n
     return 1280 - n unless $gtk
+
     $gtk.args.grid.right - n
   end
 
@@ -658,6 +673,7 @@ S
 
   def self.from_left n
     return n unless $gtk
+
     $gtk.args.grid.left + n
   end
 
@@ -667,6 +683,7 @@ S
 
   def self.from_bottom n
     return n unless $gtk
+
     $gtk.args.grid.bottom + n
   end
 
@@ -693,6 +710,7 @@ class Fixnum
   def sign
     return -1 if self < 0
     return  1 if self > 0
+
     return  0
   end
 
@@ -771,6 +789,7 @@ class Float
   def sign
     return -1 if self < 0
     return  1 if self > 0
+
     return  0
   end
 
@@ -863,16 +882,16 @@ class Numeric
         Kernel.rand(diff) + min
       end
     else
-      raise <<-S
-* ERROR: Numeric::rand does not support the argument type: #{arg.class}.
-** Usage:
-- No arguments: ~Numeric.rand()~ will return a random float between 0.0 and 1.0.
-- Numeric argument: ~Numeric.rand(10)~ will return a random integer between 0 and 10 (exclusive).
-- Range argument (integer values): ~Numeric.rand(1..10)~ will return a random integer between 1 and 10 (inclusive).
-- Range argument (integer values): ~Numeric.rand(-10..10)~ will return a random integer between -10 and 10 (inclusive).
-- Range argument (float values): ~Numeric.rand(1.0..10.0)~ will return a random float between 1.0 and 10.0.
-- Range argument (float values): ~Numeric.rand(-10.0..10.0)~ will return a random float between -10.0 and 10.0.
-S
+      raise <<~S
+        * ERROR: Numeric::rand does not support the argument type: #{arg.class}.
+        ** Usage:
+        - No arguments: ~Numeric.rand()~ will return a random float between 0.0 and 1.0.
+        - Numeric argument: ~Numeric.rand(10)~ will return a random integer between 0 and 10 (exclusive).
+        - Range argument (integer values): ~Numeric.rand(1..10)~ will return a random integer between 1 and 10 (inclusive).
+        - Range argument (integer values): ~Numeric.rand(-10..10)~ will return a random integer between -10 and 10 (inclusive).
+        - Range argument (float values): ~Numeric.rand(1.0..10.0)~ will return a random float between 1.0 and 10.0.
+        - Range argument (float values): ~Numeric.rand(-10.0..10.0)~ will return a random float between -10.0 and 10.0.
+      S
     end
   end
 end

@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # auto_test.rb has been released under MIT (*only this file*).
@@ -8,6 +9,7 @@ module GTK
     module AutoTest
       def auto_test_run
         return if !can_auto_test?
+
         puts "* INFO: ~auto_test_run~ invoked (#{Kernel.global_tick_count})."
         puts @auto_test_files
         auto_test_run_tests
@@ -17,13 +19,16 @@ module GTK
         return false if @production
         return false if @load_status != :ready
         return false if !@auto_test_initialized
+
         return true
       end
 
       def tick_auto_test
         return if (Kernel.global_tick_count % 60) != 0
+
         auto_test_initialize
         return if !can_auto_test?
+
         tick_auto_test_discover_tests
         tick_auto_test_run_changed
         tick_auto_test_reset_all_mtimes
@@ -33,6 +38,7 @@ module GTK
       def auto_test_initialize
         return if @auto_test_initialized
         return if Kernel.global_tick_count < 60
+
         @auto_test_files = {}
         @required_files.find_all { |f| f.end_with? "tests.rb" }
                        .each do |f|
@@ -62,6 +68,7 @@ module GTK
 
       def auto_test_run_tests
         return if !can_auto_test?
+
         $tests.start
         $tests.clear_summary
       end

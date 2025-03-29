@@ -40,7 +40,7 @@ class ControllerDemo
   # Starts with an empty collection of buttons.
   # Adds buttons that are on the controller to the collection.
   def process_inputs
-    state.target  ||= :controller_one
+    state.target ||= :controller_one
     state.buttons = []
 
     if inputs.keyboard.key_down.tab
@@ -55,20 +55,20 @@ class ControllerDemo
       end
     end
 
-    state.buttons << { x: 100,  y: 500, active: current_controller.key_held.l1, text: "L1"}
-    state.buttons << { x: 100,  y: 600, active: current_controller.key_held.l2, text: "L2"}
-    state.buttons << { x: 1100, y: 500, active: current_controller.key_held.r1, text: "R1"}
-    state.buttons << { x: 1100, y: 600, active: current_controller.key_held.r2, text: "R2"}
-    state.buttons << { x: 540,  y: 450, active: current_controller.key_held.select, text: "Select"}
-    state.buttons << { x: 660,  y: 450, active: current_controller.key_held.start, text: "Start"}
-    state.buttons << { x: 200,  y: 300, active: current_controller.key_held.left, text: "Left"}
-    state.buttons << { x: 300,  y: 400, active: current_controller.key_held.up, text: "Up"}
-    state.buttons << { x: 400,  y: 300, active: current_controller.key_held.right, text: "Right"}
-    state.buttons << { x: 300,  y: 200, active: current_controller.key_held.down, text: "Down"}
-    state.buttons << { x: 800,  y: 300, active: current_controller.key_held.x, text: "X"}
-    state.buttons << { x: 900,  y: 400, active: current_controller.key_held.y, text: "Y"}
-    state.buttons << { x: 1000, y: 300, active: current_controller.key_held.a, text: "A"}
-    state.buttons << { x: 900,  y: 200, active: current_controller.key_held.b, text: "B"}
+    state.buttons << { x: 100,  y: 500, active: current_controller.key_held.l1, text: "L1" }
+    state.buttons << { x: 100,  y: 600, active: current_controller.key_held.l2, text: "L2" }
+    state.buttons << { x: 1100, y: 500, active: current_controller.key_held.r1, text: "R1" }
+    state.buttons << { x: 1100, y: 600, active: current_controller.key_held.r2, text: "R2" }
+    state.buttons << { x: 540,  y: 450, active: current_controller.key_held.select, text: "Select" }
+    state.buttons << { x: 660,  y: 450, active: current_controller.key_held.start, text: "Start" }
+    state.buttons << { x: 200,  y: 300, active: current_controller.key_held.left, text: "Left" }
+    state.buttons << { x: 300,  y: 400, active: current_controller.key_held.up, text: "Up" }
+    state.buttons << { x: 400,  y: 300, active: current_controller.key_held.right, text: "Right" }
+    state.buttons << { x: 300,  y: 200, active: current_controller.key_held.down, text: "Down" }
+    state.buttons << { x: 800,  y: 300, active: current_controller.key_held.x, text: "X" }
+    state.buttons << { x: 900,  y: 400, active: current_controller.key_held.y, text: "Y" }
+    state.buttons << { x: 1000, y: 300, active: current_controller.key_held.a, text: "A" }
+    state.buttons << { x: 900,  y: 200, active: current_controller.key_held.b, text: "B" }
     state.buttons << { x: 450 + current_controller.left_analog_x_perc * 100,
                        y: 100 + current_controller.left_analog_y_perc * 100,
                        active: current_controller.key_held.l3,
@@ -96,12 +96,17 @@ class ControllerDemo
       outputs.labels << { x: b.x, y: b.y + 95, text: b.text } # add 95 to place label above button
     end
 
-    outputs.labels << { x:  10, y: 60, text: "Left Analog x: #{current_controller.left_analog_x_raw} (#{current_controller.left_analog_x_perc * 100}%)" }
-    outputs.labels << { x:  10, y: 30, text: "Left Analog y: #{current_controller.left_analog_y_raw} (#{current_controller.left_analog_y_perc * 100}%)" }
-    outputs.labels << { x: 1270, y: 60, text: "Right Analog x: #{current_controller.right_analog_x_raw} (#{current_controller.right_analog_x_perc * 100}%)", alignment_enum: 2 }
-    outputs.labels << { x: 1270, y: 30, text: "Right Analog y: #{current_controller.right_analog_y_raw} (#{current_controller.right_analog_y_perc * 100}%)" , alignment_enum: 2 }
+    outputs.labels << { x: 10, y: 60,
+                        text: "Left Analog x: #{current_controller.left_analog_x_raw} (#{current_controller.left_analog_x_perc * 100}%)" }
+    outputs.labels << { x: 10, y: 30,
+                        text: "Left Analog y: #{current_controller.left_analog_y_raw} (#{current_controller.left_analog_y_perc * 100}%)" }
+    outputs.labels << { x: 1270, y: 60,
+                        text: "Right Analog x: #{current_controller.right_analog_x_raw} (#{current_controller.right_analog_x_perc * 100}%)", alignment_enum: 2 }
+    outputs.labels << { x: 1270, y: 30,
+                        text: "Right Analog y: #{current_controller.right_analog_y_raw} (#{current_controller.right_analog_y_perc * 100}%)", alignment_enum: 2 }
 
-    outputs.labels << { x: 640, y: 60, text: "Target: #{state.target} (press tab to go to next controller)", alignment_enum: 1 }
+    outputs.labels << { x: 640, y: 60, text: "Target: #{state.target} (press tab to go to next controller)",
+                        alignment_enum: 1 }
     outputs.labels << { x: 640, y: 30, text: "Connected: #{current_controller.connected}", alignment_enum: 1 }
   end
 
@@ -135,6 +140,7 @@ end
 
 def tick_instructions args, text, y = 715
   return if args.state.key_event_occurred
+
   if args.inputs.mouse.click ||
      args.inputs.keyboard.directional_vector ||
      args.inputs.keyboard.key_down.enter ||
@@ -144,5 +150,5 @@ def tick_instructions args, text, y = 715
 
   args.outputs.debug << [0, y - 50, 1280, 60].solid
   args.outputs.debug << [640, y, text, 1, 1, 255, 255, 255].label
-  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)" , -2, 1, 255, 255, 255].label
+  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)", -2, 1, 255, 255, 255].label
 end

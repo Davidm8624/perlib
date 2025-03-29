@@ -79,8 +79,8 @@ class TicTacToe
     # Or if you put 2 in the parenthesis, the pieces will be placed in the wrong squares
     # due to the change in board placement.
     outputs.borders << all_spaces.map do |space| # outputs borders for all board spaces
-                         space.hitbox
-                       end
+      space.hitbox
+    end
 
     hovered_box = all_spaces.find do |space|
       inputs.mouse.inside_rect?(space.hitbox) && !space.piece
@@ -116,7 +116,8 @@ class TicTacToe
                       elsif state.draw
                         { x: 640, y: 600, text: "draw", size_px: 40, anchor_x: 0.5, anchor_y: 0.5 }
                       else
-                        { x: 640, y: 600, text: "turn: #{state.current_turn}", size_px: 40, anchor_x: 0.5, anchor_y: 0.5 }
+                        { x: 640, y: 600, text: "turn: #{state.current_turn}", size_px: 40, anchor_x: 0.5,
+                          anchor_y: 0.5 }
                       end
   end
 
@@ -124,6 +125,7 @@ class TicTacToe
   # Does nothing unless the mouse is clicked.
   def input_board
     return unless inputs.mouse.click
+
     input_place_piece
     input_restart_game
     determine_winner
@@ -152,6 +154,7 @@ class TicTacToe
   # Resets the game.
   def input_restart_game
     return unless state.game_over
+
     gtk.reset
     init_new_game
   end
@@ -192,14 +195,14 @@ class TicTacToe
     # Sees if there is a diagonal match, starting from the bottom left and ending at the top right.
     # Is added to won regardless of whether the statement is true or false.
     won << (state.spaces[-1][-1].piece == piece && # bottom left
-            state.spaces[ 0][ 0].piece == piece && # center
-            state.spaces[ 1][ 1].piece == piece)   # top right
+            state.spaces[0][0].piece == piece && # center
+            state.spaces[1][1].piece == piece)   # top right
 
     # Sees if there is a diagonal match, starting at the bottom right and ending at the top left
     # and is added to won.
-    won << (state.spaces[ 1][-1].piece == piece && # bottom right
-            state.spaces[ 0][ 0].piece == piece && # center
-            state.spaces[-1][ 1].piece == piece)   # top left
+    won << (state.spaces[1][-1].piece == piece && # bottom right
+            state.spaces[0][0].piece == piece && # center
+            state.spaces[-1][1].piece == piece) # top left
 
     # Any false statements (meaning false diagonal matches) are rejected from won
     won.reject_false.any?

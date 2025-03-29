@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # docs.rb has been released under MIT (*only this file*).
@@ -16,11 +17,11 @@ module DocsOrganizer
 
   def self.reserved_methods
     [
-     :docs_export_docs!,
-     :docs_all,
-     :docs_method_sort_order,
-     :docs_classes,
-     :docs_search
+      :docs_export_docs!,
+      :docs_all,
+      :docs_method_sort_order,
+      :docs_classes,
+      :docs_search
     ]
   end
 
@@ -46,16 +47,16 @@ module DocsOrganizer
     end
 
     unsorted.each do |k|
-        puts <<-S
-* WARNING: #{klass.name} is not included in DocsOrganizer::class_sort_order. Please place this
-module in its correct topological order.
-S
+      puts <<~S
+        * WARNING: #{klass.name} is not included in DocsOrganizer::class_sort_order. Please place this
+        module in its correct topological order.
+      S
     end
 
     if unsorted.length == 0
-      puts <<-S
-* INFO: Success. All documented classes have a sort order associated with them.
-S
+      puts <<~S
+        * INFO: Success. All documented classes have a sort order associated with them.
+      S
     end
   end
 
@@ -72,10 +73,10 @@ S
   def self.find_methods_with_docs klass
     klass_method_sort_order = klass.docs_method_sort_order
     klass.methods.find_all { |m| m.start_with? 'docs_' }
-                 .reject { |m| reserved_methods.include? m }
-                 .sort do |l, r|
-                   sort_method_delegate l, r, klass_method_sort_order
-                 end
+         .reject { |m| reserved_methods.include? m }
+         .sort do |l, r|
+      sort_method_delegate l, r, klass_method_sort_order
+    end
   end
 
   def self.get_docsify_content path:, heading_level:, heading_include:, max_depth: 100
@@ -164,85 +165,86 @@ module Docs
   def docs_classes
     DocsOrganizer.sort_docs_classes!
     list = $docs_classes.map { |mod| "** #{mod.name}.docs" }.join "\n"
-    <<-S
+    <<~S
 
-* Documentation
-Here are the classes that have documentation. You can call the .docs method
-on any of these classes:
-#{list}
-S
+      * Documentation
+      Here are the classes that have documentation. You can call the .docs method
+      on any of these classes:
+      #{list}
+    S
   end
 
   def docs_all
     docs_methods = DocsOrganizer.find_methods_with_docs(self).map { |d| send d }.join "\n"
-    <<-S
-#{docs_methods}
-S
+    <<~S
+      #{docs_methods}
+    S
   end
 
   def docs
-    docs_methods = [DocsOrganizer.find_methods_with_docs(self), :docs_classes].flatten.map { |d| "** #{self.name}.#{d}" }.join "\n"
+    docs_methods = [DocsOrganizer.find_methods_with_docs(self), :docs_classes].flatten.map { |d|
+      "** #{self.name}.#{d}"
+    }.join "\n"
     if self == Kernel
-      <<-S
+      <<~S
 
-* #{self.name}
-Some Classes in Game Toolkit have a method called docs. You can invoke this
-method interactively to see information about functions within the engine.
-For example, invoking ~Kernel.docs_tick_count~ will give you documentation
-for the Kernel.tick_count method.
+        * #{self.name}
+        Some Classes in Game Toolkit have a method called docs. You can invoke this
+        method interactively to see information about functions within the engine.
+        For example, invoking ~Kernel.docs_tick_count~ will give you documentation
+        for the Kernel.tick_count method.
 
-To export all documentation you can use ~Kernel.export_docs!~ (or just ~export_docs!~).
+        To export all documentation you can use ~Kernel.export_docs!~ (or just ~export_docs!~).
 
-To search docs you can use Kernel.docs_search (or just `docs_search`) by providing it a search term.
-For example:
+        To search docs you can use Kernel.docs_search (or just `docs_search`) by providing it a search term.
+        For example:
 
-#+begin_src
-  docs_search "array find remove nil"
-#+end_src
+        #+begin_src
+          docs_search "array find remove nil"
+        #+end_src
 
-You can do more advanced searches by providing a block:
+        You can do more advanced searches by providing a block:
 
-#+begin_src
-  docs_search do |entry|
-    (entry.include? "Array") && (!entry.include? "Enumerable")
-  end
-#+end_src
+        #+begin_src
+          docs_search do |entry|
+            (entry.include? "Array") && (!entry.include? "Enumerable")
+          end
+        #+end_src
 
-#{docs_methods}
-** NOTE: Invoke any of the methods above on #{self.name} to see detailed documentation.
-** NOTE: Calling the docs_classes method will give you all classes in Game Toolkit that contain docs.
-S
+        #{docs_methods}
+        ** NOTE: Invoke any of the methods above on #{self.name} to see detailed documentation.
+        ** NOTE: Calling the docs_classes method will give you all classes in Game Toolkit that contain docs.
+      S
     else
-      <<-S
+      <<~S
 
-* #{self.name}
-#{docs_methods}
-S
+        * #{self.name}
+        #{docs_methods}
+      S
     end
   end
 
   def self.__docs_search__ words = nil, &block
-
   end
 
   def __docs_search_help_text__
-    <<-S
-* How To Search The Docs
-To search docs you can use Kernel.docs_search (or just ~docs_search~) by providing it a search term.
-For example:
+    <<~S
+      * How To Search The Docs
+      To search docs you can use Kernel.docs_search (or just ~docs_search~) by providing it a search term.
+      For example:
 
-#+begin_src
-  docs_search "array find remove nil"
-#+end_src
+      #+begin_src
+        docs_search "array find remove nil"
+      #+end_src
 
-You can do more advanced searches by providing a block:
+      You can do more advanced searches by providing a block:
 
-#+begin_src
-  docs_search do |entry|
-    (entry.include? "Array") && (!entry.include? "Enumerable")
-  end
-#+end_src
-S
+      #+begin_src
+        docs_search do |entry|
+          (entry.include? "Array") && (!entry.include? "Enumerable")
+        end
+      #+end_src
+    S
   end
 
   def __docs_search_results__ words = nil, &block
@@ -366,46 +368,46 @@ S
 
     highlight_js_min_content = $gtk.read_file "docs/static/highlight.min.js"
 
-    html_start_to_toc_start = <<-S
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>DragonRuby Game Toolkit Documentation</title>
-    <script type="text/javascript">
-#{highlight_js_min_content}
-    </script>
-    <link href="docs.css?ver=#{Time.now.to_i}" rel="stylesheet" type="text/css" media="all">
-    <script type="text/javascript">
-var styleElement = document.createElement('style');
-document.getElementsByTagName("head")[0].appendChild(styleElement);
+    html_start_to_toc_start = <<~S
+      <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <title>DragonRuby Game Toolkit Documentation</title>
+          <script type="text/javascript">
+      #{highlight_js_min_content}
+          </script>
+          <link href="docs.css?ver=#{Time.now.to_i}" rel="stylesheet" type="text/css" media="all">
+          <script type="text/javascript">
+      var styleElement = document.createElement('style');
+      document.getElementsByTagName("head")[0].appendChild(styleElement);
 
-document.addEventListener('load', () => {
-  hljs.getLanguage('ruby').keywords += ' args tick ';
-})
+      document.addEventListener('load', () => {
+        hljs.getLanguage('ruby').keywords += ' args tick ';
+      })
 
-document.addEventListener("animationstart", e => {
-  if (e.animationName == "node-ready") {
-    hljs.highlightBlock(e.target);
-    e.target.classList.add("fade-in");
-    // get the first href within the visible hrefs
-  }
-});
- </script>
- </head>
-  <body>
-    <div id='table-of-contents'>
-      <li><a class='header-1' href='docs.html'>Docs</a></li>
-      <li><a class='header-1' href='samples.html'>Samples</a></li>
-S
+      document.addEventListener("animationstart", e => {
+        if (e.animationName == "node-ready") {
+          hljs.highlightBlock(e.target);
+          e.target.classList.add("fade-in");
+          // get the first href within the visible hrefs
+        }
+      });
+       </script>
+       </head>
+        <body>
+          <div id='table-of-contents'>
+            <li><a class='header-1' href='docs.html'>Docs</a></li>
+            <li><a class='header-1' href='samples.html'>Samples</a></li>
+    S
     html_toc_end_to_content_start = <<-S
     </div>
     <div id='content'>
-S
-    html_content_end_to_html_end = <<-S
-    </div>
-  </body>
-</html>
-S
+    S
+    html_content_end_to_html_end = <<~S
+          </div>
+        </body>
+      </html>
+    S
 
     true_lines = []
     current_true_line = ""
@@ -545,7 +547,8 @@ S
         formatted_html = __docs_line_to_html__ l, parse_log
         link_id = __docs_generate_link_id__ l
         toc_html += "<ul><li><a class='header-2' href='##{link_id}'>#{formatted_html}</a></li></ul>"
-        content_html += "<h2 id='#{link_id}'>#{__docs_line_to_html__ l, parse_log} <a style='font-size: small; float: right;' href='##{link_id}'>link</a></h2> \n"
+        content_html += "<h2 id='#{link_id}'>#{__docs_line_to_html__ l,
+                                                                     parse_log} <a style='font-size: small; float: right;' href='##{link_id}'>link</a></h2> \n"
       elsif l.start_with? "*** "
         parse_log << "- H3 detected."
         content_html += close_list_if_needed.call inside_ul, inside_ol
@@ -554,7 +557,8 @@ S
         formatted_html = __docs_line_to_html__ l, parse_log
         link_id = __docs_generate_link_id__ l
         toc_html += "<ul><ul><li><a class='header-3' href='##{link_id}'>#{formatted_html}</a></li></ul></ul>"
-        content_html += "<h3 id='#{link_id}'>#{__docs_line_to_html__ l, parse_log} <a style='font-size: small; float: right;' href='##{link_id}'>link</a></h3> \n"
+        content_html += "<h3 id='#{link_id}'>#{__docs_line_to_html__ l,
+                                                                     parse_log} <a style='font-size: small; float: right;' href='##{link_id}'>link</a></h3> \n"
       elsif l.start_with? "**** "
         parse_log << "- H4 detected."
         content_html += close_list_if_needed.call inside_ul, inside_ol

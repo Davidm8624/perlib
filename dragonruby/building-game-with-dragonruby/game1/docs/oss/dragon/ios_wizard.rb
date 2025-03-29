@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # ios_wizard.rb has been released under MIT (*only this file*).
@@ -8,43 +9,43 @@
 class IOSWizard < Wizard
   def help
     puts <<~S
-         * INFO: Help for #{self.class.name}
-           Here are the available options for this wizard (these options can be invoked through the DragonRuby Console):
-         ** Device
-         *** Deploy app to device connected via USB:
-             #+begin_src
-               $wizards.ios.start env: :dev
-             #+end_src
-         *** Deploy app to device connected via USB with remote hotload:
-             #+begin_src
-               $wizards.ios.start env: :hotload
-             #+end_src
-         *** Do not uninstall game before deploy the new version
-             Supported in both ~:dev~ and ~:hotload~
-             #+begin_src
-               $wizards.ios.start env: :dev, uninstall: false
-             #+end_src
-         ** Simulator
-         *** Deploy app to simulator
-             The default simulator is iPhone 13 Pro Max and will be automatically installed if it doesn't exist.
-             #+begin_src
-               $wizards.ios.start env: :sim
-             #+end_src
-         *** Deploy app to simulator and specify a device (partial device name allowed):
-             #+begin_src
-               $wizards.ios.start env: :sim, sim_name: "iPad Pro"
-             #+end_src
-         *** Reset simulators
-             Delete all content from simulators and reset them
-             #+begin_src
-               $wizards.ios.reset_simulators
-             #+end_src
-         ** Distribution
-         *** Package app for production release:
-             #+begin_src
-               $wizards.ios.start env: :prod
-             #+end_src
-         S
+      * INFO: Help for #{self.class.name}
+        Here are the available options for this wizard (these options can be invoked through the DragonRuby Console):
+      ** Device
+      *** Deploy app to device connected via USB:
+          #+begin_src
+            $wizards.ios.start env: :dev
+          #+end_src
+      *** Deploy app to device connected via USB with remote hotload:
+          #+begin_src
+            $wizards.ios.start env: :hotload
+          #+end_src
+      *** Do not uninstall game before deploy the new version
+          Supported in both ~:dev~ and ~:hotload~
+          #+begin_src
+            $wizards.ios.start env: :dev, uninstall: false
+          #+end_src
+      ** Simulator
+      *** Deploy app to simulator
+          The default simulator is iPhone 13 Pro Max and will be automatically installed if it doesn't exist.
+          #+begin_src
+            $wizards.ios.start env: :sim
+          #+end_src
+      *** Deploy app to simulator and specify a device (partial device name allowed):
+          #+begin_src
+            $wizards.ios.start env: :sim, sim_name: "iPad Pro"
+          #+end_src
+      *** Reset simulators
+          Delete all content from simulators and reset them
+          #+begin_src
+            $wizards.ios.reset_simulators
+          #+end_src
+      ** Distribution
+      *** Package app for production release:
+          #+begin_src
+            $wizards.ios.start env: :prod
+          #+end_src
+    S
   end
 
   def initialize
@@ -217,13 +218,13 @@ class IOSWizard < Wizard
 
     if !(@opts.is_a? Hash) || !($gtk.args.fn.eq_any? @opts[:env], :dev, :prod, :hotload, :sim, :test)
       process_wizard_exception WizardException.new(
-                                 "* $wizards.ios.start needs to be provided an ~env:~ option.",
-                                 "** To deploy your app to an iOS device connected to your computer:\n   $wizards.ios.start env: :dev",
-                                 "** To deploy your app with hotloading to an iOS device connected to your computer:\n   $wizards.ios.start env: :hotload",
-                                 "** To deploy your app to the iOS Simulator:\n   $wizards.ios.start env: :sim",
-                                 "** To deploy your app for sale on the AppStore:\n   $wizards.ios.start env: :prod",
-                                 "** For more help type:\n   $wizards.ios.help",
-                               )
+        "* $wizards.ios.start needs to be provided an ~env:~ option.",
+        "** To deploy your app to an iOS device connected to your computer:\n   $wizards.ios.start env: :dev",
+        "** To deploy your app with hotloading to an iOS device connected to your computer:\n   $wizards.ios.start env: :hotload",
+        "** To deploy your app to the iOS Simulator:\n   $wizards.ios.start env: :sim",
+        "** To deploy your app for sale on the AppStore:\n   $wizards.ios.start env: :prod",
+        "** For more help type:\n   $wizards.ios.help",
+      )
     end
 
     @should_uninstall = @opts[:uninstall]
@@ -241,6 +242,7 @@ class IOSWizard < Wizard
 
   def always_fail
     return false if $gtk.ivar :rcb_release_mode
+
     return true
   end
 
@@ -349,10 +351,10 @@ class IOSWizard < Wizard
         { w: 200, h: 124, path: get_reserved_sprite("profiles-folder.png") },
         "* NOTE: If you don't want to create a mobile provision right now, you can deploy to the simulator without one. Run the following command:",
         <<~S
-        #+begin_src ruby
-          # run this in the console to deploy to the simulator (no provisioning profile needed)
-          $wizards.ios.start env: :sim
-        #+end_src
+          #+begin_src ruby
+            # run this in the console to deploy to the simulator (no provisioning profile needed)
+            $wizards.ios.start env: :sim
+          #+end_src
         S
       )
     end
@@ -362,25 +364,26 @@ class IOSWizard < Wizard
 
   def provisioning_profile_path environment
     return File.expand_path("profiles/distribution.mobileprovision") if environment == :prod
+
     return File.expand_path("profiles/development.mobileprovision")
   end
 
   def ios_metadata_template
-    <<-S
-# ios_metadata.txt is used by the Pro version of DragonRuby Game Toolkit to create iOS apps.
-# Information about the Pro version can be found at: http://dragonruby.org/toolkit/game#purchase
+    <<~S
+      # ios_metadata.txt is used by the Pro version of DragonRuby Game Toolkit to create iOS apps.
+      # Information about the Pro version can be found at: http://dragonruby.org/toolkit/game#purchase
 
-# teamid needs to be set to your assigned Team Id which can be found at https://developer.apple.com/account/#/membership/
-teamid=
-# appid needs to be set to your application identifier which can be found at https://developer.apple.com/account/resources/identifiers/list
-appid=
-# appname is the name you want to show up underneath the app icon on the device. Keep it under 10 characters.
-appname=
-# devcert is the certificate to use for development/deploying to your local device. This is the NAME of the certificate as it's displayed in Keychain Access.
-devcert=
-# prodcert is the certificate to use for distribution to the app store. This is the NAME of the certificate as it's displayed in Keychain Access.
-prodcert=
-S
+      # teamid needs to be set to your assigned Team Id which can be found at https://developer.apple.com/account/#/membership/
+      teamid=
+      # appid needs to be set to your application identifier which can be found at https://developer.apple.com/account/resources/identifiers/list
+      appid=
+      # appname is the name you want to show up underneath the app icon on the device. Keep it under 10 characters.
+      appname=
+      # devcert is the certificate to use for development/deploying to your local device. This is the NAME of the certificate as it's displayed in Keychain Access.
+      devcert=
+      # prodcert is the certificate to use for distribution to the app store. This is the NAME of the certificate as it's displayed in Keychain Access.
+      prodcert=
+    S
   end
 
   def ios_metadata
@@ -414,19 +417,19 @@ S
 
   def raise_ios_metadata_required
     raise WizardException.new(
-            "* mygame/metadata/ios_metadata.txt needs to be filled out.",
-            "You need to update metadata/ios_metadata.txt with a valid teamid, appname, appid, devcert, and prodcert.",
-            "Instructions for where the values should come from are within metadata/ios_metadata.txt."
-          )
+      "* mygame/metadata/ios_metadata.txt needs to be filled out.",
+      "You need to update metadata/ios_metadata.txt with a valid teamid, appname, appid, devcert, and prodcert.",
+      "Instructions for where the values should come from are within metadata/ios_metadata.txt."
+    )
   end
 
   def determine_team_identifier
     @team_id = (ios_metadata.teamid || "").strip
     if @build_type == :sim && @team_id.length == 0
-      log_warn <<-S
-* WARNING: =mygame/metadata/ios_metadata.txt= does not specify =teamid=
-  Since this is a simulator build, the default =teamid= of =UNKNOWN= will be used.
-S
+      log_warn <<~S
+        * WARNING: =mygame/metadata/ios_metadata.txt= does not specify =teamid=
+          Since this is a simulator build, the default =teamid= of =UNKNOWN= will be used.
+      S
       @team_id = "UNKNOWN"
     elsif @team_id.length == 0
       raise_ios_metadata_required if @team_id.strip.length == 0
@@ -438,10 +441,10 @@ S
   def determine_app_name
     @app_name = (ios_metadata.appname || "").strip
     if @build_type == :sim && @app_name.length == 0
-      log_warn <<-S
-* WARNING: =mygame/metadata/ios_metadata.txt= does not specify =appname=
-  Since this is a simulator build, the default =appname= of =Game= will be used.
-S
+      log_warn <<~S
+        * WARNING: =mygame/metadata/ios_metadata.txt= does not specify =appname=
+          Since this is a simulator build, the default =appname= of =Game= will be used.
+      S
       @app_name = "Game"
     elsif @app_name.length == 0
       raise_ios_metadata_required if @app_name.length == 0
@@ -474,10 +477,10 @@ S
   def determine_app_id
     @app_id = (ios_metadata.appid || "").strip
     if @build_type == :sim && @app_id.length == 0
-      log_warn <<-S
-* WARNING: =mygame/metadata/ios_metadata.txt= does not specify =appid=
-  Since this is a simulator build, the default =appid= of =com.unknown.game= will be used.
-S
+      log_warn <<~S
+        * WARNING: =mygame/metadata/ios_metadata.txt= does not specify =appid=
+          Since this is a simulator build, the default =appid= of =com.unknown.game= will be used.
+      S
       @app_id = "com.unknown.game"
     elsif @app_id.length == 0
       raise_ios_metadata_required if @app_id.strip.length == 0
@@ -489,10 +492,10 @@ S
   def determine_devcert
     @certificate_name = (ios_metadata.devcert || "").strip
     if @build_type == :sim && @certificate_name.length == 0
-      log_warn <<-S
-* WARNING: =mygame/metadata/ios_metadata.txt= does not specify =devcert=
-  Since this is a simulator build, the default =devcert= of =Unknown= will be used.
-S
+      log_warn <<~S
+        * WARNING: =mygame/metadata/ios_metadata.txt= does not specify =devcert=
+          Since this is a simulator build, the default =devcert= of =Unknown= will be used.
+      S
       @certificate_name = "Unknown"
     elsif @certificate_name.length == 0
       raise_ios_metadata_required
@@ -539,21 +542,21 @@ S
 
     if !cli_app_exist?(idevice_id_path)
       raise WizardException.new(
-         "* It doesn't look like you have the libimobiledevice iOS protocol library installed.",
-         "** 1. Open Terminal.",
-         { w: 700, h: 99, path: get_reserved_sprite("terminal.png") },
-         "** 2. Run: `brew install libimobiledevice`.",
-         { w: 500, h: 93, path: get_reserved_sprite("brew-install-libimobiledevice.png") },
+        "* It doesn't look like you have the libimobiledevice iOS protocol library installed.",
+        "** 1. Open Terminal.",
+        { w: 700, h: 99, path: get_reserved_sprite("terminal.png") },
+        "** 2. Run: `brew install libimobiledevice`.",
+        { w: 500, h: 93, path: get_reserved_sprite("brew-install-libimobiledevice.png") },
       )
     end
 
     if !cli_app_exist?(ideviceinstaller_cli_app)
       raise WizardException.new(
-         "* It doesn't look like you have the libimobiledevice iOS protocol library installed.",
-         "** 1. Open Terminal.",
-         { w: 700, h: 99, path: get_reserved_sprite("terminal.png") },
-         "** 2. Run: `brew install ideviceinstaller`.",
-         { w: 500, h: 91, path: get_reserved_sprite("brew-install-ideviceinstaller.png") },
+        "* It doesn't look like you have the libimobiledevice iOS protocol library installed.",
+        "** 1. Open Terminal.",
+        { w: 700, h: 99, path: get_reserved_sprite("terminal.png") },
+        "** 2. Run: `brew install ideviceinstaller`.",
+        { w: 500, h: 91, path: get_reserved_sprite("brew-install-ideviceinstaller.png") },
       )
     end
 
@@ -618,37 +621,39 @@ S
 
   def write_entitlements_plist
     if production_build?
-      entitlement_plist_string = <<-XML
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-        <dict>
-                <key>application-identifier</key>
-                <string>:app_id</string>
-                <key>beta-reports-active</key>
-                <true/>
-        </dict>
-</plist>
-XML
+      entitlement_plist_string = <<~XML
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+        <plist version="1.0">
+                <dict>
+                        <key>application-identifier</key>
+                        <string>:app_id</string>
+                        <key>beta-reports-active</key>
+                        <true/>
+                </dict>
+        </plist>
+      XML
     else
-      entitlement_plist_string = <<-XML
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-        <dict>
-                <key>application-identifier</key>
-                <string>:app_id</string>
-                <key>get-task-allow</key>
-                <true/>
-        </dict>
-</plist>
-XML
+      entitlement_plist_string = <<~XML
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+        <plist version="1.0">
+                <dict>
+                        <key>application-identifier</key>
+                        <string>:app_id</string>
+                        <key>get-task-allow</key>
+                        <true/>
+                </dict>
+        </plist>
+      XML
     end
 
     log_info "Creating Entitlements.plist"
 
-    $gtk.write_file_root "tmp/ios/Entitlements.plist", entitlement_plist_string.gsub(":app_id", "#{@team_id}.#{@app_id}").strip
-    $gtk.write_file_root "tmp/ios/Entitlements.txt", entitlement_plist_string.gsub(":app_id", "#{@team_id}.#{@app_id}").strip
+    $gtk.write_file_root "tmp/ios/Entitlements.plist",
+                         entitlement_plist_string.gsub(":app_id", "#{@team_id}.#{@app_id}").strip
+    $gtk.write_file_root "tmp/ios/Entitlements.txt",
+                         entitlement_plist_string.gsub(":app_id", "#{@team_id}.#{@app_id}").strip
 
     sh "/usr/bin/plutil -convert binary1 \"#{tmp_directory}/Entitlements.plist\""
     sh "/usr/bin/plutil -convert xml1 \"#{tmp_directory}/Entitlements.plist\""
@@ -674,14 +679,14 @@ XML
     values_xml = __get_plist_orientation_values__.map do |v|
       <<-S.rstrip
                 <string>#{v}</string>
-S
+      S
     end.join "\n"
 
-    array_xml = <<-S.rstrip
-        <array>
-#{values_xml}
-        </array>
-S
+    array_xml = <<~S.rstrip
+              <array>
+      #{values_xml}
+              </array>
+    S
 
     array_xml
   end
@@ -709,125 +714,124 @@ S
   def development_write_info_plist
     log_info "Adding Info.plist."
 
-
-    info_plist_string = <<-XML
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-    <dict>
-        <key>BuildMachineOSBuild</key>
-        <string>20D91</string>
-        <key>CFBundleDevelopmentRegion</key>
-        <string>en</string>
-        <key>CFBundleDisplayName</key>
-        <string>:app_name</string>
-        <key>CFBundleExecutable</key>
-        <string>:app_name</string>
-        <key>NSAppTransportSecurity</key>
-        <dict>
-          <key>NSAllowsArbitraryLoads</key>
-          <true/>
-        </dict>        <key>CFBundleIconFiles</key>
-        <array>
-                <string>AppIcon60x60</string>
-        </array>
-        <key>CFBundleIcons</key>
-        <dict>
-                <key>CFBundlePrimaryIcon</key>
-                <dict>
-                        <key>CFBundleIconFiles</key>
-                        <array>
-                                <string>AppIcon60x60</string>
-                        </array>
-                        <key>CFBundleIconName</key>
-                        <string>AppIcon</string>
-                </dict>
-        </dict>
-        <key>CFBundleIcons~ipad</key>
-        <dict>
-                <key>CFBundlePrimaryIcon</key>
-                <dict>
-                        <key>CFBundleIconFiles</key>
-                        <array>
-                                <string>AppIcon60x60</string>
-                                <string>AppIcon76x76</string>
-                                <string>AppIcon83.5x83.5</string>
-                        </array>
-                        <key>CFBundleIconName</key>
-                        <string>AppIcon</string>
-                </dict>
-        </dict>
-        <key>CFBundleIdentifier</key>
-        <string>:app_id</string>
-        <key>CFBundleInfoDictionaryVersion</key>
-        <string>:app_version</string>
-        <key>CFBundleName</key>
-        <string>:app_name</string>
-        <key>CFBundlePackageType</key>
-        <string>APPL</string>
-        <key>CFBundleShortVersionString</key>
-        <string>:app_version</string>
-        <key>CFBundleSignature</key>
-        <string>????</string>
-        <key>CFBundleSupportedPlatforms</key>
-        <array>
-                <string>iPhoneOS</string>
-        </array>
-        <key>CFBundleVersion</key>
-        <string>:app_version</string>
-        <key>DTCompiler</key>
-        <string>com.apple.compilers.llvm.clang.1_0</string>
-        <key>DTPlatformBuild</key>
-        <string>18D46</string>
-        <key>DTPlatformName</key>
-        <string>iphoneos</string>
-        <key>DTPlatformVersion</key>
-        <string>11.0</string>
-        <key>DTSDKBuild</key>
-        <string>18D46</string>
-        <key>DTSDKName</key>
-        <string>iphoneos14.4</string>
-        <key>DTXcode</key>
-        <string>0124</string>
-        <key>DTXcodeBuild</key>
-        <string>12D4e</string>
-        <key>MinimumOSVersion</key>
-        <string>11.0</string>
-        <key>UIAppFonts</key>
-        <array/>
-        <key>UIBackgroundModes</key>
-        <array/>
-        <key>UIDeviceFamily</key>
-        <array>
-                <integer>1</integer>
-                <integer>2</integer>
-        </array>
-        <key>UILaunchStoryboardName</key>
-        <string>SimpleSplash</string>
-        <key>UIRequiredDeviceCapabilities</key>
-        <array>
-                <string>arm64</string>
-        </array>
-        <key>UIRequiresFullScreen</key>
-        <true/>
-        <key>UIStatusBarStyle</key>
-        <string>UIStatusBarStyleDefault</string>
-        <key>UISupportedInterfaceOrientations</key>
-#{__get_plist_orientation_values_xml__}
-        <key>CFBundleURLTypes</key>
-        <array>
-            <dict>
-                <key>CFBundleURLName</key>
-                <string>:app_id</string>
-                <key>CFBundleURLSchemes</key>
-                <array>
-                    <string>:app_id</string>
-                </array>
-            </dict>
-        </array>
-    </dict>
-</plist>
-XML
+    info_plist_string = <<~XML
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+      <plist version="1.0">
+          <dict>
+              <key>BuildMachineOSBuild</key>
+              <string>20D91</string>
+              <key>CFBundleDevelopmentRegion</key>
+              <string>en</string>
+              <key>CFBundleDisplayName</key>
+              <string>:app_name</string>
+              <key>CFBundleExecutable</key>
+              <string>:app_name</string>
+              <key>NSAppTransportSecurity</key>
+              <dict>
+                <key>NSAllowsArbitraryLoads</key>
+                <true/>
+              </dict>        <key>CFBundleIconFiles</key>
+              <array>
+                      <string>AppIcon60x60</string>
+              </array>
+              <key>CFBundleIcons</key>
+              <dict>
+                      <key>CFBundlePrimaryIcon</key>
+                      <dict>
+                              <key>CFBundleIconFiles</key>
+                              <array>
+                                      <string>AppIcon60x60</string>
+                              </array>
+                              <key>CFBundleIconName</key>
+                              <string>AppIcon</string>
+                      </dict>
+              </dict>
+              <key>CFBundleIcons~ipad</key>
+              <dict>
+                      <key>CFBundlePrimaryIcon</key>
+                      <dict>
+                              <key>CFBundleIconFiles</key>
+                              <array>
+                                      <string>AppIcon60x60</string>
+                                      <string>AppIcon76x76</string>
+                                      <string>AppIcon83.5x83.5</string>
+                              </array>
+                              <key>CFBundleIconName</key>
+                              <string>AppIcon</string>
+                      </dict>
+              </dict>
+              <key>CFBundleIdentifier</key>
+              <string>:app_id</string>
+              <key>CFBundleInfoDictionaryVersion</key>
+              <string>:app_version</string>
+              <key>CFBundleName</key>
+              <string>:app_name</string>
+              <key>CFBundlePackageType</key>
+              <string>APPL</string>
+              <key>CFBundleShortVersionString</key>
+              <string>:app_version</string>
+              <key>CFBundleSignature</key>
+              <string>????</string>
+              <key>CFBundleSupportedPlatforms</key>
+              <array>
+                      <string>iPhoneOS</string>
+              </array>
+              <key>CFBundleVersion</key>
+              <string>:app_version</string>
+              <key>DTCompiler</key>
+              <string>com.apple.compilers.llvm.clang.1_0</string>
+              <key>DTPlatformBuild</key>
+              <string>18D46</string>
+              <key>DTPlatformName</key>
+              <string>iphoneos</string>
+              <key>DTPlatformVersion</key>
+              <string>11.0</string>
+              <key>DTSDKBuild</key>
+              <string>18D46</string>
+              <key>DTSDKName</key>
+              <string>iphoneos14.4</string>
+              <key>DTXcode</key>
+              <string>0124</string>
+              <key>DTXcodeBuild</key>
+              <string>12D4e</string>
+              <key>MinimumOSVersion</key>
+              <string>11.0</string>
+              <key>UIAppFonts</key>
+              <array/>
+              <key>UIBackgroundModes</key>
+              <array/>
+              <key>UIDeviceFamily</key>
+              <array>
+                      <integer>1</integer>
+                      <integer>2</integer>
+              </array>
+              <key>UILaunchStoryboardName</key>
+              <string>SimpleSplash</string>
+              <key>UIRequiredDeviceCapabilities</key>
+              <array>
+                      <string>arm64</string>
+              </array>
+              <key>UIRequiresFullScreen</key>
+              <true/>
+              <key>UIStatusBarStyle</key>
+              <string>UIStatusBarStyleDefault</string>
+              <key>UISupportedInterfaceOrientations</key>
+      #{__get_plist_orientation_values_xml__}
+              <key>CFBundleURLTypes</key>
+              <array>
+                  <dict>
+                      <key>CFBundleURLName</key>
+                      <string>:app_id</string>
+                      <key>CFBundleURLSchemes</key>
+                      <array>
+                          <string>:app_id</string>
+                      </array>
+                  </dict>
+              </array>
+          </dict>
+      </plist>
+    XML
 
     # <string>UIInterfaceOrientationPortrait</string>
     # <string>UIInterfaceOrientationLandscapeRight</string>
@@ -845,120 +849,120 @@ XML
   def production_write_info_plist
     log_info "Adding Info.plist."
 
-    info_plist_string = <<-XML
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-        <key>BuildMachineOSBuild</key>
-        <string>20D91</string>
-        <key>CFBundleDevelopmentRegion</key>
-        <string>en</string>
-        <key>CFBundleDisplayName</key>
-        <string>:app_name</string>
-        <key>CFBundleExecutable</key>
-        <string>:app_name</string>
-        <key>CFBundleIconFiles</key>
-        <array>
-                <string>AppIcon60x60</string>
-        </array>
-        <key>CFBundleIcons</key>
-        <dict>
-                <key>CFBundlePrimaryIcon</key>
-                <dict>
-                        <key>CFBundleIconFiles</key>
-                        <array>
-                                <string>AppIcon60x60</string>
-                        </array>
-                        <key>CFBundleIconName</key>
-                        <string>AppIcon</string>
-                </dict>
-        </dict>
-        <key>CFBundleIcons~ipad</key>
-        <dict>
-                <key>CFBundlePrimaryIcon</key>
-                <dict>
-                        <key>CFBundleIconFiles</key>
-                        <array>
-                                <string>AppIcon60x60</string>
-                                <string>AppIcon76x76</string>
-                                <string>AppIcon83.5x83.5</string>
-                        </array>
-                        <key>CFBundleIconName</key>
-                        <string>AppIcon</string>
-                </dict>
-        </dict>
-        <key>CFBundleIdentifier</key>
-        <string>:app_id</string>
-        <key>CFBundleInfoDictionaryVersion</key>
-        <string>:app_version</string>
-        <key>CFBundleName</key>
-        <string>:app_name</string>
-        <key>CFBundlePackageType</key>
-        <string>APPL</string>
-        <key>CFBundleShortVersionString</key>
-        <string>:app_version</string>
-        <key>CFBundleSignature</key>
-        <string>????</string>
-        <key>CFBundleSupportedPlatforms</key>
-        <array>
-                <string>iPhoneOS</string>
-        </array>
-        <key>CFBundleVersion</key>
-        <string>:app_version</string>
-        <key>DTCompiler</key>
-        <string>com.apple.compilers.llvm.clang.1_0</string>
-        <key>DTPlatformBuild</key>
-        <string>18D46</string>
-        <key>DTPlatformName</key>
-        <string>iphoneos</string>
-        <key>DTPlatformVersion</key>
-        <string>14.4</string>
-        <key>DTSDKBuild</key>
-        <string>18D46</string>
-        <key>DTSDKName</key>
-        <string>iphoneos14.4</string>
-        <key>DTXcode</key>
-        <string>0124</string>
-        <key>DTXcodeBuild</key>
-        <string>12D4e</string>
-        <key>MinimumOSVersion</key>
-        <string>11.0</string>
-        <key>UIAppFonts</key>
-        <array/>
-        <key>UIBackgroundModes</key>
-        <array/>
-        <key>UIDeviceFamily</key>
-        <array>
-                <integer>1</integer>
-                <integer>2</integer>
-        </array>
-        <key>UILaunchStoryboardName</key>
-        <string>SimpleSplash</string>
-        <key>UIRequiredDeviceCapabilities</key>
-        <array>
-                <string>arm64</string>
-        </array>
-        <key>UIRequiresFullScreen</key>
-        <true/>
-        <key>UIStatusBarStyle</key>
-        <string>UIStatusBarStyleDefault</string>
-        <key>UISupportedInterfaceOrientations</key>
-#{__get_plist_orientation_values_xml__}
-        <key>CFBundleURLTypes</key>
-        <array>
-            <dict>
-                <key>CFBundleURLName</key>
-                <string>:app_id</string>
-                <key>CFBundleURLSchemes</key>
-                <array>
-                    <string>:app_id</string>
-                </array>
-            </dict>
-        </array>
-</dict>
-</plist>
-XML
+    info_plist_string = <<~XML
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+      <plist version="1.0">
+      <dict>
+              <key>BuildMachineOSBuild</key>
+              <string>20D91</string>
+              <key>CFBundleDevelopmentRegion</key>
+              <string>en</string>
+              <key>CFBundleDisplayName</key>
+              <string>:app_name</string>
+              <key>CFBundleExecutable</key>
+              <string>:app_name</string>
+              <key>CFBundleIconFiles</key>
+              <array>
+                      <string>AppIcon60x60</string>
+              </array>
+              <key>CFBundleIcons</key>
+              <dict>
+                      <key>CFBundlePrimaryIcon</key>
+                      <dict>
+                              <key>CFBundleIconFiles</key>
+                              <array>
+                                      <string>AppIcon60x60</string>
+                              </array>
+                              <key>CFBundleIconName</key>
+                              <string>AppIcon</string>
+                      </dict>
+              </dict>
+              <key>CFBundleIcons~ipad</key>
+              <dict>
+                      <key>CFBundlePrimaryIcon</key>
+                      <dict>
+                              <key>CFBundleIconFiles</key>
+                              <array>
+                                      <string>AppIcon60x60</string>
+                                      <string>AppIcon76x76</string>
+                                      <string>AppIcon83.5x83.5</string>
+                              </array>
+                              <key>CFBundleIconName</key>
+                              <string>AppIcon</string>
+                      </dict>
+              </dict>
+              <key>CFBundleIdentifier</key>
+              <string>:app_id</string>
+              <key>CFBundleInfoDictionaryVersion</key>
+              <string>:app_version</string>
+              <key>CFBundleName</key>
+              <string>:app_name</string>
+              <key>CFBundlePackageType</key>
+              <string>APPL</string>
+              <key>CFBundleShortVersionString</key>
+              <string>:app_version</string>
+              <key>CFBundleSignature</key>
+              <string>????</string>
+              <key>CFBundleSupportedPlatforms</key>
+              <array>
+                      <string>iPhoneOS</string>
+              </array>
+              <key>CFBundleVersion</key>
+              <string>:app_version</string>
+              <key>DTCompiler</key>
+              <string>com.apple.compilers.llvm.clang.1_0</string>
+              <key>DTPlatformBuild</key>
+              <string>18D46</string>
+              <key>DTPlatformName</key>
+              <string>iphoneos</string>
+              <key>DTPlatformVersion</key>
+              <string>14.4</string>
+              <key>DTSDKBuild</key>
+              <string>18D46</string>
+              <key>DTSDKName</key>
+              <string>iphoneos14.4</string>
+              <key>DTXcode</key>
+              <string>0124</string>
+              <key>DTXcodeBuild</key>
+              <string>12D4e</string>
+              <key>MinimumOSVersion</key>
+              <string>11.0</string>
+              <key>UIAppFonts</key>
+              <array/>
+              <key>UIBackgroundModes</key>
+              <array/>
+              <key>UIDeviceFamily</key>
+              <array>
+                      <integer>1</integer>
+                      <integer>2</integer>
+              </array>
+              <key>UILaunchStoryboardName</key>
+              <string>SimpleSplash</string>
+              <key>UIRequiredDeviceCapabilities</key>
+              <array>
+                      <string>arm64</string>
+              </array>
+              <key>UIRequiresFullScreen</key>
+              <true/>
+              <key>UIStatusBarStyle</key>
+              <string>UIStatusBarStyleDefault</string>
+              <key>UISupportedInterfaceOrientations</key>
+      #{__get_plist_orientation_values_xml__}
+              <key>CFBundleURLTypes</key>
+              <array>
+                  <dict>
+                      <key>CFBundleURLName</key>
+                      <string>:app_id</string>
+                      <key>CFBundleURLSchemes</key>
+                      <array>
+                          <string>:app_id</string>
+                      </array>
+                  </dict>
+              </array>
+      </dict>
+      </plist>
+    XML
 
     # <string>UIInterfaceOrientationPortrait</string>
     # <string>UIInterfaceOrientationLandscapeRight</string>
@@ -1110,11 +1114,11 @@ XML
   end
 
   def do_zip
-    $gtk.write_file_root "tmp/ios/do_zip.sh", <<-SCRIPT
-pushd #{tmp_directory}/ipa_root/
-zip -q -r archive.zip Payload
-popd
-SCRIPT
+    $gtk.write_file_root "tmp/ios/do_zip.sh", <<~SCRIPT
+      pushd #{tmp_directory}/ipa_root/
+      zip -q -r archive.zip Payload
+      popd
+    SCRIPT
 
     :success
     sh "sh #{tmp_directory}/do_zip.sh"
@@ -1186,7 +1190,7 @@ SCRIPT
 
     if !iphone_13_pro_max_line
       puts "* INFO: Installing iPhone 13 Pro Max simulator..."
-      install_command =  "xcrun simctl create \"iPhone 13 Pro Max\" com.apple.CoreSimulator.SimDeviceType.iPhone-13-Pro-Max"
+      install_command = "xcrun simctl create \"iPhone 13 Pro Max\" com.apple.CoreSimulator.SimDeviceType.iPhone-13-Pro-Max"
       results = sh install_command
       if results.include? "Could not find an"
         raise WizardException.new(
@@ -1269,16 +1273,16 @@ SCRIPT
   end
 
   def compile_icons
-    cmd = <<-S
-"/Applications/Xcode.app/Contents/Developer/usr/bin/actool" --output-format human-readable-text \\
-                                                            --notices --warnings --platform iphoneos \\
-                                                            --minimum-deployment-target 10.3 \\
-                                                            --target-device iphone \\
-                                                            --target-device ipad  --app-icon 'AppIcon' \\
-                                                            --output-partial-info-plist '#{app_path}/AssetCatalog-Info.plist' \\
-                                                            --compress-pngs --compile "#{app_path}" \\
-                                                            "#{app_path}/Assets.xcassets"
-S
+    cmd = <<~S
+      "/Applications/Xcode.app/Contents/Developer/usr/bin/actool" --output-format human-readable-text \\
+                                                                  --notices --warnings --platform iphoneos \\
+                                                                  --minimum-deployment-target 10.3 \\
+                                                                  --target-device iphone \\
+                                                                  --target-device ipad  --app-icon 'AppIcon' \\
+                                                                  --output-partial-info-plist '#{app_path}/AssetCatalog-Info.plist' \\
+                                                                  --compress-pngs --compile "#{app_path}" \\
+                                                                  "#{app_path}/Assets.xcassets"
+    S
     sh cmd
     :success
   end

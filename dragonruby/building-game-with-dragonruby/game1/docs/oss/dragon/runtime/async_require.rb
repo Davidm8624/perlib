@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # async_require.rb has been released under MIT (*only this file*).
@@ -24,6 +25,7 @@ module GTK
       def most_recent_reload_history path
         return nil unless @reload_list_history[path]
         return nil unless @reload_list_history[path][:history]
+
         return @reload_list_history[path][:history].last
       end
 
@@ -35,11 +37,14 @@ module GTK
         return if recent && (((recent[:global_at] || 0) + 60) > Kernel.global_tick_count)
         return if info && info[:current] && info[:current][:event] && (((info[:global_at] || 0) + 60) > Kernel.global_tick_count)
 
-        @reload_list_history[path][:current]   = { path: path, global_at: Kernel.global_tick_count, event: :reload_queued  }
+        @reload_list_history[path][:current]   =
+          { path: path, global_at: Kernel.global_tick_count, event: :reload_queued }
         @reload_list_history[path][:history] ||= []
-        @reload_list_history[path][:history]  << { path: path, global_at: Kernel.global_tick_count, event: :reload_queued  }
+        @reload_list_history[path][:history]  << { path: path, global_at: Kernel.global_tick_count,
+                                                   event: :reload_queued }
 
-        log "** INFO: =#{path}= queued to load via ~require~. (#{Kernel.global_tick_count}, #{Kernel.tick_count})", subsystem="Engine"
+        log "** INFO: =#{path}= queued to load via ~require~. (#{Kernel.global_tick_count}, #{Kernel.tick_count})",
+            subsystem = "Engine"
 
         if @load_status == :ready
           @reload_list << path
@@ -55,6 +60,7 @@ module GTK
 
       def get_ruby_reload_list
         return [] if @reload_list.length == 0
+
         @reload_list.each do |r|
           @reload_list_history[r]           ||= {}
           @reload_list_history[r][:current]   = { path: r, global_at: Kernel.global_tick_count, event: :processing }
@@ -68,6 +74,7 @@ module GTK
 
       def reload_complete
         return unless @is_reloading
+
         @is_reloading = false
 
         if !@exception_occurred
@@ -77,9 +84,11 @@ module GTK
 
         @reload_list_history.keys.each do |k|
           if (@reload_list_history[k][:current][:event] == :processing) || (@reload_list_history[k][:current][:event] == :reload_queued)
-            log "* INFO: =#{k}= reloaded. (#{Kernel.global_tick_count}, #{Kernel.tick_count})", subsystem="Engine"
-            @reload_list_history[k][:current]  = { path: k, global_at: Kernel.global_tick_count, event: :reload_completed }
-            @reload_list_history[k][:history] << { path: k, global_at: Kernel.global_tick_count, event: :reload_completed }
+            log "* INFO: =#{k}= reloaded. (#{Kernel.global_tick_count}, #{Kernel.tick_count})", subsystem = "Engine"
+            @reload_list_history[k][:current]  =
+              { path: k, global_at: Kernel.global_tick_count, event: :reload_completed }
+            @reload_list_history[k][:history] << { path: k, global_at: Kernel.global_tick_count,
+                                                   event: :reload_completed }
           end
         end
 
@@ -112,6 +121,7 @@ module GTK
 
       def dollar_sign_game_methods
         return [] if !$game
+
         return $game.class.instance_methods
       end
 
@@ -131,9 +141,10 @@ module GTK
 
       def pending_reload?
         return false if @load_status == :dragonruby_started
+
         @reload_list_history.any? do |key, value|
           value[:current][:event] == :reload_queued ||
-          value[:current][:event] == :processing
+            value[:current][:event] == :processing
         end
       end
 
@@ -141,6 +152,7 @@ module GTK
         ext = File.extname(file)
         return false unless ext == ".rb" || ext == ".rbc"
         return true if @suppress_hotload
+
         Backup.backup_create file, ffi_file: @ffi_file, production: @production
         syntax = (@ffi_file.read file) || ''
         return true if syntax.strip.length == 0
@@ -163,17 +175,17 @@ module GTK
 
         if okay
           add_to_require_queue file
-          log_debug "Reloaded #{file}. (#{Kernel.global_tick_count})", subsystem="Engine"
+          log_debug "Reloaded #{file}. (#{Kernel.global_tick_count})", subsystem = "Engine"
           $gtk.reset_framerate_calculation
           notify_subdued! if @global_notification_at != Kernel.global_tick_count
           return true
         else
           # handle a special case where a syntax error exists in main.rb on startup
           raise <<~S
-                ** Failed to load/reload #{file}.
-                #{syntax_check_result}
+            ** Failed to load/reload #{file}.
+            #{syntax_check_result}
 
-                S
+          S
         end
       rescue Exception => e
         pretty_print_exception_and_export! e

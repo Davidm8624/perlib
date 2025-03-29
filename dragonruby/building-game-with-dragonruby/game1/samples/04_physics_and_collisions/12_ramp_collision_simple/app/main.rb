@@ -3,7 +3,7 @@ class Game
 
   def defaults
     state.terrain ||= [
-      { x:   0,  y:  0, w: 128, h: 128, left_perc: 0,   right_perc: 0.5 },
+      { x: 0, y: 0, w: 128, h: 128, left_perc: 0, right_perc: 0.5 },
       { x: 128,  y: 64, w: 128, h: 128, left_perc: 0,   right_perc: 1.0 },
       { x: 256,  y: 64, w: 128, h: 128, left_perc: 1.0, right_perc: 0 },
       { x: 384,  y: 64, w: 128, h: 128, left_perc: 0,   right_perc: 0 },
@@ -114,8 +114,8 @@ class Game
   end
 
   def ramp_prefab ramp
-    { x:  ramp.x,
-      y:  ramp.y + ramp.h * ramp.left_perc,
+    { x: ramp.x,
+      y: ramp.y + ramp.h * ramp.left_perc,
       x2: ramp.x + ramp.w,
       y2: ramp.y + ramp.h * ramp.right_perc,
       r: 255,

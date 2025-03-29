@@ -30,6 +30,7 @@ def defaults args
   end
 
   return if args.state.current_scene
+
   set_scene(args, day_one_beginning(args))
 end
 
@@ -57,6 +58,7 @@ end
 def null_or_empty? ary
   return true unless ary
   return true if ary.length == 0
+
   return false
 end
 
@@ -101,12 +103,14 @@ end
 def null_or_whitespace? word
   return true if !word
   return true if word.strip.length == 0
+
   return false
 end
 
 def calc_storyline_presentation args
   return unless Kernel.tick_count > args.state.next_storyline
   return unless args.state.scene_storyline_queue
+
   next_storyline = args.state.scene_storyline_queue.shift
   if null_or_whitespace? next_storyline
     args.state.storyline_queue_empty_at ||= Kernel.tick_count
@@ -273,6 +277,7 @@ def try_centering! word
   return word if just_word.strip.length == 0
   return word if just_word.include? "~"
   return "~#{word}" if just_word.length <= 2
+
   if just_word.length.mod_zero? 2
     center_index = just_word.length.idiv(2) - 1
   else
@@ -303,7 +308,7 @@ end
 
 def set_scene args, scene
   args.state.current_scene = scene
-  args.state.background = scene[:background] ||  'sprites/todo.png'
+  args.state.background = scene[:background] || 'sprites/todo.png'
   args.state.scene_fade = scene[:fade] || 0
   args.state.scenes = (scene[:scenes] || []).reject { |s| !s }
   args.state.scene_render_override = scene[:render_override]
@@ -339,9 +344,9 @@ def labels_for_word word
   right_side_of_word = right_side_of_word.gsub("-", "")
 
   {
-    left:   [29 - left_side_of_word.length * 4 - 1 * left_side_of_word.length, 2, left_side_of_word],
+    left: [29 - left_side_of_word.length * 4 - 1 * left_side_of_word.length, 2, left_side_of_word],
     center: [29, 2, center_letter, 255, 0, 0],
-    right:  [34, 2, right_side_of_word]
+    right: [34, 2, right_side_of_word]
   }
 end
 
@@ -359,6 +364,7 @@ end
 
 def adornments_alpha args, target_alpha = nil, minimum_alpha = nil
   return (minimum_alpha || 80) unless args.state.storyline_queue_empty_at
+
   target_alpha ||= 255
   target_alpha * args.state.storyline_queue_empty_at.ease(60)
 end
@@ -380,6 +386,7 @@ end
 def render_storyline_dialog args, lowrez_labels, lowrez_sprites
   return unless args.state.is_storyline_dialog_active
   return unless args.state.storyline_to_show
+
   labels = labels_for_word args.state.storyline_to_show
   if true # high rez version
     scale = 8.88
@@ -406,7 +413,7 @@ def render_storyline_dialog args, lowrez_labels, lowrez_sprites
   end
   args.state.is_storyline_dialog_active = true
   render_player args, lowrez_sprites
-  lowrez_sprites <<  [0, 0, 64, 8, 'sprites/label-background.png']
+  lowrez_sprites << [0, 0, 64, 8, 'sprites/label-background.png']
 end
 
 def render_player args, lowrez_sprites
@@ -417,6 +424,7 @@ def render_adornments args, lowrez_sprites
   render_scenes args, lowrez_sprites
   render_storylines args, lowrez_sprites
   return if args.state.is_storyline_dialog_active
+
   lowrez_sprites << player_md_down(args, *args.state.player)
 end
 
@@ -424,6 +432,7 @@ def global_alpha_percentage args, max_alpha = 255
   return 255 unless args.state.scene_changed_at
   return 255 unless args.state.scene_fade
   return 255 unless args.state.scene_fade > 0
+
   return max_alpha * args.state.scene_changed_at.ease(args.state.scene_fade)
 end
 

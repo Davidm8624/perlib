@@ -8,7 +8,8 @@ def final_decision_side_of_home args
     ],
     render_override: :blinking_light_side_of_home_render,
     storylines: [
-      [28, 13, 8, 4,  "Man. Hard to believe- that today- is the 21st--- anniversary-- of The Impact. Serenity--- will- be- home- soon."]
+      [28, 13, 8, 4,
+       "Man. Hard to believe- that today- is the 21st--- anniversary-- of The Impact. Serenity--- will- be- home- soon."]
     ]
   }
 end
@@ -78,7 +79,7 @@ def final_decision_ship_status args
       [*hotspot_top_right, :final_decision]
     ],
     storylines: [
-      [30,  8, 4, 4, "????"],
+      [30, 8, 4, 4, "????"],
       *final_decision_ship_status_shared(args)
     ]
   }
@@ -128,9 +129,9 @@ end
 def final_decision_ship_status_shared args
   [
     *ship_control_hotspot(24, 22,
-                           "Stasis-- Chambers--: UNDERPOWERED, Life- forms-- will be terminated---- unless-- equilibrium----- is reached. WHAT?! NO!",
-                           "Matthew's--- Chamber--: UNDER-- THREAT-- OF-- TERMINATION. WHAT?! NO!",
-                           "Aanka's--- Chamber--: UNDER-- THREAT-- OF-- TERMINATION.  WHAT?! NO!",
-                           "Sasha's--- Chamber--: UNDER-- THREAT-- OF-- TERMINATION. WHAT?! NO!"),
+                          "Stasis-- Chambers--: UNDERPOWERED, Life- forms-- will be terminated---- unless-- equilibrium----- is reached. WHAT?! NO!",
+                          "Matthew's--- Chamber--: UNDER-- THREAT-- OF-- TERMINATION. WHAT?! NO!",
+                          "Aanka's--- Chamber--: UNDER-- THREAT-- OF-- TERMINATION.  WHAT?! NO!",
+                          "Sasha's--- Chamber--: UNDER-- THREAT-- OF-- TERMINATION. WHAT?! NO!"),
   ]
 end

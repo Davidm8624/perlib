@@ -109,19 +109,19 @@ class Game
       next_theta = 2.0 * pi * (i + 1) / precision
 
       {
-        x:  x_center + radius * theta.cos_r,
-        y:  y_center + radius * theta.sin_r,
+        x: x_center + radius * theta.cos_r,
+        y: y_center + radius * theta.sin_r,
         x2: x_center + radius * next_theta.cos_r,
         y2: y_center + radius * next_theta.sin_r,
         y3: y_center,
         x3: x_center,
-        source_x:  0,
-        source_y:  0,
+        source_x: 0,
+        source_y: 0,
         source_x2: 0,
         source_y2: radius,
         source_x3: radius,
         source_y3: 0,
-        path:      :solid,
+        path: :solid,
         **color,
       }
     end
@@ -136,7 +136,8 @@ class Game
 
     # outputs.debug.watch "Mouse"
     # outputs.debug.watch pretty_format(inputs.mouse)
-    outputs.primitives << { x: 640, y: 360, w: 10, h: 10, path: :solid, r: 128, g: 0, b: 0, a: 128, anchor_x: 0.5, anchor_y: 0.5 }
+    outputs.primitives << { x: 640, y: 360, w: 10, h: 10, path: :solid, r: 128, g: 0, b: 0, a: 128, anchor_x: 0.5,
+                            anchor_y: 0.5 }
 
     if state.menu_status == :shown
       perc = Easing.ease(state.menu_status_at, Kernel.tick_count, 30, :smooth_stop_quart)
@@ -155,7 +156,8 @@ class Game
 
       if state.menu_status == :shown
         ring = ring_prefab(menu.center.x, menu.center.y, item.circle.radius, precision: 30, color: color.merge(a: 128))
-        circle = circle_prefab(menu.center.x, menu.center.y, item.circle.radius, precision: 30, color: color.merge(a: 128))
+        circle = circle_prefab(menu.center.x, menu.center.y, item.circle.radius, precision: 30,
+                                                                                 color: color.merge(a: 128))
       end
 
       [

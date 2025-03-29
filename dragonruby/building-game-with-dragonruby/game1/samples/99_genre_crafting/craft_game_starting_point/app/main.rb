@@ -50,14 +50,14 @@ def defaults args
   # the crafting area is below the inventory area
   # the number 80 is the size of all the sprites, so that is what is being
   # used to decide the with and height
-  args.state.craft_border.x =  10
+  args.state.craft_border.x = 10
   args.state.craft_border.y = 220
   args.state.craft_border.w = args.state.sprite_size * 3
   args.state.craft_border.h = args.state.sprite_size * 3
 
   # define the area where results are located
   # the crafting result is to the right of the craft area
-  args.state.result_border.x =  10 + args.state.sprite_size * 3 + args.state.sprite_size
+  args.state.result_border.x = 10 + args.state.sprite_size * 3 + args.state.sprite_size
   args.state.result_border.y = 220 + args.state.sprite_size
   args.state.result_border.w = args.state.sprite_size
   args.state.result_border.h = args.state.sprite_size
@@ -164,7 +164,6 @@ def defaults args
   end
 end
 
-
 def render args
   # for the results area, create a sprite that show its boundaries
   args.outputs.primitives << { x: args.state.result_border.x,
@@ -212,7 +211,8 @@ def render args
   args.outputs.primitives << args.state.click_ripples
 
   # render a mouse cursor since we have the OS cursor hidden
-  args.outputs.primitives << { x: args.inputs.mouse.x - 5, y: args.inputs.mouse.y - 5, w: 10, h: 10, path: 'sprites/circle-gray.png', a: 128 }
+  args.outputs.primitives << { x: args.inputs.mouse.x - 5, y: args.inputs.mouse.y - 5, w: 10, h: 10,
+                               path: 'sprites/circle-gray.png', a: 128 }
 end
 
 # Alrighty! This is where all the fun happens
@@ -225,7 +225,8 @@ def input args
   return if !args.inputs.mouse.click
 
   # if a click occurred, add a ripple to the ripple queue
-  args.state.click_ripples << { x: args.inputs.mouse.x - 5, y: args.inputs.mouse.y - 5, w: 10, h: 10, path: 'sprites/circle-gray.png', a: 128 }
+  args.state.click_ripples << { x: args.inputs.mouse.x - 5, y: args.inputs.mouse.y - 5, w: 10, h: 10,
+                                path: 'sprites/circle-gray.png', a: 128 }
 
   # if the mouse has been clicked, and no item is currently held...
   if !args.state.held_item

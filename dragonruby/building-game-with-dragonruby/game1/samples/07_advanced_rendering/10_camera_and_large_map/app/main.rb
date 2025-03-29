@@ -16,8 +16,8 @@ end
 def display_tiles args
   # set the player's starting location
   args.state.player ||= {
-    x:  0,
-    y:  0,
+    x: 0,
+    y: 0,
     w: 40,
     h: 40,
     path: "sprites/square/blue.png"
@@ -76,82 +76,82 @@ def tiles_in_viewport args
   # get 9 tiles in total (the tile the player is on and the 8 surrounding tiles)
 
   # center tile
-  primitives << (tile_in_viewport size:       tile_size,
-                                  from_row:   tile_player_is_on.y,
-                                  from_col:   tile_player_is_on.x,
+  primitives << (tile_in_viewport size: tile_size,
+                                  from_row: tile_player_is_on.y,
+                                  from_col: tile_player_is_on.x,
                                   offset_row: 0,
                                   offset_col: 0,
-                                  dy:         offset_y,
-                                  dx:         offset_x)
+                                  dy: offset_y,
+                                  dx: offset_x)
 
   # tile to the right
-  primitives << (tile_in_viewport size:       tile_size,
-                                  from_row:   tile_player_is_on.y,
-                                  from_col:   tile_player_is_on.x,
+  primitives << (tile_in_viewport size: tile_size,
+                                  from_row: tile_player_is_on.y,
+                                  from_col: tile_player_is_on.x,
                                   offset_row: 0,
                                   offset_col: 1,
-                                  dy:         offset_y,
-                                  dx:         offset_x)
+                                  dy: offset_y,
+                                  dx: offset_x)
   # tile to the left
-  primitives << (tile_in_viewport size:        tile_size,
-                                  from_row:    tile_player_is_on.y,
-                                  from_col:    tile_player_is_on.x,
-                                  offset_row:  0,
+  primitives << (tile_in_viewport size: tile_size,
+                                  from_row: tile_player_is_on.y,
+                                  from_col: tile_player_is_on.x,
+                                  offset_row: 0,
                                   offset_col: -1,
-                                  dy:          offset_y,
-                                  dx:          offset_x)
+                                  dy: offset_y,
+                                  dx: offset_x)
 
   # tile directly above
-  primitives << (tile_in_viewport size:       tile_size,
-                                  from_row:   tile_player_is_on.y,
-                                  from_col:   tile_player_is_on.x,
+  primitives << (tile_in_viewport size: tile_size,
+                                  from_row: tile_player_is_on.y,
+                                  from_col: tile_player_is_on.x,
                                   offset_row: 1,
                                   offset_col: 0,
-                                  dy:         offset_y,
-                                  dx:         offset_x)
+                                  dy: offset_y,
+                                  dx: offset_x)
   # tile directly below
-  primitives << (tile_in_viewport size:         tile_size,
-                                  from_row:     tile_player_is_on.y,
-                                  from_col:     tile_player_is_on.x,
-                                  offset_row:  -1,
-                                  offset_col:   0,
-                                  dy:           offset_y,
-                                  dx:           offset_x)
+  primitives << (tile_in_viewport size: tile_size,
+                                  from_row: tile_player_is_on.y,
+                                  from_col: tile_player_is_on.x,
+                                  offset_row: -1,
+                                  offset_col: 0,
+                                  dy: offset_y,
+                                  dx: offset_x)
   # tile up and to the left
-  primitives << (tile_in_viewport size:        tile_size,
-                                  from_row:    tile_player_is_on.y,
-                                  from_col:    tile_player_is_on.x,
-                                  offset_row:  1,
+  primitives << (tile_in_viewport size: tile_size,
+                                  from_row: tile_player_is_on.y,
+                                  from_col: tile_player_is_on.x,
+                                  offset_row: 1,
                                   offset_col: -1,
-                                  dy:          offset_y,
-                                  dx:          offset_x)
+                                  dy: offset_y,
+                                  dx: offset_x)
 
   # tile up and to the right
-  primitives << (tile_in_viewport size:       tile_size,
-                                  from_row:   tile_player_is_on.y,
-                                  from_col:   tile_player_is_on.x,
+  primitives << (tile_in_viewport size: tile_size,
+                                  from_row: tile_player_is_on.y,
+                                  from_col: tile_player_is_on.x,
                                   offset_row: 1,
                                   offset_col: 1,
-                                  dy:         offset_y,
-                                  dx:         offset_x)
+                                  dy: offset_y,
+                                  dx: offset_x)
 
   # tile down and to the left
-  primitives << (tile_in_viewport size:        tile_size,
-                                  from_row:    tile_player_is_on.y,
-                                  from_col:    tile_player_is_on.x,
+  primitives << (tile_in_viewport size: tile_size,
+                                  from_row: tile_player_is_on.y,
+                                  from_col: tile_player_is_on.x,
                                   offset_row: -1,
                                   offset_col: -1,
-                                  dy:          offset_y,
-                                  dx:          offset_x)
+                                  dy: offset_y,
+                                  dx: offset_x)
 
   # tile down and to the right
-  primitives << (tile_in_viewport size:        tile_size,
-                                  from_row:    tile_player_is_on.y,
-                                  from_col:    tile_player_is_on.x,
+  primitives << (tile_in_viewport size: tile_size,
+                                  from_row: tile_player_is_on.y,
+                                  from_col: tile_player_is_on.x,
                                   offset_row: -1,
-                                  offset_col:  1,
-                                  dy:          offset_y,
-                                  dx:          offset_x)
+                                  offset_col: 1,
+                                  dy: offset_y,
+                                  dx: offset_x)
 
   primitives
 end

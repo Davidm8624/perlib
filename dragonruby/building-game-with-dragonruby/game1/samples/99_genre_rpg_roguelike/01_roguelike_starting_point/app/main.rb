@@ -49,7 +49,7 @@ def tick_game args
     player_moved = true
   end
 
-  #handle game logic
+  # handle game logic
   # determine if there is an enemy on that square,
   # if so, don't let the player move there
   if player_moved
@@ -86,7 +86,8 @@ def tick_game args
                            border_size]
 
   # render label stuff
-  args.outputs.labels << [border_x, border_y - 10, "Current player location is: #{args.state.player.x}, #{args.state.player.y}"]
+  args.outputs.labels << [border_x, border_y - 10,
+                          "Current player location is: #{args.state.player.x}, #{args.state.player.y}"]
   args.outputs.labels << [border_x, border_y + 25 + border_size, args.state.info_message]
 end
 

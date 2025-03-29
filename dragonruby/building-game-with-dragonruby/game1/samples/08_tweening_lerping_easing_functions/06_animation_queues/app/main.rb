@@ -7,7 +7,7 @@ def tick args
                            vertical_alignment_enum: 1 }
 
   # initialize the queue to an empty array
-  args.state.fade_out_queue ||=[]
+  args.state.fade_out_queue ||= []
 
   # if the mouse is click, add a sprite to the fire and forget
   # queue to be processed

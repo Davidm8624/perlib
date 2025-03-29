@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # easing.rb has been released under MIT (*only this file*).
@@ -15,7 +16,8 @@ module GTK
     end
 
     def self.ease_extended start_tick, current_tick, end_tick, default_before, default_after, *definitions
-      log_once :consider_smooth!, "Easing::ease can be expensive to invoke, consider using Easing.smooth_(start|stop|step) instead."
+      log_once :consider_smooth!,
+               "Easing::ease can be expensive to invoke, consider using Easing.smooth_(start|stop|step) instead."
       definitions.flatten!
       definitions = [:identity] if definitions.length == 0
       duration = end_tick - start_tick
@@ -39,6 +41,7 @@ module GTK
 
     def self.ease_spline_extended start_tick, current_tick, end_tick, spline
       return spline[-1][-1] if current_tick >= end_tick
+
       duration = end_tick - start_tick
       t = (current_tick - start_tick).fdiv duration
       time_allocation_per_curve = 1.fdiv(spline.length)
@@ -65,11 +68,11 @@ module GTK
         return definition.call(x, start_tick, duration).clamp(0, 1)
       end
 
-      raise <<-S
-* ERROR:
-I don't know how to execute easing function with definition #{definition}.
+      raise <<~S
+        * ERROR:
+        I don't know how to execute easing function with definition #{definition}.
 
-S
+      S
     end
 
     def self.mix a, b, perc
@@ -80,7 +83,6 @@ S
                                 initial: nil, final: nil, perc: nil,
                                 start_at: nil, end_at: nil,
                                 duration: nil, tick_count: nil, power: nil)
-
       tick_count ||= Kernel.tick_count
       power ||= 1
 
@@ -109,43 +111,40 @@ S
       missing_time_params << :end_at     if !end_at && !duration
 
       raise <<~S
-            * ERROR: Easing::#{m} failed to resolve parameters.
-            ** Given keyword arguments:
-            - initial:    #{initial.inspect}
-            - final:      #{final.inspect}
-            - perc:       #{perc.inspect}
-            - start_at:   #{start_at.inspect}
-            - end_at:     #{end_at.inspect}
-            - duration:   #{duration.inspect}
-            - tick_count: #{tick_count.inspect}
-            - power:      #{power.inspect}
-            ** Easing::#{m} requires one of the following keyword arguments combinations
-            *** Percentage-based
-            Example:
-            #+begin_src ruby
-              # NOTE:
-              # power is optional and will default to 1
-              Easing.#{m} initial: #{initial || "REQUIRED"}, final: #{final || "REQUIRED"}, perc: #{perc || "REQUIRED"}, power: #{power}
-            #+end_src
-            *** Time-based
-            Example:
-            #+begin_src ruby
-              # NOTE:
-              # power is optional and will default to 1
-              # tick_count is optional and will default to Kernel.tick_count
-              Easing.#{m} start_at: #{start_at || "REQUIRED"}, end_at: #{end_at || "REQUIRED"}, tick_count: #{tick_count}, power: #{power}
-              # OR
-              Easing.#{m} start_at: #{start_at || "REQUIRED"}, duration: #{duration || "REQUIRED"}, tick_count: #{tick_count}, power: #{power}
-            #+end_src
-            S
+        * ERROR: Easing::#{m} failed to resolve parameters.
+        ** Given keyword arguments:
+        - initial:    #{initial.inspect}
+        - final:      #{final.inspect}
+        - perc:       #{perc.inspect}
+        - start_at:   #{start_at.inspect}
+        - end_at:     #{end_at.inspect}
+        - duration:   #{duration.inspect}
+        - tick_count: #{tick_count.inspect}
+        - power:      #{power.inspect}
+        ** Easing::#{m} requires one of the following keyword arguments combinations
+        *** Percentage-based
+        Example:
+        #+begin_src ruby
+          # NOTE:
+          # power is optional and will default to 1
+          Easing.#{m} initial: #{initial || "REQUIRED"}, final: #{final || "REQUIRED"}, perc: #{perc || "REQUIRED"}, power: #{power}
+        #+end_src
+        *** Time-based
+        Example:
+        #+begin_src ruby
+          # NOTE:
+          # power is optional and will default to 1
+          # tick_count is optional and will default to Kernel.tick_count
+          Easing.#{m} start_at: #{start_at || "REQUIRED"}, end_at: #{end_at || "REQUIRED"}, tick_count: #{tick_count}, power: #{power}
+          # OR
+          Easing.#{m} start_at: #{start_at || "REQUIRED"}, duration: #{duration || "REQUIRED"}, tick_count: #{tick_count}, power: #{power}
+        #+end_src
+      S
     end
-
-
 
     def self.smooth_step(initial: nil, final: nil, perc: nil,
                          start_at: nil, end_at: nil, duration: nil,
                          tick_count: nil, power: 1, flip: false)
-
       params = __resolve_params__ m: :smooth_step,
                                   initial: initial, final: final, perc: perc,
                                   start_at: start_at, end_at: end_at,
@@ -161,7 +160,6 @@ S
     def self.smooth_start(initial: nil, final: nil, perc: nil,
                           start_at: nil, end_at: nil, duration: nil,
                           tick_count: nil, power: 1, flip: false)
-
       params = __resolve_params__ m: :smooth_start,
                                   initial: initial, final: final, perc: perc,
                                   start_at: start_at, end_at: end_at,
@@ -175,7 +173,6 @@ S
     def self.smooth_stop(initial: nil, final: nil, perc: nil,
                          start_at: nil, end_at: nil, duration: nil,
                          tick_count: nil, power: 1, flip: false)
-
       params = __resolve_params__ m: :smooth_stop,
                                   initial: initial, final: final, perc: perc,
                                   start_at: start_at, end_at: end_at,

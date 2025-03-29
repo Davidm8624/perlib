@@ -3,7 +3,7 @@ def tick_legend args
 
   legend_padding = 16
   legend_x = 1280 - TILE_SHEET_SIZE - legend_padding
-  legend_y =  720 - TILE_SHEET_SIZE - legend_padding
+  legend_y = 720 - TILE_SHEET_SIZE - legend_padding
   tile_sheet_sprite = [legend_x,
                        legend_y,
                        TILE_SHEET_SIZE,
@@ -33,10 +33,13 @@ def tick_legend args
       member_name = member_name_as_code member_name
       args.outputs.labels << [660, 70, "# CODE SAMPLE (place in the tick_game method located in main.rb)", -1, 0]
       args.outputs.labels << [660, 50, "#                                    GRID_X, GRID_Y, TILE_KEY", -1, 0]
-      args.outputs.labels << [660, 30, "args.outputs.sprites << tile_in_game(     5,      6, #{member_name}    )", -1, 0]
+      args.outputs.labels << [660, 30, "args.outputs.sprites << tile_in_game(     5,      6, #{member_name}    )", -1,
+                              0]
     else
-      args.outputs.labels << [660, 50, "Tile [#{tile_row}, #{tile_col}] not found. Add a key and value to app/sprite_lookup.rb:", -1, 0]
-      args.outputs.labels << [660, 30, "{ \"some_string\" => [#{tile_row}, #{tile_col}] } OR { some_symbol: [#{tile_row}, #{tile_col}] }.", -1, 0]
+      args.outputs.labels << [660, 50,
+                              "Tile [#{tile_row}, #{tile_col}] not found. Add a key and value to app/sprite_lookup.rb:", -1, 0]
+      args.outputs.labels << [660, 30,
+                              "{ \"some_string\" => [#{tile_row}, #{tile_col}] } OR { some_symbol: [#{tile_row}, #{tile_col}] }.", -1, 0]
     end
 
   end
@@ -56,10 +59,10 @@ def tick_legend args
     sprite_key = i % 10
     [
       tile(1280 - TILE_SHEET_SIZE - legend_padding * 2 - SOURCE_TILE_SIZE,
-            720 - legend_padding * 2 - (SOURCE_TILE_SIZE * i),
-            sprite(sprite_key)),
+           720 - legend_padding * 2 - (SOURCE_TILE_SIZE * i),
+           sprite(sprite_key)),
       tile(1280 - TILE_SHEET_SIZE - SOURCE_TILE_SIZE + (SOURCE_TILE_SIZE * i),
-            720 - TILE_SHEET_SIZE - legend_padding * 3, sprite(sprite_key))
+           720 - TILE_SHEET_SIZE - legend_padding * 3, sprite(sprite_key))
     ]
   end
 end

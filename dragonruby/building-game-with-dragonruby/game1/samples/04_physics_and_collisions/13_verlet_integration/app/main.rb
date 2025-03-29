@@ -46,8 +46,8 @@ class Game
       dy = object.y - object.prev_y
       dx += object.acceleration_x * dt
       dy += object.acceleration_y * dt
-      dx *= object.drag_x ** dt
-      dy *= object.drag_y ** dt
+      dx *= object.drag_x**dt
+      dy *= object.drag_y**dt
 
       object.prev_x = object.x
       object.prev_y = object.y

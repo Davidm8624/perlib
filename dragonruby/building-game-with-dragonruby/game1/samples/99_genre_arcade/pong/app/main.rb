@@ -35,62 +35,64 @@ def render args
 end
 
 begin :render_methods
-  def render_center_line args
-    args.outputs.lines  << [640, 0, 640, 720]
-  end
+      def render_center_line args
+        args.outputs.lines  << [640, 0, 640, 720]
+      end
 
-  def render_scores args
-    args.outputs.labels << [
-      { x: 320,
-        y: 650,
-        text: args.state.left_paddle.score,
-        size_px: 40,
-        anchor_x: 0.5,
-        anchor_y: 0.5 },
-      { x: 960,
-        y: 650,
-        text: args.state.right_paddle.score,
-        size_px: 40,
-        anchor_x: 0.5,
-        anchor_y: 0.5 }
-    ]
-  end
+      def render_scores args
+        args.outputs.labels << [
+          { x: 320,
+            y: 650,
+            text: args.state.left_paddle.score,
+            size_px: 40,
+            anchor_x: 0.5,
+            anchor_y: 0.5 },
+          { x: 960,
+            y: 650,
+            text: args.state.right_paddle.score,
+            size_px: 40,
+            anchor_x: 0.5,
+            anchor_y: 0.5 }
+        ]
+      end
 
-  def render_countdown args
-    return unless args.state.ball.debounce > 0
-    args.outputs.labels << { x: 640,
-                             y: 360,
-                             text: "%.2f" % args.state.ball.debounce.fdiv(60),
-                             size_px: 40,
-                             anchor_x: 0.5,
-                             anchor_y: 0.5 }
-  end
+      def render_countdown args
+        return unless args.state.ball.debounce > 0
 
-  def render_ball args
-    args.outputs.solids << solid_ball(args)
-  end
+        args.outputs.labels << { x: 640,
+                                 y: 360,
+                                 text: "%.2f" % args.state.ball.debounce.fdiv(60),
+                                 size_px: 40,
+                                 anchor_x: 0.5,
+                                 anchor_y: 0.5 }
+      end
 
-  def render_paddles args
-    args.outputs.solids << solid_left_paddle(args)
-    args.outputs.solids << solid_right_paddle(args)
-  end
+      def render_ball args
+        args.outputs.solids << solid_ball(args)
+      end
 
-  def render_instructions args
-    args.outputs.labels << { x: 320,
-                             y: 30,
-                             text: "W and S keys to move left paddle.",
-                             anchor_x: 0.5,
-                             anchor_y: 0.5 }
-    args.outputs.labels << { x: 920,
-                             y: 30,
-                             text: "O and L keys to move right paddle.",
-                             anchor_x: 0.5,
-                             anchor_y: 0.5 }
-  end
+      def render_paddles args
+        args.outputs.solids << solid_left_paddle(args)
+        args.outputs.solids << solid_right_paddle(args)
+      end
+
+      def render_instructions args
+        args.outputs.labels << { x: 320,
+                                 y: 30,
+                                 text: "W and S keys to move left paddle.",
+                                 anchor_x: 0.5,
+                                 anchor_y: 0.5 }
+        args.outputs.labels << { x: 920,
+                                 y: 30,
+                                 text: "O and L keys to move right paddle.",
+                                 anchor_x: 0.5,
+                                 anchor_y: 0.5 }
+      end
 end
 
 def calc args
   args.state.ball.debounce -= 1 and return if args.state.ball.debounce > 0
+
   calc_move_ball args
   calc_collision_with_left_paddle args
   calc_collision_with_right_paddle args
@@ -98,46 +100,46 @@ def calc args
 end
 
 begin :calc_methods
-  def calc_move_ball args
-    args.state.ball.x += args.state.ball.dx
-    args.state.ball.y += args.state.ball.dy
-  end
+      def calc_move_ball args
+        args.state.ball.x += args.state.ball.dx
+        args.state.ball.y += args.state.ball.dy
+      end
 
-  def calc_collision_with_left_paddle args
-    if solid_left_paddle(args).intersect_rect? solid_ball(args)
-      args.state.ball.dx *= -1
-    elsif args.state.ball.x < 0
-      args.state.right_paddle.score += 1
-      calc_reset_round args
-    end
-  end
+      def calc_collision_with_left_paddle args
+        if solid_left_paddle(args).intersect_rect? solid_ball(args)
+          args.state.ball.dx *= -1
+        elsif args.state.ball.x < 0
+          args.state.right_paddle.score += 1
+          calc_reset_round args
+        end
+      end
 
-  def calc_collision_with_right_paddle args
-    if solid_right_paddle(args).intersect_rect? solid_ball(args)
-      args.state.ball.dx *= -1
-    elsif args.state.ball.x > 1280
-      args.state.left_paddle.score += 1
-      calc_reset_round args
-    end
-  end
+      def calc_collision_with_right_paddle args
+        if solid_right_paddle(args).intersect_rect? solid_ball(args)
+          args.state.ball.dx *= -1
+        elsif args.state.ball.x > 1280
+          args.state.left_paddle.score += 1
+          calc_reset_round args
+        end
+      end
 
-  def calc_collision_with_walls args
-    if args.state.ball.y + args.state.ball.size_half > 720
-      args.state.ball.y = 720 - args.state.ball.size_half
-      args.state.ball.dy *= -1
-    elsif args.state.ball.y - args.state.ball.size_half < 0
-      args.state.ball.y = args.state.ball.size_half
-      args.state.ball.dy *= -1
-    end
-  end
+      def calc_collision_with_walls args
+        if args.state.ball.y + args.state.ball.size_half > 720
+          args.state.ball.y = 720 - args.state.ball.size_half
+          args.state.ball.dy *= -1
+        elsif args.state.ball.y - args.state.ball.size_half < 0
+          args.state.ball.y = args.state.ball.size_half
+          args.state.ball.dy *= -1
+        end
+      end
 
-  def calc_reset_round args
-    args.state.ball.x = 640
-    args.state.ball.y = 360
-    args.state.ball.dx = 5.randomize(:sign)
-    args.state.ball.dy = 5.randomize(:sign)
-    args.state.ball.debounce = 3 * 60
-  end
+      def calc_reset_round args
+        args.state.ball.x = 640
+        args.state.ball.y = 360
+        args.state.ball.dx = 5.randomize(:sign)
+        args.state.ball.dy = 5.randomize(:sign)
+        args.state.ball.debounce = 3 * 60
+      end
 end
 
 def input args

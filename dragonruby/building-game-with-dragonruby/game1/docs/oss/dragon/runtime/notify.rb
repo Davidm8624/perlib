@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # notify.rb has been released under MIT (*only this file*).
@@ -11,10 +12,12 @@ module GTK
 
     def notify! message, duration = 300
       return if self.production
+
       message ||= ""
       message = "#{message}"
       return if @notification_message == message
       return if @production
+
       @global_notification_at = Kernel.global_tick_count
       @notification_duration = duration
       @notification_message = message
@@ -33,6 +36,7 @@ module GTK
       overwrite = opts.overwrite
       return if @production && env != :prod
       return if !overwrite && @notification_message == message
+
       @global_notification_at = Kernel.global_tick_count
       @notification_duration = duration
       @notification_message = message
@@ -42,6 +46,7 @@ module GTK
 
     def tick_notification
       return if Kernel.tick_count <= -1
+
       @notification_max_alpha ||= 255
       @notification_message = nil if @console.visible?
       if @notification_message && @global_notification_at.elapsed_time(Kernel.global_tick_count) < @notification_duration
@@ -89,7 +94,8 @@ module GTK
           logo_y = @args.grid.bottom + (long_strings_split.length * 40).idiv(2) - 20
         end
 
-        @args.outputs.reserved << { x: @args.grid.left + 10, y: logo_y, w: 40, h: 40, path: 'console-logo.png', a: alpha }
+        @args.outputs.reserved << { x: @args.grid.left + 10, y: logo_y, w: 40, h: 40, path: 'console-logo.png',
+                                    a: alpha }
       else
         @notification_message = nil
       end

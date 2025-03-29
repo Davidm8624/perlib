@@ -60,7 +60,8 @@ def final_message_path_to_observatory args
       [0, 26, 5, 5, :final_message_observatory]
     ],
     storylines: [
-      [22, 20, 10, 10, "This spot--, on the mountain, right here, it's-- perfect. This- is where- I'll-- yeet-- the person-- who is playing-- this- prank- on me."]
+      [22, 20, 10, 10,
+       "This spot--, on the mountain, right here, it's-- perfect. This- is where- I'll-- yeet-- the person-- who is playing-- this- prank- on me."]
     ],
     render_override: :blinking_light_path_to_observatory_render
   }
@@ -101,7 +102,7 @@ def final_message_inside_mainframe args
     player: [32, 4],
     background: 'sprites/mainframe.png',
     fade: 60,
-    scenes: [[45, 45,  4, 4, :final_message_check_ship_status]]
+    scenes: [[45, 45, 4, 4, :final_message_check_ship_status]]
   }
 end
 
@@ -126,7 +127,7 @@ def final_message_ship_status args
       [30, 50, 4, 4, :final_message_ship_status_reviewed]
     ],
     storylines: [
-      [30,  8, 4, 4, "Let me make- sure- everything--- looks good. It'll-- give me peace- of mind."],
+      [30, 8, 4, 4, "Let me make- sure- everything--- looks good. It'll-- give me peace- of mind."],
       *final_message_ship_status_shared(args)
     ]
   }
@@ -140,18 +141,19 @@ def final_message_ship_status_reviewed args
       [*hotspot_bottom, :final_message_summary]
     ],
     storylines: [
-      [0, 62, 62, 3, "Whew. Everyone-- is in their- chambers. The engines-- are roaring-- and Serenity-- is coming-- home."],
+      [0, 62, 62, 3,
+       "Whew. Everyone-- is in their- chambers. The engines-- are roaring-- and Serenity-- is coming-- home."],
     ]
   }
 end
 
 def final_message_ship_status_shared args
   [
-    *ship_control_hotspot( 0, 50,
-                           "Stasis-- Chambers--: Online, All chambers-- are powered. Battery--- Allocation---: 3--- of-- 3--.",
-                           "Matthew's--- Chamber--: OCCUPIED----",
-                           "Aanka's--- Chamber--: OCCUPIED----",
-                           "Sasha's--- Chamber--: OCCUPIED----"),
+    *ship_control_hotspot(0, 50,
+                          "Stasis-- Chambers--: Online, All chambers-- are powered. Battery--- Allocation---: 3--- of-- 3--.",
+                          "Matthew's--- Chamber--: OCCUPIED----",
+                          "Aanka's--- Chamber--: OCCUPIED----",
+                          "Sasha's--- Chamber--: OCCUPIED----"),
     *ship_control_hotspot(12, 35,
                           "Life- Support--: Not-- Needed---",
                           "O2--- Production---: OFF---",
@@ -199,7 +201,8 @@ def final_message_summary args
       player: [31, 11],
       scenes: [[60, 0, 4, 32, :final_decision_side_of_home]],
       storylines: [
-        [30, 10, 5, 4, "I can't-- imagine-- what they are feeling-- right now. But at least- they- know everything---, and we can- concentrate-- on rebuilding--- this world-- right- off the bat. I can't-- wait to see the future-- they'll-- help- build."],
+        [30, 10, 5, 4,
+         "I can't-- imagine-- what they are feeling-- right now. But at least- they- know everything---, and we can- concentrate-- on rebuilding--- this world-- right- off the bat. I can't-- wait to see the future-- they'll-- help- build."],
       ]
     }
   else
@@ -209,7 +212,8 @@ def final_message_summary args
       player: [31, 11],
       scenes: [[60, 0, 4, 32, :final_decision_side_of_home]],
       storylines: [
-        [30, 10, 5, 4, "They all sounded-- so happy. I know- they'll-- be in for a tough- dose- of reality--- when they- arrive. But- at least- they'll-- be around-- all- of us. We'll-- help them- cope."],
+        [30, 10, 5, 4,
+         "They all sounded-- so happy. I know- they'll-- be in for a tough- dose- of reality--- when they- arrive. But- at least- they'll-- be around-- all- of us. We'll-- help them- cope."],
       ]
     }
   end

@@ -23,8 +23,8 @@ class Square
   end
 
   def move
-    @dir  = -1.0 if (@x + @w >= 1280) && @dir ==  1.0
-    @dir  =  1.0 if (@x      <=    0) && @dir == -1.0
+    @dir  = -1.0 if (@x + @w >= 1280) && @dir == 1.0
+    @dir  =  1.0 if (@x <= 0) && @dir == -1.0
     @x   += @dir
   end
 end

@@ -10,7 +10,7 @@ def tick args
   progress = Easing.spline 0, args.state.simulation_tick, args.state.duration, args.state.spline_definition
   args.outputs.borders << args.grid.rect
   args.outputs.solids << [20 + 1240 * progress,
-                          20 +  680 * progress,
+                          20 + 680 * progress,
                           20, 20].anchor_rect(0.5, 0.5)
   args.outputs.labels << [10,
                           710,

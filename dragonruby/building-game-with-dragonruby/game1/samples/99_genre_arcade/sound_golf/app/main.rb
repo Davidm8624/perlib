@@ -56,9 +56,9 @@ end
 # Uses a label to display current level, and shows the score
 # Creates a button to play the sample note, and displays the available notes that could be a potential match
 def render args
-
   # grid.w_half positions the label in the horizontal center of the screen.
-  args.outputs.labels << [args.grid.w_half, args.grid.top.shift_down(40), "Hole #{args.state.current_level} of 9", 0, 1, 0, 0, 0]
+  args.outputs.labels << [args.grid.w_half, args.grid.top.shift_down(40), "Hole #{args.state.current_level} of 9", 0,
+                          1, 0, 0, 0]
 
   render_score args # shows score on screen
 
@@ -78,7 +78,7 @@ def render args
 
   return if args.state.game_over # return if game is over
 
-  args.outputs.labels <<   [args.grid.w_half, 400, "I think the note is a(n)...",  0, 1, 0, 0, 0] # outputs label
+  args.outputs.labels << [args.grid.w_half, 400, "I think the note is a(n)...", 0, 1, 0, 0, 0] # outputs label
 
   # Shows all of the available notes that can be potential matches.
   available_notes.each_with_index do |note, i|
@@ -103,7 +103,9 @@ end
 # Sets the target note for the level and performs calculations on click_feedbacks.
 def calc args
   args.state.target_note ||= available_notes.sample # chooses a note from available_notes collection as target note
-  args.state.click_feedbacks.each    { |c| c.solid[-1] -= 5 } # remove this line and solid color will remain on screen indefinitely
+  args.state.click_feedbacks.each { |c|
+    c.solid[-1] -= 5
+  } # remove this line and solid color will remain on screen indefinitely
   # comment this line out and the solid color will keep flashing on screen instead of being removed from click_feedbacks collection
   args.state.click_feedbacks.reject! { |c| c.solid[-1] <= 0 }
 end
@@ -115,7 +117,9 @@ def input_mouse args
   # finds button that was clicked by user
   button_clicked = args.outputs.borders.find_all do |b| # go through borders collection to find all borders that meet requirements
     args.inputs.mouse.click.point.inside_rect? b # find button border that mouse was clicked inside of
-  end.find_all { |b| b.is_a? Hash }.first # reject, return first element
+  end.find_all { |b|
+    b.is_a? Hash
+  }.first # reject, return first element
 
   return unless button_clicked # return unless button_clicked as a value (a button was clicked)
 
@@ -171,12 +175,13 @@ end
 # If incorrect note is clicked, screen turns red (again, see input_mouse method)
 def queue_click_feedback args, x, y, w, h, *color
   args.state.click_feedbacks << args.state.new_entity(:click_feedback) do |c| # declares feedback as new entity
-    c.solid =  [x, y, w, h, *color, 255] # sets color
+    c.solid = [x, y, w, h, *color, 255] # sets color
   end
 end
 
 def tick_instructions args, text, y = 715
   return if args.state.key_event_occurred
+
   if args.inputs.mouse.click ||
      args.inputs.keyboard.directional_vector ||
      args.inputs.keyboard.key_down.enter ||
@@ -186,5 +191,5 @@ def tick_instructions args, text, y = 715
 
   args.outputs.debug << [0, y - 50, 1280, 60].solid
   args.outputs.debug << [640, y, text, 1, 1, 255, 255, 255].label
-  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)" , -2, 1, 255, 255, 255].label
+  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)", -2, 1, 255, 255, 255].label
 end

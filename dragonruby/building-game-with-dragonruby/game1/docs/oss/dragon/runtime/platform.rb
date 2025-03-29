@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # platform.rb has been released under MIT (*only this file*).
@@ -9,12 +10,12 @@ module GTK
       def platform_mappings
         if !@platform_mappings
           baseline = {
-            "Mac OS X"   => [:desktop, :macos, :osx, :mac, :macosx],
-            "Windows"    => [:desktop, :windows, :win],
-            "Linux"      => [:desktop, :linux, :nix],
+            "Mac OS X" => [:desktop, :macos, :osx, :mac, :macosx],
+            "Windows" => [:desktop, :windows, :win],
+            "Linux" => [:desktop, :linux, :nix],
             "Emscripten" => [:web, :wasm, :html, :emscripten],
-            "iOS"        => [:mobile, :ios, :touch],
-            "Android"    => [:mobile, :android, :touch],
+            "iOS" => [:mobile, :ios, :touch],
+            "Android" => [:mobile, :android, :touch],
             "Steam Deck" => [:steamdeck, :steam_deck, :steam],
           }
 
@@ -49,22 +50,22 @@ module GTK
           valid_platform_values = platform_mappings.keys.map do |k|
             "  $gtk.platform = \"#{k}\""
           end
-          raise <<-S
-* ERROR: Invalid platform was provided.
-These are valid platform values:
-#+begin_src
-  # view platform mappings
-  puts $gtk.platform_mappings
-#{valid_platform_values.join "\n"}
-#+end_src
+          raise <<~S
+            * ERROR: Invalid platform was provided.
+            These are valid platform values:
+            #+begin_src
+              # view platform mappings
+              puts $gtk.platform_mappings
+            #{valid_platform_values.join "\n"}
+            #+end_src
 
-Additionally you can set the ~is_steam_release~ property to emulate Steam Desktop:
+            Additionally you can set the ~is_steam_release~ property to emulate Steam Desktop:
 
-#+begin_src
-  $gtk.is_steam_release = true
-  puts $gtk.platform?(:steamdesktop) # true
-#+end_src
-S
+            #+begin_src
+              $gtk.is_steam_release = true
+              puts $gtk.platform?(:steamdesktop) # true
+            #+end_src
+          S
         end
         @platform = value
         @platform_mappings = nil
@@ -81,6 +82,7 @@ S
 
       def platform? value
         return true if platform_mappings[value]
+
         platform_mappings[@platform].include? value
       end
     end

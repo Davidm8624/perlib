@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # console_menu.rb has been released under MIT (*only this file*).
@@ -76,33 +77,51 @@ module GTK
 
         if $gtk.production
           @buttons = [
-            (button id: :replay,      row: 0, col: col_max_index - 1, text: "start replay",          method: :replay_clicked),
-            (button id: :record,      row: 0, col: col_max_index - 3, text: "record gameplay",       method: :record_clicked),
-            (button id: :close,       row: 0, col: col_max_index - 5, text: "close console",         method: :close_clicked),
-            (button id: :scroll_up,   row: 1, col: col_max_index - 1, text: "scroll up",             method: :scroll_up_clicked),
-            (button id: :scroll_down, row: 1, col: col_max_index - 3, text: "scroll down",           method: :scroll_down_clicked),
-            (button id: :scroll_down, row: 1, col: col_max_index - 5, text: "scroll end",            method: :scroll_end_clicked),
+            (button id: :replay,      row: 0, col: col_max_index - 1, text: "start replay",
+                    method: :replay_clicked),
+            (button id: :record,      row: 0, col: col_max_index - 3, text: "record gameplay",
+                    method: :record_clicked),
+            (button id: :close,       row: 0, col: col_max_index - 5, text: "close console",
+                    method: :close_clicked),
+            (button id: :scroll_up,   row: 1, col: col_max_index - 1, text: "scroll up",
+                    method: :scroll_up_clicked),
+            (button id: :scroll_down, row: 1, col: col_max_index - 3, text: "scroll down",
+                    method: :scroll_down_clicked),
+            (button id: :scroll_down, row: 1, col: col_max_index - 5, text: "scroll end",
+                    method: :scroll_end_clicked),
             *custom_buttons
           ]
         elsif @menu_shown == :hidden
           @buttons = [
-            (button id: :show_menu,       row: 0, col: col_max_index - 1, text: "show menu", method: :show_menu_clicked),
+            (button id: :show_menu, row: 0, col: col_max_index - 1, text: "show menu",
+                    method: :show_menu_clicked),
           ]
         else
           @buttons = [
-            (button id: :scroll_up,   row: 0, col: col_max_index - 9, text: "scroll up",             method: :scroll_up_clicked),
-            (button id: :scroll_down, row: 0, col: col_max_index - 7, text: "scroll down",           method: :scroll_down_clicked),
-            (button id: :scroll_down, row: 0, col: col_max_index - 5, text: "scroll end",            method: :scroll_end_clicked),
-            (button id: :close,       row: 0, col: col_max_index - 3, text: "close console",         method: :close_clicked),
-            (button id: :hide,        row: 0, col: col_max_index - 1, text: "hide menu",             method: :hide_menu_clicked),
+            (button id: :scroll_up,   row: 0, col: col_max_index - 9, text: "scroll up",
+                    method: :scroll_up_clicked),
+            (button id: :scroll_down, row: 0, col: col_max_index - 7, text: "scroll down",
+                    method: :scroll_down_clicked),
+            (button id: :scroll_down, row: 0, col: col_max_index - 5, text: "scroll end",
+                    method: :scroll_end_clicked),
+            (button id: :close,       row: 0, col: col_max_index - 3, text: "close console",
+                    method: :close_clicked),
+            (button id: :hide,        row: 0, col: col_max_index - 1, text: "hide menu",
+                    method: :hide_menu_clicked),
 
-            (button id: :record,      row: 1, col: col_max_index - 7, text: "record gameplay",       method: :record_clicked),
-            (button id: :replay,      row: 1, col: col_max_index - 5, text: "start replay",          method: :replay_clicked),
-            (button id: :record,      row: 1, col: col_max_index - 3, text: "framerate diagnostics", method: :framerate_diagnostics_clicked),
-            (button id: :reset,       row: 1, col: col_max_index - 1, text: "reset game",            method: :reset_clicked),
+            (button id: :record,      row: 1, col: col_max_index - 7, text: "record gameplay",
+                    method: :record_clicked),
+            (button id: :replay,      row: 1, col: col_max_index - 5, text: "start replay",
+                    method: :replay_clicked),
+            (button id: :record,      row: 1, col: col_max_index - 3, text: "framerate diagnostics",
+                    method: :framerate_diagnostics_clicked),
+            (button id: :reset,       row: 1, col: col_max_index - 1, text: "reset game",
+                    method: :reset_clicked),
 
-            (button id: :docs,        row: 2, col: col_max_index - 1, text: "docs",                  method: :docs_clicked),
-            (button id: :itch_wizard, row: 2, col: col_max_index - 3, text: "itch wizard",           method: :itch_wizard_clicked),
+            (button id: :docs,        row: 2, col: col_max_index - 1, text: "docs",
+                    method: :docs_clicked),
+            (button id: :itch_wizard, row: 2, col: col_max_index - 3, text: "itch wizard",
+                    method: :itch_wizard_clicked),
             *custom_buttons
           ]
         end

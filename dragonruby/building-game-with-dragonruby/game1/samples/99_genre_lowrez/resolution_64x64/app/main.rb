@@ -21,7 +21,6 @@ def tick args
   hello_world args # <---- add a "#" to the beginning of the line to stop running this subroutine/method.
   # =======================================================================
 
-
   # ==== HOW TO RENDER A LABEL ============================================
   # Uncomment the line below to invoke the how_to_render_a_label subroutine/method.
   # Note: The method is defined in this file with the signature ~def how_to_render_a_label args~
@@ -31,60 +30,50 @@ def tick args
   # how_to_render_a_label args # <---- remove the "#" at the begging of this line to run the method
   # =======================================================================
 
-
   # ==== HOW TO RENDER A FILLED SQUARE (SOLID) ============================
   # Remove the "#" at the beginning of the line below
   # how_to_render_solids args
   # =======================================================================
-
 
   # ==== HOW TO RENDER AN UNFILLED SQUARE (BORDER) ========================
   # Remove the "#" at the beginning of the line below
   # how_to_render_borders args
   # =======================================================================
 
-
   # ==== HOW TO RENDER A LINE =============================================
   # Remove the "#" at the beginning of the line below
   # how_to_render_lines args
   # =======================================================================
-
 
   # == HOW TO RENDER A SPRITE =============================================
   # Remove the "#" at the beginning of the line below
   # how_to_render_sprites args
   # =======================================================================
 
-
   # ==== HOW TO MOVE A SPRITE BASED OFF OF USER INPUT =====================
   # Remove the "#" at the beginning of the line below
   # how_to_move_a_sprite args
   # =======================================================================
-
 
   # ==== HOW TO ANIMATE A SPRITE (SEPERATE PNGS) ==========================
   # Remove the "#" at the beginning of the line below
   # how_to_animate_a_sprite args
   # =======================================================================
 
-
   # ==== HOW TO ANIMATE A SPRITE (SPRITE SHEET) ===========================
   # Remove the "#" at the beginning of the line below
   # how_to_animate_a_sprite_sheet args
   # =======================================================================
-
 
   # ==== HOW TO DETERMINE COLLISION =============================================
   # Remove the "#" at the beginning of the line below
   # how_to_determine_collision args
   # =======================================================================
 
-
   # ==== HOW TO CREATE BUTTONS ==================================================
   # Remove the "#" at the beginning of the line below
   # how_to_create_buttons args
   # =======================================================================
-
 
   # ==== The line below renders a debug grid, mouse information, and current tick
   render_debug args
@@ -117,7 +106,6 @@ def hello_world args
   }
 end
 
-
 # =======================================================================
 # ==== HOW TO RENDER A LABEL ============================================
 # =======================================================================
@@ -126,9 +114,9 @@ def how_to_render_a_label args
 
   # Render an EXTRA LARGE/XL label (remove the "#" in front of each line below)
   args.lowrez.labels << { x: 0, y: 57, text: "Hello World",
-                         size_enum: LOWREZ_FONT_XL,
-                         r: 0, g: 0, b: 0, a: 255,
-                         font: LOWREZ_FONT_PATH }
+                          size_enum: LOWREZ_FONT_XL,
+                          r: 0, g: 0, b: 0, a: 255,
+                          font: LOWREZ_FONT_PATH }
 
   # Render a LARGE/LG label (remove the "#" in front of each line below)
   args.lowrez.labels << { x: 0, y: 36, text: "Hello World",
@@ -201,10 +189,10 @@ end
 ## # =============================================================================
 def how_to_render_lines args
   # Render a horizontal line at the bottom
-  args.lowrez.lines << { x: 0, y: 0, x2: 63, y2:  0, r: 255 }
+  args.lowrez.lines << { x: 0, y: 0, x2: 63, y2: 0, r: 255 }
 
   # Render a vertical line at the left
-  args.lowrez.lines << { x: 0, y: 0, x2:  0, y2: 63, r: 255 }
+  args.lowrez.lines << { x: 0, y: 0, x2: 0, y2: 63, r: 255 }
 
   # Render a diagonal line starting from the bottom left and going to the top right
   args.lowrez.lines << { x: 0, y: 0, x2: 63, y2: 63, r: 255 }
@@ -256,7 +244,7 @@ def how_to_animate_a_sprite args
   # STEP 3: frame_index will return nil if the frame hasn't arrived yet
   if sprite_index
     # if the sprite_index is populated, use it to determine the sprite path and render it
-    sprite_path  = "sprites/explosion-#{sprite_index}.png"
+    sprite_path = "sprites/explosion-#{sprite_index}.png"
     args.lowrez.sprites << { x: 0, y: 0, w: 64, h: 64, path: sprite_path }
   else
     # if the sprite_index is nil, render a countdown instead
@@ -272,15 +260,15 @@ def how_to_animate_a_sprite args
 
   # render the current tick and the resolved sprite index
   args.lowrez.labels  << args.lowrez
-                               .default_label
-                               .merge(x: 0,
-                                      y: 11,
-                                      text: "Tick: #{Kernel.tick_count}")
+                             .default_label
+                             .merge(x: 0,
+                                    y: 11,
+                                    text: "Tick: #{Kernel.tick_count}")
   args.lowrez.labels  << args.lowrez
-                               .default_label
-                               .merge(x: 0,
-                                      y: 5,
-                                      text: "sprite_index: #{sprite_index}")
+                             .default_label
+                             .merge(x: 0,
+                                    y: 5,
+                                    text: "sprite_index: #{sprite_index}")
 end
 
 ## # =============================================================================
@@ -303,7 +291,7 @@ def how_to_animate_a_sprite_sheet args
       y: 0,
       w: 64,
       h: 64,
-      path:  "sprites/explosion-sheet.png",
+      path: "sprites/explosion-sheet.png",
       source_x: 32 * sprite_index,
       source_y: 0,
       source_w: 32,
@@ -323,15 +311,15 @@ def how_to_animate_a_sprite_sheet args
 
   # render the current tick and the resolved sprite index
   args.lowrez.labels  << args.lowrez
-                               .default_label
-                               .merge(x: 0,
-                                      y: 11,
-                                      text: "tick: #{Kernel.tick_count}")
+                             .default_label
+                             .merge(x: 0,
+                                    y: 11,
+                                    text: "tick: #{Kernel.tick_count}")
   args.lowrez.labels  << args.lowrez
-                               .default_label
-                               .merge(x: 0,
-                                      y: 5,
-                                      text: "sprite_index: #{sprite_index}")
+                             .default_label
+                             .merge(x: 0,
+                                    y: 5,
+                                    text: "sprite_index: #{sprite_index}")
 end
 
 ## # =============================================================================
@@ -456,28 +444,28 @@ def how_to_determine_collision args
     if args.state.ship_one.intersect_rect? args.state.ship_two
       # if collision occurred, render the words collision!
       args.lowrez.labels << args.lowrez
-                            .default_label
-                            .merge(x: 31,
-                                   y: 5,
-                                   text: "Collision!",
-                                   alignment_enum: 1)
+                                .default_label
+                                .merge(x: 31,
+                                       y: 5,
+                                       text: "Collision!",
+                                       alignment_enum: 1)
     else
       # if collision occurred, render the words no collision.
       args.lowrez.labels << args.lowrez
-                            .default_label
-                            .merge(x: 31,
-                                   y: 5,
-                                   text: "No Collision.",
-                                   alignment_enum: 1)
+                                .default_label
+                                .merge(x: 31,
+                                       y: 5,
+                                       text: "No Collision.",
+                                       alignment_enum: 1)
     end
   else
     # if both ship one and ship two aren't set, then render --
-      args.lowrez.labels << args.lowrez
-                            .default_label
-                            .merge(x: 31,
-                                   y: 6,
-                                   text: "--",
-                                   alignment_enum: 1)
+    args.lowrez.labels << args.lowrez
+                              .default_label
+                              .merge(x: 31,
+                                     y: 6,
+                                     text: "--",
+                                     alignment_enum: 1)
   end
 end
 
@@ -499,9 +487,8 @@ def how_to_create_buttons args
                                    text: args.state.button_message,
                                    alignment_enum: 1)
 
-
   # Creates button one using a border and a label
-  args.state.button_one_border = args.state.button_style.merge( x: 1, y: 32)
+  args.state.button_one_border = args.state.button_style.merge(x: 1, y: 32)
   args.lowrez.borders << args.state.button_one_border
   args.lowrez.labels  << args.lowrez
                              .default_label
@@ -511,7 +498,7 @@ def how_to_create_buttons args
                                     text: "Button One")
 
   # Creates button two using a border and a label
-  args.state.button_two_border = args.state.button_style.merge( x: 1, y: 20)
+  args.state.button_two_border = args.state.button_style.merge(x: 1, y: 20)
 
   args.lowrez.borders << args.state.button_two_border
   args.lowrez.labels << args.lowrez
@@ -539,21 +526,20 @@ def how_to_create_buttons args
 
   # Render the current value of args.state.last_button_clicked
   args.lowrez.labels << args.lowrez
-                             .default_label
-                             .merge(args.state.label_style)
-                             .merge(x: 32,
-                                    y: 5,
-                                    text: args.state.last_button_clicked,
-                                    alignment_enum: 1)
+                            .default_label
+                            .merge(args.state.label_style)
+                            .merge(x: 32,
+                                   y: 5,
+                                   text: args.state.last_button_clicked,
+                                   alignment_enum: 1)
 end
-
 
 def render_debug args
   if !args.state.grid_rendered
     65.map_with_index do |i|
       args.outputs.static_debug << {
-        x:  LOWREZ_X_OFFSET,
-        y:  LOWREZ_Y_OFFSET + (i * 10),
+        x: LOWREZ_X_OFFSET,
+        y: LOWREZ_Y_OFFSET + (i * 10),
         x2: LOWREZ_X_OFFSET + LOWREZ_ZOOMED_SIZE,
         y2: LOWREZ_Y_OFFSET + (i * 10),
         r: 128,
@@ -563,8 +549,8 @@ def render_debug args
       }.line!
 
       args.outputs.static_debug << {
-        x:  LOWREZ_X_OFFSET + (i * 10),
-        y:  LOWREZ_Y_OFFSET,
+        x: LOWREZ_X_OFFSET + (i * 10),
+        y: LOWREZ_Y_OFFSET,
         x2: LOWREZ_X_OFFSET + (i * 10),
         y2: LOWREZ_Y_OFFSET + LOWREZ_ZOOMED_SIZE,
         r: 128,
@@ -603,7 +589,7 @@ def render_debug args
 
   args.outputs.debug << {
     x: 640,
-    y:  25,
+    y: 25,
     text: "INFO: dev mode is currently enabled. Comment out the invocation of ~render_debug~ within the ~tick~ method to hide the debug layer.",
     size_enum: -0.5,
     alignment_enum: 1

@@ -9,7 +9,7 @@ def tick args
   # clear the render target on the first tick, and then never again. Draw
   #  another box to it every tick, accumulating over time.
   clear_target = (Kernel.tick_count == 0) || (args.inputs.keyboard.key_down.space)
-  args.render_target(:accumulation).background_color = [ 0, 0, 0, 0 ];
+  args.render_target(:accumulation).background_color = [0, 0, 0, 0];
   args.render_target(:accumulation).clear_before_render = clear_target
   args.render_target(:accumulation).solids << [args.state.x, args.state.y, 25, 25, 255, 0, 0, 255];
   args.state.x += args.state.xinc
@@ -40,8 +40,8 @@ def tick args
   #  is not clearing every frame, on top of it. Note that you can NOT opt to
   #  skip clearing the screen, only render targets. The screen clears every
   #  frame; double-buffering would prevent correct updates between frames.
-  args.outputs.background_color = [ 0, 0, args.state.bgcolor, 255 ]
-  args.outputs.sprites << [ 0, 0, 1280, 720, :accumulation ]
+  args.outputs.background_color = [0, 0, args.state.bgcolor, 255]
+  args.outputs.sprites << [0, 0, 1280, 720, :accumulation]
 end
 
 GTK.reset

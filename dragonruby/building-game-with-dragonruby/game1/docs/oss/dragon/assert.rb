@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # assert.rb has been released under MIT (*only this file*).
@@ -97,7 +98,7 @@ end
     def equal! actual, expected, message = nil
       @assertion_performed = true
       if actual != expected
-        actual_string = "#{actual}#{actual.nil? ? " (nil) " : " " }".strip
+        actual_string = "#{actual}#{actual.nil? ? " (nil) " : " "}".strip
         message = "actual:\n#{actual_string}\n\ndid not equal\n\nexpected:\n#{expected}\n#{message}"
         raise message
       end
@@ -107,7 +108,7 @@ end
     def not_equal! actual, expected, message = nil
       @assertion_performed = true
       if actual == expected
-        actual_string = "#{actual}#{actual.nil? ? " (nil) " : " " }".strip
+        actual_string = "#{actual}#{actual.nil? ? " (nil) " : " "}".strip
         message = "actual:\n#{actual_string}\n\nequaled\n\nexpected:\n#{expected}\n#{message}"
         raise message
       end

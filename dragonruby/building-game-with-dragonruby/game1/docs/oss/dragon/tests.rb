@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # tests.rb has been released under MIT (*only this file*).
@@ -39,7 +40,7 @@ module GTK
     end
 
     def test_methods_focused
-      Object.methods.find_all { |m| m.start_with?( "focus_test_") }
+      Object.methods.find_all { |m| m.start_with?("focus_test_") }
     end
 
     def test_methods
@@ -74,25 +75,25 @@ module GTK
     end
 
     def log_inconclusive m
-      self.inconclusive << {m: m}
+      self.inconclusive << { m: m }
       log "Inconclusive."
     end
 
     def log_passed m
-      self.passed << {m: m}
+      self.passed << { m: m }
       log "Passed."
     end
 
     def log_no_tests_found
-      log <<-S
-No tests were found. To create a test. Define a method
-that begins with test_. For example:
-#+begin_src
-def test_game_over args, assert
+      log <<~S
+        No tests were found. To create a test. Define a method
+        that begins with test_. For example:
+        #+begin_src
+        def test_game_over args, assert
 
-end
-#+end_src
-S
+        end
+        #+end_src
+      S
     end
 
     def log_test_running m
@@ -105,18 +106,18 @@ S
     end
 
     def log_test_signature_incorrect m
-      log "TEST METHOD INVALID:", <<-S
-I found a test method called :#{m}. But it needs to have
-the following method signature:
-#+begin_src
-def #{m} args, assert
+      log "TEST METHOD INVALID:", <<~S
+        I found a test method called :#{m}. But it needs to have
+        the following method signature:
+        #+begin_src
+        def #{m} args, assert
 
-end
-#+end_src
-Please update the method signature to match the code above. If you
-did not intend this to be a test method. Rename the method so it does
-not start with "test_".
-S
+        end
+        #+end_src
+        Please update the method signature to match the code above. If you
+        did not intend this to be a test method. Rename the method so it does
+        not start with "test_".
+      S
     end
 
     def clear_summary
@@ -132,10 +133,10 @@ S
       self.passed.each { |h| log "**** :#{h[:m]}" }
       log "*** Inconclusive"
       if self.inconclusive.length > 0
-        log_once :assertion_ok_note, <<-S
-NOTE FOR INCONCLUSIVE TESTS: No assertion was performed in the test.
-Add assert.ok! at the end of the test if you are using your own assertions.
-S
+        log_once :assertion_ok_note, <<~S
+          NOTE FOR INCONCLUSIVE TESTS: No assertion was performed in the test.
+          Add assert.ok! at the end of the test if you are using your own assertions.
+        S
       end
       log "#{self.inconclusive.length} test(s) inconclusive."
       self.inconclusive.each { |h| log "**** :#{h[:m]}" }

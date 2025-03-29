@@ -50,10 +50,10 @@ class LevelEditor
     ifloor_x = world_mouse.x.ifloor(16)
     ifloor_y = world_mouse.y.ifloor(16)
 
-    @mouse_world_rect =  { x: ifloor_x,
-                           y: ifloor_y,
-                           w: 16,
-                           h: 16 }
+    @mouse_world_rect = { x: ifloor_x,
+                          y: ifloor_y,
+                          w: 16,
+                          h: 16 }
 
     if @selected_tile
       ifloor_x = world_mouse.x.ifloor(16)
@@ -90,16 +90,19 @@ class LevelEditor
 
     if @selected_tile
       if @mode == :remove
-        outputs[:scene].sprites << (Camera.to_screen_space state.camera, @selected_tile).merge(path: :pixel, r: 255, g: 0, b: 0, a: 64)
+        outputs[:scene].sprites << (Camera.to_screen_space state.camera, @selected_tile).merge(path: :pixel, r: 255,
+                                                                                               g: 0, b: 0, a: 64)
       elsif @selected_tile
         outputs[:scene].sprites << (Camera.to_screen_space state.camera, @selected_tile)
-        outputs[:scene].sprites << (Camera.to_screen_space state.camera, @selected_tile).merge(path: :pixel, r: 0, g: 255, b: 255, a: 64)
+        outputs[:scene].sprites << (Camera.to_screen_space state.camera, @selected_tile).merge(path: :pixel, r: 0,
+                                                                                               g: 255, b: 255, a: 64)
       end
     end
   end
 
   def generate_tilesheet
     return if Kernel.tick_count > 0
+
     results = []
     rows = 20
     cols = 20
@@ -148,6 +151,7 @@ class LevelEditor
     args.state.terrain = []
     contents = File.read("data/terrain.txt")
     return if !contents
+
     args.state.terrain = contents.lines.map do |line|
       l = line.strip
       if l.empty?

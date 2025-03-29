@@ -10,11 +10,12 @@ def tick args
   args.state.score          ||= 0
   args.state.wave           ||= 0
   if args.state.enemies.empty?
-    args.state.wave      += 1
+    args.state.wave += 1
     args.state.wave_root = Math.sqrt(args.state.wave)
     args.state.enemies   = make_enemies
   end
-  args.state.player         ||= {x: 620, y: 80, w: 40, h: 40, path: 'sprites/circle-gray.png', angle: 90, cooldown: 0, alive: true}
+  args.state.player         ||= { x: 620, y: 80, w: 40, h: 40, path: 'sprites/circle-gray.png', angle: 90, cooldown: 0,
+                                  alive: true }
   args.state.enemy_bullets  ||= []
   args.state.player_bullets ||= []
   args.state.lives          ||= 3
@@ -51,9 +52,11 @@ def tick args
   end
 
   args.state.enemies = args.state.enemies.reject do |enemy|
-    if args.state.player[:alive] && 1500 > (args.state.player[:x] - enemy[:x]) ** 2 + (args.state.player[:y] - enemy[:y]) ** 2
-      args.state.explosions << {x: enemy[:x] + 4, y: enemy[:y] + 4, w: 32, h: 32, path: 'sprites/explosion-0.png', age: 0}
-      args.state.explosions << {x: args.state.player[:x] + 4, y: args.state.player[:y] + 4, w: 32, h: 32, path: 'sprites/explosion-0.png', age: 0}
+    if args.state.player[:alive] && 1500 > (args.state.player[:x] - enemy[:x])**2 + (args.state.player[:y] - enemy[:y])**2
+      args.state.explosions << { x: enemy[:x] + 4, y: enemy[:y] + 4, w: 32, h: 32, path: 'sprites/explosion-0.png',
+                                 age: 0 }
+      args.state.explosions << { x: args.state.player[:x] + 4, y: args.state.player[:y] + 4, w: 32, h: 32,
+                                 path: 'sprites/explosion-0.png', age: 0 }
       args.state.player[:alive] = false
       true
     else
@@ -61,16 +64,18 @@ def tick args
     end
   end
   args.state.enemy_bullets.each do |bullet|
-    if args.state.player[:alive] && 400 > (args.state.player[:x] - bullet[:x] + 12) ** 2 + (args.state.player[:y] - bullet[:y] + 12) ** 2
-      args.state.explosions << {x: args.state.player[:x] + 4, y: args.state.player[:y] + 4, w: 32, h: 32, path: 'sprites/explosion-0.png', age: 0}
+    if args.state.player[:alive] && 400 > (args.state.player[:x] - bullet[:x] + 12)**2 + (args.state.player[:y] - bullet[:y] + 12)**2
+      args.state.explosions << { x: args.state.player[:x] + 4, y: args.state.player[:y] + 4, w: 32, h: 32,
+                                 path: 'sprites/explosion-0.png', age: 0 }
       args.state.player[:alive] = false
       bullet[:despawn]          = true
     end
   end
   args.state.enemies = args.state.enemies.reject do |enemy|
     args.state.player_bullets.any? do |bullet|
-      if 400 > (enemy[:x] - bullet[:x] + 12) ** 2 + (enemy[:y] - bullet[:y] + 12) ** 2
-        args.state.explosions << {x: enemy[:x] + 4, y: enemy[:y] + 4, w: 32, h: 32, path: 'sprites/explosion-0.png', age: 0}
+      if 400 > (enemy[:x] - bullet[:x] + 12)**2 + (enemy[:y] - bullet[:y] + 12)**2
+        args.state.explosions << { x: enemy[:x] + 4, y: enemy[:y] + 4, w: 32, h: 32, path: 'sprites/explosion-0.png',
+                                   age: 0 }
         bullet[:despawn] = true
         args.state.score += 1000 * args.state.wave
         true
@@ -85,13 +90,15 @@ def tick args
 
   args.state.player[:cooldown] -= 1
   if args.inputs.keyboard.key_held.space && args.state.player[:cooldown] <= 0 && args.state.player[:alive]
-    args.state.player_bullets << {x: args.state.player[:x] + 12, y: args.state.player[:y] + 28, w: 16, h: 16, path: 'sprites/star.png', dx: 0, dy: 8}.sprite
-    args.state.fired_shots       += 1
+    args.state.player_bullets << { x: args.state.player[:x] + 12, y: args.state.player[:y] + 28, w: 16, h: 16,
+                                   path: 'sprites/star.png', dx: 0, dy: 8 }.sprite
+    args.state.fired_shots += 1
     args.state.player[:cooldown] = 10 + 20 / args.state.wave
   end
   args.state.enemies.each do |enemy|
     if Math.rand < 0.0005 + 0.0005 * args.state.wave && args.state.player[:alive] && enemy[:move_state] == :normal
-      args.state.enemy_bullets << {x: enemy[:x] + 12, y: enemy[:y] - 8, w: 16, h: 16, path: 'sprites/star.png', dx: 0, dy: -3 - args.state.wave_root}.sprite
+      args.state.enemy_bullets << { x: enemy[:x] + 12, y: enemy[:y] - 8, w: 16, h: 16, path: 'sprites/star.png', dx: 0,
+                                    dy: -3 - args.state.wave_root }.sprite
     end
   end
 
@@ -114,13 +121,15 @@ def tick args
   args.outputs.primitives << args.state.lives.map do |n|
     [1280 - 290 + 50 * n, 80, 40, 40, 'sprites/circle-gray.png', 90].sprite
   end
-  #args.outputs.debug << GTK.framerate_diagnostics_primitives
+  # args.outputs.debug << GTK.framerate_diagnostics_primitives
 
-  if (!args.state.player[:alive]) && args.state.enemy_bullets.empty? && args.state.explosions.empty? && args.state.enemies.all? { |enemy| enemy[:move_state] == :normal }
+  if (!args.state.player[:alive]) && args.state.enemy_bullets.empty? && args.state.explosions.empty? && args.state.enemies.all? { |enemy|
+    enemy[:move_state] == :normal
+  }
     args.state.player[:alive] = true
     args.state.player[:x]     = 624
     args.state.player[:y]     = 80
-    args.state.lives          -= 1
+    args.state.lives -= 1
     if args.state.lives == -1
       args.state.clear!
     end
@@ -129,17 +138,32 @@ end
 
 def make_enemies
   enemies = []
-  enemies += 10.map { |n| {x: Math.rand * 1280 * 2 - 640, y: Math.rand * 720 * 2 + 720, row: 0, col: n, path: 'sprites/circle-orange.png', move_state: :retreat} }
-  enemies += 10.map { |n| {x: Math.rand * 1280 * 2 - 640, y: Math.rand * 720 * 2 + 720, row: 1, col: n, path: 'sprites/circle-orange.png', move_state: :retreat} }
-  enemies += 8.map { |n| {x: Math.rand * 1280 * 2 - 640, y: Math.rand * 720 * 2 + 720, row: 2, col: n + 1, path: 'sprites/circle-blue.png', move_state: :retreat} }
-  enemies += 8.map { |n| {x: Math.rand * 1280 * 2 - 640, y: Math.rand * 720 * 2 + 720, row: 3, col: n + 1, path: 'sprites/circle-blue.png', move_state: :retreat} }
-  enemies += 4.map { |n| {x: Math.rand * 1280 * 2 - 640, y: Math.rand * 720 * 2 + 720, row: 4, col: n + 3, path: 'sprites/circle-green.png', move_state: :retreat} }
+  enemies += 10.map { |n|
+    { x: Math.rand * 1280 * 2 - 640, y: Math.rand * 720 * 2 + 720, row: 0, col: n, path: 'sprites/circle-orange.png',
+      move_state: :retreat }
+  }
+  enemies += 10.map { |n|
+    { x: Math.rand * 1280 * 2 - 640, y: Math.rand * 720 * 2 + 720, row: 1, col: n, path: 'sprites/circle-orange.png',
+      move_state: :retreat }
+  }
+  enemies += 8.map { |n|
+    { x: Math.rand * 1280 * 2 - 640, y: Math.rand * 720 * 2 + 720, row: 2, col: n + 1, path: 'sprites/circle-blue.png',
+      move_state: :retreat }
+  }
+  enemies += 8.map { |n|
+    { x: Math.rand * 1280 * 2 - 640, y: Math.rand * 720 * 2 + 720, row: 3, col: n + 1, path: 'sprites/circle-blue.png',
+      move_state: :retreat }
+  }
+  enemies += 4.map { |n|
+    { x: Math.rand * 1280 * 2 - 640, y: Math.rand * 720 * 2 + 720, row: 4, col: n + 3, path: 'sprites/circle-green.png',
+      move_state: :retreat }
+  }
   enemies
 end
 
 def update_explosions args
   args.state.explosions.each do |explosion|
-    explosion[:age]  += 0.5
+    explosion[:age] += 0.5
     explosion[:path] = "sprites/explosion-#{explosion[:age].floor}.png"
   end
   args.state.explosions = args.state.explosions.reject { |explosion| explosion[:age] >= 7 }

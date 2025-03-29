@@ -19,6 +19,7 @@ class ScrollView
 
   def add_item prefab
     raise "prefab must be a Hash" unless prefab.is_a? Hash
+
     @items << prefab
   end
 
@@ -105,7 +106,6 @@ class ScrollView
         @scroll_view_dy += inputs.mouse.wheel.y
       end
     end
-
   end
 
   def tick
@@ -218,9 +218,12 @@ class Game
   def calc
     if Kernel.tick_count == 0
       80.times do |i|
-        @scroll_view.add_item Layout.rect(row: 2 + i * 2, col: 0, w: 2, h: 2).merge(id: "item_#{i}_square_1".to_sym, path: :solid, r: 32 + i * 2, g: 32, b: 32)
-        @scroll_view.add_item Layout.rect(row: 2 + i * 2, col: 0, w: 2, h: 2).center.merge(text: "item #{i}", anchor_x: 0.5, anchor_y: 0.5, r: 255, g: 255, b: 255)
-        @scroll_view.add_item Layout.rect(row: 2 + i * 2, col: 2, w: 2, h: 2).merge(id: "item_#{i}_square_2".to_sym, path: :solid, r: 64 + i * 2, g: 64, b: 64)
+        @scroll_view.add_item Layout.rect(row: 2 + i * 2, col: 0, w: 2, h: 2).merge(id: "item_#{i}_square_1".to_sym,
+                                                                                    path: :solid, r: 32 + i * 2, g: 32, b: 32)
+        @scroll_view.add_item Layout.rect(row: 2 + i * 2, col: 0, w: 2, h: 2).center.merge(text: "item #{i}",
+                                                                                           anchor_x: 0.5, anchor_y: 0.5, r: 255, g: 255, b: 255)
+        @scroll_view.add_item Layout.rect(row: 2 + i * 2, col: 2, w: 2, h: 2).merge(id: "item_#{i}_square_2".to_sym,
+                                                                                    path: :solid, r: 64 + i * 2, g: 64, b: 64)
       end
     end
 

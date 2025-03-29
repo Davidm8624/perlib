@@ -55,5 +55,7 @@ def tick args
   args.outputs.primitives << Layout.debug_primitives
   args.outputs.primitives << sub_grid.merge(path: :solid, r: 255, g: 0, b: 0, a: 255)
   args.outputs.primitives << slots.values.map { |r| r.merge(path: :solid, r: 0, g: 0, b: 0, a: 255) }
-  args.outputs.primitives << slots.values.map { |r| r.center.merge(text: "#{r.row},#{r.col}", r: 255, g: 255, b: 255, anchor_x: 0.5, anchor_y: 0.5) }
+  args.outputs.primitives << slots.values.map { |r|
+    r.center.merge(text: "#{r.row},#{r.col}", r: 255, g: 255, b: 255, anchor_x: 0.5, anchor_y: 0.5)
+  }
 end

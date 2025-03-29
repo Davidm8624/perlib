@@ -71,8 +71,8 @@ class Game
     player.dy -= player.gravity
     player.y += player.dy
     player.angle += player.angle_velocity
-    player.dy += player.dy * player.drag ** 2 * -1
-    player.dx += player.dx * player.drag ** 2 * -1
+    player.dy += player.dy * player.drag**2 * -1
+    player.dx += player.dx * player.drag**2 * -1
     player.colliding = false
     player.colliding_with = nil
 
@@ -167,6 +167,7 @@ class Game
 
   def collide! circle, line
     return if !line
+
     position_on_line! circle, line
     reflect_velocity! circle, line
     next_player = { x: player.x + player.dx,
@@ -211,8 +212,8 @@ class Game
 
   def player_terrain_collisions
     terrain.find_all do |terrain|
-             Geometry.circle_intersect_line? player, terrain
-           end
+      Geometry.circle_intersect_line? player, terrain
+    end
            .sort_by do |terrain|
              if player.facing == -1
                -terrain.x
@@ -234,19 +235,20 @@ class Game
   def render_player_terrain_collisions
     collisions = player_terrain_collisions
     outputs.lines << collisions.map do |collision|
-                       { x: collision.x,
-                         y: collision.y,
-                         x2: collision.x2,
-                         y2: collision.y2,
-                         r: 255,
-                         g: 0,
-                         b: 0 }
-                     end
+      { x: collision.x,
+        y: collision.y,
+        x2: collision.x2,
+        y2: collision.y2,
+        r: 255,
+        g: 0,
+        b: 0 }
+    end
   end
 
   def render_current_grid_point
     return if state.game_mode == :play
     return if !state.current_grid_point
+
     outputs.sprites << state.current_grid_point
                             .merge(w: 8,
                                    h: 8,
@@ -273,18 +275,18 @@ class Game
   def render_grid_points
     outputs
       .sprites << state
-                    .grid_points
-                    .map do |point|
-      point.merge w: 8,
-                  h: 8,
-                  anchor_x: 0.5,
-                  anchor_y: 0.5,
-                  path: :solid,
-                  g: 255,
-                  r: 255,
-                  b: 255,
-                  a: 128
-    end
+                  .grid_points
+                  .map do |point|
+                    point.merge w: 8,
+                                h: 8,
+                                anchor_x: 0.5,
+                                anchor_y: 0.5,
+                                path: :solid,
+                                g: 255,
+                                r: 255,
+                                b: 255,
+                                a: 128
+                  end
   end
 
   def render_terrain

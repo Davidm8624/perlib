@@ -24,7 +24,6 @@ def body_count num
 end
 
 def tick args
-
   # Center body's values are set using an array
   # Map is used to set values of 5000 other bodies
   # All bodies that intersect with center body are stored in collisions collection
@@ -57,7 +56,7 @@ def tick args
                      b: 0 } # center body is red solid
   args.sprites  << args.state.other_bodies # other bodies are output as (black) solids, as well
 
-  args.labels  << [10, 30, GTK.current_framerate.to_sf] # outputs frame rate in bottom left corner
+  args.labels << [10, 30, GTK.current_framerate.to_sf] # outputs frame rate in bottom left corner
 
   # Bodies are returned to bottom left corner if positions exceed scope of screen
   args.state.other_bodies.each do |b| # for each body in the other_bodies collection

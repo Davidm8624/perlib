@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # api.rb has been released under MIT (*only this file*).
@@ -12,54 +13,54 @@ module GTK
     end
 
     def get_api_autocomplete args, req
-      html = <<-S
-<html>
-  <head>
-    <meta charset="UTF-8"/>
-    <title>DragonRuby Game Toolkit Documentation</title>
-    <style>
-    pre {
-      border: solid 1px silver;
-      padding: 10px;
-      font-size: 14px;
-      white-space: pre-wrap;
-      white-space: -moz-pre-wrap;
-      white-space: -pre-wrap;
-      white-space: -o-pre-wrap;
-      word-wrap: break-word;
-    }
-    </style>
-  </head>
-  <body>
-      <script>
-        async function submitForm() {
-          const result = await fetch("/dragon/autocomplete/", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ index: document.getElementById("index").value,
-                                   text: document.getElementById("text").value }),
-          });
-          document.getElementById("autocomplete-results").innerHTML = await result.text();
-        }
-      </script>
-      <form>
-        <div>index</div>
-        <input name="index" id="index" type="text" value="27" />
-        <div>code</div>
-        <textarea name="text" id="text" rows="30" cols="80">def tick args
-  args.state.
-end</textarea>
-        <br/>
-        <input type="button" value="Get Suggestions" onclick="submitForm();" />
-        <span id="success-notification"></span>
-      </form>
-      <pre id="autocomplete-results">
-      </pre>
+      html = <<~S
+        <html>
+          <head>
+            <meta charset="UTF-8"/>
+            <title>DragonRuby Game Toolkit Documentation</title>
+            <style>
+            pre {
+              border: solid 1px silver;
+              padding: 10px;
+              font-size: 14px;
+              white-space: pre-wrap;
+              white-space: -moz-pre-wrap;
+              white-space: -pre-wrap;
+              white-space: -o-pre-wrap;
+              word-wrap: break-word;
+            }
+            </style>
+          </head>
+          <body>
+              <script>
+                async function submitForm() {
+                  const result = await fetch("/dragon/autocomplete/", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ index: document.getElementById("index").value,
+                                           text: document.getElementById("text").value }),
+                  });
+                  document.getElementById("autocomplete-results").innerHTML = await result.text();
+                }
+              </script>
+              <form>
+                <div>index</div>
+                <input name="index" id="index" type="text" value="27" />
+                <div>code</div>
+                <textarea name="text" id="text" rows="30" cols="80">def tick args
+          args.state.
+        end</textarea>
+                <br/>
+                <input type="button" value="Get Suggestions" onclick="submitForm();" />
+                <span id="success-notification"></span>
+              </form>
+              <pre id="autocomplete-results">
+              </pre>
 
-    #{links}
-  </body>
-</html>
-S
+            #{links}
+          </body>
+        </html>
+      S
 
       req.respond 200,
                   html,
@@ -69,10 +70,10 @@ S
     def get_api_lsp_pulse args, req
       puts "get_api_lsp_pulse"
       json_response = <<~S
-          {
-            "result": "ok"
-          }
-        S
+        {
+          "result": "ok"
+        }
+      S
       req.respond 200, json_response, { 'Content-Type' => 'application/json', 'Content-Length' => json_response.length }
     end
 
@@ -82,7 +83,7 @@ S
         puts "NOT JSON"
         req.respond 400
       else
-        json  = ($gtk.parse_json req.body)
+        json = ($gtk.parse_json req.body)
         puts "#{json}"
         json_response = <<~S
           {
@@ -95,7 +96,8 @@ S
             ]
           }
         S
-        req.respond 200, json_response, { 'Content-Type' => 'application/json', 'Content-Length' => json_response.length }
+        req.respond 200, json_response,
+                    { 'Content-Type' => 'application/json', 'Content-Length' => json_response.length }
       end
     end
 
@@ -119,85 +121,85 @@ S
       <li><a href="/dragon/log/">Logs</a></li>
       <li><a href="/dragon/code/">Code</a></li>
     </ul>
-S
+      S
     end
 
     def get_index args, req
-      req.respond 200, <<-S, { 'Content-Type' => 'text/html' }
-<html>
-  <head>
-    <meta charset="UTF-8"/>
-    <title>DragonRuby Game Toolkit Documentation</title>
-  </head>
-  <body>
-    #{links}
-  </body>
-</html>
-S
+      req.respond 200, <<~S, { 'Content-Type' => 'text/html' }
+        <html>
+          <head>
+            <meta charset="UTF-8"/>
+            <title>DragonRuby Game Toolkit Documentation</title>
+          </head>
+          <body>
+            #{links}
+          </body>
+        </html>
+      S
     end
 
     def source_code_links args
       links = args.gtk.reload_list_history.keys.map do |f|
         "<li><a href=\"/dragon/code/edit/?file=#{f}\">#{f}</a></li>"
       end
-      <<-S
-<ul>
-  #{links.join("\n")}
-</ul>
-S
+      <<~S
+        <ul>
+          #{links.join("\n")}
+        </ul>
+      S
     end
 
     def get_api_code args, req
-      view = <<-S
-<html>
-  <head>
-    <meta charset="UTF-8"/>
-    <title>DragonRuby Game Toolkit Documentation</title>
-  </head>
-  <body>
-    #{source_code_links args}
+      view = <<~S
+        <html>
+          <head>
+            <meta charset="UTF-8"/>
+            <title>DragonRuby Game Toolkit Documentation</title>
+          </head>
+          <body>
+            #{source_code_links args}
 
-    #{links}
-  </body>
-</html>
-S
+            #{links}
+          </body>
+        </html>
+      S
       req.respond 200,
                   view,
                   { 'Content-Type' => 'text/html' }
     end
 
     def code_edit_view args, file
-      view = <<-S
-<html>
-  <head>
-    <meta charset="UTF-8"/>
-    <title>DragonRuby Game Toolkit Documentation</title>
-  </head>
-  <body>
-      <script>
-        async function submitForm() {
-          const result = await fetch("/dragon/code/update/?file=#{file}", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ code: document.getElementById("code").value }),
-          });
-          document.getElementById("success-notification").innerHTML = "update successful";
-          setTimeout(function() { document.getElementById("success-notification").innerHTML = ""; }, 3000);
-        }
-      </script>
-      <form>
-        <div><code>#{file}:</code></div>
-        <textarea name="code" id="code" rows="30" cols="80">#{args.gtk.read_file file}</textarea>
-        <br/>
-        <input type="button" value="Update" onclick="submitForm();" />
-        <span id="success-notification"></span>
-      </form>
-    #{source_code_links args}
+      view = <<~S
+        <html>
+          <head>
+            <meta charset="UTF-8"/>
+            <title>DragonRuby Game Toolkit Documentation</title>
+          </head>
+          <body>
+              <script>
+                async function submitForm() {
+                  const result = await fetch("/dragon/code/update/?file=#{file}", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: document.getElementById("code").value }),
+                  });
+                  document.getElementById("success-notification").innerHTML = "update successful";
+                  setTimeout(function() { document.getElementById("success-notification").innerHTML = ""; }, 3000);
+                }
+              </script>
+              <form>
+                <div><code>#{file}:</code></div>
+                <textarea name="code" id="code" rows="30" cols="80">#{args.gtk.read_file file}</textarea>
+                <br/>
+                <input type="button" value="Update" onclick="submitForm();" />
+                <span id="success-notification"></span>
+              </form>
+            #{source_code_links args}
 
-    #{links}
-  </body>
-</html>
-S
+            #{links}
+          </body>
+        </html>
+      S
     end
 
     def get_api_code_edit args, req
@@ -221,7 +223,6 @@ S
                   view,
                   { 'Content-Type' => 'text/html' }
     end
-
 
     def get_api_log args, req
       req.respond 200,
@@ -248,55 +249,55 @@ S
       puts("METHOD: #{req.method}");
       puts("URI: #{req.uri}");
       puts("HEADERS:");
-      req.headers.each { |k,v| puts("  #{k}: #{v}") }
-      req.respond 404, "not found: #{req.uri}", { }
+      req.headers.each { |k, v| puts("  #{k}: #{v}") }
+      req.respond 404, "not found: #{req.uri}", {}
     end
 
     def get_api_eval args, req
-      eval_view = <<-S
-<html lang="en">
-  <head><title>Eval</title></head>
-  <style>
-  pre {
-    border: solid 1px silver;
-    padding: 10px;
-    font-size: 14px;
-    white-space: pre-wrap;
-    white-space: -moz-pre-wrap;
-    white-space: -pre-wrap;
-    white-space: -o-pre-wrap;
-    word-wrap: break-word;
-  }
-  </style>
-  <body>
-    <script>
-      var escape = document.createElement('textarea');
-      function escapeHTML(html) {
-          escape.textContent = html;
-          return escape.innerHTML;
-      }
+      eval_view = <<~S
+        <html lang="en">
+          <head><title>Eval</title></head>
+          <style>
+          pre {
+            border: solid 1px silver;
+            padding: 10px;
+            font-size: 14px;
+            white-space: pre-wrap;
+            white-space: -moz-pre-wrap;
+            white-space: -pre-wrap;
+            white-space: -o-pre-wrap;
+            word-wrap: break-word;
+          }
+          </style>
+          <body>
+            <script>
+              var escape = document.createElement('textarea');
+              function escapeHTML(html) {
+                  escape.textContent = html;
+                  return escape.innerHTML;
+              }
 
-      async function submitForm() {
-          const result = await fetch("/dragon/eval/", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ code: document.getElementById("code").value }),
-          });
-          document.getElementById("eval-result").innerHTML = escapeHTML(await result.text());
-      }
-    </script>
-    <form>
-      <textarea name="code" id="code" rows="10" cols="80"># write your code here\n$gtk.args.state</textarea>
-      <br/>
-      <input type="button" onclick="submitForm();" value="submit" />
-    </form>
-    <pre>curl -H "Content-Type: application/json" --data '{ "code": "$args.state" }' -X POST http://localhost:9001/dragon/eval/</pre>
-    <div>Eval Result:</div>
-    <pre id="eval-result"></pre>
-    #{links}
-  </body>
-</html>
-S
+              async function submitForm() {
+                  const result = await fetch("/dragon/eval/", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: document.getElementById("code").value }),
+                  });
+                  document.getElementById("eval-result").innerHTML = escapeHTML(await result.text());
+              }
+            </script>
+            <form>
+              <textarea name="code" id="code" rows="10" cols="80"># write your code here\n$gtk.args.state</textarea>
+              <br/>
+              <input type="button" onclick="submitForm();" value="submit" />
+            </form>
+            <pre>curl -H "Content-Type: application/json" --data '{ "code": "$args.state" }' -X POST http://localhost:9001/dragon/eval/</pre>
+            <div>Eval Result:</div>
+            <pre id="eval-result"></pre>
+            #{links}
+          </body>
+        </html>
+      S
       req.respond 200,
                   eval_view,
                   { 'Content-Type' => 'text/html' }
@@ -325,42 +326,42 @@ S
     end
 
     def control_panel_view
-      <<-S
-<html lang="en">
-  <head><title>console</title></head>
-  <body>
-    <script>
-      async function submitForm(url) {
-        const result = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({}),
-        });
-        document.getElementById("success-notification").innerHTML = "successful";
-        setTimeout(function() { document.getElementById("success-notification").innerHTML = ""; }, 3000);
-      }
-    </script>
-    <form>
-      <input type="button" value="Show Console" onclick="submitForm('/dragon/show_console/')" />
-    </form>
-    <form>
-      <input type="button" value="Reset Game" onclick="submitForm('/dragon/reset/');" />
-    </form>
-    <form>
-      <input type="button" value="Record Gameplay" onclick="submitForm('/dragon/record/');" />
-    </form>
-    <form>
-      <input type="button" value="Stop Recording" onclick="submitForm('/dragon/record_stop/');" />
-    </form>
-    <form>
-      <input type="button" value="Replay Recording" onclick="submitForm('/dragon/replay/');" />
-    </form>
+      <<~S
+        <html lang="en">
+          <head><title>console</title></head>
+          <body>
+            <script>
+              async function submitForm(url) {
+                const result = await fetch(url, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({}),
+                });
+                document.getElementById("success-notification").innerHTML = "successful";
+                setTimeout(function() { document.getElementById("success-notification").innerHTML = ""; }, 3000);
+              }
+            </script>
+            <form>
+              <input type="button" value="Show Console" onclick="submitForm('/dragon/show_console/')" />
+            </form>
+            <form>
+              <input type="button" value="Reset Game" onclick="submitForm('/dragon/reset/');" />
+            </form>
+            <form>
+              <input type="button" value="Record Gameplay" onclick="submitForm('/dragon/record/');" />
+            </form>
+            <form>
+              <input type="button" value="Stop Recording" onclick="submitForm('/dragon/record_stop/');" />
+            </form>
+            <form>
+              <input type="button" value="Replay Recording" onclick="submitForm('/dragon/replay/');" />
+            </form>
 
-    <div id="success-notification"></div>
-    #{links}
-  </body>
-</html>
-S
+            <div id="success-notification"></div>
+            #{links}
+          </body>
+        </html>
+      S
     end
 
     def get_api_control_panel args, req
@@ -424,13 +425,13 @@ S
     def tick args
       args.inputs.http_requests.each do |req|
         uri, query_string = get_uri_and_query_string req
-        match_candidate = { method:                   req.method.downcase.to_sym,
-                            uri:                      uri,
-                            query_string:             query_string,
-                            has_query_string:         !!query_string,
-                            end_with_rb:              uri.end_with?('.rb'),
-                            has_file_extension:       file_extensions.find { |f| uri.include? f },
-                            has_trailing_slash:       uri.end_with?('/') }
+        match_candidate = { method: req.method.downcase.to_sym,
+                            uri: uri,
+                            query_string: query_string,
+                            has_query_string: !!query_string,
+                            end_with_rb: uri.end_with?('.rb'),
+                            has_file_extension: file_extensions.find { |f| uri.include? f },
+                            has_trailing_slash: uri.end_with?('/') }
 
         if !match_candidate[:has_file_extension] && !match_candidate[:has_trailing_slash]
           match_candidate[:uri] += '/'
@@ -488,49 +489,48 @@ S
 
     def routes
       [{ match_criteria: { method: :get, uri: "/" },
-         handler:        :get_index },
+         handler: :get_index },
        { match_criteria: { method: :get, uri: "/dragon/" },
-         handler:        :get_index },
+         handler: :get_index },
        { match_criteria: { method: :get, uri: "/dragon/log/" },
-         handler:        :get_api_log },
+         handler: :get_api_log },
        { match_criteria: { method: :post, uri: "/dragon/log/" },
-         handler:        :post_api_log },
+         handler: :post_api_log },
        { match_criteria: { method: :get, uri: "/dragon/eval/" },
-         handler:        :get_api_eval },
+         handler: :get_api_eval },
        { match_criteria: { method: :post, uri: "/dragon/eval/" },
-         handler:        :post_api_eval },
+         handler: :post_api_eval },
        { match_criteria: { method: :get, uri: "/dragon/control_panel/" },
-         handler:        :get_api_control_panel },
+         handler: :get_api_control_panel },
        { match_criteria: { method: :post, uri: "/dragon/reset/" },
-         handler:        :post_api_reset },
+         handler: :post_api_reset },
        { match_criteria: { method: :post, uri: "/dragon/record/" },
-         handler:        :post_api_record },
+         handler: :post_api_record },
        { match_criteria: { method: :post, uri: "/dragon/record_stop/" },
-         handler:        :post_api_record_stop },
+         handler: :post_api_record_stop },
        { match_criteria: { method: :post, uri: "/dragon/replay/" },
-         handler:        :post_api_replay },
+         handler: :post_api_replay },
        { match_criteria: { method: :post, uri: "/dragon/show_console/" },
-         handler:        :post_api_show_console },
+         handler: :post_api_show_console },
        { match_criteria: { method: :get, uri: "/dragon/code/" },
-         handler:        :get_api_code },
+         handler: :get_api_code },
        { match_criteria: { method: :get, uri: "/dragon/autocomplete/" },
-         handler:        :get_api_autocomplete },
+         handler: :get_api_autocomplete },
        { match_criteria: { method: :post, uri: "/dragon/autocomplete/" },
-         handler:        :post_api_autocomplete },
+         handler: :post_api_autocomplete },
        { match_criteria: { method: :get, uri: "/dragon/lsp/pulse/" },
-         handler:        :get_api_lsp_pulse },
+         handler: :get_api_lsp_pulse },
        { match_criteria: { method: :post, uri: "/dragon/lsp/completion/" },
-         handler:        :post_api_lsp_completion },
+         handler: :post_api_lsp_completion },
        { match_criteria: { method: :get, uri: "/dragon/code/edit/", has_query_string: true },
-         handler:        :get_api_code_edit },
+         handler: :get_api_code_edit },
        { match_criteria: { method: :post, uri: "/dragon/code/update/", has_query_string: true },
-         handler:        :post_api_code_update },
+         handler: :post_api_code_update },
        { match_criteria: { method: :get, end_with_rb: true },
-         handler:        :get_src_backup },
+         handler: :get_src_backup },
        { match_criteria: { method: :get, uri: "/dragon/changes/" },
-         handler:        :get_api_changes },
-       *static_file_routes
-      ]
+         handler: :get_api_changes },
+       *static_file_routes]
     end
 
     def process! opts

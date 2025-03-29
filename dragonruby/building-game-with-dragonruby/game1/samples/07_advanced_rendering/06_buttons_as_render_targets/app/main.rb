@@ -8,7 +8,8 @@ def tick args
     { id: :top_button, x: 640 - 250, y: 80.from_top, w: 500, h: 50, path: :hello_world_button },
 
     # another button at the buttom, upside down, and flipped horizontally
-    { id: :bottom_button, x: 640 - 250, y: 30, w: 500, h: 50, path: :hello_world_button, angle: 180, flip_horizontally: true },
+    { id: :bottom_button, x: 640 - 250, y: 30, w: 500, h: 50, path: :hello_world_button, angle: 180,
+      flip_horizontally: true },
   ]
 
   # check if a mouse click occurred

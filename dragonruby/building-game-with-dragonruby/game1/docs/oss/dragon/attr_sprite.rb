@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # attr_sprite.rb has been released under MIT (*only this file*).
@@ -68,6 +69,7 @@ class Object
 
   def attr_sprite
     return if self.is_a? AttrSprite
+
     self.class.include AttrSprite
   end
 
@@ -77,6 +79,7 @@ class Object
 
   def attr_rect
     return if self.is_a? AttrRect
+
     self.class.include AttrRect
   end
 end

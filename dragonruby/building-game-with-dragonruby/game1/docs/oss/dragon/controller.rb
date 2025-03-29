@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # controller.rb has been released under MIT (*only this file*).
@@ -67,22 +68,22 @@ module GTK
 
     def serialize
       {
-        left_analog_x_raw:     @left_analog_x_raw,
-        left_analog_y_raw:     @left_analog_y_raw,
-        left_analog_x_perc:    @left_analog_x_perc,
-        left_analog_y_perc:    @left_analog_y_perc,
-        right_analog_x_raw:    @right_analog_x_raw,
-        right_analog_y_raw:    @right_analog_y_raw,
-        right_analog_x_perc:   @right_analog_x_perc,
-        right_analog_y_perc:   @right_analog_y_perc,
-        active:                @active,
-        key_down:              @key_down.serialize,
-        key_held:              @key_held.serialize,
-        key_up:                @key_up.serialize,
-        left_analog_angle:     left_analog_angle,
-        right_analog_angle:    right_analog_angle,
-        left_analog_active:    left_analog_active?,
-        right_analog_active:    right_analog_active?
+        left_analog_x_raw: @left_analog_x_raw,
+        left_analog_y_raw: @left_analog_y_raw,
+        left_analog_x_perc: @left_analog_x_perc,
+        left_analog_y_perc: @left_analog_y_perc,
+        right_analog_x_raw: @right_analog_x_raw,
+        right_analog_y_raw: @right_analog_y_raw,
+        right_analog_x_perc: @right_analog_x_perc,
+        right_analog_y_perc: @right_analog_y_perc,
+        active: @active,
+        key_down: @key_down.serialize,
+        key_held: @key_held.serialize,
+        key_up: @key_up.serialize,
+        left_analog_angle: left_analog_angle,
+        right_analog_angle: right_analog_angle,
+        left_analog_active: left_analog_active?,
+        right_analog_active: right_analog_active?
       }
     end
 
@@ -134,7 +135,6 @@ module GTK
       key_up.deactivate(key)
     end
 
-
     # Activates a key release into the up position.
     #
     # @param key [Symbol] The key release up.
@@ -166,11 +166,13 @@ module GTK
 
     def left_analog_angle
       return nil if left_analog_x_raw == 0 && left_analog_y_raw == 0
+
       Math.atan2(left_analog_y_perc, left_analog_x_perc).to_degrees % 360
     end
 
     def right_analog_angle
       return nil if right_analog_x_raw == 0 && right_analog_y_raw == 0
+
       Math.atan2(right_analog_y_perc, right_analog_x_perc).to_degrees % 360
     end
 

@@ -80,8 +80,7 @@ def test_hash_merge_with_block args, assert
     current_value + new_value
   end
 
-  result_actual = Hash.merge(a, b) do
-    |k, current_value, new_value|
+  result_actual = Hash.merge(a, b) do |k, current_value, new_value|
     current_value + new_value
   end
 

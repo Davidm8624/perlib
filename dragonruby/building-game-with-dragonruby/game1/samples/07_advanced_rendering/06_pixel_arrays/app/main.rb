@@ -3,15 +3,15 @@ def tick args
   args.state.pos ||= 0
   args.state.rotation ||= 0
 
-  dimension = 10  # keep it small and let the GPU scale it when rendering the sprite.
+  dimension = 10 # keep it small and let the GPU scale it when rendering the sprite.
 
   # Set up our "scanner" pixel array and fill it with black pixels.
   args.pixel_array(:scanner).width = dimension
   args.pixel_array(:scanner).height = dimension
-  args.pixel_array(:scanner).pixels.fill(0xFF000000, 0, dimension * dimension)  # black, full alpha
+  args.pixel_array(:scanner).pixels.fill(0xFF000000, 0, dimension * dimension) # black, full alpha
 
   # Draw a green line that bounces up and down the sprite.
-  args.pixel_array(:scanner).pixels.fill(0xFF00FF00, dimension * args.state.pos, dimension)  # green, full alpha
+  args.pixel_array(:scanner).pixels.fill(0xFF00FF00, dimension * args.state.pos, dimension) # green, full alpha
 
   # Adjust position for next frame.
   args.state.pos += args.state.posinc
@@ -36,6 +36,5 @@ def tick args
 
   args.outputs.primitives << GTK.current_framerate_primitives
 end
-
 
 GTK.reset

@@ -114,15 +114,19 @@ def render args
     frame_index = args.state.player.action_at.frame_index(count: 9, hold_for: 8, repeat: true, repeat_index: 3)
     path = "sprites/link-run-#{frame_index}.png"
 
-    args.outputs.labels << { x: args.state.player.x - 144, y: args.state.player.y + 230, text: "action:      #{args.state.player.action}" }
-    args.outputs.labels << { x: args.state.player.x - 144, y: args.state.player.y + 200, text: "action_at:   #{args.state.player.action_at}" }
-    args.outputs.labels << { x: args.state.player.x - 144, y: args.state.player.y + 170, text: "frame_index: #{frame_index}" }
+    args.outputs.labels << { x: args.state.player.x - 144, y: args.state.player.y + 230,
+                             text: "action:      #{args.state.player.action}" }
+    args.outputs.labels << { x: args.state.player.x - 144, y: args.state.player.y + 200,
+                             text: "action_at:   #{args.state.player.action_at}" }
+    args.outputs.labels << { x: args.state.player.x - 144, y: args.state.player.y + 170,
+                             text: "frame_index: #{frame_index}" }
   else
-    args.outputs.labels << { x: args.state.player.x - 144, y: args.state.player.y + 230, text: "action:      #{args.state.player.action}" }
-    args.outputs.labels << { x: args.state.player.x - 144, y: args.state.player.y + 200, text: "action_at:   #{args.state.player.action_at}" }
+    args.outputs.labels << { x: args.state.player.x - 144, y: args.state.player.y + 230,
+                             text: "action:      #{args.state.player.action}" }
+    args.outputs.labels << { x: args.state.player.x - 144, y: args.state.player.y + 200,
+                             text: "action_at:   #{args.state.player.action_at}" }
     args.outputs.labels << { x: args.state.player.x - 144, y: args.state.player.y + 170, text: "frame_index: n/a" }
   end
-
 
   # render the player's hitbox and sprite (the hitbox is used to determine boundary collision)
   args.outputs.borders << hitbox(args.state.player)
@@ -142,6 +146,5 @@ def hitbox entity
     anchor_y: 0
   }
 end
-
 
 GTK.reset

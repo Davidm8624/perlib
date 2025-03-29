@@ -34,19 +34,22 @@ class Game
     args.outputs.sprites << { x: 320, y: 0, w: 640, h: 640, path: :scene }
     args.outputs.labels << { x: 10, y: 100, text: "Controls:", r: 255, g: 255, b: 255, size_enum: -1 }
     args.outputs.labels << { x: 10, y: 80, text: "Move:   left/right", r: 255, g: 255, b: 255, size_enum: -1 }
-    args.outputs.labels << { x: 10, y: 60, text: "Jump:   space | up | right click", r: 255, g: 255, b: 255, size_enum: -1 }
-    args.outputs.labels << { x: 10, y: 40, text: "Attack: f     | j  | left click", r: 255, g: 255, b: 255, size_enum: -1 }
+    args.outputs.labels << { x: 10, y: 60, text: "Jump:   space | up | right click", r: 255, g: 255, b: 255,
+                             size_enum: -1 }
+    args.outputs.labels << { x: 10, y: 40, text: "Attack: f     | j  | left click", r: 255, g: 255, b: 255,
+                             size_enum: -1 }
   end
 
   def render_sabre
     return if !state.sabre.is_active
-    sabre_index = 0.frame_index count:    4,
+
+    sabre_index = 0.frame_index count: 4,
                                 hold_for: 2,
-                                repeat:   true
-    offset =  0
+                                repeat: true
+    offset = 0
     offset = -8 if state.player.facing == -1
     outputs[:scene].sprites << { x: state.sabre.x + offset,
-                        y: state.sabre.y, w: 16, h: 16, path: "sprites/sabre-throw/#{sabre_index}.png" }
+                                 y: state.sabre.y, w: 16, h: 16, path: "sprites/sabre-throw/#{sabre_index}.png" }
   end
 
   def new_actions_lookup
@@ -134,13 +137,13 @@ class Game
         index = state.player.action_at.frame_index count: 4, hold_for: 5, repeat: true
         outputs[:scene].sprites << { **player_sprite, path: "sprites/kenobi/run/#{index}.png" }
       else
-        outputs[:scene].sprites << { **player_sprite, path: 'sprites/kenobi/standing.png'}
+        outputs[:scene].sprites << { **player_sprite, path: 'sprites/kenobi/standing.png' }
       end
     else
       v = state.actions_lookup[state.player.action]
-      slash_frame_index = state.player.action_at.frame_index count:    v.frame_count,
+      slash_frame_index = state.player.action_at.frame_index count: v.frame_count,
                                                              hold_for: v.hold_for,
-                                                             repeat:   v.repeat
+                                                             repeat: v.repeat
       slash_frame_index ||= v.last_index
       slash_path          = v.path.sub ":index", slash_frame_index.to_s
       outputs[:scene].sprites << { **player_sprite, path: slash_path }
@@ -195,7 +198,7 @@ class Game
 
     was_jump_requested = inputs.keyboard.key_down.up ||
                          inputs.keyboard.key_down.w  ||
-                         inputs.mouse.button_right  ||
+                         inputs.mouse.button_right ||
                          inputs.controller_one.key_down.up ||
                          inputs.controller_one.key_down.b ||
                          inputs.keyboard.key_down.space
@@ -245,7 +248,7 @@ class Game
       state.player.dx = 0
     end
 
-    state.player.x = 8  if state.player.x < 8
+    state.player.x = 8 if state.player.x < 8
     state.player.x = 120 if state.player.x > 120
   end
 
@@ -271,10 +274,10 @@ class Game
         next_action ||= { name: :standing,
                           duration: 4 }
         if next_action
-        state.player.next_action_queue[queue_at] = next_action.name
-        state.player.next_action_queue[player_action_at +
-                                       current_action.interrupt_duration +
-                                       next_action.duration] = :standing
+          state.player.next_action_queue[queue_at] = next_action.name
+          state.player.next_action_queue[player_action_at +
+            current_action.interrupt_duration +
+            next_action.duration] = :standing
         end
       end
     end
@@ -306,7 +309,7 @@ class Game
     state.sabre.is_active = true
 
     spline_definition = [
-      [  0, 0.25, 0.75, 1.0],
+      [0, 0.25, 0.75, 1.0],
       [1.0, 0.75, 0.25,   0]
     ]
 

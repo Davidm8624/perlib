@@ -80,8 +80,8 @@ class Game
 
   def input_attack?
     inputs.controller_one.key_down.a ||
-    inputs.controller_one.key_down.b ||
-    inputs.keyboard.key_down.j
+      inputs.controller_one.key_down.b ||
+      inputs.keyboard.key_down.j
   end
 
   def calc
@@ -95,6 +95,7 @@ class Game
   def calc_player
     player.slash_at = nil if !player_attacking?
     return unless player_slash_can_damage?
+
     if player_hit_box.intersect_rect? boss_hurt_box
       boss.damage += 1
       queue_damage player_hit_box.x + player_hit_box.w / 2 * player.dir_x,
@@ -107,7 +108,7 @@ class Game
     if boss.attack_cooldown < 0
       boss.target_x = player.x - 100
       boss.target_y = player.y - 100
-      boss.attack_cooldown = if    boss.damage > 200
+      boss.attack_cooldown = if boss.damage > 200
                                200
                              elsif boss.damage > 150
                                300
@@ -122,8 +123,8 @@ class Game
 
     dx = boss.target_x - boss.x
     dy = boss.target_y - boss.y
-    boss.x += dx * 0.25 ** 2
-    boss.y += dy * 0.25 ** 2
+    boss.x += dx * 0.25**2
+    boss.y += dy * 0.25**2
 
     if boss.intersect_rect?(player_hurt_box) && player.damaged_at.elapsed?(120)
       player.damaged_at = Kernel.tick_count
@@ -212,6 +213,7 @@ class Game
 
   def render_game_over
     return unless state.game_over
+
     outputs.labels << { x: 640, y: 360, text: "GAME OVER!!!", alignment_enum: 1, size_enum: 3 }
   end
 
@@ -230,24 +232,28 @@ class Game
   def player_x_inside_stage? player_x
     return false if player_x < 0
     return false if (player_x + player.tile_size) > 1280
+
     return true
   end
 
   def player_y_inside_stage? player_y
     return false if player_y < 0
     return false if (player_y + player.tile_size) > 720
+
     return true
   end
 
   def player_attacking?
     return false if !player.slash_at
     return false if player.slash_at.elapsed?(player.slash_frames)
+
     return true
   end
 
   def player_slash_can_damage?
     return false if !player_attacking?
     return false if (player.slash_at + player.slash_frames.idiv(2)) != Kernel.tick_count
+
     return true
   end
 
@@ -281,33 +287,33 @@ class Game
   end
 
   def player_sprite_run
-    tile_index = 0.frame_index count:    6,
+    tile_index = 0.frame_index count: 6,
                                hold_for: 3,
-                               repeat:   true
+                               repeat: true
 
     tile_index = 0 if !player.is_moving
 
     {
-      x:                 player.x,
-      y:                 player.y,
-      w:                 player.tile_size,
-      h:                 player.tile_size,
-      path:              'sprites/boss-battle/player-run-tile-sheet.png',
-      tile_x:            0 + (tile_index * player.tile_size),
-      tile_y:            0,
-      tile_w:            player.tile_size,
-      tile_h:            player.tile_size,
+      x: player.x,
+      y: player.y,
+      w: player.tile_size,
+      h: player.tile_size,
+      path: 'sprites/boss-battle/player-run-tile-sheet.png',
+      tile_x: 0 + (tile_index * player.tile_size),
+      tile_y: 0,
+      tile_w: player.tile_size,
+      tile_h: player.tile_size,
       flip_horizontally: player.dir_x > 0,
     }
   end
 
   def player_sprite_stand
     {
-      x:                 player.x,
-      y:                 player.y,
-      w:                 player.tile_size,
-      h:                 player.tile_size,
-      path:              'sprites/boss-battle/player-stand.png',
+      x: player.x,
+      y: player.y,
+      w: player.tile_size,
+      h: player.tile_size,
+      path: 'sprites/boss-battle/player-stand.png',
       flip_horizontally: player.dir_x > 0,
     }
   end
@@ -322,28 +328,28 @@ class Game
 
     if player.dir_x > 0
       {
-        x:                 player.x - tile_offset,
-        y:                 player.y - tile_offset,
-        w:                 165,
-        h:                 165,
-        path:              'sprites/boss-battle/player-slash-tile-sheet.png',
-        tile_x:            0 + (tile_index * 128),
-        tile_y:            0,
-        tile_w:            128,
-        tile_h:            128,
+        x: player.x - tile_offset,
+        y: player.y - tile_offset,
+        w: 165,
+        h: 165,
+        path: 'sprites/boss-battle/player-slash-tile-sheet.png',
+        tile_x: 0 + (tile_index * 128),
+        tile_y: 0,
+        tile_w: 128,
+        tile_h: 128,
         flip_horizontally: true
       }
     else
       {
-        x:                 player.x - tile_offset - tile_offset / 2,
-        y:                 player.y - tile_offset,
-        w:                 165,
-        h:                 165,
-        path:              'sprites/boss-battle/player-slash-tile-sheet.png',
-        tile_x:            0 + (tile_index * 128),
-        tile_y:            0,
-        tile_w:            128,
-        tile_h:            128,
+        x: player.x - tile_offset - tile_offset / 2,
+        y: player.y - tile_offset,
+        w: 165,
+        h: 165,
+        path: 'sprites/boss-battle/player-slash-tile-sheet.png',
+        tile_x: 0 + (tile_index * 128),
+        tile_y: 0,
+        tile_w: 128,
+        tile_h: 128,
         flip_horizontally: false
       }
     end
@@ -392,10 +398,10 @@ class Game
         h: boss.h,
         path: 'sprites/boss-battle/boss-annoyed.png' }
     when :will_attack
-      shake_x  =  2 * rand
+      shake_x = 2 * rand
       shake_x *= -1 if rand < 0.5
 
-      shake_y  =  2 * rand
+      shake_y = 2 * rand
       shake_y *= -1 if rand < 0.5
 
       { x: boss.x + shake_x,

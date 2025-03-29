@@ -22,6 +22,7 @@ class Game
 
   def post_message message
     return if state.message_at && state.message == message && state.message_at.elapsed_time < 180
+
     state.message = message
     state.message_at = Kernel.tick_count
   end
@@ -259,7 +260,8 @@ class Game
     move_count = state.move_history.length
     state.move_history.reverse.each_with_index do |entry, index|
       percentage_complete = (index + 1).fdiv move_count
-      animation_duration = (state.animation_duration - state.animation_duration * percentage_complete).clamp(4, state.animation_duration)
+      animation_duration = (state.animation_duration - state.animation_duration * percentage_complete).clamp(4,
+                                                                                                             state.animation_duration)
       peg_index = state.move_history.pop_back
       peg = state.tower.pegs[peg_index]
       queue_select_peg peg, add_history: false, animation_duration: animation_duration.to_i
@@ -285,7 +287,8 @@ class Game
       move_count = 2**state.disc_count - 1
       state.solution.each_with_index do |move, index|
         percentage_complete = (index + 1).fdiv move_count
-        animation_duration = (state.animation_duration - state.animation_duration * percentage_complete).clamp(4, state.animation_duration)
+        animation_duration = (state.animation_duration - state.animation_duration * percentage_complete).clamp(4,
+                                                                                                               state.animation_duration)
         queue_select_peg state.tower.pegs[move[:from]], add_history: true, animation_duration: animation_duration.to_i
         queue_select_peg state.tower.pegs[move[:to]], add_history: true, animation_duration: animation_duration.to_i
       end
@@ -333,7 +336,9 @@ class Game
     return if state.completed_at
 
     # process user input either mouse or keyboard
-    state.hovered_peg = state.tower.pegs.find { |peg| inputs.mouse.intersect_rect?(peg.hit_box) || inputs.mouse.intersect_rect?(peg.button_rect) }
+    state.hovered_peg = state.tower.pegs.find { |peg|
+      inputs.mouse.intersect_rect?(peg.hit_box) || inputs.mouse.intersect_rect?(peg.button_rect)
+    }
 
     undo_requested   = inputs.mouse.up && inputs.mouse.intersect_rect?(state.undo_button_rect)
     undo_requested ||= inputs.keyboard.key_down.u
@@ -376,7 +381,6 @@ class Game
                          else
                            state.disc_event.at.elapsed_time > state.disc_event.duration
                          end
-
 
     # if there are no animation events then process the first item from the queue
     if disc_event_elapsed && state.select_peg_queue.length > 0
@@ -496,7 +500,7 @@ class Game
 end
 
 def boot args
-  args.state = { }
+  args.state = {}
 end
 
 def tick args

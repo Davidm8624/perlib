@@ -110,6 +110,7 @@ class ShopScene
 
   def perform_upgrade module_name
     return if state.module_selected
+
     if module_name == :bullet_damage
       state.bullet_damage += 1
     elsif module_name == :blaster_rate
@@ -147,9 +148,11 @@ class ShopScene
 
   def button_prefab rect, text, a: 255
     return nil if !text
+
     [
       rect.merge(path: :solid, r: 255, g: 255, b: 255, a: a),
-      Geometry.center(rect).merge(text: text.gsub("_", " "), anchor_x: 0.5, anchor_y: 0.5, r: 0, g: 0, b: 0, size_px: rect.h.idiv(4))
+      Geometry.center(rect).merge(text: text.gsub("_", " "), anchor_x: 0.5, anchor_y: 0.5, r: 0, g: 0, b: 0,
+                                  size_px: rect.h.idiv(4))
     ]
   end
 end
@@ -201,16 +204,20 @@ class LevelScene
     b = (enemy.hp / (state.enemy_min_health + state.enemy_health_range)) * 255
     [
       enemy.merge(path: :solid, r: 128, g: 0, b: b),
-      Geometry.center(enemy).merge(text: enemy.hp, anchor_x: 0.5, anchor_y: 0.5, r: 255, g: 255, b: 255, size_px: enemy.h * 0.5)
+      Geometry.center(enemy).merge(text: enemy.hp, anchor_x: 0.5, anchor_y: 0.5, r: 255, g: 255, b: 255,
+                                   size_px: enemy.h * 0.5)
     ]
   end
 
   def render
     outputs.background_color = [0, 0, 0]
     level_completion_perc = (state.enemies_spawned - state.enemies.length).fdiv(state.enemies_to_spawn)
-    outputs.primitives << { x: 30, y: 30.from_top, text: "Wave: #{state.level} (#{(level_completion_perc * 100).to_i}% complete)", r: 255, g: 255, b: 255 }
-    outputs.primitives << { x: 30, y: 60.from_top, text: "Press G to skip to end of the current wave.", r: 255, g: 255, b: 255 }
-    outputs.primitives << { x: 30, y: 90.from_top, text: "Press / to get a random upgrade immediately.", r: 255, g: 255, b: 255 }
+    outputs.primitives << { x: 30, y: 30.from_top,
+                            text: "Wave: #{state.level} (#{(level_completion_perc * 100).to_i}% complete)", r: 255, g: 255, b: 255 }
+    outputs.primitives << { x: 30, y: 60.from_top, text: "Press G to skip to end of the current wave.", r: 255, g: 255,
+                            b: 255 }
+    outputs.primitives << { x: 30, y: 90.from_top, text: "Press / to get a random upgrade immediately.", r: 255,
+                            g: 255, b: 255 }
 
     outputs.sprites << state.bullets.map do |b|
       b.merge w: 10, h: 10, path: :solid, r: 0, g: 255, b: 255
@@ -309,6 +316,7 @@ class LevelScene
       other_enemies = Geometry.find_all_intersect_rect e, state.enemies
       other_enemies.each do |e2|
         next if e == e2
+
         push_back_angle = Geometry.angle geometry.center(e), geometry.center(e2)
         e2.push_back_x += (e.push_back_x).fdiv(other_enemies.length) * 0.7
         e2.push_back_y += (e.push_back_y).fdiv(other_enemies.length) * 0.7

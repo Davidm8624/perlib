@@ -37,6 +37,7 @@ end
 
 def tick_instructions args, text, y = 715
   return if args.state.key_event_occurred
+
   if args.inputs.mouse.click ||
      args.inputs.keyboard.directional_vector ||
      args.inputs.keyboard.key_down.enter ||
@@ -46,7 +47,7 @@ def tick_instructions args, text, y = 715
 
   args.outputs.debug << [0, y - 50, 1280, 60].solid
   args.outputs.debug << [640, y, text, 1, 1, 255, 255, 255].label
-  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)" , -2, 1, 255, 255, 255].label
+  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)", -2, 1, 255, 255, 255].label
 end
 
 GTK.reset

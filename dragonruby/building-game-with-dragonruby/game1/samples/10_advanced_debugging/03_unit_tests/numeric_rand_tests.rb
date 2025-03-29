@@ -12,7 +12,7 @@ def test_randomize_int args, assert
   assert.equal!(10.randomize(:ratio, :sign).round(5),  1.86467)
   assert.equal!(10.randomize(:ratio, :sign).round(5), -2.10108)
   assert.equal!(10.randomize(:ratio, :sign).round(5), -4.52740)
-  assert.equal!(10.randomize(:int, :sign),             0)
+  assert.equal!(10.randomize(:int, :sign), 0)
   assert.equal!(10.randomize(:int, :sign),            -3)
   assert.equal!(10.randomize(:int, :sign),            -7)
   assert.equal!(10.randomize(:int, :sign),             6)
@@ -36,7 +36,7 @@ def test_randomize_float args, assert
   assert.equal!(10.0.randomize(:ratio, :sign).round(5),  1.86467)
   assert.equal!(10.0.randomize(:ratio, :sign).round(5), -2.10108)
   assert.equal!(10.0.randomize(:ratio, :sign).round(5), -4.52740)
-  assert.equal!(10.4.randomize(:int, :sign),             0)
+  assert.equal!(10.4.randomize(:int, :sign), 0)
   assert.equal!(10.4.randomize(:int, :sign),            -3)
   assert.equal!(10.4.randomize(:int, :sign),            -7)
   assert.equal!(10.4.randomize(:int, :sign),             6)
@@ -60,7 +60,7 @@ def test_ratio_float_alias args, assert
   assert.equal!(10.0.randomize(:float, :sign).round(5),  1.86467)
   assert.equal!(10.0.randomize(:float, :sign).round(5), -2.10108)
   assert.equal!(10.0.randomize(:float, :sign).round(5), -4.52740)
-  assert.equal!(10.4.randomize(:int, :sign),             0)
+  assert.equal!(10.4.randomize(:int, :sign), 0)
   assert.equal!(10.4.randomize(:int, :sign),            -3)
   assert.equal!(10.4.randomize(:int, :sign),            -7)
   assert.equal!(10.4.randomize(:int, :sign),             6)
@@ -82,7 +82,7 @@ def test_ratio_float_alias args, assert
   assert.equal!(10.randomize(:float, :sign).round(5),  1.86467)
   assert.equal!(10.randomize(:float, :sign).round(5), -2.10108)
   assert.equal!(10.randomize(:float, :sign).round(5), -4.52740)
-  assert.equal!(10.randomize(:int, :sign),             0)
+  assert.equal!(10.randomize(:int, :sign), 0)
   assert.equal!(10.randomize(:int, :sign),            -3)
   assert.equal!(10.randomize(:int, :sign),            -7)
   assert.equal!(10.randomize(:int, :sign),             6)
@@ -110,57 +110,57 @@ def test_numeric_self_rand_vs_instance_rand args, assert
   value_comparison = [
     {
       name: "rand for integer",
-      klass:    -> { Numeric.rand(10) },
+      klass: -> { Numeric.rand(10) },
       instance: -> { 10.rand }
     },
     {
       name: "rand for integer from float",
-      klass:    -> { Numeric.rand(10) },
+      klass: -> { Numeric.rand(10) },
       instance: -> { 10.0.rand(:int) }
     },
     {
       name: "rand for float",
-      klass:    -> { Numeric.rand(10.0).round(5) },
+      klass: -> { Numeric.rand(10.0).round(5) },
       instance: -> { 10.0.rand.round(5) }
     },
     {
       name: "rand for float from int",
-      klass:    -> { Numeric.rand(10.0).round(5) },
+      klass: -> { Numeric.rand(10.0).round(5) },
       instance: -> { 10.rand(:ratio).round(5) }
     },
     {
       name: "rand for float from int",
-      klass:    -> { Numeric.rand(10.0).round(5) },
+      klass: -> { Numeric.rand(10.0).round(5) },
       instance: -> { 10.rand(:float).round(5) }
     },
     {
       name: "rand int range (sign)",
-      klass:    -> { Numeric.rand(-10..10) },
+      klass: -> { Numeric.rand(-10..10) },
       instance: -> { 10.rand(:int, :sign) }
     },
     {
       name: "rand int range from float (sign)",
-      klass:    -> { Numeric.rand(-10..10) },
+      klass: -> { Numeric.rand(-10..10) },
       instance: -> { 10.0.rand(:int, :sign) }
     },
     {
       name: "rand ratio range (sign)",
-      klass:    -> { Numeric.rand(-10.0..10.0) },
+      klass: -> { Numeric.rand(-10.0..10.0) },
       instance: -> { 10.0.rand(:float, :sign) }
     },
     {
       name: "rand ratio range from int (sign)",
-      klass:    -> { Numeric.rand(-10.0..10.0) },
+      klass: -> { Numeric.rand(-10.0..10.0) },
       instance: -> { 10.rand(:float, :sign) }
     },
     {
       name: "rand ratio range (sign)",
-      klass:    -> { Numeric.rand(-10.0..10.0) },
+      klass: -> { Numeric.rand(-10.0..10.0) },
       instance: -> { 10.0.rand(:ratio, :sign) }
     },
     {
       name: "rand ratio range from int (sign)",
-      klass:    -> { Numeric.rand(-10.0..10.0) },
+      klass: -> { Numeric.rand(-10.0..10.0) },
       instance: -> { 10.rand(:ratio, :sign) }
     },
   ]

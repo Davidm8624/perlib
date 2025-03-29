@@ -40,7 +40,7 @@ class Movement_Costs
     # Walls are stored in a hash for quick look up when doing the search
     state.star   ||= [1, 5]
     state.target ||= [8, 4]
-    state.walls  ||= {[1, 1] => true, [2, 1] => true, [3, 1] => true, [1, 2] => true, [2, 2] => true, [3, 2] => true}
+    state.walls  ||= { [1, 1] => true, [2, 1] => true, [3, 1] => true, [1, 2] => true, [2, 2] => true, [3, 2] => true }
     state.hills  ||= {
       [4, 1] => true,
       [5, 1] => true,
@@ -176,13 +176,13 @@ class Movement_Costs
   # This heat map shows the cells explored by the breadth first search and how far they are from the star.
   def render_breadth_first_search_heat_map
     # For each cell explored
-    breadth_first_search.visited.each_key do | visited_cell |
+    breadth_first_search.visited.each_key do |visited_cell|
       # Find its distance from the star
       distance = (state.star.x - visited_cell.x).abs + (state.star.y - visited_cell.y).abs
       max_distance = grid.width + grid.height
       # Get it as a percent of the maximum distance and scale to 255 for use as an alpha value
       alpha = 255.to_i * distance.to_i / max_distance.to_i
-      heat_color = red.merge({a: alpha })
+      heat_color = red.merge({ a: alpha })
       outputs.solids << scale_up(visited_cell).merge(heat_color)
     end
   end
@@ -208,9 +208,9 @@ class Movement_Costs
 
   def render_dijkstra_heat_map
     dijkstra_search.cost_so_far.each do |visited_cell, cost|
-      max_cost = (grid.width + grid.height) #* 5
+      max_cost = (grid.width + grid.height) # * 5
       alpha = 255.to_i * cost.to_i / max_cost.to_i
-      heat_color = red.merge({a: alpha})
+      heat_color = red.merge({ a: alpha })
       outputs.solids << move_and_scale_up(visited_cell).merge(heat_color)
     end
   end
@@ -237,14 +237,14 @@ class Movement_Costs
 
   # Renders the star on both grids
   def render_star
-    outputs.sprites << scale_up(state.star).merge({path: 'star.png'})
-    outputs.sprites << move_and_scale_up(state.star).merge({path: 'star.png'})
+    outputs.sprites << scale_up(state.star).merge({ path: 'star.png' })
+    outputs.sprites << move_and_scale_up(state.star).merge({ path: 'star.png' })
   end
 
   # Renders the target on both grids
   def render_target
-    outputs.sprites << scale_up(state.target).merge({path: 'target.png'})
-    outputs.sprites << move_and_scale_up(state.target).merge({path: 'target.png'})
+    outputs.sprites << scale_up(state.target).merge({ path: 'target.png' })
+    outputs.sprites << move_and_scale_up(state.target).merge({ path: 'target.png' })
   end
 
   def render_hills
@@ -417,20 +417,20 @@ class Movement_Costs
     end
   end
 
-
   def calc_breadth_first
     # Sets up the Breadth First Search
-    breadth_first_search.visited[state.star]   = true
-    breadth_first_search.frontier              << state.star
+    breadth_first_search.visited[state.star] = true
+    breadth_first_search.frontier << state.star
     breadth_first_search.came_from[state.star] = nil
 
     until breadth_first_search.frontier.empty?
       return if breadth_first_search.visited.key?(state.target)
+
       # A step in the search
       # Takes the next frontier cell
       new_frontier = breadth_first_search.frontier.shift
       # For each of its neighbors
-      adjacent_neighbors(new_frontier).each do | neighbor |
+      adjacent_neighbors(new_frontier).each do |neighbor|
         # That have not been visited and are not walls
         unless breadth_first_search.visited.key?(neighbor) || state.walls.key?(neighbor)
           # Add them to the frontier and mark them as visited in the first grid
@@ -447,7 +447,7 @@ class Movement_Costs
 
   def calc_dijkstra
     # The initial values for the Dijkstra search
-    dijkstra_search.frontier                << [state.star, 0]
+    dijkstra_search.frontier << [state.star, 0]
     dijkstra_search.came_from[state.star]   = nil
     dijkstra_search.cost_so_far[state.star] = 0
 
@@ -461,7 +461,7 @@ class Movement_Costs
       return if current == state.target
 
       # For each of the neighbors
-      adjacent_neighbors(current).each do | neighbor |
+      adjacent_neighbors(current).each do |neighbor|
         # Unless this cell is a wall or has already been explored.
         unless dijkstra_search.came_from.key?(neighbor) or state.walls.key?(neighbor)
           # Calculate the movement cost of getting to this cell and memo
@@ -476,17 +476,15 @@ class Movement_Costs
 
       # Sort the frontier so exploration occurs that have a low cost so far.
       # My implementation of a priority queue
-      dijkstra_search.frontier = dijkstra_search.frontier.sort_by {|cell, priority| priority}
+      dijkstra_search.frontier = dijkstra_search.frontier.sort_by { |cell, priority| priority }
     end
   end
 
   def cost(cell)
-    return 5 if state.hills.key? cell 
+    return 5 if state.hills.key? cell
+
     1
   end
-
-
-
 
   # Moves the star to the cell closest to the mouse in the first grid
   # Only resets the search if the star changes position
@@ -578,7 +576,6 @@ class Movement_Costs
     end
   end
 
-
   # Adds a hill in the second grid in the cell the mouse is over
   def input_add_hill2
     if mouse_over_grid2?
@@ -624,8 +621,6 @@ class Movement_Costs
     dijkstra_search.cost_so_far = {}
   end
 
-
-
   # Returns a list of adjacent cells
   # Used to determine what the next cells to be added to the frontier are
   def adjacent_neighbors(cell)
@@ -633,15 +628,15 @@ class Movement_Costs
 
     # Gets all the valid neighbors into the array
     # From southern neighbor, clockwise
-    neighbors << [cell.x    , cell.y - 1] unless cell.y == 0
-    neighbors << [cell.x - 1, cell.y    ] unless cell.x == 0
-    neighbors << [cell.x    , cell.y + 1] unless cell.y == grid.height - 1
-    neighbors << [cell.x + 1, cell.y    ] unless cell.x == grid.width - 1
+    neighbors << [cell.x, cell.y - 1] unless cell.y == 0
+    neighbors << [cell.x - 1, cell.y] unless cell.x == 0
+    neighbors << [cell.x, cell.y + 1] unless cell.y == grid.height - 1
+    neighbors << [cell.x + 1, cell.y] unless cell.x == grid.width - 1
 
     # Sorts the neighbors so the rendered path is a zigzag path
     # Cells in a diagonal direction are given priority
     # Comment this line to see the difference
-    neighbors = neighbors.sort_by { |neighbor_x, neighbor_y|  proximity_to_star(neighbor_x, neighbor_y) }
+    neighbors = neighbors.sort_by { |neighbor_x, neighbor_y| proximity_to_star(neighbor_x, neighbor_y) }
 
     neighbors
   end
@@ -717,7 +712,7 @@ class Movement_Costs
 
   # Signal that the user is going to be removing walls from the first grid
   def mouse_over_wall?
-    state.walls.each_key do | wall |
+    state.walls.each_key do |wall|
       return true if inputs.mouse.point.inside_rect?(scale_up(wall))
     end
 
@@ -726,7 +721,7 @@ class Movement_Costs
 
   # Signal that the user is going to be removing walls from the second grid
   def mouse_over_wall2?
-    state.walls.each_key do | wall |
+    state.walls.each_key do |wall|
       return true if inputs.mouse.point.inside_rect?(move_and_scale_up(wall))
     end
 
@@ -735,7 +730,7 @@ class Movement_Costs
 
   # Signal that the user is going to be removing hills from the first grid
   def mouse_over_hill?
-    state.hills.each_key do | hill |
+    state.hills.each_key do |hill|
       return true if inputs.mouse.point.inside_rect?(scale_up(hill))
     end
 
@@ -744,7 +739,7 @@ class Movement_Costs
 
   # Signal that the user is going to be removing hills from the second grid
   def mouse_over_hill2?
-    state.hills.each_key do | hill |
+    state.hills.each_key do |hill|
       return true if inputs.mouse.point.inside_rect?(move_and_scale_up(hill))
     end
 
@@ -804,7 +799,6 @@ end
 # Method that is called by DragonRuby periodically
 # Used for updating animations and calculations
 def tick args
-
   # Pressing r will reset the application
   if args.inputs.keyboard.key_down.r
     GTK.reset
@@ -817,7 +811,6 @@ def tick args
   $movement_costs.args = args
   $movement_costs.tick
 end
-
 
 def reset
   $movement_costs = nil

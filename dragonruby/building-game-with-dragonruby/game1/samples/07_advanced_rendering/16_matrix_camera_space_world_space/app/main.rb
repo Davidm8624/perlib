@@ -217,7 +217,7 @@ class Game
   def mat3_scale scale
     MatrixFunctions.mat3 scale, 0, 0,
                          0, scale, 0,
-                         0,     0, 1
+                         0, 0, 1
   end
 end
 

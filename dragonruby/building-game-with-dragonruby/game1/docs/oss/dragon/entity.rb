@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # entity.rb has been released under MIT (*only this file*).
@@ -55,7 +56,7 @@ module GTK
 
     def self.new_entity_strict entity_type, init_hash = nil, block = nil
       if !Entity.strict_entities[entity_type]
-        init_hash ||= { }
+        init_hash ||= {}
 
         n = new_entity entity_type, init_hash, block
         klass = Class.new(StrictEntity)

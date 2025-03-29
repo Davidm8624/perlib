@@ -15,9 +15,12 @@ def tick args
 
   # render instructions
   args.outputs.primitives << { x: 0,  y: 80.from_top, w: 360, h: 80, r: 0, g: 0, b: 0, a: 128 }.solid!
-  args.outputs.primitives << { x: 10, y: 10.from_top, text: "+/- to change zoom of camera", r: 255, g: 255, b: 255}.label!
-  args.outputs.primitives << { x: 10, y: 30.from_top, text: "arrow keys to move target hero", r: 255, g: 255, b: 255}.label!
-  args.outputs.primitives << { x: 10, y: 50.from_top, text: "space to cycle target hero", r: 255, g: 255, b: 255}.label!
+  args.outputs.primitives << { x: 10, y: 10.from_top, text: "+/- to change zoom of camera", r: 255, g: 255,
+                               b: 255 }.label!
+  args.outputs.primitives << { x: 10, y: 30.from_top, text: "arrow keys to move target hero", r: 255, g: 255,
+                               b: 255 }.label!
+  args.outputs.primitives << { x: 10, y: 50.from_top, text: "space to cycle target hero", r: 255, g: 255,
+                               b: 255 }.label!
 
   # render scene
   args.outputs[:scene].w = args.state.world.w

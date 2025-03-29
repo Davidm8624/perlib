@@ -58,7 +58,6 @@ class PoorManPlatformerPhysics
 
   # Outputs solids and borders of different colors for the world and collision_rects collections.
   def render
-
     # Sets a black background on the screen (Comment this line out and the background will become white.)
     # Also note that black is the default color for when no color is assigned.
     outputs.solids << grid.rect
@@ -77,7 +76,7 @@ class PoorManPlatformerPhysics
       [
         [e[:top],                             0, 170,   0], # top is a shade of green
         [e[:bottom],                          0, 100, 170], # bottom is a shade of greenish-blue
-        [e[:left_right],                    170,   0,   0], # left and right are a shade of red
+        [e[:left_right], 170, 0, 0], # left and right are a shade of red
       ]
     end
 
@@ -87,7 +86,7 @@ class PoorManPlatformerPhysics
     outputs.borders << [state.x,
                         state.y,
                         state.tile_size,
-                        state.tile_size,  0, 180, 0]
+                        state.tile_size, 0, 180, 0]
   end
 
   # Calls methods needed to perform calculations.
@@ -98,7 +97,6 @@ class PoorManPlatformerPhysics
 
   # Performs calculations on world_lookup and sets values.
   def calc_world_lookup
-
     # If the tile size isn't equal to the previous tile size,
     # the previous tile size is set to the tile size,
     # and world_lookup hash is set to empty.
@@ -120,29 +118,28 @@ class PoorManPlatformerPhysics
     # Assigns world_collision_rects for every sprite drawn.
     state.world_collision_rects =
       state.world_lookup
-          .keys
-          .map do |coord_x, coord_y|
-            s = state.tile_size
-            # multiply by tile size so the grid coordinates; sets pixel value
-            # don't forget that position is denoted by bottom left corner
-            # set x = coord_x or y = coord_y and see what happens!
-            x = s * coord_x
-            y = s * coord_y
-            {
-              # The values added to x, y, and s position the world_collision_rects so they all appear
-              # stacked (on top of world rects) but don't directly overlap.
-              # Remove these added values and mess around with the rect placement!
-              args:       [coord_x, coord_y],
-              left_right: [x,     y + 4, s,     s - 6], # hash keys and values
-              top:        [x + 4, y + 6, s - 8, s - 6],
-              bottom:     [x + 1, y - 1, s - 2, s - 8],
-            }
-          end
+           .keys
+           .map do |coord_x, coord_y|
+        s = state.tile_size
+        # multiply by tile size so the grid coordinates; sets pixel value
+        # don't forget that position is denoted by bottom left corner
+        # set x = coord_x or y = coord_y and see what happens!
+        x = s * coord_x
+        y = s * coord_y
+        {
+          # The values added to x, y, and s position the world_collision_rects so they all appear
+          # stacked (on top of world rects) but don't directly overlap.
+          # Remove these added values and mess around with the rect placement!
+          args: [coord_x, coord_y],
+          left_right: [x,     y + 4, s, s - 6], # hash keys and values
+          top: [x + 4, y + 6, s - 8, s - 6],
+          bottom: [x + 1, y - 1, s - 2, s - 8],
+        }
+      end
   end
 
   # Performs calculations to change the x and y values of the player's box.
   def calc_player
-
     # Since acceleration is the change in velocity, the change in y (dy) increases every frame.
     # What goes up must come down because of gravity.
     state.dy += state.gravity
@@ -162,6 +159,7 @@ class PoorManPlatformerPhysics
   # Calls methods needed to determine collisions between player and world_collision rects.
   def calc_box_collision
     return unless state.world_lookup.keys.length > 0 # return unless hash has atleast 1 key
+
     collision_floor!
     collision_left!
     collision_right!
@@ -171,15 +169,17 @@ class PoorManPlatformerPhysics
   # Finds collisions between the bottom of the player's rect and the top of a world_collision_rect.
   def collision_floor!
     return unless state.dy <= 0 # return unless player is going down or is as far down as possible
+
     player_rect = [state.x, state.y - 0.1, state.tile_size, state.tile_size] # definition of player
 
     # Goes through world_collision_rects to find all intersections between the bottom of player's rect and
     # the top of a world_collision_rect (hence the "-0.1" above)
     floor_collisions = state.world_collision_rects
-                           .find_all { |r| r[:top].intersect_rect?(player_rect, collision_tollerance) }
-                           .first
+                            .find_all { |r| r[:top].intersect_rect?(player_rect, collision_tollerance) }
+                            .first
 
     return unless floor_collisions # return unless collision occurred
+
     state.y = floor_collisions[:top].top # player's y is set to the y of the top of the collided rect
     state.dy = 0 # if a collision occurred, the player's rect isn't moving because its path is blocked
   end
@@ -187,13 +187,14 @@ class PoorManPlatformerPhysics
   # Finds collisions between the player's left side and the right side of a world_collision_rect.
   def collision_left!
     return unless state.dx < 0 # return unless player is moving left
+
     player_rect = [state.x - 0.1, state.y, state.tile_size, state.tile_size]
 
     # Goes through world_collision_rects to find all intersections beween the player's left side and the
     # right side of a world_collision_rect.
     left_side_collisions = state.world_collision_rects
-                               .find_all { |r| r[:left_right].intersect_rect?(player_rect, collision_tollerance) }
-                               .first
+                                .find_all { |r| r[:left_right].intersect_rect?(player_rect, collision_tollerance) }
+                                .first
 
     return unless left_side_collisions # return unless collision occurred
 
@@ -205,13 +206,14 @@ class PoorManPlatformerPhysics
   # Finds collisions between the right side of the player and the left side of a world_collision_rect.
   def collision_right!
     return unless state.dx > 0 # return unless player is moving right
+
     player_rect = [state.x + 0.1, state.y, state.tile_size, state.tile_size]
 
     # Goes through world_collision_rects to find all intersections between the player's right side
     # and the left side of a world_collision_rect (hence the "+0.1" above)
     right_side_collisions = state.world_collision_rects
-                                .find_all { |r| r[:left_right].intersect_rect?(player_rect, collision_tollerance) }
-                                .first
+                                 .find_all { |r| r[:left_right].intersect_rect?(player_rect, collision_tollerance) }
+                                 .first
 
     return unless right_side_collisions # return unless collision occurred
 
@@ -224,13 +226,14 @@ class PoorManPlatformerPhysics
   # Finds collisions between the top of the player's rect and the bottom of a world_collision_rect.
   def collision_ceiling!
     return unless state.dy > 0 # return unless player is moving up
+
     player_rect = [state.x, state.y + 0.1, state.tile_size, state.tile_size]
 
     # Goes through world_collision_rects to find intersections between the bottom of a
     # world_collision_rect and the top of the player's rect (hence the "+0.1" above)
     ceil_collisions = state.world_collision_rects
-                          .find_all { |r| r[:bottom].intersect_rect?(player_rect, collision_tollerance) }
-                          .first
+                           .find_all { |r| r[:bottom].intersect_rect?(player_rect, collision_tollerance) }
+                           .first
 
     return unless ceil_collisions # return unless collision occurred
 
@@ -241,13 +244,12 @@ class PoorManPlatformerPhysics
 
   # Makes sure the player remains within the screen's dimensions.
   def calc_edge_collision
-
-    #Ensures that the player doesn't fall below the map.
+    # Ensures that the player doesn't fall below the map.
     if state.y < 0
       state.y = 0
       state.dy = 0
 
-    #Ensures that the player doesn't go too high.
+    # Ensures that the player doesn't go too high.
     # Position of player is denoted by bottom left hand corner, which is why we have to subtract the
     # size of the player's box (so it remains visible on the screen)
     elsif state.y > 720 - state.tile_size # if the player's y position exceeds the height of screen
@@ -269,10 +271,10 @@ class PoorManPlatformerPhysics
   def process_inputs
     if inputs.mouse.down
       state.world_lookup = {}
-      x, y = to_coord inputs.mouse.down.point  # gets x, y coordinates for the grid
+      x, y = to_coord inputs.mouse.down.point # gets x, y coordinates for the grid
 
-      if state.world.any? { |loc| loc == [x, y] }  # checks if coordinates duplicate
-        state.world = state.world.reject { |loc| loc == [x, y] }  # erases tile space
+      if state.world.any? { |loc| loc == [x, y] } # checks if coordinates duplicate
+        state.world = state.world.reject { |loc| loc == [x, y] } # erases tile space
       else
         state.world << [x, y] # If no duplicates, adds to world collection
       end
@@ -292,14 +294,13 @@ class PoorManPlatformerPhysics
       state.dx = -3
     end
 
-    #Sets dy to 5 to make the player ~fly~ when they press the space bar
+    # Sets dy to 5 to make the player ~fly~ when they press the space bar
     if inputs.keyboard.key_held.space
       state.dy = 5
     end
   end
 
   def to_coord point
-
     # Integer divides (idiv) point.x to turn into grid
     # Then, you can just multiply each integer by state.tile_size later so the grid coordinates.
     [point.x.idiv(state.tile_size), point.y.idiv(state.tile_size)]
@@ -316,14 +317,16 @@ $platformer_physics = PoorManPlatformerPhysics.new
 def tick args
   $platformer_physics.grid    = args.grid
   $platformer_physics.inputs  = args.inputs
-  $platformer_physics.state    = args.state
+  $platformer_physics.state = args.state
   $platformer_physics.outputs = args.outputs
   $platformer_physics.tick
-  tick_instructions args, "Sample app shows platformer collisions. CLICK to place box. ARROW keys to move around. SPACE to jump."
+  tick_instructions args,
+                    "Sample app shows platformer collisions. CLICK to place box. ARROW keys to move around. SPACE to jump."
 end
 
 def tick_instructions args, text, y = 715
   return if args.state.key_event_occurred
+
   if args.inputs.mouse.click ||
      args.inputs.keyboard.directional_vector ||
      args.inputs.keyboard.key_down.enter ||
@@ -333,5 +336,5 @@ def tick_instructions args, text, y = 715
 
   args.outputs.debug << [0, y - 50, 1280, 60].solid
   args.outputs.debug << [640, y, text, 1, 1, 255, 255, 255].label
-  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)" , -2, 1, 255, 255, 255].label
+  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)", -2, 1, 255, 255, 255].label
 end

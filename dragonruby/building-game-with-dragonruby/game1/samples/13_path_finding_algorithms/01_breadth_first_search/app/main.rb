@@ -128,7 +128,6 @@ class BreadthFirstSearch
     args.state.visited    = {}
     args.state.frontier   = []
 
-
     # What the user is currently editing on the grid
     # Possible values are: :none, :slider, :star, :remove_wall, :add_wall
 
@@ -525,7 +524,6 @@ class BreadthFirstSearch
     state.anim_steps.times { calc }
   end
 
-
   # This method moves the search forward one step
   # When the animation is playing it is called every tick
   # And called whenever the current step of the animation needs to be recalculated
@@ -534,7 +532,6 @@ class BreadthFirstSearch
   # Parameter called_from_tick is true if it is called from the tick method
   # It is false when the search is being recalculated after user editing the grid
   def calc
-
     # The setup to the search
     # Runs once when the there is no frontier or visited cells
     if state.frontier.empty? && state.visited.empty?
@@ -557,7 +554,6 @@ class BreadthFirstSearch
       end
     end
   end
-
 
   # Returns a list of adjacent cells
   # Used to determine what the next cells to be added to the frontier are
@@ -626,7 +622,7 @@ class BreadthFirstSearch
   # Returns whether the mouse is inside of a wall
   # Part of the condition that checks whether the user is removing a wall
   def mouse_inside_a_wall?
-    state.walls.each_key do | wall |
+    state.walls.each_key do |wall|
       return true if inputs.mouse.point.inside_rect?(scale_up([wall.x, wall.y]))
     end
 
@@ -681,7 +677,6 @@ end
 # Method that is called by DragonRuby periodically
 # Used for updating animations and calculations
 def tick args
-
   # Pressing r will reset the application
   if args.inputs.keyboard.key_down.r
     GTK.reset
@@ -694,7 +689,6 @@ def tick args
   $breadth_first_search.args = args
   $breadth_first_search.tick
 end
-
 
 def reset
   $breadth_first_search = nil

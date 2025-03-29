@@ -4,7 +4,7 @@ class Element
   # Layout::rect is a virtual grid that is 24 columns by 12 rows
   def self.tile_size
     Layout::rect(w: 1, h: 1)
-           .slice(:w, :h)
+          .slice(:w, :h)
   end
 
   # given a point/position in pixels, returns a rect with
@@ -144,6 +144,7 @@ class Game
   # and element discovery
   def add_element_to_canvas! element, position, fade_in: false
     return if !element
+
     new_entry = element.copy
     new_entry.added_at = Kernel.tick_count if fade_in
     new_entry.position = { x: position.x, y: position.y }
@@ -201,7 +202,6 @@ class Game
                                    anchor_x: 0.5,
                                    anchor_y: 0.5)
 
-
           # add the element to the canvas area and create particles
           # around the element drop
           created_element = add_element_to_canvas! state.selected_element, rect
@@ -248,7 +248,7 @@ class Game
     possible = intersecting_elements.any? do |r|
       state.elements.any? do |sr|
         sr.requires.include?(source.name) &&
-        sr.requires.include?(r.name)
+          sr.requires.include?(r.name)
       end
     end
 
@@ -441,12 +441,12 @@ class Game
       else
         # for all undiscovered elements, create a placeholder question mark box
         Layout::rect(row: i, col: 20)
-               .yield_self do |r|
-                 [
-                   r.merge(primitive_marker: :border, r: 255, g: 255, b: 255),
-                   r.center.merge(text: "?", anchor_x: 0.5, anchor_y: 0.5, r: 255, g: 255, b: 255)
-                 ]
-               end
+              .yield_self do |r|
+          [
+            r.merge(primitive_marker: :border, r: 255, g: 255, b: 255),
+            r.center.merge(text: "?", anchor_x: 0.5, anchor_y: 0.5, r: 255, g: 255, b: 255)
+          ]
+        end
       end
     end
 

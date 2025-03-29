@@ -24,7 +24,7 @@ end
 def test_allowed_node_types args, assert
   assert_hash(assert,
               {
-                node_hash: { },
+                node_hash: {},
                 node_nil: nil,
                 node_int: 1,
                 node_float: 10.5,
@@ -35,7 +35,7 @@ def test_allowed_node_types args, assert
                 node_array: [1, 2, 3],
               },
               {
-                node_hash: { },
+                node_hash: {},
                 node_nil: nil,
                 node_int: 1,
                 node_float: 10.5,

@@ -33,7 +33,8 @@ class Game
 
   def calc
     player = world.player
-    player.rect = { x: player.x * state.square_size, y: player.y * state.square_size, w: state.square_size, h: state.square_size }
+    player.rect = { x: player.x * state.square_size, y: player.y * state.square_size, w: state.square_size,
+                    h: state.square_size }
     player.moveable_squares = entity_moveable_squares world.player
     if inputs.keyboard.key_down.plus
       state.world.player.speed += 1
@@ -147,8 +148,10 @@ class Game
     x, ys = queue.first
     return if !x
     return if !ys
+
     y, to_process = ys.first
     return if !to_process
+
     queue[to_process.x].delete y
     queue.delete x if queue[x].empty?
     return if results[to_process.x] && results[to_process.x] && results[to_process.x][to_process.y]
@@ -171,6 +174,7 @@ class MoveableLocations
     def neighbors world, square
       return [] if !square
       return [] if square.speed <= 0
+
       north_square = { x: square.x, y: square.y + 1, speed: square.speed - 1, source: square }
       south_square = { x: square.x, y: square.y - 1, speed: square.speed - 1, source: square }
       east_square  = { x: square.x + 1, y: square.y, speed: square.speed - 1, source: square }
@@ -205,6 +209,7 @@ class MoveableLocations
       return false if square.x < 0 || square.x >= world.w || square.y < 0 || square.y >= world.h
       return false if world.walls.any? { |enemy| enemy.x == square.x && enemy.y == square.y }
       return false if world.player.x == square.x && world.player.y == square.y
+
       return true
     end
   end

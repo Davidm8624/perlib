@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # runtime_docs.rb has been released under MIT (*only this file*).
@@ -59,14 +60,14 @@ module RuntimeDocs
       :docs_parse_xml,
       :docs_parse_xml_file,
 
-      #network
+      # network
       :docs_network_functions,
       :docs_http_get,
       :docs_http_post,
       :docs_http_post_body,
       :docs_start_server!,
 
-      #dev support
+      # dev support
       :docs_dev_support_functions,
       :docs_version,
       :docs_version_pro?,
@@ -394,7 +395,6 @@ module RuntimeDocs
     DocsOrganizer.get_docsify_content path: "docs/api/runtime.md",
                                       heading_level: 3,
                                       heading_include: __method__.to_s.gsub("docs_", "")
-
   end
 
   def docs_notify!
@@ -535,7 +535,6 @@ module RuntimeDocs
                                       heading_include: __method__.to_s.gsub("docs_", "")
   end
 
-
   def docs_download_stb_rb
     DocsOrganizer.get_docsify_content path: "docs/api/runtime.md",
                                       heading_level: 3,
@@ -583,7 +582,6 @@ module RuntimeDocs
                                       heading_level: 3,
                                       heading_include: __method__.to_s.gsub("docs_", "")
   end
-
 
   def docs_stat_file
     DocsOrganizer.get_docsify_content path: "docs/api/runtime.md",

@@ -88,6 +88,7 @@ class RootScene
 
   def set_current_scene! id
     return if state.current_scene == id
+
     state.current_scene = id
     state.current_scene_at = Kernel.tick_count
     state.transition_scene = nil

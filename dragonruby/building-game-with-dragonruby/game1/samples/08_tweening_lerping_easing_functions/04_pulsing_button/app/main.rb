@@ -27,6 +27,7 @@ class PulseButton
 
     return if !mouse.click
     return if !mouse.inside_rect? @rect
+
     @clicked_at = tick_count
   end
 

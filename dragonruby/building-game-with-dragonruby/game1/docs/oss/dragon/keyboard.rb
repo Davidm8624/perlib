@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # keyboard.rb has been released under MIT (*only this file*).
@@ -259,9 +260,9 @@ module GTK
     def self.scancode_to_method_hash
       @scancode_to_method ||= {
         26 => :w_scancode,
-        4  => :a_scancode,
+        4 => :a_scancode,
         22 => :s_scancode,
-        7  => :d_scancode
+        7 => :d_scancode
       }
     end
 
@@ -279,25 +280,26 @@ module GTK
     end
 
     def self.modifier_shift? modifier
-      (modifier & (1|2)) != 0
+      (modifier & (1 | 2)) != 0
     end
 
     def self.modifier_ctrl? modifier
-      (modifier & (64|128)) != 0
+      (modifier & (64 | 128)) != 0
     end
 
     def self.modifier_alt? modifier
-      (modifier & (256|512)) != 0
+      (modifier & (256 | 512)) != 0
     end
 
     def self.modifier_meta? modifier
-      (modifier & (1024|2048)) != 0
+      (modifier & (1024 | 2048)) != 0
     end
 
     def self.utf_8_char raw_key
       return "²" if raw_key == 178
       return "§" if raw_key == 167
       return "º" if raw_key == 186
+
       return raw_key.chr
     end
 
@@ -311,7 +313,7 @@ module GTK
           "2" => '@', "3" => '#', "4" => '$', "5" => '%',
           "6" => '^', "7" => '&', "8" => '*', "9" => '(',
           "0" => ')', ";" => ":", "=" => "+", "[" => "{",
-          "]" => "}", '\\'=> "|", '/' => "?", '.' => ">",
+          "]" => "}", '\\' => "|", '/' => "?", '.' => ">",
           ',' => "<", 'a' => 'A', 'b' => 'B', 'c' => 'C',
           'd' => 'D', 'e' => 'E', 'f' => 'F', 'g' => 'G',
           'h' => 'H', 'i' => 'I', 'j' => 'J', 'k' => 'K',
@@ -327,82 +329,82 @@ module GTK
 
     def self.char_to_method_hash
       @char_to_method ||= {
-        'A'  => [:a],
-        'B'  => [:b],
-        'C'  => [:c],
-        'D'  => [:d],
-        'E'  => [:e],
-        'F'  => [:f],
-        'G'  => [:g],
-        'H'  => [:h],
-        'I'  => [:i],
-        'J'  => [:j],
-        'K'  => [:k],
-        'L'  => [:l],
-        'M'  => [:m],
-        'N'  => [:n],
-        'O'  => [:o],
-        'P'  => [:p],
-        'Q'  => [:q],
-        'R'  => [:r],
-        'S'  => [:s],
-        'T'  => [:t],
-        'U'  => [:u],
-        'V'  => [:v],
-        'W'  => [:w],
-        'X'  => [:x],
-        'Y'  => [:y],
-        'Z'  => [:z],
-        "!"  => [:exclamation_point],
-        "0"  => [:zero],
-        "1"  => [:one],
-        "2"  => [:two],
-        "3"  => [:three],
-        "4"  => [:four],
-        "5"  => [:five],
-        "6"  => [:six],
-        "7"  => [:seven],
-        "8"  => [:eight],
-        "9"  => [:nine],
+        'A' => [:a],
+        'B' => [:b],
+        'C' => [:c],
+        'D' => [:d],
+        'E' => [:e],
+        'F' => [:f],
+        'G' => [:g],
+        'H' => [:h],
+        'I' => [:i],
+        'J' => [:j],
+        'K' => [:k],
+        'L' => [:l],
+        'M' => [:m],
+        'N' => [:n],
+        'O' => [:o],
+        'P' => [:p],
+        'Q' => [:q],
+        'R' => [:r],
+        'S' => [:s],
+        'T' => [:t],
+        'U' => [:u],
+        'V' => [:v],
+        'W' => [:w],
+        'X' => [:x],
+        'Y' => [:y],
+        'Z' => [:z],
+        "!" => [:exclamation_point],
+        "0" => [:zero],
+        "1" => [:one],
+        "2" => [:two],
+        "3" => [:three],
+        "4" => [:four],
+        "5" => [:five],
+        "6" => [:six],
+        "7" => [:seven],
+        "8" => [:eight],
+        "9" => [:nine],
         "\b" => [:backspace],
         "\e" => [:escape],
         "\r" => [:enter],
         "\t" => [:tab],
-        "("  => [:open_round_brace],
-        ")"  => [:close_round_brace],
-        "{"  => [:open_curly_brace],
-        "}"  => [:close_curly_brace],
-        "["  => [:open_square_brace],
-        "]"  => [:close_square_brace],
-        ":"  => [:colon],
-        ";"  => [:semicolon],
-        "="  => [:equal],
-        "-"  => [:hyphen],
-        " "  => [:space],
-        "$"  => [:dollar],
+        "(" => [:open_round_brace],
+        ")" => [:close_round_brace],
+        "{" => [:open_curly_brace],
+        "}" => [:close_curly_brace],
+        "[" => [:open_square_brace],
+        "]" => [:close_square_brace],
+        ":" => [:colon],
+        ";" => [:semicolon],
+        "=" => [:equal],
+        "-" => [:hyphen],
+        " " => [:space],
+        "$" => [:dollar],
         "\"" => [:double_quotation_mark],
-        "'"  => [:single_quotation_mark],
-        "`"  => [:backtick],
-        "~"  => [:tilde],
-        "."  => [:period],
-        ","  => [:comma],
-        "|"  => [:pipe],
-        "_"  => [:underscore],
-        "#"  => [:hash],
-        "+"  => [:plus],
-        "@"  => [:at],
-        "/"  => [:forward_slash],
+        "'" => [:single_quotation_mark],
+        "`" => [:backtick],
+        "~" => [:tilde],
+        "." => [:period],
+        "," => [:comma],
+        "|" => [:pipe],
+        "_" => [:underscore],
+        "#" => [:hash],
+        "+" => [:plus],
+        "@" => [:at],
+        "/" => [:forward_slash],
         "\\" => [:back_slash],
-        "*"  => [:asterisk],
-        "<"  => [:less_than],
-        ">"  => [:greater_than],
-        "^"  => [:caret],
-        "&"  => [:ampersand],
-        "²"  => [:superscript_two],
-        "§"  => [:section],
-        "?"  => [:question_mark],
-        '%'  => [:percent],
-        "º"  => [:ordinal_indicator],
+        "*" => [:asterisk],
+        "<" => [:less_than],
+        ">" => [:greater_than],
+        "^" => [:caret],
+        "&" => [:ampersand],
+        "²" => [:superscript_two],
+        "§" => [:section],
+        "?" => [:question_mark],
+        '%' => [:percent],
+        "º" => [:ordinal_indicator],
         1073741881 => [:caps_lock],
         1073741882 => [:f1],
         1073741883 => [:f2],
@@ -422,7 +424,7 @@ module GTK
         1073741897 => [:insert],
         1073741898 => [:home],
         1073741899 => [:page_up],
-        127        => [:delete],
+        127 => [:delete],
         1073741901 => [:end],
         1073741902 => [:page_down],
         1073741903 => [:right_arrow],
@@ -467,6 +469,7 @@ module GTK
 
     def self.method_to_key_hash
       return @method_to_key_hash if @method_to_key_hash
+
       @method_to_key_hash = {}
       string_representation_overrides ||= {
         backspace: '\b'
@@ -503,13 +506,15 @@ module GTK
     def left_right
       return -1 if self.left
       return  1 if self.right
+
       return  0
     end
 
     def up_down
       return  1 if self.up
       return -1 if self.down
-      return  0
+
+      return 0
     end
 
     def truthy_keys
@@ -562,6 +567,7 @@ module GTK
 
     def get collection
       return [] if collection.length == 0
+
       collection.map do |m|
         resolved_m = KeyboardKeys.aliases[m] || m
         if resolved_m.end_with_bang?
@@ -576,6 +582,7 @@ module GTK
 
     def set collection, value
       return if collection.length == 0
+
       @scrubbed_ivars = nil
 
       collection.each do |m|
@@ -583,16 +590,16 @@ module GTK
         m_to_s = resolved_m.to_s
         self.instance_variable_set("@#{m_to_s}".to_sym, value) if m_to_s.strip.length > 0
       rescue Exception => e
-        raise e, <<-S
-* ERROR:
-Attempted to set the a key on the DragonRuby GTK's Keyboard data
-structure, but the property isn't available for raw_key #{raw_key} #{m}.
+        raise e, <<~S
+          * ERROR:
+          Attempted to set the a key on the DragonRuby GTK's Keyboard data
+          structure, but the property isn't available for raw_key #{raw_key} #{m}.
 
-You should contact DragonRuby and tell them to associate the raw_key #{raw_key}
-with a friendly property name (we are open to suggestions if you have any).
-[GTK::KeyboardKeys#set, GTK::KeyboardKeys#char_to_method]
+          You should contact DragonRuby and tell them to associate the raw_key #{raw_key}
+          with a friendly property name (we are open to suggestions if you have any).
+          [GTK::KeyboardKeys#set, GTK::KeyboardKeys#char_to_method]
 
-S
+        S
       end
     end
 
@@ -615,17 +622,17 @@ S
 
       did_you_mean = KeyboardKeys.method_to_key_hash.find_all do |k, v|
         k.to_s[0..1] == m.to_s[0..1]
-      end.map {|k, v| ":#{k} (#{v[:string_representation]})" }
+      end.map { |k, v| ":#{k} (#{v[:string_representation]})" }
       did_you_mean_string = ""
       did_you_mean_string = ". Did you mean #{did_you_mean.join ", "}?"
 
-      raise <<-S
-* ERROR:
-#{KeyboardKeys.method_to_key_hash.map { |k, v| "** :#{k} #{v.string_representation}" }.join("\n")}
+      raise <<~S
+        * ERROR:
+        #{KeyboardKeys.method_to_key_hash.map { |k, v| "** :#{k} #{v.string_representation}" }.join("\n")}
 
-There is no key on the keyboard called :#{m}#{did_you_mean_string}.
-Full list of available keys =:points_up:=.
-S
+        There is no key on the keyboard called :#{m}#{did_you_mean_string}.
+        Full list of available keys =:points_up:=.
+      S
     end
 
     def serialize
@@ -678,7 +685,6 @@ end
 
 module GTK
   class Keyboard
-
     attr_accessor :key_up
     attr_accessor :key_held
     attr_accessor :key_down

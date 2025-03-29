@@ -94,6 +94,7 @@ class OneBitLowrezPaint
 
   def render_canvas
     return if Kernel.tick_count.zero?
+
     outputs.sprites << rt_canvas.sprite
   end
 
@@ -119,7 +120,7 @@ class OneBitLowrezPaint
 
     outputs[:current_animation_frame].width   = rt_canvas.size
     outputs[:current_animation_frame].height  = rt_canvas.size
-    outputs[:current_animation_frame].solids <<  selected_animation_frame.pixels.map_with_index do |f, i|
+    outputs[:current_animation_frame].solids << selected_animation_frame.pixels.map_with_index do |f, i|
       { x: f.x,
         y: f.y,
         w: 1,
@@ -284,6 +285,7 @@ class OneBitLowrezPaint
   def calc_auto_export
     return if user_is_editing?
     return if state.last_mouse_up.elapsed_time != 30
+
     # auto export current animation frame if there is no editing for 30 ticks
     queues.create_sprite << { index: state.animation_frames_selected_index,
                               at: Kernel.tick_count }

@@ -74,7 +74,6 @@ def tick args
     vertical_alignment_enum: 1,
     size_enum: -4
   }
-
 end
 
 def add_10_000_random_rects args
@@ -101,9 +100,13 @@ def generate_scene args, quad_tree
 end
 
 def render_instructions args
-  args.outputs.primitives << { x:  0, y: 90.from_top, w: 1280, h: 100, r: 0, g: 0, b: 0, a: 200 }.solid!
-  args.outputs.labels << { x: 10, y: 10.from_top, r: 255, g: 255, b: 255, size_enum: -2, text: "Click to add 10,000 random rects. Tab to change collision algorithm." }
-  args.outputs.labels << { x: 10, y: 40.from_top, r: 255, g: 255, b: 255, size_enum: -2, text: "Algorithm: #{args.state.collision_type}" }
-  args.outputs.labels << { x: 10, y: 55.from_top, r: 255, g: 255, b: 255, size_enum: -2, text: "Rect Count: #{args.state.rects.length}" }
-  args.outputs.labels << { x: 10, y: 70.from_top, r: 255, g: 255, b: 255, size_enum: -2, text: "FPS: #{GTK.current_framerate.to_sf}" }
+  args.outputs.primitives << { x: 0, y: 90.from_top, w: 1280, h: 100, r: 0, g: 0, b: 0, a: 200 }.solid!
+  args.outputs.labels << { x: 10, y: 10.from_top, r: 255, g: 255, b: 255, size_enum: -2,
+                           text: "Click to add 10,000 random rects. Tab to change collision algorithm." }
+  args.outputs.labels << { x: 10, y: 40.from_top, r: 255, g: 255, b: 255, size_enum: -2,
+                           text: "Algorithm: #{args.state.collision_type}" }
+  args.outputs.labels << { x: 10, y: 55.from_top, r: 255, g: 255, b: 255, size_enum: -2,
+                           text: "Rect Count: #{args.state.rects.length}" }
+  args.outputs.labels << { x: 10, y: 70.from_top, r: 255, g: 255, b: 255, size_enum: -2,
+                           text: "FPS: #{GTK.current_framerate.to_sf}" }
 end

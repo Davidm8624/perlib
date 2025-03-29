@@ -1,5 +1,5 @@
 def tick args
-  args.outputs.background_color = [ 0, 0, 0 ]
+  args.outputs.background_color = [0, 0, 0]
   args.outputs.primitives << [640, 700, "Touch your screen.", 5, 1, 255, 255, 255].label
 
   # If you don't want to get fancy, you can just look for finger_one
@@ -32,12 +32,13 @@ def tick args
   ]
 
   size = 100
-  args.inputs.touch.each { |k,v|
+  args.inputs.touch.each { |k, v|
     color = args.state.colors[v.touch_order % 7]
     r = (color & 0xFF0000) >> 16
     g = (color & 0x00FF00) >> 8
     b = (color & 0x0000FF)
-    args.outputs.primitives << { x: v.x - (size / 2), y: v.y + (size / 2), w: size, h: size, r: r, g: g, b: b, a: 255 }.solid!
+    args.outputs.primitives << { x: v.x - (size / 2), y: v.y + (size / 2), w: size, h: size, r: r, g: g, b: b,
+                                 a: 255 }.solid!
     args.outputs.primitives << { x: v.x, y: v.y + size, text: k.to_s, alignment_enum: 1 }.label!
   }
 end

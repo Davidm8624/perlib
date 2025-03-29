@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # attr_gtk.rb has been released under MIT (*only this file*).
@@ -102,6 +103,7 @@ class Object
 
   def attr_gtk
     return if self.is_a? AttrGTK
+
     self.class.include AttrGTK
   end
 end

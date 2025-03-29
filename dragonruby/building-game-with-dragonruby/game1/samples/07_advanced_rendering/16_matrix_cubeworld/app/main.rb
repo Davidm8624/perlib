@@ -32,14 +32,14 @@ def tick args
   end
 
   if args.inputs.mouse.has_focus
-    y_change_rate = (args.inputs.mouse.x / 640) ** 2
+    y_change_rate = (args.inputs.mouse.x / 640)**2
     if args.inputs.mouse.x < 0
       args.state.cam_angle_y -= 0.8 * y_change_rate
     else
       args.state.cam_angle_y += 0.8 * y_change_rate
     end
 
-    x_change_rate = (args.inputs.mouse.y / 360) ** 2
+    x_change_rate = (args.inputs.mouse.y / 360)**2
     if args.inputs.mouse.y < 0
       args.state.cam_angle_x += 0.8 * x_change_rate
     else
@@ -67,12 +67,11 @@ def tick args
     args.state.cam_x -= point_r.x
     args.state.cam_z -= point_r.y
   elsif args.inputs.keyboard.left
-    point_1 = { x:  0.02, y: 0 }
+    point_1 = { x: 0.02, y: 0 }
     point_r = Geometry.rotate_point point_1, args.state.cam_angle_y
     args.state.cam_x -= point_r.x
     args.state.cam_z -= point_r.y
   end
-
 
   if args.inputs.keyboard.key_down.r || args.inputs.keyboard.key_down.zero
     args.state.cam_x = 0.00
@@ -139,12 +138,12 @@ def render_triangles args, triangles
   args.outputs.sprites << projection.map_with_index do |i, index|
     if i
       {
-        x:  i[0].x,   y: i[0].y,
+        x: i[0].x, y: i[0].y,
         x2: i[1].x,  y2: i[1].y,
         x3: i[2].x,  y3: i[2].y,
-        source_x:   0, source_y:   0,
+        source_x: 0, source_y:   0,
         source_x2: 80, source_y2:  0,
-        source_x3:  0, source_y3: 80,
+        source_x3: 0, source_y3: 80,
         r: 128, g: 128, b: 128,
         a: 80 + 128 * 1 / (index + 1),
         path: :pixel
@@ -174,16 +173,17 @@ def perspective vec
 
   r = mul vec, p
   return nil if r.w < 0
+
   r.x *= r.z / r.w / 100
   r.y *= r.z / r.w / 100
   r
 end
 
 def mat_scale scale
-  mat4 scale,     0,     0,   0,
-           0, scale,     0,   0,
-           0,     0, scale,   0,
-           0,     0,     0,   1
+  mat4 scale, 0,     0,   0,
+       0, scale,     0,   0,
+       0,     0, scale,   0,
+       0,     0, 0, 1
 end
 
 def rotate_y angle_d
@@ -208,17 +208,16 @@ def translate dx, dy, dz
   mat4 1, 0, 0, dx,
        0, 1, 0, dy,
        0, 0, 1, dz,
-       0, 0, 0,  1
+       0, 0, 0, 1
 end
-
 
 def rotate_x angle_d
   cos_t = Math.cos angle_d.to_radians
   sin_t = Math.sin angle_d.to_radians
-  (mat4  1,     0,      0, 0,
+  (mat4  1, 0, 0, 0,
          0, cos_t, -sin_t, 0,
-         0, sin_t,  cos_t, 0,
-         0,     0,      0, 1)
+         0, sin_t, cos_t, 0,
+         0, 0, 0, 1)
 end
 
 def vecs_to_s vecs
@@ -232,7 +231,7 @@ def new_random_cube
   cube_h = rand * 0.2 + 0.1
   randx = rand * 2.0 * [1, -1].sample
   randy = rand * 2.0
-  randz = rand * 5   * [1, -1].sample
+  randz = rand * 5 * [1, -1].sample
 
   cube = [
     square do
@@ -246,7 +245,7 @@ def new_random_cube
       scale x: cube_w, y: cube_h
       translate x: -cube_w / 2, y: -cube_h / 2
       rotate_x 90
-      translate y:  cube_h / 2
+      translate y: cube_h / 2
       translate x: randx, y: randy, z: randz
     end,
     square do
@@ -260,7 +259,7 @@ def new_random_cube
       scale x: cube_h, y: cube_h
       translate x: -cube_h / 2, y: -cube_h / 2
       rotate_y 90
-      translate x:  cube_w / 2
+      translate x: cube_w / 2
       translate x: randx, y: randy, z: randz
     end,
     square do
@@ -272,7 +271,7 @@ def new_random_cube
     square do
       scale x: cube_w, y: cube_h
       translate x: -cube_w / 2, y: -cube_h / 2
-      translate z:  cube_h / 2
+      translate z: cube_h / 2
       translate x: randx, y: randy, z: randz
     end
   ]

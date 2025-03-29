@@ -12,7 +12,7 @@ class Game
   def player_ship
     [
       # engine back
-      (vec4  -1,  -1,  1,  0),
+      (vec4  -1, -1, 1, 0),
       (vec4  -1,   1,  1,  0),
 
       (vec4  -1,   1,  1,  0),
@@ -38,7 +38,7 @@ class Game
       (vec4  -1,  -1,  -1,  0),
 
       # engine left
-      (vec4  -1,   -1,  -1,  0),
+      (vec4  -1,   -1, -1,  0),
       (vec4  -1,   -1,   1,  0),
 
       (vec4  -1,   -1,   1,  0),
@@ -61,50 +61,50 @@ class Game
       (vec4   1,    1,  -1,  0),
 
       (vec4   1,    1,  -1,  0),
-      (vec4   1,   -1,  -1,  0),
+      (vec4   1, -1, -1, 0),
 
       # top front of engine to front of ship
       (vec4   1,    1,  1,  0),
       (vec4   0,   -1,  9,  0),
 
       (vec4   0,   -1,  9,  0),
-      (vec4  -1,    1,  1,  0),
+      (vec4 -1,    1, 1, 0),
 
       # bottom front of engine
       (vec4   1,   -1,  1,  0),
       (vec4   0,   -1,  9,  0),
 
-      (vec4  -1,   -1,  1,  0),
-      (vec4   0,   -1,  9,  0),
+      (vec4 -1, -1, 1, 0),
+      (vec4 0,   -1, 9, 0),
 
       # right wing
       # front of wing
-      (vec4  1,  0.10,   1,  0),
-      (vec4  9,  0.10,  -1,  0),
+      (vec4  1,  0.10, 1, 0),
+      (vec4  9,  0.10, -1, 0),
 
-      (vec4   9,  0.10,  -1,  0),
-      (vec4  10,  0.10,  -2,  0),
+      (vec4 9, 0.10, -1, 0),
+      (vec4  10, 0.10, -2, 0),
 
       # back of wing
       (vec4  1,  0.10,  -1,  0),
       (vec4  9,  0.10,  -1,  0),
 
-      (vec4  10,  0.10,  -2,  0),
-      (vec4   8,  0.10,  -1,  0),
+      (vec4  10, 0.10, -2, 0),
+      (vec4 8, 0.10, -1, 0),
 
       # front of wing
-      (vec4  1,  -0.10,   1,  0),
-      (vec4  9,  -0.10,  -1,  0),
+      (vec4  1,  -0.10, 1, 0),
+      (vec4  9,  -0.10, -1, 0),
 
-      (vec4   9,  -0.10,  -1,  0),
-      (vec4  10,  -0.10,  -2,  0),
+      (vec4 9, -0.10, -1, 0),
+      (vec4  10, -0.10, -2, 0),
 
       # back of wing
       (vec4  1,  -0.10,  -1,  0),
       (vec4  9,  -0.10,  -1,  0),
 
-      (vec4  10,  -0.10,  -2,  0),
-      (vec4   8,  -0.10,  -1,  0),
+      (vec4  10, -0.10, -2, 0),
+      (vec4 8, -0.10, -1, 0),
 
       # left wing
       # front of wing
@@ -112,80 +112,80 @@ class Game
       (vec4  -9,  0.10,  -1,  0),
 
       (vec4  -9,  0.10,  -1,  0),
-      (vec4  -10,  0.10,  -2,  0),
+      (vec4  -10, 0.10, -2, 0),
 
       # back of wing
       (vec4  -1,  0.10,  -1,  0),
       (vec4  -9,  0.10,  -1,  0),
 
-      (vec4  -10,  0.10,  -2,  0),
-      (vec4  -8,  0.10,  -1,  0),
+      (vec4  -10, 0.10, -2, 0),
+      (vec4  -8,  0.10, -1, 0),
 
       # front of wing
       (vec4  -1,  -0.10,   1,  0),
       (vec4  -9,  -0.10,  -1,  0),
 
       (vec4  -9,  -0.10,  -1,  0),
-      (vec4  -10,  -0.10,  -2,  0),
+      (vec4  -10, -0.10, -2, 0),
 
       # back of wing
       (vec4  -1,  -0.10,  -1,  0),
       (vec4  -9,  -0.10,  -1,  0),
-      (vec4  -10,  -0.10,  -2,  0),
-      (vec4   -8,  -0.10,  -1,  0),
+      (vec4  -10, -0.10, -2, 0),
+      (vec4 -8, -0.10, -1, 0),
 
       # left fin
       # top
-      (vec4  -1,  0.10,  1,  0),
-      (vec4  -1,  3,  -3,  0),
+      (vec4  -1,  0.10, 1, 0),
+      (vec4  -1,  3, -3, 0),
 
-      (vec4  -1,  0.10,  -1,  0),
-      (vec4  -1,  3,  -3,  0),
+      (vec4  -1,  0.10, -1, 0),
+      (vec4  -1,  3, -3, 0),
 
-      (vec4  -1.1,  0.10,  1,  0),
-      (vec4  -1.1,  3,  -3,  0),
+      (vec4  -1.1,  0.10,  1, 0),
+      (vec4  -1.1,  3, -3, 0),
 
-      (vec4  -1.1,  0.10,  -1,  0),
-      (vec4  -1.1,  3,  -3,  0),
+      (vec4  -1.1,  0.10, -1, 0),
+      (vec4  -1.1,  3, -3, 0),
 
       # bottom
-      (vec4  -1,  -0.10,  1,  0),
-      (vec4  -1,  -2,  -2,  0),
+      (vec4  -1,  -0.10, 1, 0),
+      (vec4  -1,  -2, -2, 0),
 
-      (vec4  -1,  -0.10,  -1,  0),
-      (vec4  -1,  -2,  -2,  0),
+      (vec4  -1,  -0.10, -1, 0),
+      (vec4  -1,  -2, -2, 0),
 
-      (vec4  -1.1,  -0.10,  1,  0),
-      (vec4  -1.1,  -2,  -2,  0),
+      (vec4  -1.1,  -0.10,  1, 0),
+      (vec4  -1.1,  -2, -2, 0),
 
-      (vec4  -1.1,  -0.10,  -1,  0),
-      (vec4  -1.1,  -2,  -2,  0),
+      (vec4  -1.1,  -0.10, -1, 0),
+      (vec4  -1.1,  -2,  -2, 0),
 
       # right fin
-      (vec4   1,  0.10,  1,  0),
-      (vec4   1,  3,  -3,  0),
+      (vec4   1,  0.10,  1, 0),
+      (vec4   1,  3, -3, 0),
 
-      (vec4   1,  0.10,  -1,  0),
-      (vec4   1,  3,  -3,  0),
+      (vec4   1,  0.10, -1, 0),
+      (vec4   1,  3, -3, 0),
 
-      (vec4   1.1,  0.10,  1,  0),
-      (vec4   1.1,  3,  -3,  0),
+      (vec4   1.1,  0.10,  1, 0),
+      (vec4   1.1,  3, -3, 0),
 
-      (vec4   1.1,  0.10,  -1,  0),
-      (vec4   1.1,  3,  -3,  0),
+      (vec4   1.1,  0.10, -1, 0),
+      (vec4   1.1,  3, -3, 0),
 
       # bottom
-      (vec4   1,  -0.10,  1,  0),
-      (vec4   1,  -2,  -2,  0),
+      (vec4   1,  -0.10, 1, 0),
+      (vec4   1,  -2, -2, 0),
 
-      (vec4   1,  -0.10,  -1,  0),
-      (vec4   1,  -2,  -2,  0),
+      (vec4   1,  -0.10, -1, 0),
+      (vec4   1,  -2, -2, 0),
 
-      (vec4   1.1,  -0.10,  1,  0),
-      (vec4   1.1,  -2,  -2,  0),
+      (vec4   1.1,  -0.10,  1, 0),
+      (vec4   1.1,  -2, -2, 0),
 
-      (vec4   1.1,  -0.10,  -1,  0),
-      (vec4   1.1,  -2,  -2,  0),
+      (vec4   1.1,  -0.10, -1, 0),
+      (vec4   1.1,  -2, -2, 0),
     ]
   end
 
@@ -220,23 +220,23 @@ class Game
   def angle_x_matrix degrees
     cos_t = Math.cos degrees.to_radians
     sin_t = Math.sin degrees.to_radians
-    (mat4  1,     0,      0, 0,
+    (mat4  1, 0, 0, 0,
            0, cos_t, -sin_t, 0,
-           0, sin_t,  cos_t, 0,
-           0,     0,      0, 1)
+           0, sin_t, cos_t, 0,
+           0, 0, 0, 1)
   end
 
   def scale_matrix factor
-    (mat4 factor,      0,      0, 0,
-          0,      factor,      0, 0,
+    (mat4 factor, 0, 0, 0,
+          0,      factor, 0, 0,
           0,           0, factor, 0,
-          0,           0,      0, 1)
+          0,           0, 0, 1)
   end
 
   def input
     if (inputs.keyboard.shift && inputs.keyboard.p)
       state.scale -= 0.1
-    elsif  inputs.keyboard.p
+    elsif inputs.keyboard.p
       state.scale += 0.1
     end
 
@@ -298,15 +298,15 @@ class Game
   def render
     outputs.lines << state.shifted_points.each_slice(2).map do |(p1, p2)|
       perc = 0
-      thick_line({ x:  p1.x.*(10) + 640, y:  p1.y.*(10) + 320,
+      thick_line({ x: p1.x.*(10) + 640, y:  p1.y.*(10) + 320,
                    x2: p2.x.*(10) + 640, y2: p2.y.*(10) + 320,
                    r: 255 * perc,
                    g: 255 * perc,
                    b: 255 * perc })
     end
 
-    outputs.labels << [ 10, 700, "angle_x: #{state.angle_x.to_sf}", 0]
-    outputs.labels << [ 10, 670, "x, shift+x", 0]
+    outputs.labels << [10, 700, "angle_x: #{state.angle_x.to_sf}", 0]
+    outputs.labels << [10, 670, "x, shift+x", 0]
 
     outputs.labels << [210, 700, "angle_y: #{state.angle_y.to_sf}", 0]
     outputs.labels << [210, 670, "y, shift+y", 0]

@@ -122,20 +122,21 @@ class TechDemo
   # Shows output of different kinds of labels on the screen
   def labels_tech_demo
     outputs.labels << [grid.left.shift_right(5), grid.top.shift_down(5), "This is a label located at the top left."]
-    outputs.labels << [grid.left.shift_right(5), grid.bottom.shift_up(30), "This is a label located at the bottom left."]
-    outputs.labels << [ 5, 690, "Labels (x, y, text, size, align, r, g, b, a)"]
-    outputs.labels << [ 5, 660, "Smaller label.",  -2]
-    outputs.labels << [ 5, 630, "Small label.",    -1]
-    outputs.labels << [ 5, 600, "Medium label.",    0]
-    outputs.labels << [ 5, 570, "Large label.",     1]
-    outputs.labels << [ 5, 540, "Larger label.",    2]
+    outputs.labels << [grid.left.shift_right(5), grid.bottom.shift_up(30),
+                       "This is a label located at the bottom left."]
+    outputs.labels << [5, 690, "Labels (x, y, text, size, align, r, g, b, a)"]
+    outputs.labels << [5, 660, "Smaller label.",  -2]
+    outputs.labels << [5, 630, "Small label.",    -1]
+    outputs.labels << [5, 600, "Medium label.",    0]
+    outputs.labels << [5, 570, "Large label.",     1]
+    outputs.labels << [5, 540, "Larger label.",    2]
     outputs.labels << [300, 660, "Left aligned.",    0, 2]
     outputs.labels << [300, 640, "Center aligned.",  0, 1]
     outputs.labels << [300, 620, "Right aligned.",   0, 0]
-    outputs.labels << [175, 595, "Red Label.",       0, 0, 255,   0,   0]
-    outputs.labels << [175, 575, "Green Label.",     0, 0,   0, 255,   0]
+    outputs.labels << [175, 595, "Red Label.",       0, 0, 255, 0, 0]
+    outputs.labels << [175, 575, "Green Label.",     0, 0,   0, 255, 0]
     outputs.labels << [175, 555, "Blue Label.",      0, 0,   0,   0, 255]
-    outputs.labels << [175, 535, "Faded Label.",     0, 0,   0,   0,   0, 128]
+    outputs.labels << [175, 535, "Faded Label.",     0, 0,   0,   0, 0, 128]
   end
 
   # Shows output of lines on the screen
@@ -150,9 +151,9 @@ class TechDemo
 
   # Shows output of different kinds of solids on the screen
   def solids_tech_demo
-    outputs.labels << [  5, 350, "Solids (x, y, w, h, r, g, b, a)"]
-    outputs.solids << [ 10, 270, 50, 50]
-    outputs.solids << [ 70, 270, 50, 50, 0, 0, 0]
+    outputs.labels << [5, 350, "Solids (x, y, w, h, r, g, b, a)"]
+    outputs.solids << [10, 270, 50, 50]
+    outputs.solids << [70, 270, 50, 50, 0, 0, 0]
     outputs.solids << [130, 270, 50, 50, 255, 0, 0]
     outputs.solids << [190, 270, 50, 50, 255, 0, 0, 128]
     outputs.solids << [250, 270, 50, 50, 0, 0, 0, 128 + Kernel.tick_count % 128] # transparency changes
@@ -161,9 +162,9 @@ class TechDemo
   # Shows output of different kinds of borders on the screen
   # The parameters for a border are the same as the parameters for a solid
   def borders_tech_demo
-    outputs.labels <<  [  5, 260, "Borders (x, y, w, h, r, g, b, a)"]
-    outputs.borders << [ 10, 180, 50, 50]
-    outputs.borders << [ 70, 180, 50, 50, 0, 0, 0]
+    outputs.labels <<  [5, 260, "Borders (x, y, w, h, r, g, b, a)"]
+    outputs.borders << [10, 180, 50, 50]
+    outputs.borders << [70, 180, 50, 50, 0, 0, 0]
     outputs.borders << [130, 180, 50, 50, 255, 0, 0]
     outputs.borders << [190, 180, 50, 50, 255, 0, 0, 128]
     outputs.borders << [250, 180, 50, 50, 0, 0, 0, 128 + Kernel.tick_count % 128] # transparency changes
@@ -171,10 +172,10 @@ class TechDemo
 
   # Shows output of different kinds of sprites on the screen
   def sprites_tech_demo
-    outputs.labels <<  [   5, 170, "Sprites (x, y, w, h, path, angle, a)"]
-    outputs.sprites << [  10, 40, 128, 101, 'dragonruby.png']
-    outputs.sprites << [ 150, 40, 128, 101, 'dragonruby.png', Kernel.tick_count % 360] # angle changes
-    outputs.sprites << [ 300, 40, 128, 101, 'dragonruby.png', 0, Kernel.tick_count % 255] # transparency changes
+    outputs.labels <<  [5, 170, "Sprites (x, y, w, h, path, angle, a)"]
+    outputs.sprites << [10, 40, 128, 101, 'dragonruby.png']
+    outputs.sprites << [150, 40, 128, 101, 'dragonruby.png', Kernel.tick_count % 360] # angle changes
+    outputs.sprites << [300, 40, 128, 101, 'dragonruby.png', 0, Kernel.tick_count % 255] # transparency changes
   end
 
   # Holds size, alignment, color (black), and alpha (transparency) parameters
@@ -187,7 +188,6 @@ class TechDemo
   # Sets position of each row
   # Converts given row value to pixels that DragonRuby understands
   def row_to_px row_number
-
     # Row 0 starts 5 units below the top of the grid.
     # Each row afterward is 20 units lower.
     grid.top.shift_down(5).shift_down(20 * row_number)
@@ -260,9 +260,11 @@ class TechDemo
 
     if state.last_mouse_click # if mouse is clicked (has coordinates as value)
       # outputs the time (frame) the click occurred, as well as how many frames have passed since the event
-      outputs.labels << small_label(x, 12, "Mouse click happened at: #{state.last_mouse_click.created_at}, #{state.last_mouse_click.created_at_elapsed}")
+      outputs.labels << small_label(x, 12,
+                                    "Mouse click happened at: #{state.last_mouse_click.created_at}, #{state.last_mouse_click.created_at_elapsed}")
       # outputs coordinates of click
-      outputs.labels << small_label(x, 13, "Mouse click location: #{state.last_mouse_click.point.x}, #{state.last_mouse_click.point.y}")
+      outputs.labels << small_label(x, 13,
+                                    "Mouse click location: #{state.last_mouse_click.point.x}, #{state.last_mouse_click.point.y}")
     else # otherwise if the mouse has not been clicked
       outputs.labels << small_label(x, 12, "Mouse click has not occurred yet.")
       outputs.labels << small_label(x, 13, "Please click mouse.")
@@ -308,7 +310,7 @@ class TechDemo
         if !state.box_collision_one # if the collision_one box does not yet have a definition
           # Subtracts 25 from the x and y positions of the click point in order to make the click point the center of the box.
           # You can try deleting the subtraction to see how it impacts the box placement.
-          state.box_collision_one = [inputs.mouse.click.point.x - 25, inputs.mouse.click.point.y - 25, 50, 50, 180, 0,   0, 180]  # sets definition
+          state.box_collision_one = [inputs.mouse.click.point.x - 25, inputs.mouse.click.point.y - 25, 50, 50, 180, 0,   0, 180] # sets definition
         elsif !state.box_collision_two # if collision_two does not yet have a definition
           state.box_collision_two = [inputs.mouse.click.point.x - 25, inputs.mouse.click.point.y - 25, 50, 50,   0, 0, 180, 180] # sets definition
         else
@@ -412,12 +414,12 @@ class TechDemo
     outputs.labels << [460, 20, "mouse focus: #{m}   keyboard focus: #{k}", small_font]
   end
 
-  #Sets values for the horizontal separator (divides demo sections)
+  # Sets values for the horizontal separator (divides demo sections)
   def horizontal_seperator y, x, x2
     [x, y, x2, y, 150, 150, 150]
   end
 
-  #Sets the values for the vertical separator (divides demo sections)
+  # Sets the values for the vertical separator (divides demo sections)
   def vertical_seperator x, y, y2
     [x, y, x, y2, 150, 150, 150]
   end
@@ -455,6 +457,7 @@ end
 
 def tick_instructions args, text, y = 715
   return if args.state.key_event_occurred
+
   if args.inputs.mouse.click ||
      args.inputs.keyboard.directional_vector ||
      args.inputs.keyboard.key_down.enter ||
@@ -464,5 +467,5 @@ def tick_instructions args, text, y = 715
 
   args.outputs.debug << [0, y - 50, 1280, 60].solid
   args.outputs.debug << [640, y, text, 1, 1, 255, 255, 255].label
-  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)" , -2, 1, 255, 255, 255].label
+  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)", -2, 1, 255, 255, 255].label
 end

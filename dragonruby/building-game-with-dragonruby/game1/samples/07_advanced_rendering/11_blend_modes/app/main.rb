@@ -1,16 +1,15 @@
 def draw_blendmode args, mode
   w = 160
   h = w
-  args.state.x += (1280-w) / (args.state.blendmodes.length + 1)
+  args.state.x += (1280 - w) / (args.state.blendmodes.length + 1)
   x = args.state.x
   y = (720 - h) / 2
   s = 'sprites/blue-feathered.png'
   args.outputs.sprites << { blendmode_enum: mode.value, x: x, y: y, w: w, h: h, path: s }
-  args.outputs.labels << [x + (w/2), y, mode.name.to_s, 1, 1, 255, 255, 255]
+  args.outputs.labels << [x + (w / 2), y, mode.name.to_s, 1, 1, 255, 255, 255]
 end
 
 def tick args
-
   # Different blend modes do different things, depending on what they
   # blend against (in this case, the pixels of the background color).
   args.state.bg_element ||= 1
@@ -32,7 +31,7 @@ def tick args
     end
   end
 
-  args.outputs.background_color = [ bg_r, bg_g, bg_b, 255 ]
+  args.outputs.background_color = [bg_r, bg_g, bg_b, 255]
 
   args.state.blendmodes ||= [
     { name: :none,  value: 0 },
@@ -42,7 +41,7 @@ def tick args
     { name: :mul,   value: 4 }
   ]
 
-  args.state.x = 0  # reset this, draw_blendmode will increment it.
+  args.state.x = 0 # reset this, draw_blendmode will increment it.
   args.state.blendmodes.each { |blendmode| draw_blendmode args, blendmode }
 end
 

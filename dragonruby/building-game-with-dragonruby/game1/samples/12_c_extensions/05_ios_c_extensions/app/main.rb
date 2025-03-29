@@ -35,16 +35,16 @@ class IOSWizard < Wizard
     sh "mkdir -p ./mygame/native/ios-device/ext.framework"
 
     # compile C extension into framework
-    sh <<-S
-clang -I. -I./mruby/include -I./include -o "./mygame/native/ios-device/ext.framework/ext" \\
-      -arch arm64 -dynamiclib -isysroot "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk" \\
-      -install_name @rpath/ext.framework/ext \\
-      -fembed-bitcode -Xlinker -rpath -Xlinker @loader_path/Frameworks -dead_strip -Xlinker -rpath -fobjc-arc -fobjc-link-runtime \\
-      -F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks \\
-      -miphoneos-version-min=10.3 -Wl,-no_pie -licucore -stdlib=libc++ \\
-      -framework CFNetwork -framework UIKit -framework Foundation \\
-      ./mygame/ext-bind.m
-S
+    sh <<~S
+      clang -I. -I./mruby/include -I./include -o "./mygame/native/ios-device/ext.framework/ext" \\
+            -arch arm64 -dynamiclib -isysroot "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk" \\
+            -install_name @rpath/ext.framework/ext \\
+            -fembed-bitcode -Xlinker -rpath -Xlinker @loader_path/Frameworks -dead_strip -Xlinker -rpath -fobjc-arc -fobjc-link-runtime \\
+            -F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks \\
+            -miphoneos-version-min=10.3 -Wl,-no_pie -licucore -stdlib=libc++ \\
+            -framework CFNetwork -framework UIKit -framework Foundation \\
+            ./mygame/ext-bind.m
+    S
 
     # stage extension
     sh "cp ./mygame/native/ios-device/Info.plist ./mygame/native/ios-device/ext.framework/Info.plist"
@@ -52,11 +52,11 @@ S
     sh "cp -r \"#{root_folder}/native/ios-device/ext.framework/\" \"#{app_path}/Frameworks/ext.framework/\""
 
     # sign
-    sh <<-S
-CODESIGN_ALLOCATE=#{codesign_allocate_path} #{codesign_path} \\
-                                            -f -s \"#{certificate_name}\" \\
-                                            \"#{app_path}/Frameworks/ext.framework/ext\"
-S
+    sh <<~S
+      CODESIGN_ALLOCATE=#{codesign_allocate_path} #{codesign_path} \\
+                                                  -f -s \"#{certificate_name}\" \\
+                                                  \"#{app_path}/Frameworks/ext.framework/ext\"
+    S
   end
 end
 

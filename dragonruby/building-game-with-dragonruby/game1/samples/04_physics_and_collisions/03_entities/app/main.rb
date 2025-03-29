@@ -28,7 +28,8 @@
 
 # Calls all methods necessary for the game to function properly.
 def tick args
-  tick_instructions args, "Sample app shows how to use args.state.new_entity along with collisions. CLICK to shoot a bullet."
+  tick_instructions args,
+                    "Sample app shows how to use args.state.new_entity along with collisions. CLICK to shoot a bullet."
   defaults args
   render args
   calc args
@@ -126,6 +127,7 @@ end
 # Once mouse is clicked by the user to fire a bullet, a new bullet is added to bullets collection
 def fire_bullet args
   return unless args.inputs.mouse.click # return unless mouse is clicked
+
   args.state.bullets << args.state.new_entity(:bullet) do |bullet| # new bullet is declared a new entity
     bullet.y = args.inputs.mouse.click.point.y # set to the y value of where the mouse was clicked
     bullet.x = 0 # starts on the left side of the screen
@@ -137,6 +139,7 @@ end
 
 def tick_instructions args, text, y = 715
   return if args.state.key_event_occurred
+
   if args.inputs.mouse.click ||
      args.inputs.keyboard.directional_vector ||
      args.inputs.keyboard.key_down.enter ||
@@ -147,5 +150,5 @@ def tick_instructions args, text, y = 715
 
   args.outputs.debug << [0, y - 50, 1280, 60].solid
   args.outputs.debug << [640, y, text, 1, 1, 255, 255, 255].label
-  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)" , -2, 1, 255, 255, 255].label
+  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)", -2, 1, 255, 255, 255].label
 end

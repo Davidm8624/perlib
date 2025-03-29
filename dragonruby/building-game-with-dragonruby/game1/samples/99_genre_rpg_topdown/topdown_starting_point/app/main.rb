@@ -84,13 +84,13 @@ def generate_map args
     [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,],
     [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   ].reverse # reverses the order of the area collection
 
   # By reversing the order, the way that the area appears above is how it appears
   # on the screen in the game. If we did not reverse, the map would appear inverted.
 
-  #The wall starts off with no tiles.
+  # The wall starts off with no tiles.
   args.state.walls = []
 
   # If v is 1, a green tile is added to args.state.walls.

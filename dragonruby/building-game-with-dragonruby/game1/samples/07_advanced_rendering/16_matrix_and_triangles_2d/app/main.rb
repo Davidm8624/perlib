@@ -1,21 +1,21 @@
 include MatrixFunctions
 
 def tick args
-  args.state.square_one_sprite = { x:        0,
-                                   y:        0,
-                                   w:        100,
-                                   h:        100,
-                                   path:     "sprites/square/blue.png",
+  args.state.square_one_sprite = { x: 0,
+                                   y: 0,
+                                   w: 100,
+                                   h: 100,
+                                   path: "sprites/square/blue.png",
                                    source_x: 0,
                                    source_y: 0,
                                    source_w: 80,
                                    source_h: 80 }
 
-  args.state.square_two_sprite = { x:        0,
-                                   y:        0,
-                                   w:        100,
-                                   h:        100,
-                                   path:     "sprites/square/red.png",
+  args.state.square_two_sprite = { x: 0,
+                                   y: 0,
+                                   w: 100,
+                                   h: 100,
+                                   path: "sprites/square/red.png",
                                    source_x: 0,
                                    source_y: 0,
                                    source_w: 80,
@@ -70,9 +70,10 @@ def tick args
                     mat3_scale(args.state.camera.zoom),
                     mat3_translate(-args.state.camera.x, -args.state.camera.y)
 
-  args.outputs.lines  << { x: 640, y:   0, h:  720 }
+  args.outputs.lines  << { x: 640, y:   0, h: 720 }
   args.outputs.lines  << { x:   0, y: 360, w: 1280 }
-  args.outputs.labels << { x: 30, y: 60.from_top, text: "x: #{args.state.camera.x.to_sf} y: #{args.state.camera.y.to_sf} z: #{args.state.camera.zoom.to_sf}" }
+  args.outputs.labels << { x: 30, y: 60.from_top,
+                           text: "x: #{args.state.camera.x.to_sf} y: #{args.state.camera.y.to_sf} z: #{args.state.camera.zoom.to_sf}" }
   args.outputs.labels << { x: 30, y: 90.from_top, text: "Mouse: #{mouse_coord.x.to_sf} #{mouse_coord.y.to_sf}" }
   args.outputs.labels << { x: 30,
                            y: 30.from_top,
@@ -82,22 +83,22 @@ end
 def sprite_to_triangles sprite
   [
     {
-      x:         sprite.x,                          y:  sprite.y,
-      x2:        sprite.x,                          y2: sprite.y + sprite.h,
-      x3:        sprite.x + sprite.w,               y3: sprite.y + sprite.h,
-      source_x:  sprite.source_x,                   source_y:  sprite.source_y,
+      x: sprite.x, y:  sprite.y,
+      x2: sprite.x,                          y2: sprite.y + sprite.h,
+      x3: sprite.x + sprite.w,               y3: sprite.y + sprite.h,
+      source_x: sprite.source_x, source_y:  sprite.source_y,
       source_x2: sprite.source_x,                   source_y2: sprite.source_y + sprite.source_h,
       source_x3: sprite.source_x + sprite.source_w, source_y3: sprite.source_y + sprite.source_h,
-      path:      sprite.path
+      path: sprite.path
     },
     {
-      x:  sprite.x,                                 y:  sprite.y,
+      x: sprite.x, y:  sprite.y,
       x2: sprite.x + sprite.w,                      y2: sprite.y + sprite.h,
       x3: sprite.x + sprite.w,                      y3: sprite.y,
-      source_x:  sprite.source_x,                   source_y:  sprite.source_y,
+      source_x: sprite.source_x, source_y:  sprite.source_y,
       source_x2: sprite.source_x + sprite.source_w, source_y2: sprite.source_y + sprite.source_h,
       source_x3: sprite.source_x + sprite.source_w, source_y3: sprite.source_y,
-      path:      sprite.path
+      path: sprite.path
     }
   ]
 end
@@ -105,20 +106,20 @@ end
 def mat3_translate dx, dy
   mat3 1, 0, dx,
        0, 1, dy,
-       0, 0,  1
+       0, 0, 1
 end
 
 def mat3_rotate angle_d
   angle_r = angle_d.to_radians
   mat3 Math.cos(angle_r), -Math.sin(angle_r), 0,
        Math.sin(angle_r),  Math.cos(angle_r), 0,
-                       0,                  0, 1
+       0, 0, 1
 end
 
 def mat3_scale scale
   mat3 scale,     0, 0,
-           0, scale, 0,
-           0,     0, 1
+       0, scale, 0,
+       0, 0, 1
 end
 
 def triangles_mat3_mul triangles, *matrices
@@ -136,8 +137,8 @@ def triangle_mat3_mul triangle, *matrices
 
   {
     **triangle,
-    x:  result[0].x,
-    y:  result[0].y,
+    x: result[0].x,
+    y: result[0].y,
     x2: result[1].x,
     y2: result[1].y,
     x3: result[2].x,

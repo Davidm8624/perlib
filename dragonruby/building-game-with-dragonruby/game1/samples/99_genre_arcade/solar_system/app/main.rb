@@ -15,13 +15,13 @@ def defaults args
   end
 
   args.state.planets = [
-    [:mercury,   65,  5,          88],
+    [:mercury, 65, 5, 88],
     [:venus,    100, 10,         225],
     [:earth,    120, 10,         365],
-    [:mars,     140,  8,         687],
+    [:mars,     140, 8,         687],
     [:jupiter,  280, 30, 365 *  11.8],
     [:saturn,   350, 20, 365 *  29.5],
-    [:uranus,   400, 15, 365 *    84],
+    [:uranus,   400, 15, 365 * 84],
     [:neptune,  440, 15, 365 * 164.8],
     [:pluto,    480,  5, 365 * 247.8],
   ].map do |name, distance, size, year_in_days|

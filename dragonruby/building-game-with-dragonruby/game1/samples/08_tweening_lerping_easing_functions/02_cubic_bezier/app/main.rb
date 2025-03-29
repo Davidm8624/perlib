@@ -13,7 +13,6 @@ def tick args
                                20)
 end
 
-
 def bezier x, y, x2, y2, x3, y3, x4, y4, step
   step ||= 0
   color = [200, 200, 200]
@@ -51,11 +50,11 @@ end
 
 def b_for_t v0, v1, v2, v3, t
   pow(1 - t, 3) * v0 +
-  3 * pow(1 - t, 2) * t * v1 +
-  3 * (1 - t) * pow(t, 2) * v2 +
-  pow(t, 3) * v3
+    3 * pow(1 - t, 2) * t * v1 +
+    3 * (1 - t) * pow(t, 2) * v2 +
+    pow(t, 3) * v3
 end
 
 def pow n, to
-  n ** to
+  n**to
 end

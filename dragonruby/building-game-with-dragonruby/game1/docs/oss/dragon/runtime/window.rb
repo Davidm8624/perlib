@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # window.rb has been released under MIT (*only this file*).
@@ -10,6 +11,7 @@ module GTK
         return false if platform? :steamdeck
         return false if platform? :ios
         return false if platform? :android
+
         return true
       end
 
@@ -18,12 +20,14 @@ module GTK
         return false if platform? :ios
         return false if platform? :android
         return false if platform? :web
+
         return true
       end
 
       def can_close_window?
         return false if platform? :ios
         return false if platform? :web
+
         return true
       end
 
@@ -31,8 +35,9 @@ module GTK
         set_window_fullscreen !window_fullscreen?
       end
 
-      def set_window_fullscreen enable=true
+      def set_window_fullscreen enable = true
         return if @window_fullscreen == enable
+
         @window_fullscreen = enable
         self.ffi_draw.toggle_fullscreen enable
 
@@ -63,11 +68,13 @@ module GTK
 
       def move_window_to_next_display
         return if !can_move_window?
+
         @ffi_draw.move_window_to_next_display
       end
 
       def maximize_window
         return if !can_resize_window?
+
         @ffi_draw.maximize_window
       end
 
@@ -76,35 +83,38 @@ module GTK
         return Cvars["game_metadata.orientation_both"].value if platform? :ios
         return Cvars["game_metadata.orientation_both"].value if platform? :android
         return false if platform? :web
+
         return true
       end
 
       def set_orientation orientation_name
         return if @orientation == orientation_name
+
         toggle_orientation
       end
 
       def toggle_orientation
         return if !can_change_orientation?
+
         @ffi_draw.toggle_orientation
       end
 
       def set_hd_max_scale value
         if !Grid.hd?
-          puts <<-S
-* INFO - ~set_hd_max_scale~ ignored.
-HD Mode is not enabled. Go to your game's =metadata/game_metadata.txt= file, make the following changes, and restart:
+          puts <<~S
+            * INFO - ~set_hd_max_scale~ ignored.
+            HD Mode is not enabled. Go to your game's =metadata/game_metadata.txt= file, make the following changes, and restart:
 
-  # enable HD Mode
-  hd=true
+              # enable HD Mode
+              hd=true
 
-  # optionally enable High DPI
-  highdpi=true
+              # optionally enable High DPI
+              highdpi=true
 
-  # optionally disable letterbox
-  hd_letterbox=false
+              # optionally disable letterbox
+              hd_letterbox=false
 
-S
+          S
           return
         end
 
@@ -117,25 +127,26 @@ S
 
       def set_hd_letterbox value
         return if Grid.letterbox == value
+
         toggle_hd_letterbox
       end
 
       def toggle_hd_letterbox
         if !Grid.hd?
-          puts <<-S
-* INFO - ~set_hd_max_scale~ ignored.
-HD Mode is not enabled. Go to your game's =metadata/game_metadata.txt= file, make the following changes, and restart:
+          puts <<~S
+            * INFO - ~set_hd_max_scale~ ignored.
+            HD Mode is not enabled. Go to your game's =metadata/game_metadata.txt= file, make the following changes, and restart:
 
-  # enable HD Mode
-  hd=true
+              # enable HD Mode
+              hd=true
 
-  # optionally enable High DPI
-  highdpi=true
+              # optionally enable High DPI
+              highdpi=true
 
-  # optionally disable letterbox
-  hd_letterbox=false
+              # optionally disable letterbox
+              hd_letterbox=false
 
-S
+          S
           return
         end
 

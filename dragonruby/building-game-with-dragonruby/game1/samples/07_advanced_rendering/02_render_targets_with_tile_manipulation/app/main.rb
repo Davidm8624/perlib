@@ -3,7 +3,7 @@
 #  a scene to wipe away; the actual wipe effect is in the last 20 lines or
 #  so.
 
-GTK.reset   # reset all game state if reloaded.
+GTK.reset # reset all game state if reloaded.
 
 def circle_of_blocks pass, xoffset, yoffset, angleoffset, blocksize, distance
   numblocks = 10
@@ -13,7 +13,7 @@ def circle_of_blocks pass, xoffset, yoffset, angleoffset, blocksize, distance
     radians = angle * (Math::PI / 180)
     x = (xoffset + (distance * Math.cos(radians))).round
     y = (yoffset + (distance * Math.sin(radians))).round
-    pass.solids << [ x, y, blocksize, blocksize, 255, 255, 0 ]
+    pass.solids << [x, y, blocksize, blocksize, 255, 255, 0]
   end
 end
 
@@ -57,9 +57,9 @@ def tick args
   # build up the wipe...
 
   # this is the thing we're wiping to.
-  args.outputs.sprites << [ 0, 0, 1280, 720, 'dragonruby.png' ]
+  args.outputs.sprites << [0, 0, 1280, 720, 'dragonruby.png']
 
-  return if (args.state.baseyoff > (1280 + 100))  # stop when done sliding
+  return if (args.state.baseyoff > (1280 + 100)) # stop when done sliding
 
   segmentw = 1280 / segments
 
@@ -71,7 +71,8 @@ def tick args
     end
 
     # (720 - yoffset) flips the coordinate system, (- 720) adjusts for the height of the segment.
-    args.outputs.sprites << [ x, (720 - yoffset) - 720, segmentw, 720, 'last_frame', 0, 255, 255, 255, 255, x, 0, segmentw, 720 ]
+    args.outputs.sprites << [x, (720 - yoffset) - 720, segmentw, 720, 'last_frame', 0, 255, 255, 255, 255, x, 0,
+                             segmentw, 720]
     x += segmentw
   end
 
@@ -82,6 +83,7 @@ end
 
 def tick_instructions args, text, y = 715
   return if args.state.key_event_occurred
+
   if args.inputs.mouse.click ||
      args.inputs.keyboard.directional_vector ||
      args.inputs.keyboard.key_down.enter ||
@@ -91,5 +93,5 @@ def tick_instructions args, text, y = 715
 
   args.outputs.debug << [0, y - 50, 1280, 60].solid
   args.outputs.debug << [640, y, text, 1, 1, 255, 255, 255].label
-  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)" , -2, 1, 255, 255, 255].label
+  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)", -2, 1, 255, 255, 255].label
 end

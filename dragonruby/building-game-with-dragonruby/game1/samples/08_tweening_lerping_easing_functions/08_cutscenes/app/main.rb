@@ -26,6 +26,7 @@ class Game
   def start_cutscene
     # don't start the cutscene if it's already started
     return if state.cutscene_started
+
     state.cutscene_started = true
 
     # start the cutscene by moving right
@@ -169,7 +170,6 @@ class QueuedOneTimeTick < QueuedTick
     @is_complete = true
   end
 end
-
 
 $game = Game.new
 def tick args

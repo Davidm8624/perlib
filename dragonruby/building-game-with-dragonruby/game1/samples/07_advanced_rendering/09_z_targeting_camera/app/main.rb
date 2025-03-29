@@ -68,7 +68,7 @@ class Game
   end
 
   def zoom_factor
-    zoom_factor_single ** 2
+    zoom_factor_single**2
   end
 
   def arena_radius
@@ -77,10 +77,10 @@ class Game
 
   def scene
     {
-      x:    (640 - player.x) + (640 - (640 * zoom_factor)),
-      y:    (360 - player.y - (75 * zoom_factor)) + (320 - (320 * zoom_factor)),
-      w:    1280 * zoom_factor,
-      h:     720 * zoom_factor,
+      x: (640 - player.x) + (640 - (640 * zoom_factor)),
+      y: (360 - player.y - (75 * zoom_factor)) + (320 - (320 * zoom_factor)),
+      w: 1280 * zoom_factor,
+      h: 720 * zoom_factor,
       path: :scene,
       angle: player.angle - 90,
       angle_anchor_x: (player.x.fdiv 1280),

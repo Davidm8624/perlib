@@ -51,7 +51,7 @@ def render_messages args
       text: s,
       size_enum: -3,
       alignment_enum: 0,
-      r: 255, g:255, b: 255, a: 255
+      r: 255, g: 255, b: 255, a: 255
     }
   end
 
@@ -62,7 +62,7 @@ def render_messages args
       text: s,
       size_enum: -3,
       alignment_enum: 0,
-      r: 255, g:255, b: 255, a: 255
+      r: 255, g: 255, b: 255, a: 255
     }
   end
 

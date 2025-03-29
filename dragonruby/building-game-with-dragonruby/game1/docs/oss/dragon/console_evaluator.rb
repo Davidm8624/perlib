@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # console_evaluator.rb has been released under MIT (*only this file*).
@@ -43,26 +44,26 @@ module GTK
       end
 
       def evaluate cmd
-        code   = <<-S
-#{
-  locals.keys.map do |name|
-    "#{name} = locals[:#{name}]"
-  end.join "\n"
-}
+        code = <<~S
+          #{
+            locals.keys.map do |name|
+              "#{name} = locals[:#{name}]"
+            end.join "\n"
+          }
 
-locals[:args] ||= $args
-locals[:gtk]  ||= $gtk
+          locals[:args] ||= $args
+          locals[:gtk]  ||= $gtk
 
-begin
-  _ = begin
-    #{cmd}
-  end
-ensure
-  local_variables.each do |name|
-    locals[name] = eval(name.to_s)
-  end
-end
-S
+          begin
+            _ = begin
+              #{cmd}
+            end
+          ensure
+            local_variables.each do |name|
+              locals[name] = eval(name.to_s)
+            end
+          end
+        S
 
         GTK::ConsoleEvaluator.instance_eval code
       end

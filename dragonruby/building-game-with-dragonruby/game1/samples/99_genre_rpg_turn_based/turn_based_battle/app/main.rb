@@ -81,7 +81,9 @@ def tick args
 end
 
 def select_next_live_enemy args
-  next_target_index = args.state.enemies.find_index.with_index { |e, i| !e.dead && i > args.state.potential_enemy_index }
+  next_target_index = args.state.enemies.find_index.with_index { |e, i|
+    !e.dead && i > args.state.potential_enemy_index
+  }
   if next_target_index
     args.state.potential_enemy_index = next_target_index
   end
@@ -97,7 +99,7 @@ def select_previous_live_enemy args
 end
 
 def render_actions_menu args
-  args.outputs.borders << Layout.rect(row:  8, col: 0, w: 4, h: 4, include_row_gutter: true, include_col_gutter: true)
+  args.outputs.borders << Layout.rect(row: 8, col: 0, w: 4, h: 4, include_row_gutter: true, include_col_gutter: true)
   if !args.state.selected_action
     selected_rect = if args.state.potential_action == :attack
                       Layout.rect(row:  8, col: 0, w: 4, h: 1)
@@ -109,20 +111,24 @@ def render_actions_menu args
                       Layout.rect(row: 11, col: 0, w: 4, h: 1)
                     end
 
-    args.outputs.solids  << selected_rect.merge(r: 200, g: 200, b: 200)
+    args.outputs.solids << selected_rect.merge(r: 200, g: 200, b: 200)
   end
 
   args.outputs.borders << Layout.rect(row:  8, col: 0, w: 4, h: 1)
-  args.outputs.labels  << Layout.rect(row:  8, col: 0, w: 4, h: 1).center.merge(text: "Attack", vertical_alignment_enum: 1, alignment_enum: 1)
+  args.outputs.labels  << Layout.rect(row:  8, col: 0, w: 4, h: 1).center.merge(text: "Attack",
+                                                                                vertical_alignment_enum: 1, alignment_enum: 1)
 
   args.outputs.borders << Layout.rect(row:  9, col: 0, w: 4, h: 1)
-  args.outputs.labels  << Layout.rect(row:  9, col: 0, w: 4, h: 1).center.merge(text: "Special", vertical_alignment_enum: 1, alignment_enum: 1)
+  args.outputs.labels  << Layout.rect(row:  9, col: 0, w: 4, h: 1).center.merge(text: "Special",
+                                                                                vertical_alignment_enum: 1, alignment_enum: 1)
 
   args.outputs.borders << Layout.rect(row: 10, col: 0, w: 4, h: 1)
-  args.outputs.labels  << Layout.rect(row: 10, col: 0, w: 4, h: 1).center.merge(text: "Magic", vertical_alignment_enum: 1, alignment_enum: 1)
+  args.outputs.labels  << Layout.rect(row: 10, col: 0, w: 4, h: 1).center.merge(text: "Magic",
+                                                                                vertical_alignment_enum: 1, alignment_enum: 1)
 
   args.outputs.borders << Layout.rect(row: 11, col: 0, w: 4, h: 1)
-  args.outputs.labels  << Layout.rect(row: 11, col: 0, w: 4, h: 1).center.merge(text: "Items", vertical_alignment_enum: 1, alignment_enum: 1)
+  args.outputs.labels  << Layout.rect(row: 11, col: 0, w: 4, h: 1).center.merge(text: "Items",
+                                                                                vertical_alignment_enum: 1, alignment_enum: 1)
 end
 
 def render_enemies args
@@ -133,12 +139,14 @@ def render_enemies args
       [
         Layout.rect(row: 1, col: 9 + i * 2, w: 2, h: 2).solid!(r: 200, g: 200, b: 200),
         Layout.rect(row: 1, col: 9 + i * 2, w: 2, h: 2).border!,
-        Layout.rect(row: 1, col: 9 + i * 2, w: 2, h: 2).center.label!(text: "#{e.name}", vertical_alignment_enum: 1, alignment_enum: 1)
+        Layout.rect(row: 1, col: 9 + i * 2, w: 2, h: 2).center.label!(text: "#{e.name}", vertical_alignment_enum: 1,
+                                                                      alignment_enum: 1)
       ]
     else
       [
         Layout.rect(row: 1, col: 9 + i * 2, w: 2, h: 2).border!,
-        Layout.rect(row: 1, col: 9 + i * 2, w: 2, h: 2).center.label!(text: "#{e.name}", vertical_alignment_enum: 1, alignment_enum: 1)
+        Layout.rect(row: 1, col: 9 + i * 2, w: 2, h: 2).center.label!(text: "#{e.name}", vertical_alignment_enum: 1,
+                                                                      alignment_enum: 1)
       ]
     end
   end
@@ -150,12 +158,14 @@ def render_heroes args
       [
         Layout.rect(row: 5, col: 9 + i * 2, w: 2, h: 2).solid!(r: 200, g: 200, b: 200),
         Layout.rect(row: 5, col: 9 + i * 2, w: 2, h: 2).border!,
-        Layout.rect(row: 5, col: 9 + i * 2, w: 2, h: 2).center.label!(text: "#{h.name}", vertical_alignment_enum: 1, alignment_enum: 1)
+        Layout.rect(row: 5, col: 9 + i * 2, w: 2, h: 2).center.label!(text: "#{h.name}", vertical_alignment_enum: 1,
+                                                                      alignment_enum: 1)
       ]
     else
       [
         Layout.rect(row: 5, col: 9 + i * 2, w: 2, h: 2).border!,
-        Layout.rect(row: 5, col: 9 + i * 2, w: 2, h: 2).center.label!(text: "#{h.name}", vertical_alignment_enum: 1, alignment_enum: 1)
+        Layout.rect(row: 5, col: 9 + i * 2, w: 2, h: 2).center.label!(text: "#{h.name}", vertical_alignment_enum: 1,
+                                                                      alignment_enum: 1)
       ]
     end
   end

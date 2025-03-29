@@ -77,7 +77,6 @@ def tick args
                                b: 40,
                                a: Kernel.tick_count % 255 }
 
-
   # you can also render a border
   # Using arrays is quick and dirty and it's recommended to use Hashes long term
   args.outputs.borders << [470, 320, 50, 50]

@@ -58,7 +58,7 @@ class PaintApp
   # Prints the title onto the screen by using a label.
   # Also separates the title from the grid with a line as a horizontal separator.
   def print_title
-    args.outputs.labels << [ 640, 700, 'Paint!', 0, 1 ]
+    args.outputs.labels << [640, 700, 'Paint!', 0, 1]
     outputs.lines << horizontal_separator(660, 0, 1280)
   end
 
@@ -76,17 +76,16 @@ class PaintApp
 
   # Outputs a border and a grid containing empty squares onto the screen.
   def add_grid
-
     # Sets the x, y, height, and width of the grid.
     # There are 31 horizontal lines and 31 vertical lines in the grid.
     # Feel free to count them yourself before continuing!
-    x, y, h, w = 640 - 500/2, 640 - 500, 500, 500 # calculations done so the grid appears in screen's center
+    x, y, h, w = 640 - 500 / 2, 640 - 500, 500, 500 # calculations done so the grid appears in screen's center
     lines_h = 31
     lines_v = 31
 
     # Sets values for the grid's border, grid lines, and filled squares.
     # The filled_squares variable is initially set to an empty array.
-    state.grid_border ||= [ x, y, h, w ] # definition of grid's outer border
+    state.grid_border ||= [x, y, h, w] # definition of grid's outer border
     state.grid_lines ||= draw_grid(x, y, h, w, lines_h, lines_v) # calls draw_grid method
     state.filled_squares ||= [] # there are no filled squares until the user fills them in
 
@@ -98,7 +97,6 @@ class PaintApp
 
   # Draws the grid by adding in vertical and horizontal separators.
   def draw_grid x, y, h, w, lines_h, lines_v
-
     # The grid starts off empty.
     grid = []
 
@@ -115,13 +113,13 @@ class PaintApp
     dist_x = w / (lines_v + 1) # finds distance to place vertical lines evenly throughout 500 width of grid
     lines_v.times do
       curr_x += dist_x # increment curr_x by the distance between the vertical lines
-      grid << vertical_separator(curr_x, y + 1, y  + h) # add separator
+      grid << vertical_separator(curr_x, y + 1, y + h) # add separator
     end
 
     # paint_grid uses a hash to assign values to keys.
-    state.paint_grid ||= {"x" => x, "y" => y, "h" => h, "w" => w, "lines_h" => lines_h,
-                          "lines_v" => lines_v, "dist_x" => dist_x,
-                          "dist_y" => dist_y }
+    state.paint_grid ||= { "x" => x, "y" => y, "h" => h, "w" => w, "lines_h" => lines_h,
+                           "lines_v" => lines_v, "dist_x" => dist_x,
+                           "dist_y" => dist_y }
 
     return grid
   end
@@ -129,16 +127,16 @@ class PaintApp
   # Checks if the user is keeping the mouse pressed down and sets the mouse_hold variable accordingly using boolean values.
   # If the mouse is up, the user cannot drag the mouse.
   def check_click
-    if inputs.mouse.down #is mouse up or down?
+    if inputs.mouse.down # is mouse up or down?
       state.mouse_held = true # mouse is being held down
     elsif inputs.mouse.up # if mouse is up
-    state.mouse_held = false # mouse is not being held down or dragged
+      state.mouse_held = false # mouse is not being held down or dragged
       state.mouse_dragging = false
     end
 
-    if state.mouse_held &&    # mouse needs to be down
-      !inputs.mouse.click &&     # must not be first click
-      ((inputs.mouse.previous_click.point.x - inputs.mouse.position.x).abs > 15) # Need to move 15 pixels before "drag"
+    if state.mouse_held && # mouse needs to be down
+       !inputs.mouse.click && # must not be first click
+       ((inputs.mouse.previous_click.point.x - inputs.mouse.position.x).abs > 15) # Need to move 15 pixels before "drag"
       state.mouse_dragging = true
     end
 
@@ -153,7 +151,7 @@ class PaintApp
   end
 
   # Sets the definition of a grid box and handles user input to fill in or clear grid boxes.
-  def search_lines (point, input_type)
+  def search_lines(point, input_type)
     point.x -= state.paint_grid["x"] # subtracts the value assigned to the "x" key in the paint_grid hash
     point.y -= state.paint_grid["y"] # subtracts the value assigned to the "y" key in the paint_grid hash
 
@@ -167,7 +165,7 @@ class PaintApp
     # Sets definition of a grid box, meaning its x, y, width, and height.
     # Floor is called on the point.x and point.y variables.
     # Ceil method is called on values of the distance hash keys, setting the width and height of a box.
-    grid_box = [ point.x.floor, point.y.floor, state.paint_grid["dist_x"].ceil, state.paint_grid["dist_y"].ceil ]
+    grid_box = [point.x.floor, point.y.floor, state.paint_grid["dist_x"].ceil, state.paint_grid["dist_y"].ceil]
 
     if input_type == :click # if user clicks their mouse
       if state.filled_squares.include? grid_box # if grid box is already filled in
@@ -227,6 +225,7 @@ end
 
 def tick_instructions args, text, y = 715
   return if args.state.key_event_occurred
+
   if args.inputs.mouse.click ||
      args.inputs.keyboard.directional_vector ||
      args.inputs.keyboard.key_down.enter ||
@@ -236,5 +235,5 @@ def tick_instructions args, text, y = 715
 
   args.outputs.debug << [0, y - 50, 1280, 60].solid
   args.outputs.debug << [640, y, text, 1, 1, 255, 255, 255].label
-  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)" , -2, 1, 255, 255, 255].label
+  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)", -2, 1, 255, 255, 255].label
 end

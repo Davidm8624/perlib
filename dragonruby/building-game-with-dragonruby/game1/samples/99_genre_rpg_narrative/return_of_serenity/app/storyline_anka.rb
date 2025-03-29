@@ -17,7 +17,7 @@ def anka_observatory args
     fade: 60,
     player: [51, 12],
     storylines: [
-      [50, 10, 4, 4,   "Breathe, Hiro. Just see what's there... everything--- will- be okay."]
+      [50, 10, 4, 4, "Breathe, Hiro. Just see what's there... everything--- will- be okay."]
     ],
     scenes: [
       [30, 18, 5, 12, :anka_inside_mainframe]
@@ -33,7 +33,7 @@ def anka_inside_mainframe args
     fade: 60,
     storylines: [
       [22, 45, 17, 4, (anka_last_reply args)],
-      [45, 45,  4, 4, (anka_current_reply args)],
+      [45, 45, 4, 4, (anka_current_reply args)],
     ],
     scenes: [
       [*hotspot_top_right, :reply_to_anka]

@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # tweetcart.rb has been released under MIT (*only this file*).
@@ -32,6 +33,7 @@ def $top_level.TICK &block
 
   def $top_level.pixels!
     return if $args.state.tweetcart_state.render_method == :pixels
+
     $args.state.tweetcart_state.render_method = :pixels
   end
 
@@ -48,7 +50,7 @@ def $top_level.TICK &block
   end
 
   def $top_level.bg! *rgb
-    r,g,b = rgb
+    r, g, b = rgb
     r ||= 255
     g ||= r
     b ||= g
@@ -86,7 +88,7 @@ def $top_level.TICK &block
       y = params[1]
       w = params[2]
       h = params[3]
-      r,g,b,a = params[4]
+      r, g, b, a = params[4]
       r ||= 255
       g ||= r
       b ||= g
@@ -140,10 +142,10 @@ def $top_level.TICK &block
 
   def $top_level.scene! w = 1280, h = 720, scale = nil
     scale ||= begin
-                x_scale = $args.grid.w / w
-                y_scale = $args.grid.h / h
-                x_scale < y_scale ? x_scale : y_scale
-              end
+      x_scale = $args.grid.w / w
+      y_scale = $args.grid.h / h
+      x_scale < y_scale ? x_scale : y_scale
+    end
 
     $args.outputs[:scene].w = w
     $args.outputs[:scene].h = h
@@ -155,38 +157,38 @@ def $top_level.TICK &block
 
   def create_tweetcart_palette
     [
-      [   0,   0,   0 ],
-      [  34,  32,  52 ],
-      [  69,  40,  60 ],
-      [ 102,  57,  49 ],
-      [ 143,  86,  59 ],
-      [ 223, 113,  38 ],
-      [ 217, 160, 102 ],
-      [ 238, 195, 154 ],
-      [ 251, 242,  54 ],
-      [ 153, 229,  80 ],
-      [ 106, 190,  48 ],
-      [  55, 148, 110 ],
-      [  75, 105,  47 ],
-      [  82,  75,  36 ],
-      [  50,  60,  57 ],
-      [  63,  63, 116 ],
-      [  48,  96, 130 ],
-      [  91, 110, 225 ],
-      [  99, 155, 255 ],
-      [  95, 205, 228 ],
-      [ 203, 219, 252 ],
-      [ 255, 255, 255 ],
-      [ 155, 173, 183 ],
-      [ 132, 126, 135 ],
-      [ 105, 106, 106 ],
-      [  89,  86,  82 ],
-      [ 118,  66, 138 ],
-      [ 172,  50,  50 ],
-      [ 217,  87,  99 ],
-      [ 215, 123, 186 ],
-      [ 143, 151,  74 ],
-      [ 138, 111,  48 ]
+      [0,   0, 0],
+      [34,  32,  52],
+      [69,  40,  60],
+      [102,  57,  49],
+      [143,  86,  59],
+      [223, 113,  38],
+      [217, 160, 102],
+      [238, 195, 154],
+      [251, 242,  54],
+      [153, 229,  80],
+      [106, 190,  48],
+      [55, 148, 110],
+      [75, 105,  47],
+      [82,  75,  36],
+      [50,  60,  57],
+      [63,  63, 116],
+      [48,  96, 130],
+      [91, 110, 225],
+      [99, 155, 255],
+      [95, 205, 228],
+      [203, 219, 252],
+      [255, 255, 255],
+      [155, 173, 183],
+      [132, 126, 135],
+      [105, 106, 106],
+      [89,  86, 82],
+      [118,  66, 138],
+      [172,  50,  50],
+      [217,  87,  99],
+      [215, 123, 186],
+      [143, 151,  74],
+      [138, 111,  48]
     ]
   end
 

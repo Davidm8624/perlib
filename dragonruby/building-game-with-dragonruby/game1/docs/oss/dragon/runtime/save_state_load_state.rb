@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # save_state_load_state.rb has been released under MIT (*only this file*).
@@ -112,19 +113,19 @@ module GTK
         end
       end
     rescue Exception => e
-      raise <<-S
-* ERROR:
-Failed to load entity data from:
+      raise <<~S
+        * ERROR:
+        Failed to load entity data from:
 
-#+begin_src
-#{serialization_data}
-#+end_src
+        #+begin_src
+        #{serialization_data}
+        #+end_src
 
-The save data looks to be corrupt.
+        The save data looks to be corrupt.
 
-** INNER EXCEPTION:
-#{e}
-S
+        ** INNER EXCEPTION:
+        #{e}
+      S
     end
 
     def to_s
@@ -174,19 +175,19 @@ module GTK
         end
       end
     rescue Exception => e
-      raise <<-S
-* ERROR:
-Failed to load entity data from:
+      raise <<~S
+        * ERROR:
+        Failed to load entity data from:
 
-#+begin_src
-#{serialization_data}
-#+end_src
+        #+begin_src
+        #{serialization_data}
+        #+end_src
 
-The save data looks to be corrupt.
+        The save data looks to be corrupt.
 
-** INNER EXCEPTION:
-#{e}
-S
+        ** INNER EXCEPTION:
+        #{e}
+      S
     end
 
     def to_s

@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # itch_wizard.rb has been released under MIT (*only this file*).
@@ -6,12 +7,12 @@
 class ItchWizard < Wizard
   def help
     puts <<~S
-         * INFO: Help for #{self.class.name}
-         To run this wizard, type the following into the DragonRuby Console:
+      * INFO: Help for #{self.class.name}
+      To run this wizard, type the following into the DragonRuby Console:
 
-           $wizards.itch.start
+        $wizards.itch.start
 
-         S
+    S
   end
 
   def itch_steps
@@ -21,14 +22,14 @@ class ItchWizard < Wizard
   end
 
   def write_blank_metadata
-      $gtk.write_file metadata_file_path, <<-S.strip
-#devid=myname
-#devtitle=My Name
-#gameid=mygame
-#gametitle=My Game
-#version=0.1
-#icon=metadata/icon.png
-S
+    $gtk.write_file metadata_file_path, <<~S.strip
+      #devid=myname
+      #devtitle=My Name
+      #gameid=mygame
+      #gametitle=My Game
+      #version=0.1
+      #icon=metadata/icon.png
+    S
   end
 
   def check_metadata

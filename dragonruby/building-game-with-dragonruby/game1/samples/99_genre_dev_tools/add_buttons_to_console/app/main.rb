@@ -34,20 +34,20 @@ class GTK::Console::Menu
     log "* INFO: Custom Button Clicked at #{Kernel.global_tick_count}!"
 
     all_buttons_as_string = GTK.console.menu.buttons.map do |b|
-      <<-S.strip
-** id: #{b[:id]}
-:PROPERTIES:
-:id:     :#{b[:id]}
-:method: :#{b[:method]}
-:text:   #{b[:text]}
-:END:
-S
+      <<~S.strip
+        ** id: #{b[:id]}
+        :PROPERTIES:
+        :id:     :#{b[:id]}
+        :method: :#{b[:method]}
+        :text:   #{b[:text]}
+        :END:
+      S
     end.join("\n")
 
-    log <<-S
-* INFO: Here are all the buttons:
-#{all_buttons_as_string}
-S
+    log <<~S
+      * INFO: Here are all the buttons:
+      #{all_buttons_as_string}
+    S
   end
 end
 

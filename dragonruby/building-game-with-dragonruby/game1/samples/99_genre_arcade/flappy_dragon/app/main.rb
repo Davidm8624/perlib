@@ -45,15 +45,20 @@ class FlappyDragon
 
   def render_menu
     return unless state.scene == :menu
+
     render_overlay
 
     outputs.labels << { x: 640, y: 700, text: "Flappy Dragon", size_enum: 50, alignment_enum: 1, **white }
-    outputs.labels << { x: 640, y: 500, text: "Instructions: Press Spacebar to flap. Don't die.", size_enum: 4, alignment_enum: 1, **white }
+    outputs.labels << { x: 640, y: 500, text: "Instructions: Press Spacebar to flap. Don't die.", size_enum: 4,
+                        alignment_enum: 1, **white }
     outputs.labels << { x: 430, y: 430, text: "[Tab]    Change difficulty", size_enum: 4, alignment_enum: 0, **white }
-    outputs.labels << { x: 430, y: 400, text: "[Enter]  Start at New Difficulty ", size_enum: 4, alignment_enum: 0, **white }
+    outputs.labels << { x: 430, y: 400, text: "[Enter]  Start at New Difficulty ", size_enum: 4, alignment_enum: 0,
+                        **white }
     outputs.labels << { x: 430, y: 370, text: "[Escape] Cancel/Resume ", size_enum: 4, alignment_enum: 0, **white }
-    outputs.labels << { x: 640, y: 300, text: "(mouse, touch, and game controllers work, too!) ", size_enum: 4, alignment_enum: 1, **white }
-    outputs.labels << { x: 640, y: 200, text: "Difficulty: #{state.new_difficulty.capitalize}", size_enum: 4, alignment_enum: 1, **white }
+    outputs.labels << { x: 640, y: 300, text: "(mouse, touch, and game controllers work, too!) ", size_enum: 4,
+                        alignment_enum: 1, **white }
+    outputs.labels << { x: 640, y: 200, text: "Difficulty: #{state.new_difficulty.capitalize}", size_enum: 4,
+                        alignment_enum: 1, **white }
 
     outputs.labels << { x: 10, y: 100, text: "Code:   @amirrajan",     **white }
     outputs.labels << { x: 10, y:  80, text: "Art:    @mobypixel",     **white }
@@ -80,6 +85,7 @@ class FlappyDragon
 
   def render_game_over
     return unless state.scene == :game
+
     outputs.labels << { x: 638, y: 358, text: score_text,     size_enum: 20, alignment_enum: 1 }
     outputs.labels << { x: 635, y: 360, text: score_text,     size_enum: 20, alignment_enum: 1, r: 255, g: 255, b: 255 }
     outputs.labels << { x: 638, y: 428, text: countdown_text, size_enum: 20, alignment_enum: 1 }
@@ -126,10 +132,10 @@ class FlappyDragon
     else
       sprite_name = "sprites/dragon_die.png"
       state.dragon_sprite = { x: state.x, y: state.y, w: 100, h: 80, path: sprite_name, angle: state.dy * 1.2 }
-      sprite_changed_elapsed    = state.death_at.elapsed_time - 1.seconds
-      state.dragon_sprite.angle += (sprite_changed_elapsed ** 1.3) * state.death_fall_direction * -1
-      state.dragon_sprite.x     += (sprite_changed_elapsed ** 1.2) * state.death_fall_direction
-      state.dragon_sprite.y     += (sprite_changed_elapsed * 14 - sprite_changed_elapsed ** 1.6)
+      sprite_changed_elapsed = state.death_at.elapsed_time - 1.seconds
+      state.dragon_sprite.angle += (sprite_changed_elapsed**1.3) * state.death_fall_direction * -1
+      state.dragon_sprite.x     += (sprite_changed_elapsed**1.2) * state.death_fall_direction
+      state.dragon_sprite.y     += (sprite_changed_elapsed * 14 - sprite_changed_elapsed**1.6)
     end
 
     outputs.sprites << state.dragon_sprite
@@ -139,16 +145,18 @@ class FlappyDragon
     return unless state.flash_at
 
     outputs.primitives << { **grid.rect.to_hash,
-                            **white,
-                            a: 255 * state.flash_at.ease(20, :flip) }.solid!
+      **white,
+      a: 255 * state.flash_at.ease(20, :flip) }.solid!
 
     state.flash_at = 0 if state.flash_at.elapsed_time > 20
   end
 
   def calc
     return unless state.scene == :game
+
     reset_game if state.countdown == 1
     state.countdown -= 1 and return if state.countdown > 0
+
     calc_walls
     calc_flap
     calc_game_over
@@ -183,6 +191,7 @@ class FlappyDragon
     state.dy = state.dy.lesser state.flap_power
     state.dy -= state.gravity
     return if state.y < state.ceiling
+
     state.y  = state.ceiling
     state.dy = state.dy.lesser state.ceiling_flap_power
   end
@@ -283,10 +292,10 @@ class FlappyDragon
     return true if state.y <= 0.-(500 * collision_forgiveness) && !at_beginning?
 
     state.walls
-        .flat_map { |w| w.sprites }
-        .any? do |s|
-          s && s.intersect_rect?(dragon_collision_box)
-        end
+         .flat_map { |w| w.sprites }
+         .any? do |s|
+      s && s.intersect_rect?(dragon_collision_box)
+    end
   end
 
   def collision_forgiveness
@@ -309,6 +318,7 @@ class FlappyDragon
     return ""          if state.countdown == 0
     return "GO!"       if state.countdown.idiv(60) == 0
     return "GAME OVER" if state.death_at
+
     return "READY?"
   end
 
@@ -321,6 +331,7 @@ class FlappyDragon
     return ""                        unless state.death_at
     return "SCORE: 0 (LOL)"          if state.score == 0
     return "HI SCORE: #{state.score}" if state.score == state.hi_score
+
     return "SCORE: #{state.score}"
   end
 

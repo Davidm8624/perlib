@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # mouse.rb has been released under MIT (*only this file*).
@@ -265,19 +266,19 @@ module GTK
     alias_method :inspect, :to_s
 
     def buffered_click
-      @buttons_left.buffered_click   ||
-      @buttons_middle.buffered_click ||
-      @buttons_right.buffered_click  ||
-      @buttons_x1.buffered_click     ||
-      @buttons_x2.buffered_click
+      @buttons_left.buffered_click ||
+        @buttons_middle.buffered_click ||
+        @buttons_right.buffered_click  ||
+        @buttons_x1.buffered_click     ||
+        @buttons_x2.buffered_click
     end
 
     def buffered_held
-      @buttons_left.buffered_held   ||
-      @buttons_middle.buffered_held ||
-      @buttons_right.buffered_held  ||
-      @buttons_x1.buffered_held     ||
-      @buttons_x2.buffered_held
+      @buttons_left.buffered_held ||
+        @buttons_middle.buffered_held ||
+        @buttons_right.buffered_held  ||
+        @buttons_x1.buffered_held     ||
+        @buttons_x2.buffered_held
     end
   end
 

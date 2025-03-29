@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # layout.rb has been released under MIT (*only this file*).
@@ -187,7 +188,6 @@ module GTK
               h: 1,
               include_row_gutter: false,
               include_col_gutter: false
-
       return [] if !items
       return [] if items.length == 0
 
@@ -348,18 +348,18 @@ module GTK
 
     def rect_defaults
       {
-        row:      nil,
-        col:      nil,
-        h:        1,
-        w:        1,
-        dx:       0,
+        row: nil,
+        col: nil,
+        h: 1,
+        w: 1,
+        dx: 0,
         dx_ratio: 1,
-        dy:       0,
+        dy: 0,
         dy_ratio: 1,
         dh_ratio: 1,
         dw_ratio: 1,
-        merge:    nil,
-        rect:     :control_rect
+        merge: nil,
+        rect: :control_rect
       }
     end
 
@@ -392,7 +392,7 @@ module GTK
       r     = opts.row || 0
       r     = row_max_index - opts.row_from_bottom if opts.row_from_bottom
       c     = opts.col || 0
-      c     = col_max_index - opts.col_from_right  if opts.col_from_right
+      c     = col_max_index - opts.col_from_right if opts.col_from_right
       drow  = opts.drow || 0
       dcol  = opts.dcol || 0
       w     = opts.w    || 0
@@ -566,7 +566,7 @@ module GTK
                                  r: 232,
                                  g: 232,
                                  b: 232,
-                                 anchor_x: 0.5}
+                                 anchor_x: 0.5 }
 
       one_quarter_horizontal = { id: :one_quarter_horizontal,
                                  x: safe_area.x,
@@ -711,8 +711,8 @@ module GTK
 
     def __debug_primitives__(color:)
       __debug_primitives_cell_prefabs__(color: color) +
-      __debug_primitives_crosshair__ +
-      __debug_primitives_seperators__
+        __debug_primitives_crosshair__ +
+        __debug_primitives_seperators__
     end
 
     def debug_primitives(invert_colors: false)

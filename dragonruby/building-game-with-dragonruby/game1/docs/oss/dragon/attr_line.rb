@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # attr_line.rb has been released under MIT (*only this file*).
@@ -38,6 +39,7 @@ class Object
 
   def attr_line
     return if self.is_a? AttrLine
+
     self.class.include AttrLine
   end
 end

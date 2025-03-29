@@ -115,7 +115,7 @@ class VerticalPlatformer
       s.player.x += collision.dx * collision.speed
       s.player.platform = collision # player is on the platform that it collided with (or landed on)
       if s.player.falling # if player is falling
-        s.player.dx = 0  # no horizontal movement
+        s.player.dx = 0 # no horizontal movement
       end
       s.player.falling = false
       s.player.jumped_at = nil
@@ -141,7 +141,7 @@ class VerticalPlatformer
 
     if delta > -200
       s.camera[:y] += delta * 0.01 # allows player to see view as they move upwards
-      s.player.x  += s.player.dx # velocity is change in position; change in x increases by dx
+      s.player.x += s.player.dx # velocity is change in position; change in x increases by dx
 
       # searches platform collection to find platforms located more than 300 pixels above the player
       has_platforms = s.platforms.find { |p| p.y > (s.player.y + 300) }

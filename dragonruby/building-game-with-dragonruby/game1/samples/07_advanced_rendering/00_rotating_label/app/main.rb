@@ -3,7 +3,6 @@ def tick args
   args.outputs[:scene].w = 220
   args.outputs[:scene].h = 30
 
-
   # make the background transparent
   args.outputs[:scene].background_color = [255, 255, 255, 0]
 

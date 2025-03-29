@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # console.rb has been released under MIT (*only this file*).
@@ -32,9 +33,9 @@ module GTK
       @visible = false
       @toast_ids = []
       @archived_log = []
-      @log = [ 'Console ready.' ]
-      @max_log_lines = 1000  # I guess...?
-      @max_history = 5000  # I guess...?
+      @log = ['Console ready.']
+      @max_log_lines = 1000 # I guess...?
+      @max_history = 5000 # I guess...?
       @log_invocation_count = 0
       @command_history = []
       @command_history_index = -1
@@ -74,9 +75,9 @@ module GTK
     def load_history
       @command_history.clear
       str = $gtk.ffi_file.read @history_fname
-      return if str.nil?  # no history to load.
+      return if str.nil? # no history to load.
 
-      str.chomp!("\n")  # Don't let endlines at the end cause extra blank line.
+      str.chomp!("\n") # Don't let endlines at the end cause extra blank line.
       str.chomp!("\r")
       str.each_line { |s|
         s.chomp!("\n")
@@ -134,11 +135,11 @@ module GTK
       nil
     end
 
-    def add_text obj, loglevel=-1
+    def add_text obj, loglevel = -1
       # loglevel is one of the values of LogLevel in logging.h, or -1 to say "we don't care, colorize it with your special string parsing magic"
       loglevel = -1 if loglevel < 0
-      loglevel = 5 if loglevel > 5  # 5 == unfiltered (it's 0x7FFFFFFE in C, clamp it down)
-      loglevel = 2 if (loglevel == -1) && obj.start_with?('!c!')  # oh well
+      loglevel = 5 if loglevel > 5 # 5 == unfiltered (it's 0x7FFFFFFE in C, clamp it down)
+      loglevel = 2 if (loglevel == -1) && obj.start_with?('!c!') # oh well
       colorstr = (loglevel != -1) ? "!c!#{loglevel}" : nil
 
       @last_log_lines_count ||= 1
@@ -246,40 +247,42 @@ module GTK
       return false unless @show_reason == :toast
       return false unless @toasted_at
       return false if @toasted_at.elapsed?(5.seconds, Kernel.global_tick_count)
+
       return true
     end
 
     def toast_extended id = nil, duration = nil, *messages
       if !id.is_a?(Symbol)
-        raise <<-S
-* ERROR:
-args.gtk.console.toast has the following signature:
+        raise <<~S
+          * ERROR:
+          args.gtk.console.toast has the following signature:
 
-  def toast id, *messages
-  end
+            def toast id, *messages
+            end
 
-The id property uniquely defines the message and must be
-a symbol.
+          The id property uniquely defines the message and must be
+          a symbol.
 
-After that, you can provide all the objects you want to
-look at.
+          After that, you can provide all the objects you want to
+          look at.
 
-Example:
+          Example:
 
-  args.gtk.console.toast :say_hello,
-                        \"Hello world.\",
-                          Kernel.tick_count
+            args.gtk.console.toast :say_hello,
+                                  \"Hello world.\",
+                                    Kernel.tick_count
 
-Toast messages autohide after 5 seconds.
+          Toast messages autohide after 5 seconds.
 
-If you need to look at something for longer, use
-args.gtk.console.perma_toast instead (which you can manually dismiss).
+          If you need to look at something for longer, use
+          args.gtk.console.perma_toast instead (which you can manually dismiss).
 
-S
+        S
       end
 
       return if currently_toasting?
       return if @toast_ids.include? id
+
       @toasted_at = Kernel.global_tick_count
       log_once_info :perma_toast_tip, "Use console.perma_toast to show the toast for longer."
       dwim_duration = 5.seconds
@@ -330,24 +333,25 @@ S
           results = (Kernel.__docs_search_results__ method_name)
           if !results.include? "* No results found."
             puts (results.join "\n")
-            puts <<-S
-* INFO: #{results.length} matches(s) found in DOCS for ~#{method_name}~ (see above).
-You can search the documentation yourself using the following command in the Console:
-#+begin_src ruby
-  docs_search \"#{method_name}\"
-#+end_src
-S
-            log_once_info :exported_search_results, "The search results above has been seen in logs/puts.txt and docs/search_results.txt."
+            puts <<~S
+              * INFO: #{results.length} matches(s) found in DOCS for ~#{method_name}~ (see above).
+              You can search the documentation yourself using the following command in the Console:
+              #+begin_src ruby
+                docs_search \"#{method_name}\"
+              #+end_src
+            S
+            log_once_info :exported_search_results,
+                          "The search results above has been seen in logs/puts.txt and docs/search_results.txt."
           end
         end
       end
     rescue Exception => se
-      puts <<-S
-* FATAL: ~GTK::Console#try_search_docs~
-There was an exception searching for docs (~GTK::Console#try_search_docs~). You might want to let DragonRuby know about this.
-** INNER EXCEPTION
-#{se}
-S
+      puts <<~S
+        * FATAL: ~GTK::Console#try_search_docs~
+        There was an exception searching for docs (~GTK::Console#try_search_docs~). You might want to let DragonRuby know about this.
+        ** INNER EXCEPTION
+        #{se}
+      S
     end
 
     def eval_the_set_command
@@ -366,11 +370,11 @@ S
         elsif (cmd.start_with? "./dragonruby-publish") || (cmd.start_with? ".\\dragonruby-publish") || (cmd.start_with? "dragonruby-publish")
           # TODO: maybe kick off the itch wizard here ~$wizards.itch.start~
           puts "-> #{cmd}"
-          puts <<-S
-* INFO:
-It looks like you are trying to publish your game. The dragonruby-publish
-command must be run from your terminal (not the DragonRuby Console).
-S
+          puts <<~S
+            * INFO:
+            It looks like you are trying to publish your game. The dragonruby-publish
+            command must be run from your terminal (not the DragonRuby Console).
+          S
         else
           puts "-> #{cmd}"
 
@@ -380,10 +384,10 @@ S
             locals = (@locals ||= {})
 
             results = GTK::ConsoleEvaluator.evaluate cmd
-           if results.nil?
+            if results.nil?
               puts "=> nil"
             elsif results == :console_silent_eval
-              # do nothing since the console is silent
+            # do nothing since the console is silent
             else
               if cmd.include?("docs") && (results.is_a? String) && (results.start_with? "*")
                 puts "=>\n#{results}"
@@ -408,6 +412,7 @@ S
 
     def inputs_scroll_up_full? args
       return false if @disabled
+
       args.inputs.keyboard.key_down.pageup ||
         (args.inputs.keyboard.key_up.b && args.inputs.keyboard.key_up.control)
     end
@@ -423,6 +428,7 @@ S
 
     def inputs_scroll_up_half? args
       return false if @disabled
+
       args.inputs.keyboard.ctrl_u || args.inputs.keyboard.ctrl_b
     end
 
@@ -433,6 +439,7 @@ S
 
     def inputs_scroll_down_full? args
       return false if @disabled
+
       args.inputs.keyboard.key_down.pagedown ||
         (args.inputs.keyboard.key_up.f && args.inputs.keyboard.key_up.control)
     end
@@ -444,11 +451,13 @@ S
 
     def inputs_scroll_down_half? args
       return false if @disabled
+
       args.inputs.keyboard.ctrl_d || args.inputs.keyboard.ctrl_f
     end
 
     def inputs_clear_command? args
       return false if @disabled
+
       args.inputs.keyboard.escape || args.inputs.keyboard.ctrl_g
     end
 
@@ -591,7 +600,8 @@ S
     def write_primitive_and_return_offset(args, left, y, str, archived: false)
       if str.is_a?(Hash)
         padding = 10
-        args.outputs.reserved << { x: left + 10, y: y + 5, w: str[:w], h: str[:h], path: str[:path], a: (255.0 * slide_progress).to_i }
+        args.outputs.reserved << { x: left + 10, y: y + 5, w: str[:w], h: str[:h], path: str[:path],
+                                   a: (255.0 * slide_progress).to_i }
         return str[:h] + padding
       else
         write_line args, left, y, str, archived: archived
@@ -603,7 +613,7 @@ S
       color = color_for_log_entry(str).to_h
       color.a = (255.0 * slide_progress).to_i
       color.a *= 0.5 if archived
-      str = str[4..-1] if str.start_with?('!c!')  # chop off loglevel color
+      str = str[4..-1] if str.start_with?('!c!') # chop off loglevel color
       args.outputs.reserved << font_style.label(x: left.shift_right(10), y: y, text: str, color: color)
     end
 
@@ -611,6 +621,7 @@ S
       return false if !@toggled_at
       return false if slide_progress == 0
       return false if @disabled
+
       return visible?
     end
 
@@ -626,7 +637,8 @@ S
       return if !@toggled_at
       return if slide_progress == 0
 
-      args.outputs.reserved << { x: left, y: slide_progress_bottom, w: w, h: h, path: :solid, **@background_color.mult_alpha(slide_progress).to_h }
+      args.outputs.reserved << { x: left, y: slide_progress_bottom, w: w, h: h, path: :solid,
+                                 **@background_color.mult_alpha(slide_progress).to_h }
       args.outputs.reserved << { x: 20,
                                  y: slide_progress_bottom.shift_up(logo_final_y - 44),
                                  w: 100,
@@ -634,7 +646,7 @@ S
                                  path: @logo,
                                  a: (80.0 * slide_progress).to_i }
 
-      y = slide_progress_bottom + 2  # just give us a little padding at the bottom.
+      y = slide_progress_bottom + 2 # just give us a little padding at the bottom.
       prompt.render args, x: left.shift_right(10), y: y
       y += line_height_px * 1.5
       args.outputs.reserved << line(y: y, color: @text_color.mult_alpha(slide_progress))
@@ -667,6 +679,7 @@ S
 
     def render_log_offset args
       return if @log_offset <= 0
+
       args.outputs.reserved << font_style.label(
         x: right.shift_left(5),
         y: top.shift_down(5 + line_height_px),
@@ -681,7 +694,8 @@ S
     end
 
     def error_markers
-      ["exception:", "error:", "undefined method", "failed", "syntax error", "deprecated", "exception possibly", "exception thrown"]
+      ["exception:", "error:", "undefined method", "failed", "syntax error", "deprecated", "exception possibly",
+       "exception thrown"]
     end
 
     def include_subdued_markers? text
@@ -728,6 +742,7 @@ S
         render args
         process_inputs args
         return unless should_tick?
+
         calc args
         prompt.tick
         process_add_primitive_queue
@@ -782,7 +797,7 @@ S
     def set_command_extended opts
       opts = defaults_set_command_extended.merge opts
       @command_history.concat opts[:histories]
-      @command_history << opts[:command]  if @command_history[-1] != opts[:command]
+      @command_history << opts[:command] if @command_history[-1] != opts[:command]
       self.current_input_str = opts[:command] if @command_set_at != Kernel.global_tick_count || opts[:force]
       @command_set_at = Kernel.global_tick_count
       @command_history_index = -1
@@ -863,24 +878,28 @@ S
 
     def include_header_marker? log_entry
       return false if (log_entry.strip.include? ".rb")
-      (log_entry.start_with? "* ")    ||
-      (log_entry.start_with? "** ")   ||
-      (log_entry.start_with? "*** ")  ||
-      (log_entry.start_with? "**** ")
+
+      (log_entry.start_with? "* ") ||
+        (log_entry.start_with? "** ")   ||
+        (log_entry.start_with? "*** ")  ||
+        (log_entry.start_with? "**** ")
     end
 
     def include_header_1_marker? log_entry
       return false if (log_entry.strip.include? ".rb")
+
       (log_entry.start_with? "* ")
     end
 
     def include_header_2_marker? log_entry
       return false if (log_entry.strip.include? ".rb")
+
       (log_entry.start_with? "** ")
     end
 
     def include_header_3_marker? log_entry
       return false if (log_entry.strip.include? ".rb")
+
       (log_entry.start_with? "*** ")
     end
 
@@ -894,13 +913,15 @@ S
     end
 
     def code_comment? log_entry
-      return true  if log_entry.strip.start_with?("# ")
+      return true if log_entry.strip.start_with?("# ")
+
       return false
     end
 
     def codeblock_marker? log_entry
       return true if log_entry.strip.start_with?("#+begin_src")
       return true if log_entry.strip.start_with?("#+end_src")
+
       return false
     end
 
@@ -931,13 +952,13 @@ S
     end
 
     def color_for_log_entry(log_entry)
-      if log_entry.start_with?('!c!')  # loglevel color specified.
+      if log_entry.start_with?('!c!') # loglevel color specified.
         return case log_entry[3..3].to_i
                when 0  # spam
                  @spam_color
                when 1  # debug
                  @debug_color
-               #when 2  # info (caught by the `else` block.)
+               # when 2  # info (caught by the `else` block.)
                #  @text_color
                when 3  # warn
                  @warn_color
@@ -974,6 +995,7 @@ S
 
     def slide_progress
       return 0 if !@toggled_at
+
       if visible?
         @slide_progress = Easing.ease @toggled_at, Kernel.global_tick_count, @animation_duration, :flip, :quint, :flip
       else

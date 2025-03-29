@@ -10,7 +10,7 @@ class CleptoFrog
 
   def defaults
     state.level_editor_rect_w ||= 32
-    state.level_editor_rect_h     ||= 32
+    state.level_editor_rect_h ||= 32
     state.target_camera_scale ||= 0.5
     state.camera_scale        ||= 1
     state.tongue_length       ||= 100
@@ -54,21 +54,25 @@ class CleptoFrog
 
   def to_camera_space_x x
     return nil if !x
-     (x * state.camera_scale) - state.camera_x
+
+    (x * state.camera_scale) - state.camera_x
   end
 
   def to_camera_space_y y
     return nil if !y
+
     (y * state.camera_scale) - state.camera_y
   end
 
   def to_camera_space_w w
     return nil if !w
+
     w * state.camera_scale
   end
 
   def to_camera_space_h h
     return nil if !h
+
     h * state.camera_scale
   end
 
@@ -98,7 +102,7 @@ class CleptoFrog
                            y: start_of_tongue_render.y - 2,
                            w: to_camera_space_w(4),
                            h: Geometry.distance(start_of_tongue_render, anchor_point_render),
-                           path:  :pixel,
+                           path: :pixel,
                            angle_anchor_y: 0,
                            r: 255, g: 128, b: 128,
                            angle: state.tongue_angle - 90 }
@@ -107,7 +111,7 @@ class CleptoFrog
                            y: to_camera_space_y(start_of_tongue.y) - 2,
                            w: to_camera_space_w(4),
                            h: to_camera_space_h(state.tongue_length),
-                           path:  :pixel,
+                           path: :pixel,
                            r: 255, g: 128, b: 128,
                            angle_anchor_y: 0,
                            angle: state.tongue_angle - 90 }
@@ -171,6 +175,7 @@ class CleptoFrog
 
   def render_level_editor
     return if !state.level_editor_mode
+
     if state.map_saved_at > 0 && state.map_saved_at.elapsed_time < 120
       outputs.primitives << { x: 920, y: 670, text: 'Map has been exported!', size_enum: 1, r: 0, g: 50, b: 100, a: 50 }
     end
@@ -257,6 +262,7 @@ class CleptoFrog
 
   def calc_shooting_step
     return unless state.action == :shooting
+
     state.tongue_length += 5
     potential_anchor = end_of_tongue
     anchor_rect = { x: potential_anchor.x - 5, y: potential_anchor.y - 5, w: 10, h: 10 }
@@ -271,6 +277,7 @@ class CleptoFrog
 
   def calc_swing
     return if !state.anchor_point
+
     target_x = state.anchor_point.x - start_of_tongue.x
     target_y = state.anchor_point.y -
                state.tongue_length - 5 - 20 - player.h
@@ -311,7 +318,7 @@ class CleptoFrog
     end
 
     if !state.level_editor_mode
-      player.dy += state.gravity  # Since acceleration is the change in velocity, the change in y (dy) increases every frame
+      player.dy += state.gravity # Since acceleration is the change in velocity, the change in y (dy) increases every frame
       player.y += player.dy
     end
 
@@ -330,6 +337,7 @@ class CleptoFrog
 
   def calc_tongue_angle
     return unless state.anchor_point
+
     state.tongue_angle = Geometry.angle_from state.anchor_point, start_of_tongue
     state.tongue_length = Geometry.distance(start_of_tongue, state.anchor_point)
     state.tongue_length = state.tongue_length.greater(100)
@@ -363,6 +371,7 @@ class CleptoFrog
 
   def set_camera_scale v = nil
     return if v < 0.1
+
     state.target_camera_scale = v
   end
 
@@ -559,6 +568,7 @@ class CleptoFrog
 
   def load_if_needed
     return if state.walls
+
     state.walls = []
     state.mugs = []
 

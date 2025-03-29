@@ -115,7 +115,6 @@ def render args
                                      g: 113,
                                      b: 97 }
 
-
   ra = (args.state.player.angle + 30) % 360
 
   60.times do |r|

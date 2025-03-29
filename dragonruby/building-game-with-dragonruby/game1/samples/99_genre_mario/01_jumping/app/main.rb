@@ -54,9 +54,9 @@ def input args
     # and the elapsed time is less than
     # the allowed time
     if is_jumping && jump_elapsed_time < time_allowed
-       # increase the dy by the increase power
-       power_to_add = args.state.jump.increase_power
-       args.state.player.dy += power_to_add
+      # increase the dy by the increase power
+      power_to_add = args.state.jump.increase_power
+      args.state.player.dy += power_to_add
     end
   end
 end

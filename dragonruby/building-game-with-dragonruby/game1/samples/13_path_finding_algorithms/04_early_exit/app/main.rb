@@ -145,14 +145,14 @@ class EarlyExitBreadthFirstSearch
 
   # Renders the star on both grids
   def render_star
-    outputs.sprites << scale_up(state.star).merge({path: 'star.png'})
-    outputs.sprites << early_exit_scale_up(state.star).merge({path: 'star.png'})
+    outputs.sprites << scale_up(state.star).merge({ path: 'star.png' })
+    outputs.sprites << early_exit_scale_up(state.star).merge({ path: 'star.png' })
   end
 
   # Renders the target on both grids
   def render_target
-    outputs.sprites << scale_up(state.target).merge({path: 'target.png'})
-    outputs.sprites << early_exit_scale_up(state.target).merge({path: 'target.png'})
+    outputs.sprites << scale_up(state.target).merge({ path: 'target.png' })
+    outputs.sprites << early_exit_scale_up(state.target).merge({ path: 'target.png' })
   end
 
   # Labels the grids
@@ -166,7 +166,7 @@ class EarlyExitBreadthFirstSearch
     # If the star and target are disconnected there will only be one path
     # The path should not render in that case
     unless state.path.size == 1
-      state.path.each_key do | cell |
+      state.path.each_key do |cell|
         # Renders path on both grids
         outputs.solids << scale_up(cell).merge(path_color)
         outputs.solids << early_exit_scale_up(cell).merge(path_color)
@@ -189,19 +189,19 @@ class EarlyExitBreadthFirstSearch
   # Replaces the render_visited method
   # Visually demonstrates the effectiveness of early exit for pathfinding
   def render_heat_map
-    state.visited.each_key do | visited_cell |
+    state.visited.each_key do |visited_cell|
       distance = (state.star.x - visited_cell.x).abs + (state.star.y - visited_cell.y).abs
       max_distance = grid.width + grid.height
       alpha = 255.to_i * distance.to_i / max_distance.to_i
-      heat_color = red.merge({a: alpha })
+      heat_color = red.merge({ a: alpha })
       outputs.solids << scale_up(visited_cell).merge(heat_color)
     end
 
-    state.early_exit_visited.each_key do | visited_cell |
+    state.early_exit_visited.each_key do |visited_cell|
       distance = (state.star.x - visited_cell.x).abs + (state.star.y - visited_cell.y).abs
       max_distance = grid.width + grid.height
       alpha = 255.to_i * distance.to_i / max_distance.to_i
-      heat_color = red.merge({a: alpha })
+      heat_color = red.merge({ a: alpha })
       outputs.solids << early_exit_scale_up(visited_cell).merge(heat_color)
     end
   end
@@ -385,7 +385,6 @@ class EarlyExitBreadthFirstSearch
     end
   end
 
-
   # Adds a wall in the second grid in the cell the mouse is over
   def input_add_wall2
     if mouse_inside_grid2?
@@ -403,7 +402,7 @@ class EarlyExitBreadthFirstSearch
     # Reset_Searchs the search
     state.frontier  = []
     state.visited   = {}
-    state.early_exit_visited   = {}
+    state.early_exit_visited = {}
     state.came_from = {}
     state.path      = {}
   end
@@ -443,7 +442,6 @@ class EarlyExitBreadthFirstSearch
     end
   end
 
-
   # Returns a list of adjacent cells
   # Used to determine what the next cells to be added to the frontier are
   def adjacent_neighbors(cell)
@@ -459,7 +457,7 @@ class EarlyExitBreadthFirstSearch
     # Sorts the neighbors so the rendered path is a zigzag path
     # Cells in a diagonal direction are given priority
     # Comment this line to see the difference
-    neighbors = neighbors.sort_by { |neighbor_x, neighbor_y|  proximity_to_star(neighbor_x, neighbor_y) }
+    neighbors = neighbors.sort_by { |neighbor_x, neighbor_y| proximity_to_star(neighbor_x, neighbor_y) }
 
     neighbors
   end
@@ -554,7 +552,7 @@ class EarlyExitBreadthFirstSearch
   # Returns whether the mouse is inside of a wall in the first grid
   # Part of the condition that checks whether the user is removing a wall
   def mouse_inside_wall?
-    state.walls.each_key do | wall |
+    state.walls.each_key do |wall|
       return true if inputs.mouse.point.inside_rect?(scale_up(wall))
     end
 
@@ -564,7 +562,7 @@ class EarlyExitBreadthFirstSearch
   # Returns whether the mouse is inside of a wall in the second grid
   # Part of the condition that checks whether the user is removing a wall
   def mouse_inside_wall2?
-    state.walls.each_key do | wall |
+    state.walls.each_key do |wall|
       return true if inputs.mouse.point.inside_rect?(early_exit_scale_up(wall))
     end
 
@@ -614,7 +612,6 @@ end
 # Method that is called by DragonRuby periodically
 # Used for updating animations and calculations
 def tick args
-
   # Pressing r will reset the application
   if args.inputs.keyboard.key_down.r
     GTK.reset
@@ -627,7 +624,6 @@ def tick args
   $early_exit_breadth_first_search.args = args
   $early_exit_breadth_first_search.tick
 end
-
 
 def reset
   $early_exit_breadth_first_search = nil

@@ -82,7 +82,7 @@ class ProtectThePuppiesFromTheZombies
   # Outputs the zombies on the screen and sets values for the sprites, such as the position, width, height, and animation.
   def render_zombies
     outputs.sprites << state.zombies.map do |z| # performs action on all zombies in the collection
-      z.merge path: animation_sprite(z)  # sets definition for sprite, calls animation_sprite method
+      z.merge path: animation_sprite(z) # sets definition for sprite, calls animation_sprite method
     end
   end
 
@@ -130,6 +130,7 @@ class ProtectThePuppiesFromTheZombies
   # Renders flash as a solid. The screen turns white for 10 frames when a zombie is killed.
   def render_flash
     return if state.flash_at.elapsed_time > 10 # return if more than 10 frames have passed since flash.
+
     # Transparency gradually changes (or eases) during the 10 frames of flash.
     outputs.primitives << { **grid.rect, r: 255, g: 255, b: 255, a: 255 * state.flash_at.ease(10, :flip), path: :solid }
   end
@@ -151,19 +152,19 @@ class ProtectThePuppiesFromTheZombies
 
     # New zombies are created, positioned on the screen, and added to the zombies collection.
     state.zombies << (if rand > 0.5
-                       {
-                         x: grid.rect.w.randomize(:ratio), # random x position on screen (within grid scope)
-                         y: [-10, 730].sample, # y position is set to either -10 or 730 (randomly chosen)
-                         w: 4 * 3, h: 8 * 3,
-                         created_at: Kernel.tick_count
-                       }
+                        {
+                          x: grid.rect.w.randomize(:ratio), # random x position on screen (within grid scope)
+                          y: [-10, 730].sample, # y position is set to either -10 or 730 (randomly chosen)
+                          w: 4 * 3, h: 8 * 3,
+                          created_at: Kernel.tick_count
+                        }
                       else
-                       {
-                         x: [-10, 1290].sample, # x position is set to either -10 or 1290 (randomly chosen)
-                         y: grid.rect.w.randomize(:ratio), # random y position on screen
-                         w: 4 * 3, h: 8 * 3,
-                         created_at: Kernel.tick_count
-                       }
+                        {
+                          x: [-10, 1290].sample, # x position is set to either -10 or 1290 (randomly chosen)
+                          y: grid.rect.w.randomize(:ratio), # random y position on screen
+                          w: 4 * 3, h: 8 * 3,
+                          created_at: Kernel.tick_count
+                        }
                       end)
 
     # Calls random_spawn_countdown method (determines how fast new zombies appear)
@@ -200,7 +201,6 @@ class ProtectThePuppiesFromTheZombies
   # Finds all zombies that intersect with the player's sprite. These zombies are removed from the zombies collection
   # and added to the killed_zombies collection since any zombie that intersects with the player is killed.
   def calc_kill_zombie
-
     # Find all zombies that intersect with the player. They are considered killed.
     killed_this_frame = state.zombies.find_all { |z| (z.intersect_rect? state.player) }
     state.zombies = state.zombies - killed_this_frame # remove newly killed zombies from zombies collection
@@ -208,7 +208,7 @@ class ProtectThePuppiesFromTheZombies
 
     if killed_this_frame.length > 0 # if atleast one zombie was killed in the frame
       state.flash_at = Kernel.tick_count # flash_at set to the frame when the zombie was killed
-    # Don't forget, the rendered flash lasts for 10 frames after the zombie is killed (look at render_flash method)
+      # Don't forget, the rendered flash lasts for 10 frames after the zombie is killed (look at render_flash method)
     end
 
     # Sets the tick_count (passage of time) as the value of the death_at variable for each killed zombie.
@@ -224,7 +224,6 @@ class ProtectThePuppiesFromTheZombies
 
   # Uses input from the user to move the player around the screen.
   def input
-
     # If the "a" key or left key is pressed, the x position of the player decreases.
     # Otherwise, if the "d" key or right key is pressed, the x position of the player increases.
     if inputs.keyboard.key_held.a || inputs.keyboard.key_held.left
@@ -281,14 +280,16 @@ $protect_the_puppies_from_the_zombies = ProtectThePuppiesFromTheZombies.new
 def tick args
   $protect_the_puppies_from_the_zombies.grid    = args.grid
   $protect_the_puppies_from_the_zombies.inputs  = args.inputs
-  $protect_the_puppies_from_the_zombies.state    = args.state
+  $protect_the_puppies_from_the_zombies.state = args.state
   $protect_the_puppies_from_the_zombies.outputs = args.outputs
   $protect_the_puppies_from_the_zombies.tick
-  tick_instructions args, "How to get the mouse position and translate it to an x, y position using .vector_x and .vector_y. CLICK to play."
+  tick_instructions args,
+                    "How to get the mouse position and translate it to an x, y position using .vector_x and .vector_y. CLICK to play."
 end
 
 def tick_instructions args, text, y = 715
   return if args.state.key_event_occurred
+
   if args.inputs.mouse.click ||
      args.inputs.keyboard.directional_vector ||
      args.inputs.keyboard.key_down.enter ||
@@ -298,5 +299,5 @@ def tick_instructions args, text, y = 715
 
   args.outputs.debug << [0, y - 50, 1280, 60].solid
   args.outputs.debug << [640, y, text, 1, 1, 255, 255, 255].label
-  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)" , -2, 1, 255, 255, 255].label
+  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)", -2, 1, 255, 255, 255].label
 end

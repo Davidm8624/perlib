@@ -112,9 +112,11 @@ class Game
 
   def calc_below
     return unless player.dy <= 0
+
     tiles_below = find_tiles { |t| t.rect.top <= player.prev_rect.y }
     collision = find_colliding_tile tiles_below, (player.rect.merge y: player.next_rect.y)
     return unless collision
+
     if collision.neighbors.b == :none && player.jumped_down_at.elapsed_time < 10
       player.dy = -1
     else
@@ -125,28 +127,34 @@ class Game
 
   def calc_left
     return unless player.dx < 0
+
     tiles_left = find_tiles { |t| t.rect.right <= player.prev_rect.left }
     collision = find_colliding_tile tiles_left, (player.rect.merge x: player.next_rect.x)
     return unless collision
+
     player.x  = collision.rect.right
     player.dx = 0
   end
 
   def calc_right
     return unless player.dx > 0
+
     tiles_right = find_tiles { |t| t.rect.left >= player.prev_rect.right }
     collision = find_colliding_tile tiles_right, (player.rect.merge x: player.next_rect.x)
     return unless collision
+
     player.x  = collision.rect.left - player.rect.w
     player.dx = 0
   end
 
   def calc_above
     return unless player.dy > 0
+
     tiles_above = find_tiles { |t| t.rect.y >= player.prev_rect.y }
     collision = find_colliding_tile tiles_above, (player.rect.merge y: player.next_rect.y)
     return unless collision
     return if collision.neighbors.t == :none
+
     player.dy = 0
     player.y  = collision.rect.bottom - player.rect.h
   end
@@ -160,7 +168,7 @@ class Game
   def calc_player_dy
     player.y  += player.dy
     player.dy += state.gravity
-    player.dy += player.dy * state.drag ** 2 * -1
+    player.dy += player.dy * state.drag**2 * -1
   end
 
   def reset_player
@@ -194,6 +202,7 @@ class Game
 
   def flip_bit bit
     return 0 if bit == 1
+
     return 1
   end
 
@@ -203,8 +212,8 @@ class Game
 
   def player_off_stage?
     player.rect.top < grid.bottom ||
-    player.rect.right < grid.left ||
-    player.rect.left > grid.right
+      player.rect.right < grid.left ||
+      player.rect.left > grid.right
   end
 
   def current_player_rect
@@ -241,10 +250,10 @@ class Game
     tile_l = 1 if l
 
     state.new_entity :neighbors, mask: [tile_t, tile_r, tile_b, tile_l],
-                                 t:    t ? :some : :none,
-                                 b:    b ? :some : :none,
-                                 l:    l ? :some : :none,
-                                 r:    r ? :some : :none
+                                 t: t ? :some : :none,
+                                 b: b ? :some : :none,
+                                 l: l ? :some : :none,
+                                 r: r ? :some : :none
   end
 end
 

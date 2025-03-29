@@ -293,7 +293,7 @@ class Heuristic
     # Explains to the user what the button does
     label_x = buttons.right.x + 20
     label_y = buttons.right.y + 35
-    outputs.labels  << [label_x, label_y, ">"]
+    outputs.labels << [label_x, label_y, ">"]
   end
 
   def render_bfs_grid
@@ -447,7 +447,7 @@ class Heuristic
     y = cell.y * grid.cell_size
     w = cell.w.zero? ? grid.cell_size : cell.w * grid.cell_size
     h = cell.h.zero? ? grid.cell_size : cell.h * grid.cell_size
-    {x: x, y: y, w: w, h: h}
+    { x: x, y: y, w: w, h: h }
     # {x:, y:, w:, h:}
   end
 
@@ -512,7 +512,6 @@ class Heuristic
   def right_button_clicked?
     inputs.mouse.point.inside_rect?(buttons.right) && inputs.mouse.up
   end
-
 
   # Signal that the user is going to be moving the slider
   # Is the mouse over the circle of the slider?
@@ -667,6 +666,7 @@ class Heuristic
       end
     end
   end
+
   # Adds a wall in the first grid in the cell the mouse is over
   def process_input_bfs_add_wall
     if bfs_mouse_over_grid?
@@ -864,10 +864,10 @@ class Heuristic
 
     # Gets all the valid neighbors into the array
     # From southern neighbor, clockwise
-    neighbors << [cell.x    , cell.y - 1] unless cell.y == 0
-    neighbors << [cell.x - 1, cell.y    ] unless cell.x == 0
-    neighbors << [cell.x    , cell.y + 1] unless cell.y == grid.height - 1
-    neighbors << [cell.x + 1, cell.y    ] unless cell.x == grid.width - 1
+    neighbors << [cell.x, cell.y - 1] unless cell.y == 0
+    neighbors << [cell.x - 1, cell.y] unless cell.x == 0
+    neighbors << [cell.x, cell.y + 1] unless cell.y == grid.height - 1
+    neighbors << [cell.x + 1, cell.y] unless cell.x == grid.width - 1
 
     neighbors
   end
@@ -931,10 +931,10 @@ class Heuristic
     [190, 190, 190] # Gray
   end
 end
+
 # Method that is called by DragonRuby periodically
 # Used for updating animations and calculations
 def tick args
-
   # Pressing r will reset the application
   if args.inputs.keyboard.key_down.r
     GTK.reset
@@ -947,7 +947,6 @@ def tick args
   $heuristic.args = args
   $heuristic.tick
 end
-
 
 def reset
   $heuristic = nil

@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # kernel_docs.rb has been released under MIT (*only this file*).
@@ -9,40 +10,40 @@ module KernelDocs
   end
 
   def docs_class
-    <<-S
-* ~Kernel~
+    <<~S
+      * ~Kernel~
 
-Kernel in the DragonRuby Runtime has patches for how standard out is handled and also
-contains a unit of time in games called a tick.
+      Kernel in the DragonRuby Runtime has patches for how standard out is handled and also
+      contains a unit of time in games called a tick.
 
-S
+    S
   end
 
   def docs_tick_count
-    <<-S
-** ~tick_count~
+    <<~S
+      ** ~tick_count~
 
-Returns the current tick of the game. This value is reset if you call $gtk.reset.
+      Returns the current tick of the game. This value is reset if you call $gtk.reset.
 
-S
+    S
   end
 
   def docs_global_tick_count
-    <<-S
-** ~global_tick_count~
+    <<~S
+      ** ~global_tick_count~
 
-Returns the current tick of the application from the point it was started. This value is never reset.
+      Returns the current tick of the application from the point it was started. This value is never reset.
 
-S
+    S
   end
 
   def docs_export_docs!
-    <<-S
-** ~export_docs!~
+    <<~S
+      ** ~export_docs!~
 
-Exports all GTK documentation to txt files and saves them to a docs directory.
+      Exports all GTK documentation to txt files and saves them to a docs directory.
 
-S
+    S
   end
 
   def export_docs!

@@ -27,6 +27,7 @@ class PulseButton
 
     return if !mouse.click
     return if !mouse.inside_rect? @rect
+
     @clicked_at = tick_count
   end
 
@@ -70,8 +71,10 @@ class StartScene
 
   def tick
     return if state.current_scene != :start
+
     @play_button.tick Kernel.tick_count, inputs.mouse
-    outputs[:start_scene].labels << layout.point(row: 0, col: 12).merge(text: "Squares", anchor_x: 0.5, anchor_y: 0.5, size_px: 64)
+    outputs[:start_scene].labels << layout.point(row: 0, col: 12).merge(text: "Squares", anchor_x: 0.5, anchor_y: 0.5,
+                                                                        size_px: 64)
     outputs[:start_scene].primitives << @play_button.prefab(easing)
   end
 end
@@ -93,15 +96,19 @@ class GameOverScene
 
   def tick
     return if state.current_scene != :game_over
+
     @replay_button.tick Kernel.tick_count, inputs.mouse
-    outputs[:game_over_scene].labels << layout.point(row: 0, col: 12).merge(text: "Game Over", anchor_x: 0.5, anchor_y: 0.5, size_px: 64)
+    outputs[:game_over_scene].labels << layout.point(row: 0, col: 12).merge(text: "Game Over", anchor_x: 0.5,
+                                                                            anchor_y: 0.5, size_px: 64)
     outputs[:game_over_scene].primitives << @replay_button.prefab(easing)
 
     rect = layout.point row: 2, col: 12
-    outputs[:game_over_scene].primitives << rect.merge(text: state.score_last_game, anchor_x: 0.5, anchor_y: 0.5, size_px: 128, **state.red_color)
+    outputs[:game_over_scene].primitives << rect.merge(text: state.score_last_game, anchor_x: 0.5, anchor_y: 0.5,
+                                                       size_px: 128, **state.red_color)
 
     rect = layout.point row: 4, col: 12
-    outputs[:game_over_scene].primitives << rect.merge(text: "BEST #{state.best_score}", anchor_x: 0.5, anchor_y: 0.5, size_px: 64, **state.gray_color)
+    outputs[:game_over_scene].primitives << rect.merge(text: "BEST #{state.best_score}", anchor_x: 0.5, anchor_y: 0.5,
+                                                       size_px: 64, **state.gray_color)
   end
 end
 
@@ -166,6 +173,7 @@ class GameScene
   def calc_game_over_at
     return if !death_at
     return if death_at.elapsed_time < 120
+
     state.events.game_over_at ||= Kernel.tick_count
   end
 
@@ -189,6 +197,7 @@ class GameScene
 
     scene_state.scale_down_particles_queue.each do |p|
       next if p.start_at > Kernel.tick_count
+
       p.scale_speed = p.scale_speed.abs
       p.x += p.scale_speed
       p.y += p.scale_speed
@@ -201,6 +210,7 @@ class GameScene
 
   def render
     return if !started_at
+
     scene_outputs.primitives << game_scene_score_prefab
     scene_outputs.primitives << scene_state.movement_outer_rect.merge(a: 128)
     scene_outputs.primitives << squares
@@ -217,13 +227,15 @@ class GameScene
               scene_state.score
             end
 
-    label_scale_prec = Easing.spline(scene_state.score_at || 0, Kernel.tick_count, 15, scene_state.score_animation_spline)
+    label_scale_prec = Easing.spline(scene_state.score_at || 0, Kernel.tick_count, 15,
+                                     scene_state.score_animation_spline)
     rect = layout.point row: 4, col: 12
     rect.merge(text: score, anchor_x: 0.5, anchor_y: 0.5, size_px: 128 + 50 * label_scale_prec, **state.gray_color)
   end
 
   def player_prefab
     return nil if death_at
+
     scale_perc = Easing.ease(started_at + 30, Kernel.tick_count, 15, :smooth_start_quad, :flip)
     player.merge(x: player.x - player.w / 2 * scale_perc, y: player.y + player.h / 2 * scale_perc,
                  w: player.w * (1 - scale_perc), h: player.h * (1 - scale_perc))
@@ -235,6 +247,7 @@ class GameScene
     player.movement_direction *= -1 if !Geometry.inside_rect? player, scene_state.movement_outer_rect
     return if !inputs.mouse.click
     return if !Geometry.inside_rect? player, movement_inner_rect
+
     player.movement_direction = -player.movement_direction
   end
 
@@ -255,6 +268,7 @@ class GameScene
   def calc_game_over
     collision = Geometry.find_intersect_rect player, squares
     return if !collision
+
     if collision.type == :good
       scene_state.score += 1
       scene_state.score_at = Kernel.tick_count
@@ -320,6 +334,7 @@ class GameScene
   def death_at
     return nil if !scene_state.death_at
     return nil if scene_state.death_at < started_at
+
     scene_state.death_at
   end
 
@@ -415,6 +430,7 @@ class RootScene
     end
 
     return if !state.next_scene
+
     state.current_scene = state.next_scene
     state.next_scene = nil
   end

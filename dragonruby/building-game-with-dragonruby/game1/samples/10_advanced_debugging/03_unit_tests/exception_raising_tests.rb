@@ -1,9 +1,9 @@
 begin :shared
-  class ExceptionalClass
-    def initialize exception_to_throw = nil
-      raise exception_to_throw if exception_to_throw
-    end
-  end
+      class ExceptionalClass
+        def initialize exception_to_throw = nil
+          raise exception_to_throw if exception_to_throw
+        end
+      end
 end
 
 def test_exception_in_newing_object args, assert

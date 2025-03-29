@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # directional_input_helper_methods.rb has been released under MIT (*only this file*).
@@ -9,22 +10,22 @@ module GTK
     def self.included klass
       key_state_methods = [:key_held, :key_down]
       directional_methods = [:up, :down, :left, :right]
-      method_results = (directional_methods + key_state_methods).map {|m| [m, klass.instance_methods.include?(m)] }
+      method_results = (directional_methods + key_state_methods).map { |m| [m, klass.instance_methods.include?(m)] }
 
-      error_message = <<-S
-* ERROR
-The GTK::DirectionalKeys module should only be included in objects that respond to the following api hierarchy:
+      error_message = <<~S
+        * ERROR
+        The GTK::DirectionalKeys module should only be included in objects that respond to the following api hierarchy:
 
-- (#{ directional_methods.join("|") })
-- key_held.(#{ directional_methods.join("|") })
-- key_down.(#{ directional_methods.join("|") })
+        - (#{directional_methods.join("|")})
+        - key_held.(#{directional_methods.join("|")})
+        - key_down.(#{directional_methods.join("|")})
 
-#{klass} does not respond to all of these methods (here is the diagnostics):
-#{method_results.map {|m, r| "- #{m}: #{r}"}.join("\n")}
+        #{klass} does not respond to all of these methods (here is the diagnostics):
+        #{method_results.map { |m, r| "- #{m}: #{r}" }.join("\n")}
 
-Please implement the methods that returned false inthe list above.
-S
-      unless method_results.map {|m, result| result}.all?
+        Please implement the methods that returned false inthe list above.
+      S
+      unless method_results.map { |m, result| result }.all?
         raise error_message
       end
     end
@@ -35,6 +36,7 @@ S
     def left_right
       return -1 if self.left
       return  1 if self.right
+
       return  0
     end
 
@@ -44,7 +46,8 @@ S
     def up_down
       return  1 if self.up
       return -1 if self.down
-      return  0
+
+      return 0
     end
 
     # Returns a normal vector (in the form of a Hash with x, y keys). If no directionals are held/down, the function returns nil.

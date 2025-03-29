@@ -36,7 +36,9 @@ begin # region: top level tick methods
       end
     end
 
-    if args.inputs.mouse.click && (args.inputs.mouse.click.inside_rect? (Layout.rect(row: 0).yield_self { |r| r.merge y: r.y + r.h.half, h: r.h.half }))
+    if args.inputs.mouse.click && (args.inputs.mouse.click.inside_rect? (Layout.rect(row: 0).yield_self { |r|
+      r.merge y: r.y + r.h.half, h: r.h.half
+    }))
       GTK.openurl 'https://www.youtube.com/watch?v=zEzovM5jT-k&ab_channel=AmirRajan'
     end
   end
@@ -47,11 +49,11 @@ begin # region: top level tick methods
     to_queue.each { |a| args.audio[a[:id]] = a }
 
     args.audio.find_all { |k, v| v[:decay_rate] }
-      .each     { |k, v| v[:gain] -= v[:decay_rate] }
+        .each { |k, v| v[:gain] -= v[:decay_rate] }
 
     sounds_to_stop = args.audio
-                       .find_all { |k, v| v[:stop_at] && Kernel.tick_count >= v[:stop_at] }
-                       .map { |k, v| k }
+                         .find_all { |k, v| v[:stop_at] && Kernel.tick_count >= v[:stop_at] }
+                         .map { |k, v| k }
 
     sounds_to_stop.each { |k| args.audio.delete k }
   end
@@ -66,10 +68,10 @@ begin # region: button definitions, ui layout, callback functions
     label_offset_x = 5
     label_offset_y = 30
 
-    button_def[:label]  = button_def[:rect].merge text: opts[:text],
-                                                  size_enum: -2.5,
-                                                  x: button_def[:rect].x + label_offset_x,
-                                                  y: button_def[:rect].y + label_offset_y
+    button_def[:label] = button_def[:rect].merge text: opts[:text],
+                                                 size_enum: -2.5,
+                                                 x: button_def[:rect].x + label_offset_x,
+                                                 y: button_def[:rect].y + label_offset_y
 
     button_def
   end
@@ -441,10 +443,10 @@ begin # region: wave generation
       bell_harmonics.map do |b|
         {
           frequency: opts[:frequency] * b[:frequency_ratio],
-          duration:  opts[:duration] * b[:duration_ratio],
-          queue_in:  opts[:queue_in],
-          gain:      (1.fdiv bell_harmonics.length),
-          fade_out:  true
+          duration: opts[:duration] * b[:duration_ratio],
+          queue_in: opts[:queue_in],
+          gain: (1.fdiv bell_harmonics.length),
+          fade_out: true
         }
       end
     end
@@ -469,16 +471,16 @@ begin # region: wave generation
       sample_rate = 48000
 
       {
-        id:               (new_id! args),
-        frequency:        frequency,
-        sample_rate:      48000,
-        stop_at:          Kernel.tick_count + opts[:queue_in] + opts[:duration],
-        gain:             opts[:gain].to_f,
-        queue_at:         Kernel.tick_count + opts[:queue_in],
-        decay_rate:       decay_rate,
-        pitch:            1.0,
-        looping:          true,
-        paused:           false
+        id: (new_id! args),
+        frequency: frequency,
+        sample_rate: 48000,
+        stop_at: Kernel.tick_count + opts[:queue_in] + opts[:duration],
+        gain: opts[:gain].to_f,
+        queue_at: Kernel.tick_count + opts[:queue_in],
+        decay_rate: decay_rate,
+        pitch: 1.0,
+        looping: true,
+        paused: false
       }
     end
 
@@ -520,23 +522,23 @@ begin # region: wave generation
 
         if next_y
           {
-            x:  starting_rect.x + (x * x_scale),
-            y:  starting_rect.y + starting_rect.h.half + y_scale * y,
+            x: starting_rect.x + (x * x_scale),
+            y: starting_rect.y + starting_rect.h.half + y_scale * y,
             x2: starting_rect.x + ((x + 1) * x_scale),
             y2: starting_rect.y + starting_rect.h.half + y_scale * next_y,
-            r:  r,
-            g:  g,
-            b:  b
+            r: r,
+            g: g,
+            b: b
           }
         end
       end
 
       args.outputs.static_sprites << points.map_with_index do |y, x|
         {
-          x:  (starting_rect.x + (x * x_scale)) - 2,
-          y:  (starting_rect.y + starting_rect.h.half + y_scale * y) - 2,
-          w:  4,
-          h:  4,
+          x: (starting_rect.x + (x * x_scale)) - 2,
+          y: (starting_rect.y + starting_rect.h.half + y_scale * y) - 2,
+          w: 4,
+          h: 4,
           path: 'sprites/square-white.png',
           r: r,
           g: g,
@@ -550,12 +552,12 @@ begin # region: wave generation
 
   begin # region: musical note mapping
     def defaults_frequency_for
-      { note: :a, octave: 5, sharp:  false, flat:   false }
+      { note: :a, octave: 5, sharp: false, flat: false }
     end
 
     def frequency_for opts = {}
       opts = defaults_frequency_for.merge opts
-      octave_offset_multiplier  = opts[:octave] - 5
+      octave_offset_multiplier = opts[:octave] - 5
       note = note_frequencies_octave_5[opts[:note]]
       if octave_offset_multiplier < 0
         note = note * 1 / (octave_offset_multiplier.abs + 1)

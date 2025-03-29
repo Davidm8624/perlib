@@ -77,7 +77,7 @@ class MetroidvaniaStarter
     state.dy                     ||= 0
     state.dx                     ||= 0
     attempt_load_world_from_file
-    state.world_lookup           ||= { }
+    state.world_lookup           ||= {}
     state.world_collision_rects  ||= []
     state.mode                   ||= :creating # alternates between :creating and :selecting for sprite selection
     state.select_menu            ||= [0, 720, 1280, 720]
@@ -111,7 +111,6 @@ class MetroidvaniaStarter
 
   # Places sprites
   def render
-
     # Sets the x, y, width, height, and image path for each sprite in the world collection.
     outputs.sprites << state.world.map do |x, y, sprite|
       [x * state.tile_size, # multiply by size so grid coordinates; pixel value of location
@@ -125,7 +124,7 @@ class MetroidvaniaStarter
     outputs.sprites << [state.x,
                         state.y,
                         state.player_width,
-                        state.player_height,'sprites/player.png']
+                        state.player_height, 'sprites/player.png']
 
     # Outputs labels as primitives in top right of the screen
     outputs.primitives << [920, 700, 'Press \'s\' to access sprites.', 1, 0].label
@@ -147,7 +146,8 @@ class MetroidvaniaStarter
       outputs.primitives << [state.select_menu, 255, 255, 255].solid
 
       # Select tile label at the top of the screen
-      outputs.primitives << [state.banner_coords.x, state.banner_coords.y, "Select Sprite (sprites located in \"sprites\" folder)", 10, 1, 0, 0, 0, 255].label
+      outputs.primitives << [state.banner_coords.x, state.banner_coords.y,
+                             "Select Sprite (sprites located in \"sprites\" folder)", 10, 1, 0, 0, 0, 255].label
 
       # Places sprites in locations calculated in the defaults function
       outputs.primitives << state.sprite_coords.map do |x, y, order|
@@ -170,6 +170,7 @@ class MetroidvaniaStarter
   # Calls methods that perform calculations (if in creating mode)
   def calc_in_game
     return unless state.mode == :creating
+
     calc_world_lookup
     calc_player
   end
@@ -203,10 +204,10 @@ class MetroidvaniaStarter
              x = s * coord_x
              y = s * coord_y
              {
-               args:       [coord_x, coord_y],
-               left_right: [x,     y + 4, s,     s - 6], # hash keys and values
-               top:        [x + 4, y + 6, s - 8, s - 6],
-               bottom:     [x + 1, y - 1, s - 2, s - 8],
+               args: [coord_x, coord_y],
+               left_right: [x,     y + 4, s, s - 6], # hash keys and values
+               top: [x + 4, y + 6, s - 8, s - 6],
+               bottom: [x + 1, y - 1, s - 2, s - 8],
              }
            end
   end
@@ -224,6 +225,7 @@ class MetroidvaniaStarter
   # Calls methods that determine whether the player collides with any world_collision_rects.
   def calc_box_collision
     return unless state.world_lookup.keys.length > 0 # return unless hash has atleast 1 key
+
     collision_floor
     collision_left
     collision_right
@@ -233,15 +235,17 @@ class MetroidvaniaStarter
   # Finds collisions between the bottom of the player's rect and the top of a world_collision_rect.
   def collision_floor
     return unless state.dy <= 0 # return unless player is going down or is as far down as possible
+
     player_rect = [state.x, next_y, state.tile_size, state.tile_size] # definition of player
 
     # Runs through all the sprites on the field and finds all intersections between player's
     # bottom and the top of a rect.
     floor_collisions = state.world_collision_rects
-                         .find_all { |r| r[:top].intersect_rect?(player_rect, state.collision_tolerance) }
-                         .first
+                            .find_all { |r| r[:top].intersect_rect?(player_rect, state.collision_tolerance) }
+                            .first
 
     return unless floor_collisions # performs following changes if a collision has occurred
+
     state.y = floor_collisions[:top].top # y of player is set to the y of the colliding rect's top
     state.dy = 0 # no change in y because the player's path is blocked
   end
@@ -249,15 +253,17 @@ class MetroidvaniaStarter
   # Finds collisions between the player's left side and the right side of a world_collision_rect.
   def collision_left
     return unless state.dx < 0 # return unless player is moving left
+
     player_rect = [next_x, state.y, state.tile_size, state.tile_size]
 
     # Runs through all the sprites on the field and finds all intersections between the player's left side
     # and the right side of a rect.
     left_side_collisions = state.world_collision_rects
-                             .find_all { |r| r[:left_right].intersect_rect?(player_rect, state.collision_tolerance) }
-                             .first
+                                .find_all { |r| r[:left_right].intersect_rect?(player_rect, state.collision_tolerance) }
+                                .first
 
     return unless left_side_collisions # return unless collision occurred
+
     state.x = left_side_collisions[:left_right].right # sets player's x to the x of the colliding rect's right side
     state.dx = 0 # no change in x because the player's path is blocked
   end
@@ -265,15 +271,20 @@ class MetroidvaniaStarter
   # Finds collisions between the right side of the player and the left side of a world_collision_rect.
   def collision_right
     return unless state.dx > 0 # return unless player is moving right
+
     player_rect = [next_x, state.y, state.tile_size, state.tile_size]
 
     # Runs through all the sprites on the field and finds all intersections between the  player's
     # right side and the left side of a rect.
     right_side_collisions = state.world_collision_rects
-                              .find_all { |r| r[:left_right].intersect_rect?(player_rect, state.collision_tolerance) }
-                              .first
+                                 .find_all { |r|
+      r[:left_right].intersect_rect?(player_rect,
+                                     state.collision_tolerance)
+    }
+                                 .first
 
     return unless right_side_collisions # return unless collision occurred
+
     state.x = right_side_collisions[:left_right].left - state.tile_size # player's x is set to the x of colliding rect's left side (minus tile size since x is the player's bottom left corner)
     state.dx = 0 # no change in x because the player's path is blocked
   end
@@ -281,15 +292,17 @@ class MetroidvaniaStarter
   # Finds collisions between the top of the player's rect and the bottom of a world_collision_rect.
   def collision_ceiling
     return unless state.dy > 0 # return unless player is moving up
+
     player_rect = [state.x, next_y, state.player_width, state.player_height]
 
     # Runs through all the sprites on the field and finds all intersections between the player's top
     # and the bottom of a rect.
     ceil_collisions = state.world_collision_rects
-                        .find_all { |r| r[:bottom].intersect_rect?(player_rect, state.collision_tolerance) }
-                        .first
+                           .find_all { |r| r[:bottom].intersect_rect?(player_rect, state.collision_tolerance) }
+                           .first
 
     return unless ceil_collisions # return unless collision occurred
+
     state.y = ceil_collisions[:bottom].y - state.tile_size # player's y is set to the y of the colliding rect's bottom (minus tile size)
     state.dy = 0 # no change in y because the player's path is blocked
   end
@@ -319,7 +332,7 @@ class MetroidvaniaStarter
   def calc_sprite_selection
     # Does the transition to bring down the select sprite screen
     if state.mode == :selecting && state.select_menu.y != 0
-      state.select_menu.y = 0  # sets y position of select menu (shown when 's' is pressed)
+      state.select_menu.y = 0 # sets y position of select menu (shown when 's' is pressed)
       state.banner_coords.y = 680 # sets y position of Select Sprite banner
       state.sprite_coords = state.sprite_coords.map do |x, y, w, h|
         [x, y - 720, w, h] # sets definition of sprites (change '-' to '+' and the sprites can't be seen)
@@ -327,7 +340,7 @@ class MetroidvaniaStarter
     end
 
     # Does the transition to leave the select sprite screen
-    if state.mode == :creating  && state.select_menu.y != 720
+    if state.mode == :creating && state.select_menu.y != 720
       state.select_menu.y = 720 # sets y position of select menu (menu is retreated back up)
       state.banner_coords.y = 1000 # sets y position of Select Sprite banner
       state.sprite_coords = state.sprite_coords.map do |x, y, w, h|
@@ -392,7 +405,7 @@ class MetroidvaniaStarter
 
       # Checks if any coordinates duplicate (already exist in world)
       if state.world.any? { |existing_x, existing_y, n| existing_x == x && existing_y == y }
-        #erases existing tile space by rejecting them from world
+        # erases existing tile space by rejecting them from world
         state.world = state.world.reject do |existing_x, existing_y, n|
           existing_x == x && existing_y == y
         end
@@ -427,12 +440,14 @@ class MetroidvaniaStarter
   # Loads the world collection by reading from the map.txt file in the app folder
   def attempt_load_world_from_file
     return if state.world # return if the world collection is already populated
+
     state.world ||= [] # initialized as an empty collection
     exported_world = gtk.read_file(MAP_FILE_PATH) # reads the file using the path mentioned at top of code
     return unless exported_world # return unless the file read was successful
+
     state.world = exported_world.each_line.map do |l| # perform action on each line of exported_world
-        l.split(',').map(&:to_i) # calls split using ',' as a delimiter, and invokes .map on the collection,
-                                 # calling to_i (converts to integers) on each element
+      l.split(',').map(&:to_i) # calls split using ',' as a delimiter, and invokes .map on the collection,
+      # calling to_i (converts to integers) on each element
     end
   end
 
@@ -461,10 +476,10 @@ end
 $metroidvania_starter = MetroidvaniaStarter.new
 
 def tick args
-    $metroidvania_starter.grid    = args.grid
-    $metroidvania_starter.inputs  = args.inputs
-    $metroidvania_starter.state   = args.state
-    $metroidvania_starter.outputs = args.outputs
-    $metroidvania_starter.gtk     = GTK
-    $metroidvania_starter.tick
+  $metroidvania_starter.grid = args.grid
+  $metroidvania_starter.inputs  = args.inputs
+  $metroidvania_starter.state   = args.state
+  $metroidvania_starter.outputs = args.outputs
+  $metroidvania_starter.gtk     = GTK
+  $metroidvania_starter.tick
 end

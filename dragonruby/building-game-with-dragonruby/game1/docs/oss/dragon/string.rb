@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # string.rb has been released under MIT (*only this file*).
@@ -8,6 +9,7 @@ class String
 
   def char_byte
     return nil if self.length == 0
+
     c = self.each_char.first.bytes
     c = c.first if c.is_a? Enumerable
     c
@@ -27,6 +29,7 @@ class String
 
   def excluding_last_character
     return "" if self.length <= 1
+
     return excluding_character_at(self.length - 1)
   end
 
@@ -36,6 +39,7 @@ class String
 
   def without_ending_bang
     return self unless end_with_bang?
+
     self[0..-2]
   end
 

@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # geometry_docs.rb has been released under MIT (*only this file*).
@@ -23,7 +24,7 @@ module GeometryDocs
       :docs_line_rise_run,
       :docs_line_intersect,
       :docs_ray_intersect,
-      #:docs_cubic_bezier
+      # :docs_cubic_bezier
       :docs_rotate_point,
       :docs_find_intersect_rect,
       :docs_find_all_intersect_rect,

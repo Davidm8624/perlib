@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # outputs.rb has been released under MIT (*only this file*).
@@ -54,6 +55,7 @@ module GTK
         $perf_counter_primitive_is_array += 1
       end
       return if resolved? o
+
       o.send(mark_method)
     end
 
@@ -61,18 +63,20 @@ module GTK
       is_primitive = false
 
       is_primitive = os[-1].is_a? ValueType
-      is_primitive = is_primitive || os.any? { |o| o.is_a? ValueType } # the array/tuple is a primitive if it contains any value types
-      is_primitive = is_primitive || os.any? do |o|  # the array/tuple is a primitive if it contains an array with 3 values (representing a rgb value)
+      is_primitive = is_primitive || os.any? { |o|
+        o.is_a? ValueType
+      } # the array/tuple is a primitive if it contains any value types
+      is_primitive = is_primitive || os.any? do |o| # the array/tuple is a primitive if it contains an array with 3 values (representing a rgb value)
         ((os.at 1).is_a? Array) &&
           ((os.at 1).length == 3) &&
           ((os.at 1).all? { |os_one| os_one.is_a? Numeric })
       end
 
-      is_primitive = is_primitive || (os.at 0) &&  # the array/tuple is a primitive if it contains a tuple of points [[x, y], [w, h], [r, g, b]]
-                     (os.at 0).is_a?(Array) &&
-                     (os.at 0).length == 2 &&
-                     (os.at 0).at(0).is_a?(Numeric) &&
-                     (os.at 0).at(1).is_a?(Numeric)
+      is_primitive = is_primitive || (os.at 0) && # the array/tuple is a primitive if it contains a tuple of points [[x, y], [w, h], [r, g, b]]
+                                     (os.at 0).is_a?(Array) &&
+                                     (os.at 0).length == 2 &&
+                                     (os.at 0).at(0).is_a?(Numeric) &&
+                                     (os.at 0).at(1).is_a?(Numeric)
 
       is_primitive
     end
@@ -141,6 +145,7 @@ module GTK
 
     def watch_fps
       return if $gtk.production?
+
       watch "FPS: #{$gtk.current_framerate}"
     end
 
@@ -189,7 +194,7 @@ module GTK
       end
 
       @@watch_label_running_y ||= 0
-      @@watch_primitives  ||=[]
+      @@watch_primitives ||= []
       @@watch_label_count ||= 0
       @@watch_label_count += 1
       @@watch_label_row += 1
@@ -206,7 +211,8 @@ module GTK
       l = @@watch_label_longest_text.length
       while idx < l
         if idx < @@watch_label_column
-          longest_w, longest_h = $gtk.calcstringbox @@watch_label_longest_text[idx][:string], @@watch_label_longest_text[idx][:style][:size_enum]
+          longest_w, longest_h = $gtk.calcstringbox @@watch_label_longest_text[idx][:string],
+                                                    @@watch_label_longest_text[idx][:style][:size_enum]
           offset_x += longest_w + 2
         end
         idx += 1
@@ -229,7 +235,8 @@ module GTK
           x: x + 1,
           y: y,
           text: "#{string}",
-          __watch_label_source__: "#{sender.class.name}" },
+          __watch_label_source__: "#{sender.class.name}"
+        },
         background: {
           **background_style,
           x: border_x,
@@ -241,7 +248,8 @@ module GTK
     end
 
     def self.push source, string, label_style: nil, background_style: nil
-      prefab = WatchLabels.prefab sender: self, string: string, label_style: label_style, background_style: background_style
+      prefab = WatchLabels.prefab sender: self, string: string, label_style: label_style,
+                                  background_style: background_style
       @@watch_primitives << prefab[:background]
       @@watch_primitives << prefab[:label]
       source << prefab[:background]
@@ -280,16 +288,16 @@ module GTK
   class GenericOutputsArray < OutputsArray
     def resolved? o
       if o && !o.is_a?(Array) && !o.primitive_marker
-        raise <<-S
-* ERROR:
-#{o}
+        raise <<~S
+          * ERROR:
+          #{o}
 
-I don't know how to use the above #{o.class} with SDL's FFI. Please
-add a method on the object called ~primitive_marker~ that
-returns :solid, :sprite, :label, :line, or :border. If the object
-is a Hash, please add { primitive_marker: :PRIMITIVE_SYMBOL } to the Hash.
+          I don't know how to use the above #{o.class} with SDL's FFI. Please
+          add a method on the object called ~primitive_marker~ that
+          returns :solid, :sprite, :label, :line, or :border. If the object
+          is a Hash, please add { primitive_marker: :PRIMITIVE_SYMBOL } to the Hash.
 
-S
+        S
       end
 
       super
@@ -410,7 +418,7 @@ module GTK
 end
 
 module GTK
-  class Outputs   # Each Outputs is a single render pass to a render target (or the window framebuffer).
+  class Outputs # Each Outputs is a single render pass to a render target (or the window framebuffer).
     include OutputsDeprecated
 
     attr_accessor :target, :width, :height, :transient, :background_color, :clear_before_render
@@ -442,7 +450,7 @@ module GTK
       @background_color = opts[:background_color_override] || default_background_color
       @clear_before_render = true
 
-      @sounds  = []
+      @sounds = []
       @a11y = {}
       @a11y_processed = {}
       @a11y_notification_queue = []
@@ -496,36 +504,38 @@ module GTK
       value_as_array.compact!
 
       @background_color = value_as_array
-      @background_color_as_hash = { r: value_as_array[0], g: value_as_array[1], b: value_as_array[2], a: value_as_array[3] }
+      @background_color_as_hash = { r: value_as_array[0], g: value_as_array[1], b: value_as_array[2],
+                                    a: value_as_array[3] }
     rescue Exception => e
       target_name = "args.outputs.background_color"
       if @target
         target_name = "args.outputs[:#{@target}].background_color"
       end
-      raise e,  <<-S
-* ERROR: Failed to set background_color for Output.
-The ~value~ sent to
+      raise e, <<~S
+        * ERROR: Failed to set background_color for Output.
+        The ~value~ sent to
 
-  #{target_name}=
+          #{target_name}=
 
-looks invalid
+        looks invalid
 
-  #{value} (#{value.class})
+          #{value} (#{value.class})
 
-~Outputs#background_color must be an ~Array~ with three or four values representing the background color's rgba. For example:
+        ~Outputs#background_color must be an ~Array~ with three or four values representing the background color's rgba. For example:
 
-#+begin_src
-  #{target_name} = [255, 0, 0] # red background
-#+end_src
+        #+begin_src
+          #{target_name} = [255, 0, 0] # red background
+        #+end_src
 
-#{e}
+        #{e}
 
-S
+      S
     end
 
     def background_color
       return [0, 0, 0] if $gtk.load_status != :ready
       return [0, 0, 0] if Kernel.global_tick_count < 0
+
       r, g, b, a = @background_color
       r ||= 230
       g ||= 230
@@ -588,56 +598,55 @@ S
 
     def get_a11y_entry_error all_entries, k, v
       if !k.is_a?(String) || k.length == 0
-        return <<-S
-* ERROR: A11y invalid for #{k}. The key must be of type Symbol or String and have a length greater than zero.
-#{v}
-S
+        return <<~S
+          * ERROR: A11y invalid for #{k}. The key must be of type Symbol or String and have a length greater than zero.
+          #{v}
+        S
       end
 
       if v.a11y_trait != "label" && v.a11y_trait != "notification" && v.a11y_trait != "button"
-        return <<-S
-* ERROR: A11y invalid for #{k}. ~:a11y_trait~ must be either ~:label~, :notification, or ~:button~.
-#{v}
-S
+        return <<~S
+          * ERROR: A11y invalid for #{k}. ~:a11y_trait~ must be either ~:label~, :notification, or ~:button~.
+          #{v}
+        S
       end
 
-#       if v.a11y_trait != "notification" && v.a11y_text.length == 0
-#         return <<-S
-# * ERROR: A11y invalid for #{k}. ~:a11y_text~ must be of type String and have a length greater than zero.
-# #{v}
-# S
-#       end
-
+      #       if v.a11y_trait != "notification" && v.a11y_text.length == 0
+      #         return <<-S
+      # * ERROR: A11y invalid for #{k}. ~:a11y_text~ must be of type String and have a length greater than zero.
+      # #{v}
+      # S
+      #       end
 
       if v.a11y_trait == "notification"
         if v.a11y_notification_target.length == 0 && v.a11y_text.length == 0
-          return <<-S
-* ERROR: A11y invalid for #{k}. ~:a11y_notification_target~ must be set or ~:a11y_text~ must be set.
-#{v}
-S
+          return <<~S
+            * ERROR: A11y invalid for #{k}. ~:a11y_notification_target~ must be set or ~:a11y_text~ must be set.
+            #{v}
+          S
         end
 
         if v.a11y_notification_target.length > 0 && v.a11y_text.length > 0
-          return <<-S
-* ERROR: A11y invalid for #{k}. ~:a11y_notification_target~ and ~:a11y_text~ cannot both be set.
-#{v}
-S
+          return <<~S
+            * ERROR: A11y invalid for #{k}. ~:a11y_notification_target~ and ~:a11y_text~ cannot both be set.
+            #{v}
+          S
         end
 
         if v.a11y_trait == "button" && (!v.w || !v.h)
-          return <<-S
-* ERROR: A11y invalid for #{k}. ~:w~ and ~:h~ must be set for a ~:a11y_trait~ with value of ~:button~.
-#{v}
-S
+          return <<~S
+            * ERROR: A11y invalid for #{k}. ~:w~ and ~:h~ must be set for a ~:a11y_trait~ with value of ~:button~.
+            #{v}
+          S
         end
 
-#         if v.a11y_notification_target.length > 0 && !all_entries[v.a11y_notification_target]
-#           return <<-S
-# * ERROR: A11y invalid for #{k}. ~:a11y_notification_target~ must be a valid key in the a11y hash or nil.
-# a11y_notification_target: #{v.a11y_notification_target}
-# available targets: #{all_entries.keys.join(", ")}
-# S
-#         end
+        #         if v.a11y_notification_target.length > 0 && !all_entries[v.a11y_notification_target]
+        #           return <<-S
+        # * ERROR: A11y invalid for #{k}. ~:a11y_notification_target~ must be a valid key in the a11y hash or nil.
+        # a11y_notification_target: #{v.a11y_notification_target}
+        # available targets: #{all_entries.keys.join(", ")}
+        # S
+        #         end
       end
     end
 
@@ -652,6 +661,7 @@ S
       scrubbed = a11y_scrub
       scrubbed.each do |k, v|
         next if v.a11y_hidden
+
         tmp = { **v }
         rect = tmp.slice(:x, :y, :w, :h, :anchor_x, :anchor_y)
 
@@ -676,7 +686,6 @@ S
           rect = Geometry.rect_props(rect)
         end
 
-
         @a11y_processed[k.to_s] = rect.merge(tmp.slice(:a11y_id,
                                                        :a11y_text,
                                                        :a11y_trait,
@@ -692,8 +701,8 @@ S
       if notification_targets.any? { |k, v| v[:a11y_notification_target].length > 0 }
         @a11y_notification_queue.reject! do |h|
           h[:a11y_entry][:a11y_trait] == "notification" &&
-          h[:a11y_entry][:a11y_text].length > 0 &&
-          (h[:a11y_entry][:a11y_created_global_at] + (h[:a11y_entry][:a11y_notification_debounce] || 0)) <= Kernel.global_tick_count
+            h[:a11y_entry][:a11y_text].length > 0 &&
+            (h[:a11y_entry][:a11y_created_global_at] + (h[:a11y_entry][:a11y_notification_debounce] || 0)) <= Kernel.global_tick_count
         end
         @a11y_dequeue_notification_global_at = Kernel.global_tick_count
       end
@@ -714,7 +723,9 @@ S
 
       # sort the queue by the time it should be dequeued and get the first item
       if Kernel.global_tick_count >= @a11y_dequeue_notification_global_at
-        notification_to_run = @a11y_notification_queue.find_all  { |v| v[:a11y_entry][:a11y_created_global_at] + v[:a11y_entry][:a11y_notification_debounce] <= Kernel.global_tick_count }
+        notification_to_run = @a11y_notification_queue.find_all { |v|
+          v[:a11y_entry][:a11y_created_global_at] + v[:a11y_entry][:a11y_notification_debounce] <= Kernel.global_tick_count
+        }
                                                       .sort_by { |v| v[:a11y_entry][:a11y_created_global_at] + v[:a11y_entry][:a11y_notification_debounce] }.first
 
         if notification_to_run
@@ -732,14 +743,14 @@ S
           end
 
           if should_process_notification
-          @a11y_processed[notification_to_run[:a11y_id]] = notification_to_run[:a11y_entry]
+            @a11y_processed[notification_to_run[:a11y_id]] = notification_to_run[:a11y_entry]
 
-          if notification_to_run[:a11y_entry][:a11y_notification_target].length > 0
-            @a11y_dequeue_notification_global_at = Kernel.global_tick_count + 60 * 2
-          elsif notification_to_run[:a11y_entry][:a11y_text].length > 0
-            words = notification_to_run[:a11y_entry][:a11y_text].split(" ").length
-            @a11y_dequeue_notification_global_at = Kernel.global_tick_count + (60 * words / 2).to_i
-          end
+            if notification_to_run[:a11y_entry][:a11y_notification_target].length > 0
+              @a11y_dequeue_notification_global_at = Kernel.global_tick_count + 60 * 2
+            elsif notification_to_run[:a11y_entry][:a11y_text].length > 0
+              words = notification_to_run[:a11y_entry][:a11y_text].split(" ").length
+              @a11y_dequeue_notification_global_at = Kernel.global_tick_count + (60 * words / 2).to_i
+            end
           end
         end
       end
@@ -767,6 +778,7 @@ S
     def a11y_pending_notifications?
       return true if @a11y_processed.any? { |k, n| n.a11y_trait == "notification" }
       return true if @a11y_notification_queue.length > 0
+
       return false
     end
 
@@ -827,18 +839,18 @@ S
 
     def serialize
       {
-        solids:            @solids.map { |s| s.serialize },
-        sprites:           @sprites.map { |s| s.serialize },
-        lines:             @lines.map { |s| s.serialize },
-        labels:            @labels.map { |s| s.serialize },
-        sounds:            @sounds.map { |s| s.serialize },
-        borders:           @borders.map { |s| s.serialize },
-        primitives:        @primitives.map { |s| s.serialize },
-        static_solids:     @static_solids.map { |s| s.serialize },
-        static_borders:    @static_borders.map { |s| s.serialize },
-        static_sprites:    @static_sprites.map { |s| s.serialize },
-        static_lines:      @static_lines.map { |s| s.serialize },
-        static_labels:     @static_labels.map { |s| s.serialize },
+        solids: @solids.map { |s| s.serialize },
+        sprites: @sprites.map { |s| s.serialize },
+        lines: @lines.map { |s| s.serialize },
+        labels: @labels.map { |s| s.serialize },
+        sounds: @sounds.map { |s| s.serialize },
+        borders: @borders.map { |s| s.serialize },
+        primitives: @primitives.map { |s| s.serialize },
+        static_solids: @static_solids.map { |s| s.serialize },
+        static_borders: @static_borders.map { |s| s.serialize },
+        static_sprites: @static_sprites.map { |s| s.serialize },
+        static_lines: @static_lines.map { |s| s.serialize },
+        static_labels: @static_labels.map { |s| s.serialize },
         static_primitives: @static_primitives.map { |s| s.serialize },
       }
     end
@@ -874,14 +886,15 @@ S
 
     def __warn_outputs_size__ size, dimension
       return if !size
+
       if size > 1600
         log_once_key = ("render_target_#{@target}" || "top_level").to_sym
-        log_once_important log_once_key, <<-S
-* WARNING: Render target size is above what Android can render.
+        log_once_important log_once_key, <<~S
+          * WARNING: Render target size is above what Android can render.
 
-The render target named ~#{@target}~ has a #{dimension} of #{size} pixels. This size is larger 1600
-pixels and WILL NOT render on Android devices.
-S
+          The render target named ~#{@target}~ has a #{dimension} of #{size} pixels. This size is larger 1600
+          pixels and WILL NOT render on Android devices.
+        S
       end
     end
 

@@ -26,7 +26,7 @@ class Game
 
     state.tile_size            ||= 64
     if !state.tiles
-      state.tiles                = [
+      state.tiles = [
         { ordinal_x:  0, ordinal_y: 0 },
         { ordinal_x:  1, ordinal_y: 0 },
         { ordinal_x:  2, ordinal_y: 0 },
@@ -98,7 +98,7 @@ class Game
   end
 
   def calc_physics
-    player.x  += player.dx
+    player.x += player.dx
     collision = state.tiles.find { |t| player.intersect_rect? t.rect }
     if collision
       if player.dx > 0
@@ -188,8 +188,8 @@ class Game
 
   def available_brick_locations
     (0..19).to_a
-      .product(0..11)
-      .map do |(ordinal_x, ordinal_y)|
+           .product(0..11)
+           .map do |(ordinal_x, ordinal_y)|
       { ordinal_x: ordinal_x,
         ordinal_y: ordinal_y,
         x: ordinal_x * state.tile_size,
@@ -205,6 +205,7 @@ class Game
 
   def player_jump
     return if !player.on_ground
+
     player.dy = state.player.jump_power
     player.jump_at = Kernel.tick_count
   end
@@ -212,6 +213,7 @@ class Game
   def player_jump_increase_air_time
     return if !player.jump_at
     return if player.jump_at.elapsed_time >= player.jump_air_time
+
     player.dy += player.jump_increase_power
   end
 end

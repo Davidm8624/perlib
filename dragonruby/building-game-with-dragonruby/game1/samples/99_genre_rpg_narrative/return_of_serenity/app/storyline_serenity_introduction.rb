@@ -43,7 +43,8 @@ def replied_to_introduction_shared_storylines args
   [
     [30, 10, 5, 4, "It's-- going-- to take a while-- for this reply-- to make it's-- way back."],
     [40, 10, 5, 4, "4- hours-- to send a message-- at light speed?! How far away-- is the sender--?"],
-    [50, 10, 5, 4, "I know- I've-- read about-- light- speed- travel-- before--. Maybe-- the library--- still has that- poster."]
+    [50, 10, 5, 4,
+     "I know- I've-- read about-- light- speed- travel-- before--. Maybe-- the library--- still has that- poster."]
   ]
 end
 

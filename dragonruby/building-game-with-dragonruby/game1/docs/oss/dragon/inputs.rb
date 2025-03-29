@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # inputs.rb has been released under MIT (*only this file*).
@@ -79,6 +80,7 @@ module GTK
     def left_right
       return -1 if self.left
       return  1 if self.right
+
       return  0
     end
 
@@ -87,6 +89,7 @@ module GTK
     def left_right_arrow
       return -1 if keyboard.left_arrow || (controller_one && controller_one.directional_left)
       return  1 if keyboard.right_arrow || (controller_one && controller_one.directional_right)
+
       return  0
     end
 
@@ -113,6 +116,7 @@ module GTK
     def up_down
       return  1 if self.up
       return -1 if self.down
+
       return  0
     end
 
@@ -121,7 +125,8 @@ module GTK
     def up_down_arrow
       return  1 if keyboard.up_arrow || (controller_one && controller_one.directional_up)
       return -1 if keyboard.down_arrow || (controller_one && controller_one.directional_down)
-      return  0
+
+      return 0
     end
 
     alias_method :up_down_directional, :up_down_arrow
@@ -144,6 +149,7 @@ module GTK
 
     def click
       return nil unless @mouse.click
+
       return @mouse.click.point
     end
 

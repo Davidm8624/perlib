@@ -58,11 +58,13 @@ def render args
   # render lights and scene render_targets as a mini map
   args.outputs.debug  << { x: 16,      y: (16 + 90).from_top, w: 160, h: 90, r: 255, g: 255, b: 255 }.solid!
   args.outputs.debug  << { x: 16,      y: (16 + 90).from_top, w: 160, h: 90, path: :lights }
-  args.outputs.debug  << { x: 16 + 80, y: (16 + 90 + 8).from_top, text: ":lights render_target", r: 255, g: 255, b: 255, size_enum: -3, alignment_enum: 1 }
+  args.outputs.debug  << { x: 16 + 80, y: (16 + 90 + 8).from_top, text: ":lights render_target", r: 255, g: 255,
+                           b: 255, size_enum: -3, alignment_enum: 1 }
 
   args.outputs.debug  << { x: 16 + 160 + 16,      y: (16 + 90).from_top, w: 160, h: 90, r: 255, g: 255, b: 255 }.solid!
   args.outputs.debug  << { x: 16 + 160 + 16,      y: (16 + 90).from_top, w: 160, h: 90, path: :scene }
-  args.outputs.debug  << { x: 16 + 160 + 16 + 80, y: (16 + 90 + 8).from_top, text: ":scene render_target", r: 255, g: 255, b: 255, size_enum: -3, alignment_enum: 1 }
+  args.outputs.debug  << { x: 16 + 160 + 16 + 80, y: (16 + 90 + 8).from_top, text: ":scene render_target", r: 255,
+                           g: 255, b: 255, size_enum: -3, alignment_enum: 1 }
 end
 
 def tick args

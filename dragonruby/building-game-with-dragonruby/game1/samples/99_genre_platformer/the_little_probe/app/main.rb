@@ -28,16 +28,16 @@ class FallingCircle
     # end
 
     state.storyline ||= [
-      { text: "<- -> to aim, hold space to charge",                            distance_gate: 0 },
+      { text: "<- -> to aim, hold space to charge", distance_gate: 0 },
       { text: "the little probe - by @amirrajan, made with DragonRuby Game Toolkit", distance_gate: 0 },
       { text: "mission control, this is sasha. landing on europa successful.", distance_gate: 0 },
       { text: "operation \"find earth 2.0\", initiated at 8-29-2036 14:00.",   distance_gate: 0 },
       { text: "jupiter's sure is beautiful...",   distance_gate: 4000 },
       { text: "hmm, it seems there's some kind of anomoly in the sky",   distance_gate: 7000 },
       { text: "dancing lights, i'll call them whisps.",   distance_gate: 8000 },
-      { text: "#todo... look i ran out of time -_-",   distance_gate: 9000 },
-      { text: "there's never enough time",   distance_gate: 9000 },
-      { text: "the game jam was fun though ^_^",   distance_gate: 10000 },
+      { text: "#todo... look i ran out of time -_-", distance_gate: 9000 },
+      { text: "there's never enough time", distance_gate: 9000 },
+      { text: "the game jam was fun though ^_^", distance_gate: 10000 },
     ]
 
     load_level force: Kernel.tick_count == 0
@@ -65,7 +65,7 @@ class FallingCircle
     camera.y                   ||= 0
     camera.target_x            ||= 0
     camera.target_y            ||= 0
-    state.snaps                ||= { }
+    state.snaps                ||= {}
     state.snap_number            = 10
 
     args.state.storyline_x ||= -1000
@@ -101,22 +101,25 @@ class FallingCircle
     if circle.check_point_at &&
        circle.check_point_at.elapsed_time == 1 &&
        !args.state.current_storyline
-       if args.state.storyline.length > 0 && args.state.distance_traveled > args.state.storyline[0][:distance_gate]
-         args.state.current_storyline = args.state.storyline.shift[:text]
-         args.state.distance_traveled ||= 0
-         args.state.storyline_x = circle.x
-         args.state.storyline_y = circle.y
-       end
+      if args.state.storyline.length > 0 && args.state.distance_traveled > args.state.storyline[0][:distance_gate]
+        args.state.current_storyline = args.state.storyline.shift[:text]
+        args.state.distance_traveled ||= 0
+        args.state.storyline_x = circle.x
+        args.state.storyline_y = circle.y
+      end
       return unless args.state.current_storyline
     end
     label_text = args.state.current_storyline
     return unless label_text
+
     x = circle.x + camera.x
     y = circle.y + camera.y - 40
     w = 900
     h = 30
-    outputs.primitives << { x: x - w.idiv(2), y: y - h, w: w, h: h, r: 255, g: 255, b: 255, a: 255, primitive_marker: :solid }
-    outputs.primitives << { x: x - w.idiv(2), y: y - h, w: w, h: h, r: 0, g: 0, b: 0, a: 255, primitive_marker: :border }
+    outputs.primitives << { x: x - w.idiv(2), y: y - h, w: w, h: h, r: 255, g: 255, b: 255, a: 255,
+                            primitive_marker: :solid }
+    outputs.primitives << { x: x - w.idiv(2), y: y - h, w: w, h: h, r: 0, g: 0, b: 0, a: 255,
+                            primitive_marker: :border }
     outputs.labels << { x: x, y: y - 4, text: label_text, size_enum: 1, alignment_enum: 1, r: 0, g: 0, b: 0, a: 255 }
   end
 
@@ -254,18 +257,25 @@ class FallingCircle
     end
 
     if circle.floor
-      outputs.labels << [circle.x + camera.x + 30, circle.y + camera.y + 100, "point: #{circle.floor_point.slice(:x, :y).values}", -2, 0]
-      outputs.labels << [circle.x + camera.x + 31, circle.y + camera.y + 101, "point: #{circle.floor_point.slice(:x, :y).values}", -2, 0, 255, 255, 255]
-      outputs.labels << [circle.x + camera.x + 30, circle.y + camera.y +  85, "circle: #{circle.as_hash.slice(:x, :y).values}", -2, 0]
-      outputs.labels << [circle.x + camera.x + 31, circle.y + camera.y +  86, "circle: #{circle.as_hash.slice(:x, :y).values}", -2, 0, 255, 255, 255]
-      outputs.labels << [circle.x + camera.x + 30, circle.y + camera.y +  70, "rel: #{circle.floor_relative_x} #{circle.floor_relative_y}", -2, 0]
-      outputs.labels << [circle.x + camera.x + 31, circle.y + camera.y +  71, "rel: #{circle.floor_relative_x} #{circle.floor_relative_y}", -2, 0, 255, 255, 255]
+      outputs.labels << [circle.x + camera.x + 30, circle.y + camera.y + 100,
+                         "point: #{circle.floor_point.slice(:x, :y).values}", -2, 0]
+      outputs.labels << [circle.x + camera.x + 31, circle.y + camera.y + 101,
+                         "point: #{circle.floor_point.slice(:x, :y).values}", -2, 0, 255, 255, 255]
+      outputs.labels << [circle.x + camera.x + 30, circle.y + camera.y +  85,
+                         "circle: #{circle.as_hash.slice(:x, :y).values}", -2, 0]
+      outputs.labels << [circle.x + camera.x + 31, circle.y + camera.y +  86,
+                         "circle: #{circle.as_hash.slice(:x, :y).values}", -2, 0, 255, 255, 255]
+      outputs.labels << [circle.x + camera.x + 30, circle.y + camera.y +  70,
+                         "rel: #{circle.floor_relative_x} #{circle.floor_relative_y}", -2, 0]
+      outputs.labels << [circle.x + camera.x + 31, circle.y + camera.y +  71,
+                         "rel: #{circle.floor_relative_x} #{circle.floor_relative_y}", -2, 0, 255, 255, 255]
     end
   end
 
   def render_stage_editor
     return unless state.god_mode
     return unless state.point_one
+
     args.lines << [state.point_one, inputs.mouse.point, 0, 255, 255]
   end
 
@@ -348,7 +358,6 @@ class FallingCircle
 
     snaps[x_result][y_result] = true
     return [x_result, y_result]
-
   end
 
   def snap_line line
@@ -370,11 +379,12 @@ class FallingCircle
 
   def load_lines file
     return unless state.snaps
+
     data = gtk.read_file(file) || ""
     data.each_line
         .reject { |l| l.strip.length == 0 }
         .map { |l| string_to_line l }
-        .map { |h| h.merge(rect: rect_for_line(h))  }
+        .map { |h| h.merge(rect: rect_for_line(h)) }
   end
 
   def load_terrain
@@ -416,11 +426,12 @@ class FallingCircle
   def point_within_line? point, line
     return false if !point
     return false if !line
+
     return true
   end
 
   def calc_impacts x, dx, y, dy, radius
-    results = { }
+    results = {}
     results[:x] = x
     results[:y] = y
     results[:dx] = x
@@ -458,6 +469,7 @@ class FallingCircle
 
   def calc_terrains_to_monitor
     return unless circle.impacts
+
     circle.impact = nil
     circle.impacts.each do |i|
       future_circle = { x: circle.x + circle.dx, y: circle.y + circle.dy }
@@ -493,7 +505,8 @@ class FallingCircle
     r[:terrain][:slope] = Geometry.line_slope(impact[:terrain], replace_infinity: infinity_alias)
     r[:terrain][:slope_sign] = r[:terrain][:slope].sign
 
-    r[:impact][:angle] = -Geometry.angle_between_lines(body.trajectory, impact[:terrain], replace_infinity: infinity_alias)
+    r[:impact][:angle] =
+      -Geometry.angle_between_lines(body.trajectory, impact[:terrain], replace_infinity: infinity_alias)
     r[:impact][:point] = { x: impact[:point].x, y: impact[:point].y }
     r[:impact][:same_slope_sign] = r[:body][:slope_sign] == r[:terrain][:slope_sign]
     r[:impact][:ray] = body.ray_current
@@ -609,6 +622,7 @@ class FallingCircle
 
     return if state.game_over
     return if circle.on_floor
+
     circle.previous_dy = circle.dy
     circle.previous_dx = circle.dx
     circle.x  += circle.dx
@@ -619,6 +633,7 @@ class FallingCircle
     calc_potential_impacts
     calc_terrains_to_monitor
     return unless circle.impact
+
     if circle.impact && circle.impact[:type] == :lava
       game_over!
     else
@@ -705,7 +720,7 @@ class FallingCircle
       circle.y += next_y
       state.point_one = nil
     elsif inputs.keyboard.one
-      state.point_one = [circle.x + camera.x, circle.y+ camera.y]
+      state.point_one = [circle.x + camera.x, circle.y + camera.y]
     end
 
     # cancel chain lines
@@ -716,6 +731,7 @@ class FallingCircle
 
   def play_sound
     return if state.sound_debounce > 0
+
     state.sound_debounce = 5
     # outputs.sounds << "sounds/03#{"%02d" % state.sound_index}.wav"
     state.sound_index += 1

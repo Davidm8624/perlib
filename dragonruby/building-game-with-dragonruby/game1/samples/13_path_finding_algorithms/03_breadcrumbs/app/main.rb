@@ -140,7 +140,6 @@ class Breadcrumbs
     end
   end
 
-
   # Draws everything onto the screen
   def render
     render_background
@@ -156,12 +155,13 @@ class Breadcrumbs
     end
   end
 
-  def render_trail(current_cell=grid.target)
+  def render_trail(current_cell = grid.target)
     return if current_cell == grid.star
+
     parent_cell = search.came_from[current_cell]
     if current_cell && parent_cell
       outputs.lines << [(current_cell.x + 0.5) * grid.cell_size, (current_cell.y + 0.5) * grid.cell_size,
-      (parent_cell.x + 0.5) * grid.cell_size, (parent_cell.y + 0.5) * grid.cell_size, purple]
+                        (parent_cell.x + 0.5) * grid.cell_size, (parent_cell.y + 0.5) * grid.cell_size, purple]
 
     end
     render_trail(parent_cell)
@@ -173,13 +173,13 @@ class Breadcrumbs
         arrow_cell = [(child.x + parent.x) / 2, (child.y + parent.y) / 2]
         if parent.x > child.x # If the parent cell is to the right of the child cell
           # Point arrow right
-          outputs.sprites << scale_up(arrow_cell).merge({ path: 'arrow.png', angle: 0})
+          outputs.sprites << scale_up(arrow_cell).merge({ path: 'arrow.png', angle: 0 })
         elsif parent.x < child.x # If the parent cell is to the right of the child cell
-          outputs.sprites << scale_up(arrow_cell).merge({ path: 'arrow.png', angle: 180})
+          outputs.sprites << scale_up(arrow_cell).merge({ path: 'arrow.png', angle: 180 })
         elsif parent.y > child.y # If the parent cell is to the right of the child cell
-          outputs.sprites << scale_up(arrow_cell).merge({ path: 'arrow.png', angle: 90})
+          outputs.sprites << scale_up(arrow_cell).merge({ path: 'arrow.png', angle: 90 })
         elsif parent.y < child.y # If the parent cell is to the right of the child cell
-          outputs.sprites << scale_up(arrow_cell).merge({ path: 'arrow.png', angle: 270})
+          outputs.sprites << scale_up(arrow_cell).merge({ path: 'arrow.png', angle: 270 })
         end
       end
     end
@@ -230,7 +230,7 @@ class Breadcrumbs
 
   # Renders the target on both grids
   def render_target
-    outputs.sprites << scale_up(grid.target).merge({ path: 'target.png'})
+    outputs.sprites << scale_up(grid.target).merge({ path: 'target.png' })
   end
 
   # Labels the grids
@@ -243,7 +243,7 @@ class Breadcrumbs
     # If the star and target are disconnected there will only be one path
     # The path should not render in that case
     unless search.path.size == 1
-      search.path.each_key do | cell |
+      search.path.each_key do |cell|
         # Renders path on both grids
         outputs.solids << [scale_up(cell), path_color]
       end
@@ -381,7 +381,6 @@ class Breadcrumbs
     end
   end
 
-
   # Whenever the user edits the grid,
   # The search has to be reset_searchd upto the current step
   # with the current grid as the initial state of the grid
@@ -391,7 +390,6 @@ class Breadcrumbs
     search.came_from = {}
     search.path      = {}
   end
-
 
   # Returns a list of adjacent cells
   # Used to determine what the next cells to be added to the frontier are
@@ -408,7 +406,7 @@ class Breadcrumbs
     # Sorts the neighbors so the rendered path is a zigzag path
     # Cells in a diagonal direction are given priority
     # Comment this line to see the difference
-    neighbors = neighbors.sort_by { |neighbor_x, neighbor_y|  proximity_to_star(neighbor_x, neighbor_y) }
+    neighbors = neighbors.sort_by { |neighbor_x, neighbor_y| proximity_to_star(neighbor_x, neighbor_y) }
 
     neighbors
   end
@@ -503,7 +501,6 @@ end
 # Method that is called by DragonRuby periodically
 # Used for updating animations and calculations
 def tick args
-
   # Pressing r will reset the application
   if args.inputs.keyboard.key_down.r
     GTK.reset
@@ -517,21 +514,20 @@ def tick args
   $breadcrumbs.tick
 end
 
-
 def reset
   $breadcrumbs = nil
 end
 
- #  # Representation of how far away visited cells are from the star
- #  # Replaces the render_visited method
- #  # Visually demonstrates the effectiveness of early exit for pathfinding
- #  def render_heat_map
- #    # THIS CODE NEEDS SOME FIXING DUE TO REFACTORING
- #    search.came_from.each_key do | cell |
- #      distance = (grid.star.x - visited_cell.x).abs + (state.star.y - visited_cell.y).abs
- #      max_distance = grid.width + grid.height
- #      alpha = 255.to_i * distance.to_i / max_distance.to_i
- #      outputs.solids << [scale_up(visited_cell), red, alpha]
- #      # outputs.solids << [early_exit_scale_up(visited_cell), red, alpha]
- #    end
- #  end
+#  # Representation of how far away visited cells are from the star
+#  # Replaces the render_visited method
+#  # Visually demonstrates the effectiveness of early exit for pathfinding
+#  def render_heat_map
+#    # THIS CODE NEEDS SOME FIXING DUE TO REFACTORING
+#    search.came_from.each_key do | cell |
+#      distance = (grid.star.x - visited_cell.x).abs + (state.star.y - visited_cell.y).abs
+#      max_distance = grid.width + grid.height
+#      alpha = 255.to_i * distance.to_i / max_distance.to_i
+#      outputs.solids << [scale_up(visited_cell), red, alpha]
+#      # outputs.solids << [early_exit_scale_up(visited_cell), red, alpha]
+#    end
+#  end

@@ -38,18 +38,17 @@
 # four quadrants by pressing the button.
 
 def tick args
-
   # The addition and subtraction in the first two parameters of the label and solid
   # ensure that the outputs don't overlap each other. Try removing them and see what happens.
   pos = args.inputs.mouse.position # stores coordinates of mouse's position
   args.outputs.labels << [pos.x + 10, pos.y + 10, "#{pos}"] # outputs label of coordinates
-  args.outputs.solids << [pos.x -  2, pos.y - 2, 5, 5] # outputs small blackk box placed where mouse is hovering
+  args.outputs.solids << [pos.x - 2, pos.y - 2, 5, 5] # outputs small blackk box placed where mouse is hovering
 
   button = [0, 0, 370, 50] # sets definition of toggle button
   args.outputs.borders << button # outputs button as border (not filled in)
   args.outputs.labels << [10, 35, "click here toggle coordinate system"] # label of button
-  args.outputs.lines << [    0, -720,    0, 720] # vertical line dividing quadrants
-  args.outputs.lines << [-1280,    0, 1280,   0] # horizontal line dividing quadrants
+  args.outputs.lines << [0, -720, 0, 720] # vertical line dividing quadrants
+  args.outputs.lines << [-1280, 0, 1280, 0] # horizontal line dividing quadrants
 
   if args.inputs.mouse.click # if the user clicks the mouse
     pos = args.inputs.mouse.click.point # pos's value is point where user clicked (coordinates)
@@ -67,6 +66,7 @@ end
 
 def tick_instructions args, text, y = 715
   return if args.state.key_event_occurred
+
   if args.inputs.mouse.click ||
      args.inputs.keyboard.directional_vector ||
      args.inputs.keyboard.key_down.enter ||
@@ -76,5 +76,5 @@ def tick_instructions args, text, y = 715
 
   args.outputs.debug << [0, y - 50, 1280, 60].solid
   args.outputs.debug << [640, y, text, 1, 1, 255, 255, 255].label
-  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)" , -2, 1, 255, 255, 255].label
+  args.outputs.debug << [640, y - 25, "(click to dismiss instructions)", -2, 1, 255, 255, 255].label
 end

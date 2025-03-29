@@ -118,7 +118,7 @@ end
 def test_apply args, assert
   assert.equal! (args.fn.and [nil, nil, nil]), [nil, nil, nil]
   assert.equal! (args.fn.apply [nil, nil, nil], args.fn.method(:and)), nil
-  and_lambda = lambda {|*xs| args.fn.and(*xs)}
+  and_lambda = lambda { |*xs| args.fn.and(*xs) }
   assert.equal! (args.fn.apply [nil, nil, nil], and_lambda), nil
 end
 
@@ -128,5 +128,5 @@ end
 
 def test_array_hash args, assert
   assert.equal! (args.fn.array_hash :a, 1, :b, 2), { a: 1, b: 2 }
-  assert.equal! (args.fn.array_hash), { }
+  assert.equal! (args.fn.array_hash), {}
 end

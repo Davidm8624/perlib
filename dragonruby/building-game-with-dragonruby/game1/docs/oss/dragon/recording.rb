@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # recording.rb has been released under MIT (*only this file*).
@@ -26,6 +27,7 @@ module GTK
 
     def replay_callbacks_do_tick
       return if !is_replaying?
+
       if @on_replay_tick
         @on_replay_tick.calls @runtime.args
       end
@@ -60,37 +62,37 @@ module GTK
     def start_recording seed_number = nil, rng_seed: nil, simulation_speed: nil
       seed_number ||= rng_seed
       if !seed_number
-        log <<-S
-* ERROR:
-To start recording, you must provide an integer value to
-seed random number generation.
-S
+        log <<~S
+          * ERROR:
+          To start recording, you must provide an integer value to
+          seed random number generation.
+        S
         $console.set_command "$recording.start rng_seed: 100"
         return
       end
 
       if @is_recording
-        log <<-S
-* ERROR:
-You are already recording, first cancel (or stop) the current recording.
-S
+        log <<~S
+          * ERROR:
+          You are already recording, first cancel (or stop) the current recording.
+        S
         $console.set_command "$recording.cancel"
         return
       end
 
       if @is_replaying
-        log <<-S
-* ERROR:
-You are currently replaying a recording, first stop the replay.
-S
+        log <<~S
+          * ERROR:
+          You are currently replaying a recording, first stop the replay.
+        S
         return
       end
 
-      log_info <<-S
-Recording has begun with RNG seed value set to #{seed_number}.
-To stop recording use stop_recording(filename).
-The recording will stop without saving a file if a filename is nil.
-S
+      log_info <<~S
+        Recording has begun with RNG seed value set to #{seed_number}.
+        To stop recording use stop_recording(filename).
+        The recording will stop without saving a file if a filename is nil.
+      S
       $console.set_command_extended histories: ["$recording.start #{seed_number}"],
                                     command: "$recording.stop 'replay.txt'"
       @keys_to_ignore_during_recording = $console.console_toggle_keys.map { |k| k.without_ending_bang }
@@ -102,7 +104,8 @@ S
 
       @global_input_order = 1
       @input_history = []
-      @runtime.notify! "Recording started. When completed, open the console to save it using $recording.stop FILE_NAME (or cancel).", 300
+      @runtime.notify! "Recording started. When completed, open the console to save it using $recording.stop FILE_NAME (or cancel).",
+                       300
     end
 
     def start seed_number = nil, rng_seed: nil, simulation_speed: nil
@@ -128,14 +131,14 @@ S
 
     def stop_recording file_name = nil
       if !file_name
-        log <<-S
-* ERROR:
-To please specify a file name when calling:
-$recording.stop FILE_NAME
+        log <<~S
+          * ERROR:
+          To please specify a file name when calling:
+          $recording.stop FILE_NAME
 
-If you do NOT want to save the recording, call:
-$recording.cancel
-S
+          If you do NOT want to save the recording, call:
+          $recording.cancel
+        S
         $console.set_command "$recording.stop 'replay.txt'"
         return
       end
@@ -174,6 +177,7 @@ S
 
     def recording_recently_completed?
       return false if !@recording_stopped_at
+
       (Kernel.global_tick_count - @recording_stopped_at) <= 5
     end
 
@@ -197,18 +201,20 @@ S
       return value.gsub('"', '') if value.start_with? '"'
       return value.gsub(':', '').to_sym if value.start_with? ':'
       return value == 'true' if value == 'true' || value == 'false'
+
       return value.to_f
     end
 
     def start_replay file_name = nil, speed: 1
       return if replay_recently_stopped?
+
       @exception_in_completed_successfully_block = nil
       @replay_completed_successfully = false
       if !file_name
-        log <<-S
-* ERROR:
-Please provide a file name to $recording.start.
-S
+        log <<~S
+          * ERROR:
+          Please provide a file name to $recording.start.
+        S
         $console.set_command_silent "$replay.start 'replay.txt', speed: 1"
         return
       end
@@ -226,7 +232,7 @@ S
       @replay_file_name = file_name
 
       $replay_data = {
-        input_history: { },
+        input_history: {},
         stopped_at_current_tick: -1
       }
 
@@ -353,7 +359,7 @@ S
       end
 
       $replay_data[:input_history].keys.each do |key|
-        $replay_data[:input_history][key] = $replay_data[:input_history][key].sort_by {|input| input[:id]}
+        $replay_data[:input_history][key] = $replay_data[:input_history][key].sort_by { |input| input[:id] }
       end
 
       @runtime.__reset__
@@ -368,11 +374,11 @@ S
     end
 
     def replay_next_tick file_name, speed: 1, &block
-      log <<-S
-* INFO - Replay queued for next tick for file_name: =#{file_name}=, speed: ~#{speed}~.
-** Caller
-#{caller.map { |l| "*** #{l}" }.join "\n"}
-S
+      log <<~S
+        * INFO - Replay queued for next tick for file_name: =#{file_name}=, speed: ~#{speed}~.
+        ** Caller
+        #{caller.map { |l| "*** #{l}" }.join "\n"}
+      S
       @replay_next_tick = true
       @replay_next_tick_file_name = file_name
       @on_replay_tick_only_this_run = block
@@ -394,16 +400,19 @@ S
 
     def replay_recently_started?
       return false if !@replay_started_at
+
       (Kernel.global_tick_count - @replay_started_at) <= 5
     end
 
     def replay_recently_stopped?
       return false if !@replay_stopped_at
+
       (Kernel.global_tick_count - @replay_stopped_at) <= 5
     end
 
     def replay_recently_completed?
       return false if !@replay_completed_at
+
       (Kernel.global_tick_count - @replay_completed_at) <= 5
     end
 
@@ -414,10 +423,10 @@ S
     def stop_replay notification_message = "Replay has been stopped."
       @runtime.simulation_speed = 1
       if !is_replaying?
-        log <<-S
-* ERROR:
-No replay is currently running. Call ~$replay.start FILE_NAME, speed: 1~ to start a replay.
-S
+        log <<~S
+          * ERROR:
+          No replay is currently running. Call ~$replay.start FILE_NAME, speed: 1~ to start a replay.
+        S
 
         $console.set_command "$replay.start 'replay.txt', speed: 1"
         return
@@ -429,7 +438,6 @@ S
       $console.set_command_silent "$replay.start '#{@replay_file_name}', speed: 1"
       @is_replaying = false
       @on_replay_tick_only_this_run = nil
-
 
       if @exception_in_completed_successfully_block
         log "* ERROR: Exception was raised when on_replay_completed_successfully's callback was invoked."
@@ -445,6 +453,7 @@ S
       return false if $gtk.console.visible?
       return false if @is_replaying
       return false unless @is_recording
+
       # do not record console activation
       if name == :key_up_raw || name == :key_down_raw
         names = KeyboardKeys.sdl_to_key raw_key, modifier_keys
@@ -470,6 +479,7 @@ S
     def record_input_history name, value_1, value_2, value_count, clear_cache = false
       capture_record_input_timestamps name, value_1, value_2
       return if !record_input? name, value_1, value_2
+
       @input_history << [name, value_1, value_2, value_count, @global_input_order, Kernel.tick_count]
       @global_input_order += 1
     end
@@ -477,6 +487,7 @@ S
     def record_input_history_3_params name, value_1, value_2, value_3, clear_cache = false
       capture_record_input_timestamps name, value_1, value_2
       return if !record_input? name, value_1, value_2
+
       @input_history << [name, value_1, value_2, value_3, 3, @global_input_order, Kernel.tick_count]
       @global_input_order += 1
     end

@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # runtime.rb has been released under MIT (*only this file*).
@@ -19,7 +20,8 @@ module GTK
         file = file_metadata[:output_file]
 
         if @debug_require
-          log "REQUIRE: Started for =#{file}=.".indent(@require_stack.length, indent_char: "*", pad_line_with_space: true)
+          log "REQUIRE: Started for =#{file}=.".indent(@require_stack.length, indent_char: "*",
+                                                                              pad_line_with_space: true)
         end
 
         if !file_metadata[:file_exist]
@@ -39,10 +41,10 @@ module GTK
           okay = (syntax_check_result == "Syntax OK")
           if !okay
             raise <<~S
-          ** Failed to load #{file}.
-          #{syntax_check_result}
+              ** Failed to load #{file}.
+              #{syntax_check_result}
 
-          S
+            S
           else
             add_to_require_queue file
           end
@@ -55,7 +57,8 @@ module GTK
         __require_sync__ file
 
         if @debug_require
-          log "REQUIRE: Completed for =#{file}=.".indent(@require_stack.length, indent_char: "*", pad_line_with_space: true)
+          log "REQUIRE: Completed for =#{file}=.".indent(@require_stack.length, indent_char: "*",
+                                                                                pad_line_with_space: true)
         end
 
         if !@production && file == "app/main.rb"
@@ -76,7 +79,8 @@ module GTK
 
       def require_relative file
         if @debug_require
-          log "REQUIRE RELATIVE: Started for =#{file}=.".indent(@require_stack.length, indent_char: "*", pad_line_with_space: true)
+          log "REQUIRE RELATIVE: Started for =#{file}=.".indent(@require_stack.length, indent_char: "*",
+                                                                                       pad_line_with_space: true)
         end
 
         current_require_file = @require_stack.last || "app/main.rb"
@@ -86,12 +90,14 @@ module GTK
         require full_path
 
         if @debug_require
-          log "REQUIRE RELATIVE: Completed for =#{file}=.".indent(@require_stack.length, indent_char: "*", pad_line_with_space: true)
+          log "REQUIRE RELATIVE: Completed for =#{file}=.".indent(@require_stack.length, indent_char: "*",
+                                                                                         pad_line_with_space: true)
         end
       end
 
       def purge_user_global_variables
         return if @production
+
         global_variables.each do |var|
           if !@core_global_variables.include? var
             puts "setting #{var} to nil"
@@ -103,6 +109,7 @@ module GTK
 
       def purge_user_modules
         return if @production
+
         $gtk.ivar(:user_modules).each do |klass|
           puts "purging #{klass.name}"
           Object.purge_class klass.name.to_sym

@@ -17,7 +17,7 @@ def tick args
   x = STARTX
   y = STARTY
   offset_x = (1280 - (ENDX - STARTX)) / 2
-  offset_y =  (360 - (ENDY - STARTY)) / 2
+  offset_y = (360 - (ENDY - STARTY)) / 2
 
   srand(1)
   while y < ENDY do
@@ -37,7 +37,8 @@ def tick args
         u = u / k
         v = y / k
         w = POINTSIZE / 10 / k
-        args.outputs.sprites << { x: offset_x + u - w, y: offset_y + v - w, w: w, h: w, path: 'sprites/square-blue.png'}
+        args.outputs.sprites << { x: offset_x + u - w, y: offset_y + v - w, w: w, h: w,
+                                  path: 'sprites/square-blue.png' }
         x += SPINPOINT
       end
       x += 0.5

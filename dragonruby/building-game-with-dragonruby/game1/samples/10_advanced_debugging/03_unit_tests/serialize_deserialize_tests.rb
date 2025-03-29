@@ -7,18 +7,20 @@ end
 def test_serialize args, assert
   args.state.player_one = "test"
   result = GTK.serialize_state args.state
-  assert_hash_strings! assert, result, "{:entity_id=>1, :entity_keys_by_ref=>{}, :tick_count=>-1, :player_one=>\"test\"}"
+  assert_hash_strings! assert, result,
+                       "{:entity_id=>1, :entity_keys_by_ref=>{}, :tick_count=>-1, :player_one=>\"test\"}"
 
   GTK.write_file 'state.txt', ''
   result = GTK.serialize_state 'state.txt', args.state
-  assert_hash_strings! assert, result, "{:entity_id=>1, :entity_keys_by_ref=>{}, :tick_count=>-1, :player_one=>\"test\"}"
+  assert_hash_strings! assert, result,
+                       "{:entity_id=>1, :entity_keys_by_ref=>{}, :tick_count=>-1, :player_one=>\"test\"}"
 end
 
 def test_deserialize args, assert
   result = GTK.deserialize_state '{:entity_id=>3, :tick_count=>-1, :player_one=>"test"}'
   assert.equal! result.player_one, "test"
 
-  GTK.write_file 'state.txt',  '{:entity_id=>3, :tick_count=>-1, :player_one=>"test"}'
+  GTK.write_file 'state.txt', '{:entity_id=>3, :tick_count=>-1, :player_one=>"test"}'
   result = GTK.deserialize_state 'state.txt'
   assert.equal! result.player_one, "test"
 end
@@ -39,7 +41,8 @@ def test_strict_entity_serialization args, assert
   args.state.player_two = args.state.new_entity_strict(:player_strict, name: "Ken")
 
   serialized_state = GTK.serialize_state args.state
-  assert_hash_strings! assert, serialized_state, '{:entity_id=>1, :entity_keys_by_ref=>{}, :tick_count=>-1, :player_one=>{:entity_id=>3, :entity_name=>:player, :entity_keys_by_ref=>{}, :entity_type=>:player, :created_at=>-1, :global_created_at=>-1, :name=>"Ryu"}, :player_two=>{:entity_id=>5, :entity_name=>:player_strict, :entity_type=>:player_strict, :created_at=>-1, :global_created_at_elapsed=>-1, :entity_strict=>true, :entity_keys_by_ref=>{}, :name=>"Ken"}}'
+  assert_hash_strings! assert, serialized_state,
+                       '{:entity_id=>1, :entity_keys_by_ref=>{}, :tick_count=>-1, :player_one=>{:entity_id=>3, :entity_name=>:player, :entity_keys_by_ref=>{}, :entity_type=>:player, :created_at=>-1, :global_created_at=>-1, :name=>"Ryu"}, :player_two=>{:entity_id=>5, :entity_name=>:player_strict, :entity_type=>:player_strict, :created_at=>-1, :global_created_at_elapsed=>-1, :entity_strict=>true, :entity_keys_by_ref=>{}, :name=>"Ken"}}'
 
   deserialize_state = GTK.deserialize_state serialized_state
 
@@ -55,7 +58,8 @@ def test_strict_entity_serialization_with_nil args, assert
   args.state.player_two = args.state.new_entity_strict(:player_strict, name: "Ken", blood_type: nil)
 
   serialized_state = GTK.serialize_state args.state
-  assert_hash_strings! assert, serialized_state, '{:entity_id=>1, :entity_keys_by_ref=>{}, :tick_count=>-1, :player_one=>{:entity_id=>3, :entity_name=>:player, :entity_keys_by_ref=>{}, :entity_type=>:player, :created_at=>-1, :global_created_at=>-1, :name=>"Ryu"}, :player_two=>{:entity_name=>:player_strict, :global_created_at_elapsed=>-1, :created_at=>-1, :blood_type=>nil, :name=>"Ken", :entity_type=>:player_strict, :entity_strict=>true, :entity_keys_by_ref=>{}, :entity_id=>4}}'
+  assert_hash_strings! assert, serialized_state,
+                       '{:entity_id=>1, :entity_keys_by_ref=>{}, :tick_count=>-1, :player_one=>{:entity_id=>3, :entity_name=>:player, :entity_keys_by_ref=>{}, :entity_type=>:player, :created_at=>-1, :global_created_at=>-1, :name=>"Ryu"}, :player_two=>{:entity_name=>:player_strict, :global_created_at_elapsed=>-1, :created_at=>-1, :blood_type=>nil, :name=>"Ken", :entity_type=>:player_strict, :entity_strict=>true, :entity_keys_by_ref=>{}, :entity_id=>4}}'
 
   deserialized_state = GTK.deserialize_state serialized_state
 

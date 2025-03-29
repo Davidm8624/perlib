@@ -33,7 +33,6 @@ def tick args
     square_reference = nil
   end
 
-
   # if a click occurs, and there is a square under the mouse
   if args.inputs.mouse.click && square_under_mouse
     # capture the id of the square that the mouse is hovering over

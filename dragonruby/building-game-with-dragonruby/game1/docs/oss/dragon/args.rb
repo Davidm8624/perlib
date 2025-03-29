@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # args.rb has been released under MIT (*only this file*).
@@ -30,7 +31,7 @@ module GTK
       @inputs = Inputs.new
       @outputs = TopLevelOutputs.new args: self
       @cvars = {}
-      $cvars     ||= @cvars
+      $cvars ||= @cvars
       @audio = AudioHash.new
       @passes = []
       if runtime.__state_assigned_to_hash_on_boot__
@@ -78,12 +79,12 @@ module GTK
 
     def serialize
       {
-        state:      state ? state.as_hash : state,
+        state: state ? state.as_hash : state,
         temp_state: temp_state.as_hash,
-        inputs:     inputs.serialize,
-        passes:     passes.serialize,
-        outputs:    outputs.serialize,
-        grid:       grid.serialize
+        inputs: inputs.serialize,
+        passes: passes.serialize,
+        outputs: outputs.serialize,
+        grid: grid.serialize
       }
     end
 
@@ -134,14 +135,15 @@ module GTK
 
       if name == "pixel" || name == "solid"
         raise <<~S
-              * ERROR: Unable to create render target with name ~#{name}~.
-              The render target name ~#{name}~ is reserved/used by DragonRuby.
-              Please use another name for your render target.
-              S
+          * ERROR: Unable to create render target with name ~#{name}~.
+          The render target name ~#{name}~ is reserved/used by DragonRuby.
+          Please use another name for your render target.
+        S
       end
 
       if !@render_targets[name]
-        @render_targets[name] = RenderTargetOutputs.new(args: self, target: name, background_color_override: [255, 255, 255, 0])
+        @render_targets[name] =
+          RenderTargetOutputs.new(args: self, target: name, background_color_override: [255, 255, 255, 0])
         if @render_target_sizes[name]
           @render_targets[name].w = @render_target_sizes[name].w
           @render_targets[name].h = @render_target_sizes[name].h
@@ -303,16 +305,16 @@ module GTK
 
     def method_missing name, *args, &block
       if (args.length <= 1) && (@state.as_hash.key? name)
-        raise <<-S
-* ERROR - :#{name} method missing on ~#{self.class.name}~.
-The method
-  :#{name}
-with args
-  #{args}
-doesn't exist on #{inspect}.
-** POSSIBLE SOLUTION - ~args.state.#{name}~ exists.
-Did you forget ~.state~ before ~.#{name}~?
-S
+        raise <<~S
+          * ERROR - :#{name} method missing on ~#{self.class.name}~.
+          The method
+            :#{name}
+          with args
+            #{args}
+          doesn't exist on #{inspect}.
+          ** POSSIBLE SOLUTION - ~args.state.#{name}~ exists.
+          Did you forget ~.state~ before ~.#{name}~?
+        S
       end
 
       super
@@ -353,4 +355,3 @@ class AudioHash < Hash
     GTK.update_simulation_audio_state
   end
 end
-

@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2021 DragonRuby LLC
 # MIT License
 # metadata.rb has been released under MIT (*only this file*).
@@ -31,13 +32,13 @@ module Metadata
   end
 
   def write_blank_metadata
-      $gtk.write_file metadata_file_path, <<-S.strip
-#devid=myname
-#devtitle=My Name
-#gameid=mygame
-#gametitle=My Game
-#version=0.1
-#icon=metadata/icon.png
-S
+    $gtk.write_file metadata_file_path, <<~S.strip
+      #devid=myname
+      #devtitle=My Name
+      #gameid=mygame
+      #gametitle=My Game
+      #version=0.1
+      #icon=metadata/icon.png
+    S
   end
 end

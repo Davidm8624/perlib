@@ -48,7 +48,6 @@
 # Users also have options to reset the game and light a fire.
 
 class TextedBasedGame
-
   # Contains methods needed for game to run properly.
   # Increments tick count by 1 each time it runs (60 times in a single second)
   def tick
@@ -72,6 +71,7 @@ class TextedBasedGame
 
   def show_intro
     return unless state.engine_tick_count == 0 # return unless the game just started
+
     set_story_line "awake." # calls set_story_line method, sets to "awake"
   end
 
@@ -90,6 +90,7 @@ class TextedBasedGame
   # Determines fire progress (how close the fire is to being ready to light).
   def tick_fire
     return if state.active_module == :alert # return if active module is alert
+
     state.fire_progress += 1 # increment fire progress
     # fire_ready_in is 10. The fire_progress is either the current value or 10, whichever has a lower value.
     state.fire_progress = state.fire_progress.lesser(state.fire_ready_in)
@@ -98,6 +99,7 @@ class TextedBasedGame
   # Sets the value of fire (whether it is dead or roaring), and the story line
   def light_fire
     return unless fire_ready? # returns unless the fire is ready to be lit
+
     state.fire = :roaring # fire is lit, set to roaring
     state.fire_progress = 0 # the fire progress returns to 0, since the fire has been lit
     if state.fire != state.previous_fire
@@ -127,6 +129,7 @@ class TextedBasedGame
   # Sets the title of the room.
   def room_title
     return "a room that is dark" if state.fire == :dead # room is dark if the fire is dead
+
     return "a room that is lit" # room is lit if the fire is not dead
   end
 
@@ -207,12 +210,13 @@ class TextedBasedGamePresenter
   def render_alert
     return unless game.active_module == :alert
 
-    outputs.labels << [640, 480, game.story_line, 5, 1]  # outputs story line label
-    outputs.primitives << button(:alert_dismiss, 490, 380, "close")  # positions "close" button under story line
+    outputs.labels << [640, 480, game.story_line, 5, 1] # outputs story line label
+    outputs.primitives << button(:alert_dismiss, 490, 380, "close") # positions "close" button under story line
   end
 
   def render_room
     return unless game.active_module == :room
+
     outputs.labels << [640, 700, game.room_title, 4, 1] # outputs room title label at top of screen
 
     # The parameters for these outputs are (symbol, x, y, text, value/percentage) and each has a y value
@@ -220,25 +224,25 @@ class TextedBasedGamePresenter
 
     # outputs the light_fire_progress bar, uses light_fire_progress for its percentage (which changes bar's appearance)
     outputs.primitives << progress_bar(:light_fire, 490, 600, "light fire", game.light_fire_progress)
-    outputs.primitives << button(       :save_game, 490, 540, "save") # outputs save button
-    outputs.primitives << button(       :load_game, 490, 480, "load") # outputs load button
-    outputs.primitives << button(      :reset_game, 490, 420, "reset") # outputs reset button
+    outputs.primitives << button(:save_game, 490, 540, "save") # outputs save button
+    outputs.primitives << button(:load_game, 490, 480, "load") # outputs load button
+    outputs.primitives << button(:reset_game, 490, 420, "reset") # outputs reset button
     outputs.labels << [640, 30, "the fire is #{game.fire}", 0, 1] # outputs fire label at bottom of screen
   end
 
   # Outputs a collection of highlights using an array to set their values, and also rejects certain values from the collection.
   def render_highlights
     state.layout.highlights.each do |h| # for each highlight in the collection
-        h.lifetime -= 1 # decrease the value of its lifetime
-      end
+      h.lifetime -= 1 # decrease the value of its lifetime
+    end
 
-      outputs.solids << state.layout.highlights.map do |h| # outputs highlights collection
-        [h.x, h.y, h.w, h.h, h.color, 255 * h.lifetime / h.max_lifetime] # sets definition for each highlight
-        # transparency changes; divide lifetime by max_lifetime, multiply result by 255
-      end
+    outputs.solids << state.layout.highlights.map do |h| # outputs highlights collection
+      [h.x, h.y, h.w, h.h, h.color, 255 * h.lifetime / h.max_lifetime] # sets definition for each highlight
+      # transparency changes; divide lifetime by max_lifetime, multiply result by 255
+    end
 
-      # reject highlights from collection that have no remaining lifetime
-      state.layout.highlights = state.layout.highlights.reject { |h| h.lifetime <= 0 }
+    # reject highlights from collection that have no remaining lifetime
+    state.layout.highlights = state.layout.highlights.reject { |h| h.lifetime <= 0 }
   end
 
   # Checks whether or not a button was clicked.
@@ -252,60 +256,63 @@ class TextedBasedGamePresenter
   # Adds a highlight to the highlights collection.
   def button_clicked?
     return nil unless click_pos # return nil unless click_pos holds coordinates of mouse click
-      button = @button_list.find do |k, v| # goes through button_list to find button clicked
-        click_pos.inside_rect? v[:primitives].last.rect # was the mouse clicked inside the rect of button?
+
+    button = @button_list.find do |k, v| # goes through button_list to find button clicked
+      click_pos.inside_rect? v[:primitives].last.rect # was the mouse clicked inside the rect of button?
+    end
+    return unless button # return unless a button was clicked
+
+    method_to_call = "#{button[0]}_clicked".to_sym # sets method_to_call to symbol (like :save_game or :load_game)
+    if self.respond_to? method_to_call # returns true if self responds to the given method (method actually exists)
+      border = button[1][:primitives].last # sets border definition using value of last key in button list hash
+
+      # declares each highlight as a new entity, sets properties
+      state.layout.highlights << state.new_entity(:highlight) do |h|
+        h.x = border.x
+        h.y = border.y
+        h.w = border.w
+        h.h = border.h
+        h.max_lifetime = 10
+        h.lifetime = h.max_lifetime
+        h.color = [120, 120, 180] # sets color to shade of purple
       end
-      return unless button # return unless a button was clicked
-      method_to_call = "#{button[0]}_clicked".to_sym # sets method_to_call to symbol (like :save_game or :load_game)
-      if self.respond_to? method_to_call # returns true if self responds to the given method (method actually exists)
-        border = button[1][:primitives].last # sets border definition using value of last key in button list hash
 
-        # declares each highlight as a new entity, sets properties
-        state.layout.highlights << state.new_entity(:highlight) do |h|
-            h.x = border.x
-            h.y = border.y
-            h.w = border.w
-            h.h = border.h
-            h.max_lifetime = 10
-            h.lifetime = h.max_lifetime
-            h.color = [120, 120, 180] # sets color to shade of purple
-          end
+      self.send method_to_call # invoke method identified by symbol
+    else # otherwise, if self doesn't respond to given method
+      border = button[1][:primitives].last # sets border definition using value of last key in hash
 
-          self.send method_to_call # invoke method identified by symbol
-        else # otherwise, if self doesn't respond to given method
-          border = button[1][:primitives].last # sets border definition using value of last key in hash
-
-          # declares each highlight as a new entity, sets properties
-          state.layout.highlights << state.new_entity(:highlight) do |h|
-            h.x = border.x
-            h.y = border.y
-            h.w = border.w
-            h.h = border.h
-            h.max_lifetime = 4 # different max_lifetime than the one set if respond_to? had been true
-            h.lifetime = h.max_lifetime
-            h.color = [120, 80, 80] # sets color to dark color
-          end
-
-          # instructions for users on how to add the missing method_to_call to the code
-          puts "It looks like #{method_to_call} doesn't exists on TextedBasedGamePresenter. Please add this method:"
-          puts "Just copy the code below and put it in the #{TextedBasedGamePresenter} class definition."
-          puts ""
-          puts "```"
-          puts "class TextedBasedGamePresenter <--- find this class and put the method below in it"
-          puts ""
-          puts "  def #{method_to_call}"
-          puts "    puts 'Yay that worked!'"
-          puts "  end"
-          puts ""
-          puts "end <-- make sure to put the #{method_to_call} method in between the `class` word and the final `end` statement."
-          puts "```"
-          puts ""
+      # declares each highlight as a new entity, sets properties
+      state.layout.highlights << state.new_entity(:highlight) do |h|
+        h.x = border.x
+        h.y = border.y
+        h.w = border.w
+        h.h = border.h
+        h.max_lifetime = 4 # different max_lifetime than the one set if respond_to? had been true
+        h.lifetime = h.max_lifetime
+        h.color = [120, 80, 80] # sets color to dark color
       end
+
+      # instructions for users on how to add the missing method_to_call to the code
+      puts "It looks like #{method_to_call} doesn't exists on TextedBasedGamePresenter. Please add this method:"
+      puts "Just copy the code below and put it in the #{TextedBasedGamePresenter} class definition."
+      puts ""
+      puts "```"
+      puts "class TextedBasedGamePresenter <--- find this class and put the method below in it"
+      puts ""
+      puts "  def #{method_to_call}"
+      puts "    puts 'Yay that worked!'"
+      puts "  end"
+      puts ""
+      puts "end <-- make sure to put the #{method_to_call} method in between the `class` word and the final `end` statement."
+      puts "```"
+      puts ""
+    end
   end
 
   # Returns the position of the mouse when it is clicked.
   def click_pos
     return nil unless inputs.mouse.click # returns nil unless the mouse was clicked
+
     return inputs.mouse.click.point # returns location of mouse click (coordinates)
   end
 

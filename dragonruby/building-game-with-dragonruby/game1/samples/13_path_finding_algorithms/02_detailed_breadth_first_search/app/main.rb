@@ -65,8 +65,6 @@ class DetailedBreadthFirstSearch
     args.state.frontier   = []
     args.state.cell_numbers = []
 
-
-
     # What the user is currently editing on the grid
     # Possible values are: :none, :slider, :star, :remove_wall, :add_wall
 
@@ -161,7 +159,7 @@ class DetailedBreadthFirstSearch
     # Explains to the user what the button does
     label_x = buttons.right.x + 10
     label_y = buttons.right.y + 35
-    outputs.labels  << [label_x, label_y, "Step forward >"]
+    outputs.labels << [label_x, label_y, "Step forward >"]
   end
 
   # Draws the slider so the user can move it and see the progress of the search
@@ -274,7 +272,6 @@ class DetailedBreadthFirstSearch
     end
   end
 
-
   # Cell Size is used when rendering to allow the grid to be scaled up or down
   # Cells in the frontier array and visited hash and walls hash are stored as x & y
   # Scaling up cells and lines when rendering allows omitting of width and height
@@ -295,7 +292,6 @@ class DetailedBreadthFirstSearch
       }
     end
   end
-
 
   # This method processes user input every tick
   # This method allows the user to use the buttons, slider, and edit the grid
@@ -373,7 +369,6 @@ class DetailedBreadthFirstSearch
     # Moves the animation forward one step at a time
     state.anim_steps.times { calc }
   end
-
 
   # Determines what the user is clicking and planning on dragging
   # Click and drag input is initiated by a click on the appropriate item
@@ -493,7 +488,6 @@ class DetailedBreadthFirstSearch
     end
   end
 
-
   # Returns a list of adjacent cells
   # Used to determine what the next cells to be added to the frontier are
   def adjacent_neighbors cell
@@ -517,7 +511,6 @@ class DetailedBreadthFirstSearch
     y = grid.height - 1 if y > grid.height - 1
     [x, y]
   end
-
 
   # These methods detect when the buttons are clicked
   def left_button_clicked?
@@ -554,7 +547,7 @@ class DetailedBreadthFirstSearch
   # Returns whether the mouse is inside of a wall
   # Part of the condition that checks whether the user is removing a wall
   def mouse_inside_a_wall?
-    state.walls.each_key do | wall |
+    state.walls.each_key do |wall|
       return true if inputs.mouse.point.inside_rect?(scale_up(wall))
     end
 
@@ -623,7 +616,6 @@ class DetailedBreadthFirstSearch
   end
 end
 
-
 def tick args
   # Pressing r resets the program
   if args.inputs.keyboard.key_down.r
@@ -636,7 +628,6 @@ def tick args
   $detailed_breadth_first_search.args = args
   $detailed_breadth_first_search.tick
 end
-
 
 def reset
   $detailed_breadth_first_search = nil

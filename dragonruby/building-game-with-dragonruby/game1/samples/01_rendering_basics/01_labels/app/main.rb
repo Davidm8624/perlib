@@ -31,7 +31,6 @@ APIs listing that haven't been encountered in a previous sample apps:
 #      size_px: 20,   # or size_enum: -10 to 10 (0 means "ledgible on small devices" ie: 20px)
 #      blendmode_enum: 1 }
 
-
 # The tick method is called by DragonRuby every frame
 # args contains all the information regarding the game.
 def tick args
@@ -46,7 +45,7 @@ def tick args
   # Here are some examples of simple labels, with the minimum number of parameters
   # Note that the default values for the other parameters are 0, except for Alpha which is 255 and Font Style which is the default font
   args.outputs.labels << { x: 5,          y: 720 - 5, text: "This is a label located at the top left." }
-  args.outputs.labels << { x: 5,          y:      30, text: "This is a label located at the bottom left." }
+  args.outputs.labels << { x: 5,          y: 30, text: "This is a label located at the bottom left." }
   args.outputs.labels << { x: 1280 - 420, y: 720 - 5, text: "This is a label located at the top right." }
   args.outputs.labels << { x: 1280 - 440, y: 30,      text: "This is a label located at the bottom right." }
 
@@ -74,20 +73,22 @@ def tick args
 
   # alignment_enum: 0 is equivalent to anchor_x: 0
   # vertical_alignment_enum: 1 is equivalent to anchor_y: 0.5
-  args.outputs.labels << { x: 175 + 150, y: 360 - 50, text: "Left aligned.",   alignment_enum: 0, vertical_alignment_enum: 1 }
+  args.outputs.labels << { x: 175 + 150, y: 360 - 50, text: "Left aligned.",   alignment_enum: 0,
+                           vertical_alignment_enum: 1 }
   args.outputs.labels << { x: 175 + 150, y: 342 - 50, text: "Left aligned.",   anchor_x: 0, anchor_y: 0.5 }
 
   # alignment_enum: 1 is equivalent to anchor_x: 0.5
-  args.outputs.labels << { x: 175 + 150, y: 325 - 50, text: "Center aligned.", alignment_enum: 1, vertical_alignment_enum: 1  }
+  args.outputs.labels << { x: 175 + 150, y: 325 - 50, text: "Center aligned.", alignment_enum: 1,
+                           vertical_alignment_enum: 1 }
 
   # alignment_enum: 2 is equivalent to anchor_x: 1
   args.outputs.labels << { x: 175 + 150, y: 305 - 50, text: "Right aligned.",  alignment_enum: 2 }
 
   # Demonstration of the RGBA parameters
-  args.outputs.labels << { x: 600  + 150, y: 590 - 50, text: "Red Label.",   r: 255, g:   0, b:   0 }
-  args.outputs.labels << { x: 600  + 150, y: 570 - 50, text: "Green Label.", r:   0, g: 255, b:   0 }
+  args.outputs.labels << { x: 600  + 150, y: 590 - 50, text: "Red Label.",   r: 255, g: 0, b: 0 }
+  args.outputs.labels << { x: 600  + 150, y: 570 - 50, text: "Green Label.", r:   0, g: 255, b: 0 }
   args.outputs.labels << { x: 600  + 150, y: 550 - 50, text: "Blue Label.",  r:   0, g:   0, b: 255 }
-  args.outputs.labels << { x: 600  + 150, y: 530 - 50, text: "Faded Label.", r:   0, g:   0, b:   0, a: 128 }
+  args.outputs.labels << { x: 600  + 150, y: 530 - 50, text: "Faded Label.", r:   0, g:   0, b: 0, a: 128 }
 
   # providing a custom font
   args.outputs.labels << { x: 690 + 150,

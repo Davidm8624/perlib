@@ -15,5 +15,5 @@ def split_words(input)
 end
 
 def tick args
-  args.outputs.labels  << [640, 500, split_words("hello, dragonriders!").join(' '), 5, 1]
+  args.outputs.labels << [640, 500, split_words("hello, dragonriders!").join(' '), 5, 1]
 end

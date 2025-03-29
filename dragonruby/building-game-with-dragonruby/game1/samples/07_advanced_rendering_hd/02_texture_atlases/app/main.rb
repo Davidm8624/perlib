@@ -17,8 +17,10 @@ def tick args
   args.outputs.background_color = [0, 0, 0]
   args.outputs.borders << { x: 0, y: 0, w: 1280, h: 720, r: 255, g: 255, b: 255 }
 
-  args.outputs.labels << { x: 30, y: 30.from_top, text: "render scale: #{args.grid.native_scale}", r: 255, g: 255, b: 255 }
-  args.outputs.labels << { x: 30, y: 60.from_top, text: "render scale: #{args.grid.texture_scale_enum}", r: 255, g: 255, b: 255 }
+  args.outputs.labels << { x: 30, y: 30.from_top, text: "render scale: #{args.grid.native_scale}", r: 255, g: 255,
+                           b: 255 }
+  args.outputs.labels << { x: 30, y: 60.from_top, text: "render scale: #{args.grid.texture_scale_enum}", r: 255,
+                           g: 255, b: 255 }
 
   args.outputs.sprites << { x: -640 - 50, y: 360 - 50, w: 100, h: 100, path: "sprites/square.png" }
   args.outputs.sprites << { x: -320 - 50, y: 360 - 50, w: 100, h: 100, path: "sprites/square.png" }
@@ -32,11 +34,11 @@ def tick args
   args.outputs.sprites << { x: 1600 - 50, y: 360 - 50, w: 100, h: 100, path: "sprites/square.png" }
   args.outputs.sprites << { x: 1920 - 50, y: 360 - 50, w: 100, h: 100, path: "sprites/square.png" }
 
-  args.outputs.sprites << { x:  640 - 50, y:          720, w: 100, h: 100, path: "sprites/square.png" }
+  args.outputs.sprites << { x:  640 - 50, y: 720, w: 100, h: 100, path: "sprites/square.png" }
   args.outputs.sprites << { x:  640 - 50, y: 100.from_top, w: 100, h: 100, path: "sprites/square.png" }
-  args.outputs.sprites << { x:  640 - 50, y:     360 - 50, w: 100, h: 100, path: "sprites/square.png" }
+  args.outputs.sprites << { x:  640 - 50, y: 360 - 50, w: 100, h: 100, path: "sprites/square.png" }
   args.outputs.sprites << { x:  640 - 50, y:            0, w: 100, h: 100, path: "sprites/square.png" }
-  args.outputs.sprites << { x:  640 - 50, y:         -100, w: 100, h: 100, path: "sprites/square.png" }
+  args.outputs.sprites << { x:  640 - 50, y: -100, w: 100, h: 100, path: "sprites/square.png" }
 
   if args.inputs.keyboard.key_down.right_arrow
     GTK.set_window_scale 1, 9, 16

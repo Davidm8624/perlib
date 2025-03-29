@@ -77,7 +77,8 @@ def test_open_entity_indexer args, assert
   GTK::Entity.__reset_id__!
   assert.nil! args.state.values
   args.state.values[:test] = :value
-  assert.equal! args.state.values.to_s, { entity_id: 1, entity_name: :values, entity_keys_by_ref: {}, test: :value }.to_s
+  assert.equal! args.state.values.to_s,
+                { entity_id: 1, entity_name: :values, entity_keys_by_ref: {}, test: :value }.to_s
 end
 
 # bug

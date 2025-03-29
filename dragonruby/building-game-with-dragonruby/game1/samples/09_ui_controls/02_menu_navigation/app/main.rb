@@ -24,6 +24,7 @@ class Game
   def calc_directional_input
     return if state.input_debounce.elapsed_time < 10
     return if !inputs.directional_vector
+
     state.input_debounce = Kernel.tick_count
 
     state.selected_button = Geometry::rect_navigate(
@@ -39,6 +40,7 @@ class Game
 
   def calc_mouse_input
     return if !inputs.mouse.moved
+
     hovered_button = state.menu.buttons.find { |b| Geometry::intersect_rect? inputs.mouse, b.rect }
     if hovered_button
       state.selected_button = hovered_button
@@ -62,15 +64,24 @@ class Game
       state.menu.button_w = Layout::rect(w: 2).w
       state.menu.button_h = Layout::rect(h: 1).h
       state.menu.buttons = [
-        menu_prefab(id: :item_1, text: "Item 1", row: 0, col: 0, w: state.menu.button_cell_w, h: state.menu.button_cell_h),
-        menu_prefab(id: :item_2, text: "Item 2", row: 0, col: 2, w: state.menu.button_cell_w, h: state.menu.button_cell_h),
-        menu_prefab(id: :item_3, text: "Item 3", row: 0, col: 4, w: state.menu.button_cell_w, h: state.menu.button_cell_h),
-        menu_prefab(id: :item_4, text: "Item 4", row: 1, col: 0, w: state.menu.button_cell_w, h: state.menu.button_cell_h),
-        menu_prefab(id: :item_5, text: "Item 5", row: 1, col: 2, w: state.menu.button_cell_w, h: state.menu.button_cell_h),
-        menu_prefab(id: :item_6, text: "Item 6", row: 1, col: 4, w: state.menu.button_cell_w, h: state.menu.button_cell_h),
-        menu_prefab(id: :item_7, text: "Item 7", row: 2, col: 0, w: state.menu.button_cell_w, h: state.menu.button_cell_h),
-        menu_prefab(id: :item_8, text: "Item 8", row: 2, col: 2, w: state.menu.button_cell_w, h: state.menu.button_cell_h),
-        menu_prefab(id: :item_9, text: "Item 9", row: 2, col: 4, w: state.menu.button_cell_w, h: state.menu.button_cell_h),
+        menu_prefab(id: :item_1, text: "Item 1", row: 0, col: 0, w: state.menu.button_cell_w,
+                    h: state.menu.button_cell_h),
+        menu_prefab(id: :item_2, text: "Item 2", row: 0, col: 2, w: state.menu.button_cell_w,
+                    h: state.menu.button_cell_h),
+        menu_prefab(id: :item_3, text: "Item 3", row: 0, col: 4, w: state.menu.button_cell_w,
+                    h: state.menu.button_cell_h),
+        menu_prefab(id: :item_4, text: "Item 4", row: 1, col: 0, w: state.menu.button_cell_w,
+                    h: state.menu.button_cell_h),
+        menu_prefab(id: :item_5, text: "Item 5", row: 1, col: 2, w: state.menu.button_cell_w,
+                    h: state.menu.button_cell_h),
+        menu_prefab(id: :item_6, text: "Item 6", row: 1, col: 4, w: state.menu.button_cell_w,
+                    h: state.menu.button_cell_h),
+        menu_prefab(id: :item_7, text: "Item 7", row: 2, col: 0, w: state.menu.button_cell_w,
+                    h: state.menu.button_cell_h),
+        menu_prefab(id: :item_8, text: "Item 8", row: 2, col: 2, w: state.menu.button_cell_w,
+                    h: state.menu.button_cell_h),
+        menu_prefab(id: :item_9, text: "Item 9", row: 2, col: 4, w: state.menu.button_cell_w,
+                    h: state.menu.button_cell_h),
       ]
     end
 

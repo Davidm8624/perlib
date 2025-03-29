@@ -51,6 +51,7 @@ end
 
 def render_mouse_crosshairs args, mouse
   return unless args.state.show_gridlines
+
   args.labels << [10, 25, "mouse: #{mouse.x} #{mouse.y}", 255, 255, 255]
 end
 
@@ -68,7 +69,7 @@ def emulate_lowrez_scene args, sprites, labels, borders, solids, mouse
     end
   end
 
-  args.sprites    << [CENTER_OFFSET, 0, 1280 * TINY_SCALE, 720 * TINY_SCALE, :lowrez]
+  args.sprites << [CENTER_OFFSET, 0, 1280 * TINY_SCALE, 720 * TINY_SCALE, :lowrez]
 end
 
 def render_gridlines_if_needed args

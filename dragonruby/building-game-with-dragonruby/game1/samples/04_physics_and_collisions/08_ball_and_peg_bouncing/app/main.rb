@@ -46,7 +46,7 @@ class Game
     end
 
     if collision
-      distance =   Geometry.distance player, collision
+      distance = Geometry.distance player, collision
       force = Geometry.vec2_subtract collision, player
       normalized = Geometry.vec2_normalize force
 

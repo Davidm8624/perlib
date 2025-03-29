@@ -80,10 +80,10 @@ class ModelingApi
   def rotate_x_matrix angle_d
     cos_t = Math.cos angle_d.to_radians
     sin_t = Math.sin angle_d.to_radians
-    (mat4  1,     0,      0, 0,
+    (mat4  1, 0, 0, 0,
            0, cos_t, -sin_t, 0,
-           0, sin_t,  cos_t, 0,
-           0,     0,      0, 1)
+           0, sin_t, cos_t, 0,
+           0, 0, 0, 1)
   end
 
   def __mul_triangles__ model, *mul_def

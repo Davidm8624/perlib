@@ -32,9 +32,9 @@ def tick args
   # ====================================================
   # render the game
   # ====================================================
-  args.outputs.labels  << { x: args.grid.w.half, y: args.grid.h - 10,
-                            text: args.state.instructions,
-                            alignment_enum: 1 }
+  args.outputs.labels << { x: args.grid.w.half, y: args.grid.h - 10,
+                           text: args.state.instructions,
+                           alignment_enum: 1 }
 
   # check if it's game over. if so, then render game over
   # otherwise render the current time left

@@ -1,4 +1,5 @@
 # coding: utf-8
+
 # Copyright 2019 DragonRuby LLC
 # MIT License
 # c_bridge.rb has been released under MIT (*only this file*).
@@ -111,7 +112,6 @@ module GTK
 
         mouse_move @args.inputs.touch_center.x, @args.inputs.touch_center.y
       end
-
 
       # WARNING: do not update this function signature or you'll break replays. create a new function instead
       def finger_move touchid, touchx, touchy, sender = false
@@ -239,7 +239,8 @@ module GTK
       # FIXME: add support for replays with mouse_move_relative
       def mouse_move_relative mousex, mousey, relative_x, relative_y, sender = false
         return if self.recording.is_replaying? && sender != :replay
-        relative_y = -relative_y  # Y coordinate goes up, unlike SDL.
+
+        relative_y = -relative_y # Y coordinate goes up, unlike SDL.
         # FIXME: replay recording will not work in mouse game mode
         self.record_input_history :mouse_move, mousex, mousey, 2
         mousex = untransform_mouse_x mousex
@@ -257,10 +258,10 @@ module GTK
         @args.inputs.mouse.y = mousey
 
         # !!! FIXME: double-check if we _need_ to calculate this ourselves...?
-        if self.mouse_grab == 2  # if we're in SDL relative mouse mode ("scroll forever mode"), then use SDL's values, even in HD mode.
+        if self.mouse_grab == 2 # if we're in SDL relative mouse mode ("scroll forever mode"), then use SDL's values, even in HD mode.
           @args.inputs.mouse.relative_x = relative_x
           @args.inputs.mouse.relative_y = relative_y
-        else   # calculate this ourselves, as we might have scaled this for HD mode.
+        else # calculate this ourselves, as we might have scaled this for HD mode.
           @args.inputs.mouse.relative_x = mousex - @args.inputs.mouse.previous_x
           @args.inputs.mouse.relative_y = mousey - @args.inputs.mouse.previous_y
         end
@@ -340,8 +341,7 @@ module GTK
         return if self.recording.is_replaying? && sender != :replay
 
         self.record_input_history :mouse_button_pressed, button, 0, 1
-        update_mouse_buttons @args.inputs.mouse.button_bits | (1 << (button-1))
-
+        update_mouse_buttons @args.inputs.mouse.button_bits | (1 << (button - 1))
 
         @args.inputs.mouse.active = Kernel.tick_count
         mousex = @args.inputs.mouse.x
@@ -407,7 +407,7 @@ module GTK
 
         @args.inputs.mouse.active = Kernel.tick_count
         self.record_input_history :mouse_button_up, button, 0, 1
-        update_mouse_buttons @args.inputs.mouse.button_bits & ~(1 << (button-1))
+        update_mouse_buttons @args.inputs.mouse.button_bits & ~(1 << (button - 1))
 
         mousex = @args.inputs.mouse.x
         mousey = @args.inputs.mouse.y
@@ -451,7 +451,7 @@ module GTK
 
       # this is for legacy recordings; this is ignored for new code, since it doesn't handle multi-buttons.
       def mouse_up mousex, mousey, sender = false
-        #self.record_input_history :mouse_up, mousex, mousey, 2
+        # self.record_input_history :mouse_up, mousex, mousey, 2
         @args.inputs.mouse.active = Kernel.tick_count
         mouse_button_up 1, sender
         if @args.inputs.last_active != :mouse
@@ -500,6 +500,7 @@ module GTK
 
       def textinput str, sender = false
         return if self.recording.is_replaying? && sender != :replay
+
         self.record_input_history :textinput, str, 0, 1
         @args.inputs.text << str
       end
@@ -538,6 +539,7 @@ module GTK
         names = KeyboardKeys.sdl_to_key raw_key, modifier
         names.uniq! if names
         return unless names
+
         if KeyboardKeys.sdl_modifier_key? raw_key
           if KeyboardKeys.sdl_shift_key? raw_key
             currently_held_keys = @args.inputs.keyboard.key_held.truthy_keys
@@ -567,6 +569,7 @@ module GTK
 
       def scancode_down_raw raw_scancode, modifier, sender = false
         return if @slowmo_factor_debounce
+
         self.record_input_history :scancode_down_raw, raw_scancode, modifier, 2, true
         scancode_method = KeyboardKeys.scancode_to_method_hash[raw_scancode]
         if scancode_method
@@ -580,6 +583,7 @@ module GTK
       # WARNING: do not update this function signature or you'll break replays. create a new function instead
       def key_down_raw raw_key, modifier, sender = false
         return if @slowmo_factor_debounce
+
         if self.recording.is_replaying? && sender != :replay
           char = KeyboardKeys.char_with_shift raw_key, modifier
           first_name = KeyboardKeys.char_to_method(char, raw_key).first
@@ -598,12 +602,14 @@ module GTK
       # WARNING: do not update this function signature or you'll break replays. create a new function instead
       def key_up_raw raw_key, modifier, sender = false
         return if self.recording.is_replaying? && sender != :replay
+
         self.record_input_history :key_up_raw, raw_key, modifier, 2
         key_up_in_game raw_key.to_i, modifier
       end
 
       def scancode_up_raw raw_scancode, modifier, sender = false
         return if self.recording.is_replaying? && sender != :replay
+
         self.record_input_history :scancode_up_raw, raw_scancode, modifier, 2
         scancode_method = KeyboardKeys.scancode_to_method_hash[raw_scancode]
         if scancode_method
@@ -612,32 +618,33 @@ module GTK
       end
 
       RAW_CONTROLLER_KEY_LOOKUP = {
-        1   => :up,
-        2   => :down,
-        3   => :left,
-        4   => :right,
-        13  => :start,
-        14  => :b,
-        15  => :a,
-        16  => :x,
-        17  => :y,
-        18  => :l1,
-        19  => :r1,
-        20  => :l3,
-        21  => :r3,
-        22  => :l2,
-        23  => :r2,
-        24  => :directional_up,
-        25  => :directional_down,
-        26  => :directional_left,
-        27  => :directional_right,
-        28  => :select,
-        29  => :home
+        1 => :up,
+        2 => :down,
+        3 => :left,
+        4 => :right,
+        13 => :start,
+        14 => :b,
+        15 => :a,
+        16 => :x,
+        17 => :y,
+        18 => :l1,
+        19 => :r1,
+        20 => :l3,
+        21 => :r3,
+        22 => :l2,
+        23 => :r2,
+        24 => :directional_up,
+        25 => :directional_down,
+        26 => :directional_left,
+        27 => :directional_right,
+        28 => :select,
+        29 => :home
       }.freeze
 
       # WARNING: do not update this function signature or you'll break replays. create a new function instead
       def controller_key_event player_num, raw_key, event, sender = false
         return if self.recording.is_replaying? && sender != :replay
+
         num_as_word = player_num ? :one : :two
         self.record_input_history :"#{event}_player_#{num_as_word}", raw_key, 0, 1
 
@@ -657,7 +664,7 @@ module GTK
   * ERROR:
   Layout#set_key failed for player_num: #{player_num}, raw_key: #{raw_key}, event: #{event}.
 
-  S
+          S
         end
 
         if @args.inputs.last_active != :controller
@@ -748,6 +755,7 @@ module GTK
       def left_analog_x_player_1 value, sender = false
         return if self.recording.is_replaying? && sender != :replay
         return if @previous_left_analog_x_player_1 == value
+
         @previous_left_analog_x_player_1 = value
         self.record_input_history :left_analog_x_player_1, value, 0, 1
         __controller_analog_set_last_active_if_needed__ @args.inputs.controller_one, value
@@ -760,6 +768,7 @@ module GTK
       def left_analog_y_player_1 value, sender = false
         return if self.recording.is_replaying? && sender != :replay
         return if @previous_left_analog_y_player_1 == value
+
         @previous_left_analog_y_player_1 = value
         self.record_input_history :left_analog_y_player_1, value, 0, 1
         __controller_analog_set_last_active_if_needed__ @args.inputs.controller_one, value
@@ -772,6 +781,7 @@ module GTK
       def right_analog_x_player_1 value, sender = false
         return if self.recording.is_replaying? && sender != :replay
         return if @previous_right_analog_x_player_1 == value
+
         @previous_right_analog_x_player_1 = value
         self.record_input_history :right_analog_x_player_1, value, 0, 1
         __controller_analog_set_last_active_if_needed__ @args.inputs.controller_one, value
@@ -784,6 +794,7 @@ module GTK
       def right_analog_y_player_1 value, sender = false
         return if self.recording.is_replaying? && sender != :replay
         return if @previous_right_analog_y_player_1 == value
+
         @previous_right_analog_y_player_1 = value
         self.record_input_history :right_analog_y_player_1, value, 0, 1
         __controller_analog_set_last_active_if_needed__ @args.inputs.controller_one, value
@@ -821,6 +832,7 @@ module GTK
       def left_analog_x_player_2 value, sender = false
         return if self.recording.is_replaying? && sender != :replay
         return if @previous_left_analog_x_player_2 == value
+
         @previous_left_analog_x_player_2 = value
         self.record_input_history :left_analog_x_player_2, value, 0, 1
         __controller_analog_set_last_active_if_needed__ @args.inputs.controller_two, value
@@ -833,6 +845,7 @@ module GTK
       def left_analog_y_player_2 value, sender = false
         return if self.recording.is_replaying? && sender != :replay
         return if @previous_left_analog_y_player_2 == value
+
         @previous_left_analog_y_player_2 = value
         self.record_input_history :left_analog_y_player_2, value, 0, 1
         __controller_analog_set_last_active_if_needed__ @args.inputs.controller_two, value
@@ -845,6 +858,7 @@ module GTK
       def right_analog_x_player_2 value, sender = false
         return if self.recording.is_replaying? && sender != :replay
         return if @previous_right_analog_x_player_2 == value
+
         @previous_right_analog_x_player_2 = value
         self.record_input_history :right_analog_x_player_2, value, 0, 1
         __controller_analog_set_last_active_if_needed__ @args.inputs.controller_two, value
@@ -857,6 +871,7 @@ module GTK
       def right_analog_y_player_2 value, sender = false
         return if self.recording.is_replaying? && sender != :replay
         return if @previous_right_analog_y_player_2 == value
+
         @previous_right_analog_y_player_2 = value
         self.record_input_history :right_analog_y_player_2, value, 0, 1
         __controller_analog_set_last_active_if_needed__ @args.inputs.controller_two, value
@@ -894,6 +909,7 @@ module GTK
       def left_analog_x_player_3 value, sender = false
         return if self.recording.is_replaying? && sender != :replay
         return if @previous_left_analog_x_player_3 == value
+
         @previous_left_analog_x_player_3 = value
         self.record_input_history :left_analog_x_player_3, value, 0, 1
         __controller_analog_set_last_active_if_needed__ @args.inputs.controller_three, value
@@ -906,6 +922,7 @@ module GTK
       def left_analog_y_player_3 value, sender = false
         return if self.recording.is_replaying? && sender != :replay
         return if @previous_left_analog_y_player_3 == value
+
         @previous_left_analog_y_player_3 = value
         self.record_input_history :left_analog_y_player_3, value, 0, 1
         __controller_analog_set_last_active_if_needed__ @args.inputs.controller_three, value
@@ -918,6 +935,7 @@ module GTK
       def right_analog_x_player_3 value, sender = false
         return if self.recording.is_replaying? && sender != :replay
         return if @previous_right_analog_x_player_3 == value
+
         @previous_right_analog_x_player_3 = value
         self.record_input_history :right_analog_x_player_3, value, 0, 1
         __controller_analog_set_last_active_if_needed__ @args.inputs.controller_three, value
@@ -930,6 +948,7 @@ module GTK
       def right_analog_y_player_3 value, sender = false
         return if self.recording.is_replaying? && sender != :replay
         return if @previous_right_analog_y_player_3 == value
+
         @previous_right_analog_y_player_3 = value
         self.record_input_history :right_analog_y_player_3, value, 0, 1
         __controller_analog_set_last_active_if_needed__ @args.inputs.controller_three, value
@@ -967,6 +986,7 @@ module GTK
       def left_analog_x_player_4 value, sender = false
         return if self.recording.is_replaying? && sender != :replay
         return if @previous_left_analog_x_player_4 == value
+
         @previous_left_analog_x_player_4 = value
         self.record_input_history :left_analog_x_player_4, value, 0, 1
         __controller_analog_set_last_active_if_needed__ @args.inputs.controller_four, value
@@ -979,6 +999,7 @@ module GTK
       def left_analog_y_player_4 value, sender = false
         return if self.recording.is_replaying? && sender != :replay
         return if @previous_left_analog_y_player_4 == value
+
         @previous_left_analog_y_player_4 = value
         self.record_input_history :left_analog_y_player_4, value, 0, 1
         __controller_analog_set_last_active_if_needed__ @args.inputs.controller_four, value
@@ -991,6 +1012,7 @@ module GTK
       def right_analog_x_player_4 value, sender = false
         return if self.recording.is_replaying? && sender != :replay
         return if @previous_right_analog_x_player_4 == value
+
         @previous_right_analog_x_player_4 = value
         self.record_input_history :right_analog_x_player_4, value, 0, 1
         __controller_analog_set_last_active_if_needed__ @args.inputs.controller_four, value
@@ -1003,6 +1025,7 @@ module GTK
       def right_analog_y_player_4 value, sender = false
         return if self.recording.is_replaying? && sender != :replay
         return if @previous_right_analog_y_player_4 == value
+
         @previous_right_analog_y_player_4 = value
         __controller_analog_set_last_active_if_needed__ @args.inputs.controller_four, value
         value = 0 if value.abs <= @args.inputs.controller_four.analog_dead_zone

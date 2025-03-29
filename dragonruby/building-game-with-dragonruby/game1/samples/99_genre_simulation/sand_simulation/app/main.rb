@@ -8,6 +8,7 @@ class Elements
 
   def add_element x_ordinal, y_ordinal
     return nil if @element_lookup.dig x_ordinal, y_ordinal
+
     element = Element.new x_ordinal, y_ordinal, @size
     @elements << element
     rehash_elements
@@ -21,7 +22,7 @@ class Elements
 
   def move_element element
     if below_empty?(element) && element.y_ordinal != 0
-      element.move  0, -1
+      element.move 0, -1
     elsif below_left_empty?(element) && element.y_ordinal != 0 && element.x_ordinal != 0
       element.move -1, -1
     elsif below_right_empty?(element) && element.y_ordinal != 0 && element.x_ordinal != @max_x_ordinal
@@ -48,6 +49,7 @@ class Elements
     return true  if !@element_lookup[e.x_ordinal]
     return true  if !@element_lookup[e.x_ordinal][e.y_ordinal - 1]
     return false if  @element_lookup[e.x_ordinal][e.y_ordinal - 1]
+
     return true
   end
 
@@ -57,6 +59,7 @@ class Elements
     return true  if !@element_lookup[e.x_ordinal - 1]
     return true  if !@element_lookup[e.x_ordinal - 1][e.y_ordinal - 1]
     return false if  @element_lookup[e.x_ordinal - 1][e.y_ordinal - 1]
+
     return true
   end
 
@@ -66,6 +69,7 @@ class Elements
     return true  if !@element_lookup[e.x_ordinal + 1]
     return true  if !@element_lookup[e.x_ordinal + 1][e.y_ordinal - 1]
     return false if  @element_lookup[e.x_ordinal + 1][e.y_ordinal - 1]
+
     return true
   end
 end

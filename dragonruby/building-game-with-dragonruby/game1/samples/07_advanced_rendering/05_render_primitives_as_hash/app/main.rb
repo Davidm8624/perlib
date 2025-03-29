@@ -54,8 +54,8 @@ def tick args
     r: 255,                         # color saturation
     g: 255,
     b: 255,
-    tile_x:  0,                     # sprite sub division/tile
-    tile_y:  0,
+    tile_x: 0, # sprite sub division/tile
+    tile_y: 0,
     tile_w: -1,
     tile_h: -1,
     flip_vertically: false,         # don't flip sprite
@@ -66,16 +66,16 @@ def tick args
 
   # Outputs label using a hash
   args.outputs.labels << {
-    x:              200,                 # label position
-    y:              550,
-    text:           "dragonruby",        # label text
-    size_enum:      2,
+    x: 200, # label position
+    y: 550,
+    text: "dragonruby", # label text
+    size_enum: 2,
     alignment_enum: 1,
-    r:              155,                 # color saturation
-    g:              50,
-    b:              50,
-    a:              255,                 # transparency
-    font:           "fonts/manaspc.ttf"  # font style; without mentioned file, label won't output correctly
+    r: 155,                 # color saturation
+    g: 50,
+    b: 50,
+    a: 255,                 # transparency
+    font: "fonts/manaspc.ttf" # font style; without mentioned file, label won't output correctly
   }
 
   # Outputs solid using a hash
@@ -84,10 +84,10 @@ def tick args
     x: 400,                         # position
     y: 550,
     w: 160,                         # size
-    h:  90,
+    h: 90,
     r: 120,                         # color saturation
-    g:  50,
-    b:  50,
+    g: 50,
+    b: 50,
     a: 255                          # transparency
   }
 
@@ -97,23 +97,23 @@ def tick args
     x: 600,
     y: 550,
     w: 160,
-    h:  90,
+    h: 90,
     r: 120,
-    g:  50,
-    b:  50,
+    g: 50,
+    b: 50,
     a: 255
   }
 
   # Outputs line using a hash
   args.outputs.lines << {
-    x:  900,                        # starting position
-    y:  550,
-    x2: 1200,                       # ending position
+    x: 900, # starting position
+    y: 550,
+    x2: 1200, # ending position
     y2: 550,
-    r:  120,                        # color saturation
-    g:   50,
-    b:   50,
-    a:  255                         # transparency
+    r: 120,                        # color saturation
+    g: 50,
+    b: 50,
+    a: 255                         # transparency
   }
 
   # Outputs sprite as a primitive using a hash
@@ -128,8 +128,8 @@ def tick args
     r: 255,                         # color saturation
     g: 255,
     b: 255,
-    tile_x:  0,                     # sprite sub division/tile
-    tile_y:  0,
+    tile_x: 0, # sprite sub division/tile
+    tile_y: 0,
     tile_w: -1,
     tile_h: -1,
     flip_vertically: false,         # don't flip
@@ -140,16 +140,16 @@ def tick args
 
   # Outputs label as primitive using a hash
   args.outputs.primitives << {
-    x:         200,                 # position
-    y:         200,
-    text:      "dragonruby",        # text
-    size:      2,
+    x: 200, # position
+    y: 200,
+    text: "dragonruby", # text
+    size: 2,
     alignment: 1,
-    r:         155,                 # color saturation
-    g:         50,
-    b:         50,
-    a:         255,                 # transparency
-    font:      "fonts/manaspc.ttf"  # font style
+    r: 155,                 # color saturation
+    g: 50,
+    b: 50,
+    a: 255,                 # transparency
+    font: "fonts/manaspc.ttf" # font style
   }.label!
 
   # Outputs solid as primitive using a hash
@@ -157,10 +157,10 @@ def tick args
     x: 400,                         # position
     y: 200,
     w: 160,                         # size
-    h:  90,
+    h: 90,
     r: 120,                         # color saturation
-    g:  50,
-    b:  50,
+    g: 50,
+    b: 50,
     a: 255                          # transparency
   }.solid!
 
@@ -170,22 +170,22 @@ def tick args
     x: 600,                         # position
     y: 200,
     w: 160,                         # size
-    h:  90,
+    h: 90,
     r: 120,                         # color saturation
-    g:  50,
-    b:  50,
+    g: 50,
+    b: 50,
     a: 255                          # transparency
   }.border!
 
   # Outputs line as primitive using a hash
   args.outputs.primitives << {
-    x:  900,                        # starting position
-    y:  200,
-    x2: 1200,                       # ending position
+    x: 900, # starting position
+    y: 200,
+    x2: 1200, # ending position
     y2: 200,
-    r:  120,                        # color saturation
-    g:   50,
-    b:   50,
-    a:  255                         # transparency
+    r: 120,                        # color saturation
+    g: 50,
+    b: 50,
+    a: 255                         # transparency
   }.line!
 end

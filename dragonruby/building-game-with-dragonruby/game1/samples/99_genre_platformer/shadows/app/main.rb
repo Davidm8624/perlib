@@ -40,11 +40,11 @@ class Game
     # an enemy could still be spawing
     shadows.find_all { |shadow| entity_active? shadow }
            .each do |shadow|
-             input_entity shadow,
-                          find_input_timeline(at: shadow.clock, key: :left_right),
-                          find_input_timeline(at: shadow.clock, key: :space),
-                          find_input_timeline(at: shadow.clock, key: :down)
-             end
+      input_entity shadow,
+                   find_input_timeline(at: shadow.clock, key: :left_right),
+                   find_input_timeline(at: shadow.clock, key: :space),
+                   find_input_timeline(at: shadow.clock, key: :down)
+    end
   end
 
   # this is the input_entity function that handles
@@ -246,9 +246,9 @@ class Game
     if entity.orientation == :right
       orientation_shift = entity.rect.w.half
     end
-    entity.hurt_rect  = entity.rect.merge y: entity.rect.y + entity.h * 0.33,
-                                          x: entity.rect.x - entity.rect.w.half + orientation_shift,
-                                          h: entity.rect.h * 0.33
+    entity.hurt_rect = entity.rect.merge y: entity.rect.y + entity.h * 0.33,
+                                         x: entity.rect.x - entity.rect.w.half + orientation_shift,
+                                         h: entity.rect.h * 0.33
   end
 
   def calc_entity_collision entity
@@ -261,6 +261,7 @@ class Game
   def calc_entity_below entity
     # exit ground collision detection if they aren't falling
     return unless entity.dy < 0
+
     tiles_below = find_tiles { |t| t.rect.top <= entity.prev_rect.y }
     collision = find_collision tiles_below, (entity.rect.merge y: entity.next_rect.y)
 
@@ -293,6 +294,7 @@ class Game
     # collision detection left side of screen
     return unless entity.dx < 0
     return if entity.next_rect.x > 8 - 32
+
     entity.x  = 8 - 32
     entity.dx = 0
   end
@@ -301,6 +303,7 @@ class Game
     # collision detection right side of screen
     return unless entity.dx > 0
     return if (entity.next_rect.x + entity.rect.w) < (1280 - 8 - 32)
+
     entity.x  = (1280 - 8 - entity.rect.w - 32)
     entity.dx = 0
   end
@@ -338,7 +341,7 @@ class Game
 
   def calc_entity_dx entity
     # horizontal movement application and friction
-    entity.dx  = entity.dx.clamp(-5,  5)
+    entity.dx  = entity.dx.clamp(-5, 5)
     entity.dx *= 0.9
     entity.x  += entity.dx
   end
@@ -347,7 +350,7 @@ class Game
     # vertical movement application and gravity
     entity.y  += entity.dy
     entity.dy += state.gravity
-    entity.dy += entity.dy * state.drag ** 2 * -1
+    entity.dy += entity.dy * state.drag**2 * -1
   end
 
   def calc_shadows
@@ -370,11 +373,11 @@ class Game
     if player.hurt_rect.intersect_rect? light_rect
       # if they have then queue up the partical animation of the
       # light crystal being collected
-      state.jitter_fade_out_render_queue << { x:    state.light_crystal.x,
-                                              y:    state.light_crystal.y,
-                                              w:    state.light_crystal.w,
-                                              h:    state.light_crystal.h,
-                                              a:    255,
+      state.jitter_fade_out_render_queue << { x: state.light_crystal.x,
+                                              y: state.light_crystal.y,
+                                              w: state.light_crystal.w,
+                                              h: state.light_crystal.h,
+                                              a: 255,
                                               path: 'sprites/light.png' }
 
       # increment the light meter target value
@@ -388,13 +391,13 @@ class Game
   def calc_render_queues
     # render all the entries in the "fire and forget" render queues
     state.jitter_fade_out_render_queue.each do |s|
-      new_w = s.w * 1.02 ** 5
+      new_w = s.w * 1.02**5
       ds = new_w - s.w
       s.w = new_w
       s.h = new_w
       s.x -= ds.half
       s.y -= ds.half
-      s.a = s.a * 0.97 ** 5
+      s.a = s.a * 0.97**5
     end
 
     state.jitter_fade_out_render_queue.reject! { |s| s.a <= 1 }
@@ -441,6 +444,7 @@ class Game
 
   def calc_clock
     return if state.game_over
+
     state.clock += 1
     player.clock += 1
     shadows.each { |s| s.clock += 1 if entity_active? s }
@@ -667,7 +671,7 @@ class Game
     state.player.jumped_at      = state.player.clock
     state.player.jumped_down_at = 0
 
-    state.shadows   = []
+    state.shadows = []
 
     state.input_timeline = [
       { at: 0, k: :left_right, v: inputs.left_right },
@@ -685,11 +689,13 @@ class Game
     r = { x: 124 + rand(1000), y: 135 + rand(500), w: 64, h: 64 }
     return new_light_crystal if tiles.any? { |t| t.intersect_rect? r }
     return new_light_crystal if (player.x - r.x).abs < 200
+
     r
   end
 
   def entity_active? entity
     return true unless entity.activate_at
+
     return entity.activate_at <= state.clock
   end
 

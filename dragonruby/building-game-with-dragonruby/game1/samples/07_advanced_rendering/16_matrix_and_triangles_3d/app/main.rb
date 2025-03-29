@@ -88,7 +88,7 @@ def tick args
                                  args.state.c,
                                  (translate -0.25, -0.25, 0),
                                  (rotate_y 90),
-                                 (translate -0.25,  0, 0),
+                                 (translate -0.25, 0, 0),
                                  (rotate_x Kernel.tick_count)
 
   args.state.c_camera = mul_cam args, args.state.c_world
@@ -106,7 +106,7 @@ def tick args
                                  args.state.d,
                                  (translate -0.25, -0.25, 0),
                                  (rotate_y 90),
-                                 (translate  0.25,  0, 0),
+                                 (translate 0.25, 0, 0),
                                  (rotate_x Kernel.tick_count)
 
   args.state.d_camera = mul_cam args, args.state.d_world
@@ -124,7 +124,7 @@ def tick args
                                  args.state.e,
                                  (translate -0.25, -0.25, 0),
                                  (rotate_x 90),
-                                 (translate  0,  0.25, 0),
+                                 (translate 0, 0.25, 0),
                                  (rotate_x Kernel.tick_count)
 
   args.state.e_camera = mul_cam args, args.state.e_world
@@ -142,7 +142,7 @@ def tick args
                                  args.state.f,
                                  (translate -0.25, -0.25, 0),
                                  (rotate_x 90),
-                                 (translate  0,  -0.25, 0),
+                                 (translate 0, -0.25, 0),
                                  (rotate_x Kernel.tick_count)
 
   args.state.f_camera = mul_cam args, args.state.f_world
@@ -195,12 +195,12 @@ end
 def render_projection args, projection
   p0 = projection[0]
   args.outputs.sprites << {
-    x:  p0[0].x,   y: p0[0].y,
+    x: p0[0].x, y: p0[0].y,
     x2: p0[1].x,  y2: p0[1].y,
     x3: p0[2].x,  y3: p0[2].y,
-    source_x:   0, source_y:   0,
+    source_x: 0, source_y:   0,
     source_x2: 80, source_y2:  0,
-    source_x3:  0, source_y3: 80,
+    source_x3: 0, source_y3: 80,
     a: 40,
     # r: 128, g: 128, b: 128,
     path: 'sprites/square/blue.png'
@@ -208,12 +208,12 @@ def render_projection args, projection
 
   p1 = projection[1]
   args.outputs.sprites << {
-    x:  p1[0].x,   y: p1[0].y,
+    x: p1[0].x, y: p1[0].y,
     x2: p1[1].x,  y2: p1[1].y,
     x3: p1[2].x,  y3: p1[2].y,
-    source_x:  80, source_y:   0,
+    source_x: 80, source_y:   0,
     source_x2: 80, source_y2: 80,
-    source_x3:  0, source_y3: 80,
+    source_x3: 0, source_y3: 80,
     a: 40,
     # r: 128, g: 128, b: 128,
     path: 'sprites/square/blue.png'
@@ -246,10 +246,10 @@ def perspective vec
 end
 
 def mat_scale scale
-  mat4 scale,     0,     0,   0,
-           0, scale,     0,   0,
-           0,     0, scale,   0,
-           0,     0,     0,   1
+  mat4 scale, 0,     0,   0,
+       0, scale,     0,   0,
+       0,     0, scale,   0,
+       0,     0, 0, 1
 end
 
 def rotate_y angle_d
@@ -274,17 +274,16 @@ def translate dx, dy, dz
   mat4 1, 0, 0, dx,
        0, 1, 0, dy,
        0, 0, 1, dz,
-       0, 0, 0,  1
+       0, 0, 0, 1
 end
-
 
 def rotate_x angle_d
   cos_t = Math.cos angle_d.to_radians
   sin_t = Math.sin angle_d.to_radians
-  (mat4  1,     0,      0, 0,
+  (mat4  1, 0, 0, 0,
          0, cos_t, -sin_t, 0,
-         0, sin_t,  cos_t, 0,
-         0,     0,      0, 1)
+         0, sin_t, cos_t, 0,
+         0, 0, 0, 1)
 end
 
 def vecs_to_s vecs
