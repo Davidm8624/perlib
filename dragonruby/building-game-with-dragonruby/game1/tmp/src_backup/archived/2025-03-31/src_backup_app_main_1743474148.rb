@@ -41,11 +41,9 @@ args.state.fireballs ||= []
     args.inputs.keyboard.key_down.j ||
     args.inputs.controller_one.key_down.a
     args.state.fireballs << {
-      x: args.state.player.x + args.state.player.w - 12,
-      y: args.state.player.y + 10,
-      w: 32,
-      h: 32,
-      path: 'sprites/fireball.png'
+      x: args.state.player.x,
+      y: args.state.player.y,
+      text: 'fireball',
     }
   end
 
@@ -53,6 +51,6 @@ args.state.fireballs ||= []
     fireball.x += args.state.player.speed + 2
   end
   
-
-  args.outputs.sprites << [args.state.player, args.state.fireballs]
+  args.outputs.labels << args.state.fireballs
+  args.outputs.sprites << args.state.player
 end

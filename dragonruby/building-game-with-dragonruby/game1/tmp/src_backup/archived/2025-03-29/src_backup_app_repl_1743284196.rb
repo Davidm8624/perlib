@@ -273,7 +273,7 @@ xrepl do
   uniq_combinations =
     one_to_ten.product(one_to_ten)
               .map do |unsorted_number|
-    unsorted_number.sort
+      unsorted_number.sort
     end.uniq
   puts uniq_combinations
 end
@@ -288,18 +288,18 @@ xrepl do
   one_to_hundred = (1..40).to_a
   triples =
     one_to_hundred.product(one_to_hundred).map do |width, height|
-    [width, height, Math.sqrt(width**2 + height**2)]
+      [width, height, Math.sqrt(width**2 + height**2)]
     end.find_all do |_, _, hypotenuse|
-    hypotenuse.to_i == hypotenuse
-  end.map do |triangle|
-    triangle.map(&:to_i)
-  end.uniq do |triangle|
-    triangle.sort
-  end.map do |width, height, hypotenuse|
-    [width, height, hypotenuse, (width * height) / 2]
-  end.sort_by do |_, _, _, area|
-    area
-  end
+      hypotenuse.to_i == hypotenuse
+    end.map do |triangle|
+      triangle.map(&:to_i)
+    end.uniq do |triangle|
+      triangle.sort
+    end.map do |width, height, hypotenuse|
+      [width, height, hypotenuse, (width * height) / 2]
+    end.sort_by do |_, _, _, area|
+      area
+    end
 
   triples.each do |width, height, hypotenuse, area|
     puts "(#{width}, #{height}, #{hypotenuse}) = #{area}"
