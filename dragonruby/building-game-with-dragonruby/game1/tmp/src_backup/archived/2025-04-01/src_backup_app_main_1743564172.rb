@@ -20,9 +20,9 @@ def tick args
   }
 args.state.fireballs ||= []
 args.state.targets ||= [
-  spawn_target(args),
-  spawn_target(args),
-  spawn_target(args)
+  spawn_target(800, 120),
+  spawn_target(920, 600),
+  spawn_target(1020, 320)
 ]
 
   if args.inputs.left
@@ -72,7 +72,6 @@ args.state.targets ||= [
       if args.geometry.intersect_rect?(target, fireball)
         target.dead = true
         fireball.dead = true
-        args.state.targets << spawn_target(args)
       end
     end
   end

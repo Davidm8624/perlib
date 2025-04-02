@@ -1,14 +1,3 @@
-def spawn_target (args)
-  size = 64
-  {
-    x: rand(args.grid.w * 0.4) + args.grid.w * 0.6,
-    y: rand(args.grid.h - size * 2) + size,
-    w: size,
-    h: size,
-    path: 'sprites/target.png',
-  }
-end
-
 def tick args
   args.state.player ||= {
     x: 120,
@@ -20,9 +9,27 @@ def tick args
   }
 args.state.fireballs ||= []
 args.state.targets ||= [
-  spawn_target(args),
-  spawn_target(args),
-  spawn_target(args)
+  {
+    x: 800,
+    y: 120,
+    w: 64,
+    h: 64,
+    path: 'sprites/target.png'
+  },
+  {
+    x: 920,
+    y: 600,
+    w: 64,
+    h: 64;
+    path: 'sprites/target.png'
+  },
+  {
+    x: 1020,
+    y: 320,
+    w: 64,
+    h: 64,
+    path: 'sprites/target.png'
+  }
 ]
 
   if args.inputs.left
@@ -67,21 +74,8 @@ args.state.targets ||= [
 
   args.state.fireballs.each do |fireball|
     fireball.x += args.state.player.speed + 2
-    
-    args.state.targets.each do |target|
-      if args.geometry.intersect_rect?(target, fireball)
-        target.dead = true
-        fireball.dead = true
-        args.state.targets << spawn_target(args)
-      end
-    end
   end
   
-  args.state.targets.reject! {|t| t.dead}
-  args.state.fireballs.reject! {|f| f.dead}
 
   args.outputs.sprites << [args.state.player, args.state.fireballs, args.state.targets]
 end
-
-#makes sure that when the game gets reset that it will dump data from the last session
-$gtk.reset

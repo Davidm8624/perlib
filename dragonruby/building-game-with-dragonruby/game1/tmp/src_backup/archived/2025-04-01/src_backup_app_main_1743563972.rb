@@ -1,11 +1,10 @@
-def spawn_target (args)
-  size = 64
+def spawn_target (x, y)
   {
-    x: rand(args.grid.w * 0.4) + args.grid.w * 0.6,
-    y: rand(args.grid.h - size * 2) + size,
-    w: size,
-    h: size,
-    path: 'sprites/target.png',
+    x: x,
+    y: y,
+    w: 64,
+    h: 64,
+    path: 'sprites/target.png'
   }
 end
 
@@ -20,9 +19,9 @@ def tick args
   }
 args.state.fireballs ||= []
 args.state.targets ||= [
-  spawn_target(args),
-  spawn_target(args),
-  spawn_target(args)
+  spawn_target(800, 120),
+  spawn_target(920, 600),
+  spawn_target(1020, 320)
 ]
 
   if args.inputs.left
@@ -72,7 +71,6 @@ args.state.targets ||= [
       if args.geometry.intersect_rect?(target, fireball)
         target.dead = true
         fireball.dead = true
-        args.state.targets << spawn_target(args)
       end
     end
   end

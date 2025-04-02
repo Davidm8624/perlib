@@ -72,7 +72,6 @@ args.state.targets ||= [
       if args.geometry.intersect_rect?(target, fireball)
         target.dead = true
         fireball.dead = true
-        args.state.targets << spawn_target(args)
       end
     end
   end
