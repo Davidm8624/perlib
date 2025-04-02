@@ -1,4 +1,4 @@
-FPS = 60
+FPS = 10
 
 def spawn_target(args)
   size = 64
