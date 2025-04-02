@@ -27,6 +27,41 @@ def tick args
   ]
   
   args.state.score ||= 0
+  #a tick is 1/60th of a second, so to get 30 sec we need 60 * 30
+  args.state.timer ||= 30 * 60
+  #each tick runs everything in the tick method, so -1 gets ran once per tick subtracting from 1800 total ticks
+  args.state.timer = args.state.timer - 1
+  
+  if args.state.timer < 0
+    labels = []
+    labels << {
+      x: 40,
+      y: args.grid.h - 40,
+      text: "game over!",
+      size_enum: 10
+    }
+    labels << {
+      x: 40,
+      y: args.grid.h - 90,
+      text: "Score: #{args.state.score}",
+      size_enum: 4
+    }
+    
+    labels << {
+      x: 40,
+      y: args.grid.h - 132,
+      text: "shoot to restart",
+      size_enum: 2
+    }
+    args.outputs.labels << labels
+    
+    if args.state.timer < -30 && (args.inputs.keyboard.key_down.z || args.inputs.keyboard.key_down.j || args.inputs.controller_one.key_down.a)
+      $gtk.reset
+    end
+    #this return is so that when the timer is 0 the code beneath here will not run, instead the game 
+    #will be looping thru the args.state.timer < 0 loop, forever displaying the score until they shoot to reset game
+    return
+  end
 
   if args.inputs.left
     args.state.player.x -= args.state.player.speed
@@ -71,6 +106,11 @@ def tick args
   args.state.fireballs.each do |fireball|
     fireball.x += args.state.player.speed + 2
     
+    if fireball.x > args.grid.w
+      fireball.dead = true
+      next
+    end
+    
     args.state.targets.each do |target|
       if args.geometry.intersect_rect?(target, fireball)
         target.dead = true
@@ -81,29 +121,39 @@ def tick args
     end
   end
   
-    # Check for target intersections
-  args.state.targets.each_with_index do |target, index|
-    args.state.targets.each_with_index do |other_target, other_index|
-      next if index >= other_index
-      if args.geometry.intersect_rect?(target, other_target)
-        # Remove the overlapping target
-        target.dead = true
-        # Generate a new target
-        args.state.targets << spawn_target(args)
-      end
-    end
-  end
-  
   args.state.targets.reject! {|t| t.dead}
   args.state.fireballs.reject! {|f| f.dead}
 
   args.outputs.sprites << [args.state.player, args.state.fireballs, args.state.targets]
-  args.outputs.labels << {
-    x: 40,
-    y: args.grid.h - 40,
-    text: "Score: #{args.state.score}",
-    size_enum: 4
-  }
+  args.outputs.labels << [  
+    {
+      x: 40,
+      y: args.grid.h - 40,
+      text: "Score: #{args.state.score}",
+      size_enum: 4
+    },
+    {
+      x: args.grid.w - 40,
+      y: args.grid.h - 40,
+      text: "Time Left: #{(args.state.timer / 60).round}",
+      size_enum: 2,
+      alignment_enum: 2,
+    }
+  
+  ]
+  
+  #debugging stats
+  args.outputs.debug << {
+x: 40,
+y: args.grid.h - 80,
+text: "Fireballs: #{args.state.fireballs.length}",
+}.label!
+args.outputs.debug << {
+x: 40,
+y: args.grid.h - 100,
+text: "1st fireball x pos: #{args.state.fireballs.first&.x}",
+}.label!
+
 end
 
 #makes sure that when the game gets reset that it will dump data from the last session

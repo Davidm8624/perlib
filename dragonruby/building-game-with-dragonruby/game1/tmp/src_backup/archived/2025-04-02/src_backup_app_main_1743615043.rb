@@ -55,7 +55,7 @@ def tick args
     }
     args.outputs.labels << labels
     
-    if args.state.timer < -30 && (args.inputs.keyboard.key_down.z || args.inputs.keyboard.key_down.j || args.inputs.controller_one.key_down.a)
+    if args.inputs.keyboard.key_down.z || args.inputs.keyboard.key_down.j || args.inputs.controller_one.key_down.a
       $gtk.reset
     end
     #this return is so that when the timer is 0 the code beneath here will not run, instead the game 
