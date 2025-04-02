@@ -1,7 +1,7 @@
 def spawn_target (args)
   size = 64
   {
-    x: rand(args.grid.w * 0.4 - size) + args.grid.w * 0.6,
+    x: rand(args.grid.w * 0.4) + args.grid.w * 0.6 + size,
     y: rand(args.grid.h - size * 2) + size,
     w: size,
     h: size,
