@@ -357,3 +357,4 @@ Undefined method labels for main.
 ? [Engine] ~reset~ has been invoked (337070).
 ? [Engine] RNG seed has been set to 1743613282.
 ? [Engine] Reloaded app/main.rb. (337070)
+* [Engine] Logging shutting down

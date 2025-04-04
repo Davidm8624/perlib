@@ -1,10 +1,10 @@
 # Remove the pound sign and leading space for the properties below before publishing your game.
-# devid=myname
-# devtitle=My Name
-# gameid=mygame
-# gametitle=My Game
-# version=0.1
-# icon=metadata/icon.png
+devid=myname
+devtitle=My Name
+gameid=mygame
+gametitle=My Game
+version=0.1
+icon=metadata/icon.png
 
 # === Flags available at all licensing tiers ===
 
@@ -18,7 +18,7 @@
 # - 0: pixel perfect scaling (use this if your game uses pixel-art)
 # - 1: less blocky visuals,
 # - 2: higher computational overhead than linear, but provides the best visual quality
-# scale_quality=0
+scale_quality=1
 
 # === Directories to Ignore during packaging ===
 # A comma delimited list of directories that should be ignored during the

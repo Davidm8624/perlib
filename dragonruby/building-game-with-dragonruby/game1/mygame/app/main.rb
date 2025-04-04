@@ -30,7 +30,7 @@ def handle_player_movement(args)
     args.state.player.y -= args.state.player.speed
   end
 
-  if args.state.player.x +  args.state.player.w > args.grid.w
+  if args.state.player.x + args.state.player.w > args.grid.w
     args.state.player.x = args.grid.w - args.state.player.w
   end
 
