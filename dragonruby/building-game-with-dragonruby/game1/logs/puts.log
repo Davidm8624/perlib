@@ -6,22 +6,3 @@
     $gtk.trace_puts!
   end
 #+end_src
--> reset
-* EXCEPTION: * ERROR - :reset method missing on ~Class~.
-
-#+begin_src ~Class#inspect~
-GTK::ConsoleEvaluator
-#+end_src ~Class#inspect~
-
-
-
-The method named
-  :reset
-doesn't exist on [Class].
-
-(suggestions above)
--> :reset
-=> :reset
--> gtk:reset
-* EXCEPTION: line 12: syntax error, unexpected label, expecting keyword_end
-** Backtrace:

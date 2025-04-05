@@ -13,8 +13,8 @@ end
 
 def fire_input?(args)
   args.inputs.keyboard.key_down.z ||
-  args.inputs.keyboard.key_down.j ||
-  args.inputs.controller_one.key_down.a
+    args.inputs.keyboard.key_down.j ||
+    args.inputs.controller_one.key_down.a
 end
 
 def handle_player_movement(args)
@@ -120,11 +120,6 @@ def tick args
   args.state.timer ||= 30 * FPS
 
   args.state.timer -= 1
-  
-  if args.state.timer == 0
-    args.audio[:music].paused = true
-    args.outputs.sounds << "sounds/game-over.wav"
-  end
 
   if args.state.timer < 0
     game_over_tick(args)
@@ -134,7 +129,6 @@ def tick args
   handle_player_movement(args)
 
   if fire_input?(args)
-    args.outputs.sounds << "sounds/fireball.wav"
     args.state.fireballs << {
       x: args.state.player.x + args.state.player.w - 12,
       y: args.state.player.y + 10,
@@ -154,7 +148,6 @@ def tick args
 
     args.state.targets.each do |target|
       if args.geometry.intersect_rect?(target, fireball)
-        args.outputs.sounds << "sounds/target.wav"
         target.dead = true
         fireball.dead = true
         args.state.score += 1

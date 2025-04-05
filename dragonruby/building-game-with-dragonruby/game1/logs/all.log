@@ -32,3 +32,8 @@ a default value for ~grid~ to avoid null reference exceptions later on."
 
 To track method invocations on ~nil~, add $gtk.trace_nil_punning! in =main.rb=.
 
+
+Easing::ease can be expensive to invoke, consider using Easing.smooth_(start|stop|step) instead.
+
+[Message ID: [:consider_smooth!]]
+
