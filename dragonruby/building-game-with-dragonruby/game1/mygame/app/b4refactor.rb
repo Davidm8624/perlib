@@ -1,3 +1,5 @@
+FPS = 60
+
 def spawn_target(args)
   size = 64
   {
@@ -9,60 +11,27 @@ def spawn_target(args)
   }
 end
 
-def tick args
-  args.state.player ||= {
-    x: 120,
-    y: 280,
-    w: 100,
-    h: 80,
-    speed: 12,
-    path: 'sprites/misc/dragon-0.png',
+def explosion(x, y)
+  size = 64
+  {
+    x: x,
+    y: y,
+    w: size,
+    h: size,
+    path: 'sprites/misc/explosion-1.png',
+    frame_index: 0,
+    frame_count: 6,
+    frame_delay: 3,
   }
+end
 
-  args.state.fireballs ||= []
-  args.state.targets ||= [
-    spawn_target(args),
-    spawn_target(args),
-    spawn_target(args)
-  ]
+def fire_input?(args)
+  args.inputs.keyboard.key_down.z ||
+    args.inputs.keyboard.key_down.j ||
+    args.inputs.controller_one.key_down.a
+end
 
-  args.state.score ||= 0
-  # a tick is 1/60th of a second, so to get 30 sec we need 60 * 30
-  args.state.timer ||= 30 * 60
-  # each tick runs everything in the tick method, so -1 gets ran once per tick subtracting from 1800 total ticks
-  args.state.timer = args.state.timer - 1
-
-  if args.state.timer < 0
-    labels = []
-    labels << {
-      x: 40,
-      y: args.grid.h - 40,
-      text: "game over!",
-      size_enum: 10
-    }
-    labels << {
-      x: 40,
-      y: args.grid.h - 90,
-      text: "Score: #{args.state.score}",
-      size_enum: 4
-    }
-
-    labels << {
-      x: 40,
-      y: args.grid.h - 132,
-      text: "shoot to restart",
-      size_enum: 2
-    }
-    args.outputs.labels << labels
-
-    if args.state.timer < -30 && (args.inputs.keyboard.key_down.z || args.inputs.keyboard.key_down.j || args.inputs.controller_one.key_down.a)
-      $gtk.reset
-    end
-    # this return is so that when the timer is 0 the code beneath here will not run, instead the game
-    # will be looping thru the args.state.timer < 0 loop, forever displaying the score until they shoot to reset game
-    return
-  end
-
+def handle_player_movement(args)
   if args.inputs.left
     args.state.player.x -= args.state.player.speed
   elsif args.inputs.right
@@ -77,31 +46,131 @@ def tick args
 
   if args.state.player.x + args.state.player.w > args.grid.w
     args.state.player.x = args.grid.w - args.state.player.w
-  end
-
-  if args.state.player.x < 0
+  elsif args.state.player.x < 0
     args.state.player.x = 0
   end
 
   if args.state.player.y + args.state.player.h > args.grid.h
     args.state.player.y = args.grid.h - args.state.player.h
-  end
-
-  if args.state.player.y < 0
+  elsif args.state.player.y < 0
     args.state.player.y = 0
   end
+end
 
-  if args.inputs.keyboard.key_down.z ||
-     args.inputs.keyboard.key_down.j ||
-     args.inputs.controller_one.key_down.a
+HIGH_SCORE_FILE = "high-score.txt"
+
+def game_over_tick(args)
+  args.state.high_score ||= args.gtk.read_file(HIGH_SCORE_FILE).to_i
+
+  if !args.state.saved_high_score && args.state.score > args.state.high_score
+    args.gtk.write_file(HIGH_SCORE_FILE, args.state.score.to_s)
+    args.state.saved_high_score = true
+  end
+
+  labels = []
+
+  labels << {
+    x: 40,
+    y: args.grid.h - 40,
+    text: "Game Over!",
+    size_enum: 10,
+  }
+
+  labels << {
+    x: 40,
+    y: args.grid.h - 90,
+    text: "Score: #{args.state.score}",
+    size_enum: 4,
+  }
+
+  if args.state.score > args.state.high_score
+    labels << {
+      x: 260,
+      y: args.grid.h - 90,
+      text: "New high-score!",
+      size_enum: 3,
+    }
+  else
+    labels << {
+      x: 260,
+      y: args.grid.h - 90,
+      text: "Score to beat: #{args.state.high_score}",
+      size_enum: 3,
+    }
+  end
+
+  labels << {
+    x: 40,
+    y: args.grid.h - 132,
+    text: "Fire to restart",
+    size_enum: 2,
+  }
+
+  args.outputs.labels << labels
+
+  if args.state.timer < -30 && fire_input?(args)
+    $gtk.reset
+  end
+end
+
+def tick(args)
+  if args.state.tick_count == 1
+    args.audio[:music] = { input: "sounds/flight.ogg", looping: true }
+  end
+
+  args.outputs.solids << {
+    x: 0,
+    y: 0,
+    w: args.grid.w,
+    h: args.grid.h,
+    r: 92,
+    g: 120,
+    b: 230,
+  }
+
+  args.state.player ||= {
+    x: 120,
+    y: 280,
+    w: 100,
+    h: 80,
+    speed: 12,
+  }
+
+  player_sprite_index = 0.frame_index(count: 6, hold_for: 8, repeat: true)
+  args.state.player.path = "sprites/misc/dragon-#{player_sprite_index}.png"
+
+  args.state.fireballs ||= []
+  args.state.targets ||= [
+    spawn_target(args), spawn_target(args), spawn_target(args)
+  ]
+  args.state.score ||= 0
+  args.state.timer ||= 30 * FPS
+  args.state.timer -= 1
+
+  if args.state.timer == 0
+    args.audio[:music].paused = true
+    args.outputs.sounds << "sounds/game-over.wav"
+  end
+
+  if args.state.timer < 0
+    game_over_tick(args)
+    return
+  end
+
+  handle_player_movement(args)
+
+  if fire_input?(args)
+    args.outputs.sounds << "sounds/fireball.wav"
     args.state.fireballs << {
       x: args.state.player.x + args.state.player.w - 12,
       y: args.state.player.y + 10,
       w: 32,
       h: 32,
-      path: 'sprites/fireball.png'
+      path: 'sprites/fireball.png',
     }
   end
+
+  args.state.explosions ||= []
 
   args.state.fireballs.each do |fireball|
     fireball.x += args.state.player.speed + 2
@@ -113,47 +182,57 @@ def tick args
 
     args.state.targets.each do |target|
       if args.geometry.intersect_rect?(target, fireball)
+        explosion_pos = args.geometry.rect_center_point(target)
+        explosion_sprite = explosion(explosion_pos.x, explosion_pos.y)
+        args.state.explosions << explosion_sprite
+
+        args.outputs.sounds << "sounds/target.wav"
         target.dead = true
         fireball.dead = true
-        args.state.score = args.state.score + 1
+        args.state.score += 1
         args.state.targets << spawn_target(args)
       end
     end
   end
 
+  args.state.explosions.each do |explosion|
+    explosion.frame_index += 1 / 10.0
+    if explosion.frame_index < explosion.frame_count
+      explosion.path = "sprites/misc/explosion-#{explosion.frame_index.to_i + 1}.png"
+    else
+      explosion.dead = true
+    end
+  end
+
+  args.state.explosions.reject! { |e| e.dead }
   args.state.targets.reject! { |t| t.dead }
   args.state.fireballs.reject! { |f| f.dead }
 
-  args.outputs.sprites << [args.state.player, args.state.fireballs, args.state.targets]
-  args.outputs.labels << [
-    {
-      x: 40,
-      y: args.grid.h - 40,
-      text: "Score: #{args.state.score}",
-      size_enum: 4
-    },
-    {
-      x: args.grid.w - 40,
-      y: args.grid.h - 40,
-      text: "Time Left: #{(args.state.timer / 60).round}",
-      size_enum: 2,
-      alignment_enum: 2,
-    }
-
+  args.outputs.sprites << [
+    args.state.player,
+    args.state.fireballs,
+    args.state.targets,
+    args.state.explosions,
   ]
 
-  # debugging stats
-  args.outputs.debug << {
+  labels = []
+
+  labels << {
     x: 40,
-    y: args.grid.h - 80,
-    text: "Fireballs: #{args.state.fireballs.length}",
-  }.label!
-  args.outputs.debug << {
-    x: 40,
-    y: args.grid.h - 100,
-    text: "1st fireball x pos: #{args.state.fireballs.first&.x}",
-  }.label!
+    y: args.grid.h - 40,
+    text: "Score: #{args.state.score}",
+    size_enum: 4,
+  }
+
+  labels << {
+    x: args.grid.w - 40,
+    y: args.grid.h - 40,
+    text: "Time Left: #{(args.state.timer / FPS).round}",
+    size_enum: 2,
+    alignment_enum: 2,
+  }
+
+  args.outputs.labels << labels
 end
 
-# makes sure that when the game gets reset that it will dump data from the last session
 $gtk.reset

@@ -3,7 +3,7 @@ FPS = 60
 def spawn_target(args)
   size = 64
   {
-    x: rand(args.grid.w * 0.4 - size) + args.grid.w * 0.6,
+    x: rand(args.grid.w * 0.4) + args.grid.w * 0.6,
     y: rand(args.grid.h - size * 2) + size,
     w: size,
     h: size,
@@ -46,21 +46,26 @@ def handle_player_movement(args)
 
   if args.state.player.x + args.state.player.w > args.grid.w
     args.state.player.x = args.grid.w - args.state.player.w
-  elsif args.state.player.x < 0
+  end
+
+  if args.state.player.x < 0
     args.state.player.x = 0
   end
 
   if args.state.player.y + args.state.player.h > args.grid.h
     args.state.player.y = args.grid.h - args.state.player.h
-  elsif args.state.player.y < 0
+  end
+
+  if args.state.player.y < 0
     args.state.player.y = 0
   end
 end
 
 HIGH_SCORE_FILE = "high-score.txt"
-
 def game_over_tick(args)
   args.state.high_score ||= args.gtk.read_file(HIGH_SCORE_FILE).to_i
+
+  args.state.timer -= 1
 
   if !args.state.saved_high_score && args.state.score > args.state.high_score
     args.gtk.write_file(HIGH_SCORE_FILE, args.state.score.to_s)
@@ -68,14 +73,12 @@ def game_over_tick(args)
   end
 
   labels = []
-
   labels << {
     x: 40,
     y: args.grid.h - 40,
     text: "Game Over!",
     size_enum: 10,
   }
-
   labels << {
     x: 40,
     y: args.grid.h - 90,
@@ -105,7 +108,6 @@ def game_over_tick(args)
     text: "Fire to restart",
     size_enum: 2,
   }
-
   args.outputs.labels << labels
 
   if args.state.timer < -30 && fire_input?(args)
@@ -113,11 +115,7 @@ def game_over_tick(args)
   end
 end
 
-def tick(args)
-  if args.state.tick_count == 1
-    args.audio[:music] = { input: "sounds/flight.ogg", looping: true }
-  end
-
+def gameplay_tick(args)
   args.outputs.solids << {
     x: 0,
     y: 0,
@@ -143,17 +141,16 @@ def tick(args)
   args.state.targets ||= [
     spawn_target(args), spawn_target(args), spawn_target(args)
   ]
+  args.state.explosions ||= []
   args.state.score ||= 0
   args.state.timer ||= 30 * FPS
+
   args.state.timer -= 1
 
   if args.state.timer == 0
     args.audio[:music].paused = true
     args.outputs.sounds << "sounds/game-over.wav"
-  end
-
-  if args.state.timer < 0
-    game_over_tick(args)
+    args.state.scene = "game_over"
     return
   end
 
@@ -170,8 +167,6 @@ def tick(args)
     }
   end
 
-  args.state.explosions ||= []
-
   args.state.fireballs.each do |fireball|
     fireball.x += args.state.player.speed + 2
 
@@ -183,8 +178,7 @@ def tick(args)
     args.state.targets.each do |target|
       if args.geometry.intersect_rect?(target, fireball)
         explosion_pos = args.geometry.rect_center_point(target)
-        explosion_sprite = explosion(explosion_pos.x, explosion_pos.y)
-        args.state.explosions << explosion_sprite
+        args.state.explosions << explosion(explosion_pos.x, explosion_pos.y)
 
         args.outputs.sounds << "sounds/target.wav"
         target.dead = true
@@ -195,12 +189,12 @@ def tick(args)
     end
   end
 
-  args.state.explosions.each do |explosion|
-    explosion.frame_index += 1 / 10.0
-    if explosion.frame_index < explosion.frame_count
-      explosion.path = "sprites/misc/explosion-#{explosion.frame_index.to_i + 1}.png"
+  args.state.explosions.each do |exp|
+    exp.frame_index += 1 / 10.0
+    if exp.frame_index < exp.frame_count
+      exp.path = "sprites/misc/explosion-#{exp.frame_index.to_i + 1}.png"
     else
-      explosion.dead = true
+      exp.dead = true
     end
   end
 
@@ -208,22 +202,15 @@ def tick(args)
   args.state.targets.reject! { |t| t.dead }
   args.state.fireballs.reject! { |f| f.dead }
 
-  args.outputs.sprites << [
-    args.state.player,
-    args.state.fireballs,
-    args.state.targets,
-    args.state.explosions,
-  ]
+  args.outputs.sprites << [args.state.player, args.state.fireballs, args.state.targets, args.state.explosions]
 
   labels = []
-
   labels << {
     x: 40,
     y: args.grid.h - 40,
     text: "Score: #{args.state.score}",
     size_enum: 4,
   }
-
   labels << {
     x: args.grid.w - 40,
     y: args.grid.h - 40,
@@ -231,8 +218,55 @@ def tick(args)
     size_enum: 2,
     alignment_enum: 2,
   }
-
   args.outputs.labels << labels
+end
+
+def title_tick args
+  if fire_input?(args)
+    args.outputs.sounds << "sounds/game-over.wav"
+    args.state.scene = "gameplay"
+    return
+  end
+
+  labels = []
+  labels << {
+    x: 40,
+    y: args.grid.h - 40,
+    text: "Target Practice",
+    size_enum: 6,
+  }
+  labels << {
+    x: 40,
+    y: args.grid.h - 88,
+    text: "Hit the targets!",
+  }
+  labels << {
+    x: 40,
+    y: args.grid.h - 120,
+    text: "by YOU",
+  }
+  labels << {
+    x: 40,
+    y: 120,
+    text: "Arrows or WASD to move | Z or J to fire | gamepad works too",
+  }
+  labels << {
+    x: 40,
+    y: 80,
+    text: "Fire to start",
+    size_enum: 2,
+  }
+  args.outputs.labels << labels
+end
+
+def tick args
+  if args.state.tick_count == 1
+    args.audio[:music] = { input: "sounds/flight.ogg", looping: true }
+  end
+
+  args.state.scene ||= "title"
+
+  send("#{args.state.scene}_tick", args)
 end
 
 $gtk.reset
