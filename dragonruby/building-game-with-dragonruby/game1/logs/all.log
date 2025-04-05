@@ -37,3 +37,30 @@ Easing::ease can be expensive to invoke, consider using Easing.smooth_(start|sto
 
 [Message ID: [:consider_smooth!]]
 
+* WARNING: Method invocation on a nil value detected.
+The method ~each~ with args [] was invoked on ~explosions~ within args.state, but ~explosions~ has a
+value of nil (the invocation of ~each~ was suppressed). Consider setting
+a default value for ~explosions~ to avoid null reference exceptions later on."
+
+
+
+To track method invocations on ~nil~, add $gtk.trace_nil_punning! in =main.rb=.
+
+* WARNING: Method invocation on a nil value detected.
+The method ~each~ with args [] was invoked on ~explosions~ within args.state, but ~explosions~ has a
+value of nil (the invocation of ~each~ was suppressed). Consider setting
+a default value for ~explosions~ to avoid null reference exceptions later on."
+
+
+
+To track method invocations on ~nil~, add $gtk.trace_nil_punning! in =main.rb=.
+
+* WARNING: Method invocation on a nil value detected.
+The method ~each~ with args [] was invoked on ~explosions~ within args.state, but ~explosions~ has a
+value of nil (the invocation of ~each~ was suppressed). Consider setting
+a default value for ~explosions~ to avoid null reference exceptions later on."
+
+
+
+To track method invocations on ~nil~, add $gtk.trace_nil_punning! in =main.rb=.
+

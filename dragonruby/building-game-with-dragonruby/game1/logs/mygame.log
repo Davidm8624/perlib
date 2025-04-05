@@ -56,3 +56,418 @@
 ? [Engine] ~reset~ has been invoked (113189).
 ? [Engine] RNG seed has been set to 1743813724.
 ? [Engine] Reloaded app/main.rb. (113189)
+- [Game] * EXCEPTION POSSIBLY CAUSED BY CALLING ~gtk.reset~: maybe use ~$gtk.reset_next_tick~ instead.
+An exception occurred soon after ~$gtk.reset~ was invoked.
+
+Keep in mind that ~$gtk.reset~ doesn't stop the rest of your ~tick~ method from being invoked.
+
+You may have attempted to interact with properties on ~args.state~ that no longer have a value.
+
+There are a few ways to fix exceptions that fall into this category:
+
+1. Wherever you are using ~$gtk.reset~ within ~tick~, replace
+   with ~$gtk.reset_next_tick~ (this function will tell DragonRuby to
+   reset on the next frame before invoking your ~tick~ method).
+2. Anywhere you are using ~$gtk.reset~, immediately set default values for
+   properties on ~args.state~ that are needed to complete the execution
+   of the rest of your ~tick~ function successfully.
+3. Do not use ~$gtk.reset~ and instead create a function that reinitializes your game
+   and ensures it has a consistent/valid state.
+
+   Take a look at the following sample apps for insights on how to do this:
+   - =./samples/99_genre_boss_battle/boss_battle_game_jam/app/main.rb=
+   - =./samples/99_genre_platformer/shadows/app/main.rb=
+
+** NOTE:
+The options above are ordered by quickest to implement (but probably not
+bulletproof), to more work to implement (but a better design long term).
+
+* EXCEPTION THROWN:
+** Failed to load/reload app/main.rb.
+line 17:6: syntax error, unexpected ','
+line 20:4: syntax error, unexpected label, expecting '='
+
+
+
+** Backtrace:
+
+* Backtrace ~$gtk.reset~ last invocation: (150261)
+- [Game] * EXCEPTION POSSIBLY CAUSED BY CALLING ~gtk.reset~: maybe use ~$gtk.reset_next_tick~ instead.
+An exception occurred soon after ~$gtk.reset~ was invoked.
+
+Keep in mind that ~$gtk.reset~ doesn't stop the rest of your ~tick~ method from being invoked.
+
+You may have attempted to interact with properties on ~args.state~ that no longer have a value.
+
+There are a few ways to fix exceptions that fall into this category:
+
+1. Wherever you are using ~$gtk.reset~ within ~tick~, replace
+   with ~$gtk.reset_next_tick~ (this function will tell DragonRuby to
+   reset on the next frame before invoking your ~tick~ method).
+2. Anywhere you are using ~$gtk.reset~, immediately set default values for
+   properties on ~args.state~ that are needed to complete the execution
+   of the rest of your ~tick~ function successfully.
+3. Do not use ~$gtk.reset~ and instead create a function that reinitializes your game
+   and ensures it has a consistent/valid state.
+
+   Take a look at the following sample apps for insights on how to do this:
+   - =./samples/99_genre_boss_battle/boss_battle_game_jam/app/main.rb=
+   - =./samples/99_genre_platformer/shadows/app/main.rb=
+
+** NOTE:
+The options above are ordered by quickest to implement (but probably not
+bulletproof), to more work to implement (but a better design long term).
+
+* EXCEPTION THROWN:
+** Failed to load/reload app/main.rb.
+line 17:6: syntax error, unexpected ','
+line 20:4: syntax error, unexpected label, expecting '='
+
+
+
+** Backtrace:
+
+* Backtrace ~$gtk.reset~ last invocation: (155361)
+- [Game] * EXCEPTION POSSIBLY CAUSED BY CALLING ~gtk.reset~: maybe use ~$gtk.reset_next_tick~ instead.
+An exception occurred soon after ~$gtk.reset~ was invoked.
+
+Keep in mind that ~$gtk.reset~ doesn't stop the rest of your ~tick~ method from being invoked.
+
+You may have attempted to interact with properties on ~args.state~ that no longer have a value.
+
+There are a few ways to fix exceptions that fall into this category:
+
+1. Wherever you are using ~$gtk.reset~ within ~tick~, replace
+   with ~$gtk.reset_next_tick~ (this function will tell DragonRuby to
+   reset on the next frame before invoking your ~tick~ method).
+2. Anywhere you are using ~$gtk.reset~, immediately set default values for
+   properties on ~args.state~ that are needed to complete the execution
+   of the rest of your ~tick~ function successfully.
+3. Do not use ~$gtk.reset~ and instead create a function that reinitializes your game
+   and ensures it has a consistent/valid state.
+
+   Take a look at the following sample apps for insights on how to do this:
+   - =./samples/99_genre_boss_battle/boss_battle_game_jam/app/main.rb=
+   - =./samples/99_genre_platformer/shadows/app/main.rb=
+
+** NOTE:
+The options above are ordered by quickest to implement (but probably not
+bulletproof), to more work to implement (but a better design long term).
+
+* EXCEPTION THROWN:
+** Failed to load/reload app/main.rb.
+line 17:6: syntax error, unexpected ','
+line 20:4: syntax error, unexpected label, expecting '='
+
+
+
+** Backtrace:
+
+* Backtrace ~$gtk.reset~ last invocation: (156081)
+- [Game] * EXCEPTION POSSIBLY CAUSED BY CALLING ~gtk.reset~: maybe use ~$gtk.reset_next_tick~ instead.
+An exception occurred soon after ~$gtk.reset~ was invoked.
+
+Keep in mind that ~$gtk.reset~ doesn't stop the rest of your ~tick~ method from being invoked.
+
+You may have attempted to interact with properties on ~args.state~ that no longer have a value.
+
+There are a few ways to fix exceptions that fall into this category:
+
+1. Wherever you are using ~$gtk.reset~ within ~tick~, replace
+   with ~$gtk.reset_next_tick~ (this function will tell DragonRuby to
+   reset on the next frame before invoking your ~tick~ method).
+2. Anywhere you are using ~$gtk.reset~, immediately set default values for
+   properties on ~args.state~ that are needed to complete the execution
+   of the rest of your ~tick~ function successfully.
+3. Do not use ~$gtk.reset~ and instead create a function that reinitializes your game
+   and ensures it has a consistent/valid state.
+
+   Take a look at the following sample apps for insights on how to do this:
+   - =./samples/99_genre_boss_battle/boss_battle_game_jam/app/main.rb=
+   - =./samples/99_genre_platformer/shadows/app/main.rb=
+
+** NOTE:
+The options above are ordered by quickest to implement (but probably not
+bulletproof), to more work to implement (but a better design long term).
+
+* EXCEPTION THROWN:
+** Failed to load/reload app/main.rb.
+line 17:6: syntax error, unexpected ','
+line 20:4: syntax error, unexpected label, expecting '='
+
+
+
+** Backtrace:
+
+* Backtrace ~$gtk.reset~ last invocation: (157281)
+? [Engine] ~reset~ has been invoked (177261).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (177261)
+? [Engine] ~reset~ has been invoked (177742).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (177742)
+- [Game] * INFO - Game state and exception will be written to logs/exceptions/game_state_378.txt and logs/exceptions/current.txt.
+- [Game]   global_tick_count: 178121
+- [Game]   tick_count: 378
+- [Game] * EXCEPTION:
+* ERROR - :intersect_rect method missing on ~Module~.
+
+#+begin_src ~Module#inspect~
+GTK::Geometry
+#+end_src ~Module#inspect~
+
+** Did you mean?
+Here's a list of methods that kind of look like :intersect_rect.
+*** :intersect_rect?
+*** :intersect_circle?
+*** :intersects_rect?
+*** :rect?
+*** :rect_center_point
+*** :rect_navigate
+*** :rect_navigate_left_right
+*** :rect_navigate_up_down
+*** :rect_normalize
+*** :rect_props
+*** :rect_to_circle
+*** :rect_to_line
+
+The method named
+  :intersect_rect
+doesn't exist on [Module].
+
+(suggestions above)
+** Backtrace:
+*** app/main.rb:185:in tick
+*** app/main.rb:181:in tick
+*** app/main.rb:173:in tick (178121)
+? [Engine] ~reset~ has been invoked (193857).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (193857)
+- [Game] * INFO - Game state and exception will be written to logs/exceptions/game_state_200.txt and logs/exceptions/current.txt.
+- [Game]   global_tick_count: 194058
+- [Game]   tick_count: 200
+- [Game] * EXCEPTION: 'rect_center_point': wrong number of arguments (0 for 1)
+** Backtrace:
+*** app/main.rb:185:in tick
+*** app/main.rb:181:in tick
+*** app/main.rb:173:in tick (194058)
+? [Engine] ~reset~ has been invoked (194878).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (194878)
+- [Game] {:x=>899.0, :y=>484.0}
+? [Engine] ~reset~ has been invoked (198029).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (198029)
+- [Game] * INFO - Game state and exception will be written to logs/exceptions/game_state_221.txt and logs/exceptions/current.txt.
+- [Game]   global_tick_count: 198251
+- [Game]   tick_count: 221
+- [Game] * EXCEPTION: 'explosion': wrong number of arguments (1 for 2)
+** Backtrace:
+*** app/main.rb:14:in explosion
+*** app/main.rb:185:in tick
+*** app/main.rb:181:in tick
+*** app/main.rb:173:in tick (198251)
+? [Engine] ~reset~ has been invoked (200360).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (200360)
+? [Engine] ~reset~ has been invoked (201935).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (201935)
+- [Game] * EXCEPTION:
+** Failed to load/reload app/main.rb.
+line 21:4: syntax error, unexpected local variable or method, expecting '}'
+
+
+
+** Backtrace: (205056)
+? [Engine] ~reset~ has been invoked (205476).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (205476)
+? [Engine] ~reset~ has been invoked (205973).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (205973)
+- [Game] * AUTOCOMPLETE CANDIDATES: $gtk.reset seed: 1743813724..
+- [Game] +--------+
+| (none) |
++--------+
+? [Engine] ~reset~ has been invoked (219354).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (219354)
+? [Engine] ~reset~ has been invoked (224268).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (224268)
+- [Game] * INFO - Game state and exception will be written to logs/exceptions/game_state_0.txt and logs/exceptions/current.txt.
+- [Game]   global_tick_count: 224269
+- [Game]   tick_count: 0
+- [Game] * EXCEPTION:
+~GTK::Args~ does not look like a rendering primitive.
+
+The object must adhere to AT LEAST ONE of the following be considered a primitive:
+- Object must respond to ~primitive_marker~ returning either ~:solid~, ~:label~, ~:sprite~, ~:line~, or ~:border~.
+- Object must respond to ~:x~, ~:y~, ~:w~, ~:h~, and ~:path~.
+- Object must respond to ~:x~, ~:y~, and ~:text~.
+- Object must implement ~draw_override~.
+
+** Backtrace:
+*** app/main.rb:201:in tick (224269)
+- [Game] * EXCEPTION:
+** Failed to load/reload app/main.rb.
+line 201:102: syntax error, unexpected ']'
+
+
+
+** Backtrace: (224568)
+? [Engine] ~reset~ has been invoked (224928).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (224928)
+- [Game] * INFO - Game state and exception will be written to logs/exceptions/game_state_0.txt and logs/exceptions/current.txt.
+- [Game]   global_tick_count: 224929
+- [Game]   tick_count: 0
+- [Game] * EXCEPTION: 'explosion': wrong number of arguments (0 for 2)
+** Backtrace:
+*** app/main.rb:14:in explosion
+*** app/main.rb:201:in tick (224929)
+? [Engine] ~reset~ has been invoked (225108).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (225108)
+- [Game] * EXCEPTION:
+** Failed to load/reload app/main.rb.
+line 167:0: syntax error, unexpected end of file, expecting keyword_end
+
+
+
+** Backtrace: (238694)
+? [Engine] ~reset~ has been invoked (239534).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (239534)
+? [Engine] ~reset~ has been invoked (247003).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (247003)
+? [Engine] ~reset~ has been invoked (247357).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (247357)
+- [Game] * WARNING: Method invocation on a nil value detected.
+The method ~each~ with args [] was invoked on ~explosions~ within args.state, but ~explosions~ has a
+value of nil (the invocation of ~each~ was suppressed). Consider setting
+a default value for ~explosions~ to avoid null reference exceptions later on."
+
+
+
+To track method invocations on ~nil~, add $gtk.trace_nil_punning! in =main.rb=.
+
+- [Game] * INFO - Game state and exception will be written to logs/exceptions/game_state_5.txt and logs/exceptions/current.txt.
+- [Game]   global_tick_count: 247363
+- [Game]   tick_count: 5
+- [Game] * EXCEPTION:
+* ERROR:
+The method ~each~ was invoked on ~explosions~ within args.state, but ~explosions~ has
+a value of nil. The temporary coersion of this nil value, has reached it's
+invocation limit (you've called this function a lot and should probably
+set a default value for ~explosions~).
+
+Here is the details:
+
+object:
+{:entity_id=>1, :tick_count=>5, :__thrash_count__=>{:each=>6}, :player=>{:x=>120, :y=>280, :w=>100, :h=>80, :speed=>12, :path=>"sprites/misc/dragon-0.png"}, :fireballs=>[], :targets=>[{:x=>867.0, :y=>452, :w=>64, :h=>64, :path=>"sprites/target.png"}, {:x=>1068.0, :y=>480, :w=>64, :h=>64, :path=>"sprites/target.png"}, {:x=>1000.0, :y=>263, :w=>64, :h=>64, :path=>"sprites/target.png"}], :score=>0, :timer=>1794}
+
+member: [each]
+attribute: [explosions].
+
+Set a default value for this property.
+
+
+** Backtrace:
+*** app/main.rb:195:in tick (247363)
+? [Engine] ~reset~ has been invoked (250418).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (250418)
+- [Game] * WARNING: Method invocation on a nil value detected.
+The method ~each~ with args [] was invoked on ~explosions~ within args.state, but ~explosions~ has a
+value of nil (the invocation of ~each~ was suppressed). Consider setting
+a default value for ~explosions~ to avoid null reference exceptions later on."
+
+
+
+To track method invocations on ~nil~, add $gtk.trace_nil_punning! in =main.rb=.
+
+- [Game] * INFO - Game state and exception will be written to logs/exceptions/game_state_5.txt and logs/exceptions/current.txt.
+- [Game]   global_tick_count: 250424
+- [Game]   tick_count: 5
+- [Game] * EXCEPTION:
+* ERROR:
+The method ~each~ was invoked on ~explosions~ within args.state, but ~explosions~ has
+a value of nil. The temporary coersion of this nil value, has reached it's
+invocation limit (you've called this function a lot and should probably
+set a default value for ~explosions~).
+
+Here is the details:
+
+object:
+{:entity_id=>1, :tick_count=>5, :__thrash_count__=>{:each=>6}, :player=>{:x=>120, :y=>280, :w=>100, :h=>80, :speed=>12, :path=>"sprites/misc/dragon-0.png"}, :fireballs=>[], :targets=>[{:x=>867.0, :y=>452, :w=>64, :h=>64, :path=>"sprites/target.png"}, {:x=>1068.0, :y=>480, :w=>64, :h=>64, :path=>"sprites/target.png"}, {:x=>1000.0, :y=>263, :w=>64, :h=>64, :path=>"sprites/target.png"}], :score=>0, :timer=>1794}
+
+member: [each]
+attribute: [explosions].
+
+Set a default value for this property.
+
+
+** Backtrace:
+*** app/main.rb:195:in tick (250424)
+? [Engine] ~reset~ has been invoked (250659).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (250659)
+- [Game] * WARNING: Method invocation on a nil value detected.
+The method ~each~ with args [] was invoked on ~explosions~ within args.state, but ~explosions~ has a
+value of nil (the invocation of ~each~ was suppressed). Consider setting
+a default value for ~explosions~ to avoid null reference exceptions later on."
+
+
+
+To track method invocations on ~nil~, add $gtk.trace_nil_punning! in =main.rb=.
+
+- [Game] * INFO - Game state and exception will be written to logs/exceptions/game_state_5.txt and logs/exceptions/current.txt.
+- [Game]   global_tick_count: 250665
+- [Game]   tick_count: 5
+- [Game] * EXCEPTION:
+* ERROR:
+The method ~each~ was invoked on ~explosions~ within args.state, but ~explosions~ has
+a value of nil. The temporary coersion of this nil value, has reached it's
+invocation limit (you've called this function a lot and should probably
+set a default value for ~explosions~).
+
+Here is the details:
+
+object:
+{:entity_id=>1, :tick_count=>5, :__thrash_count__=>{:each=>6}, :player=>{:x=>120, :y=>280, :w=>100, :h=>80, :speed=>12, :path=>"sprites/misc/dragon-0.png"}, :fireballs=>[], :targets=>[{:x=>867.0, :y=>452, :w=>64, :h=>64, :path=>"sprites/target.png"}, {:x=>1068.0, :y=>480, :w=>64, :h=>64, :path=>"sprites/target.png"}, {:x=>1000.0, :y=>263, :w=>64, :h=>64, :path=>"sprites/target.png"}], :score=>0, :timer=>1794}
+
+member: [each]
+attribute: [explosions].
+
+Set a default value for this property.
+
+
+** Backtrace:
+*** app/main.rb:195:in tick (250665)
+? [Engine] ~reset~ has been invoked (250925).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (250925)
+? [Engine] ~reset~ has been invoked (262809).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (262809)
+? [Engine] ~reset~ has been invoked (267730).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (267730)
+? [Engine] ~reset~ has been invoked (268931).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (268931)
+? [Engine] ~reset~ has been invoked (271016).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (271016)
+? [Engine] ~reset~ has been invoked (273188).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] ~reset~ has been invoked (279656).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (279656)
+? [Engine] ~reset~ has been invoked (289976).
+? [Engine] RNG seed has been set to 1743813724.
+? [Engine] Reloaded app/main.rb. (289976)

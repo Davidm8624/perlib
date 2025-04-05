@@ -21,7 +21,7 @@ def explosion(x, y)
     path: 'sprites/misc/explosion-1.png',
     frame_index: 0,
     frame_count: 6,
-    frame_delay: 3,
+    frame_delay: 3
   }
 end
 
@@ -46,19 +46,22 @@ def handle_player_movement(args)
 
   if args.state.player.x + args.state.player.w > args.grid.w
     args.state.player.x = args.grid.w - args.state.player.w
-  elsif args.state.player.x < 0
+  end
+
+  if args.state.player.x < 0
     args.state.player.x = 0
   end
 
   if args.state.player.y + args.state.player.h > args.grid.h
     args.state.player.y = args.grid.h - args.state.player.h
-  elsif args.state.player.y < 0
+  end
+
+  if args.state.player.y < 0
     args.state.player.y = 0
   end
 end
 
 HIGH_SCORE_FILE = "high-score.txt"
-
 def game_over_tick(args)
   args.state.high_score ||= args.gtk.read_file(HIGH_SCORE_FILE).to_i
 
@@ -68,14 +71,12 @@ def game_over_tick(args)
   end
 
   labels = []
-
   labels << {
     x: 40,
     y: args.grid.h - 40,
     text: "Game Over!",
     size_enum: 10,
   }
-
   labels << {
     x: 40,
     y: args.grid.h - 90,
@@ -105,7 +106,6 @@ def game_over_tick(args)
     text: "Fire to restart",
     size_enum: 2,
   }
-
   args.outputs.labels << labels
 
   if args.state.timer < -30 && fire_input?(args)
@@ -113,12 +113,12 @@ def game_over_tick(args)
   end
 end
 
-def tick(args)
+def tick args
   if args.state.tick_count == 1
     args.audio[:music] = { input: "sounds/flight.ogg", looping: true }
   end
 
-  args.outputs.solids << {
+  args.outputs.solids << [
     x: 0,
     y: 0,
     w: args.grid.w,
@@ -126,7 +126,7 @@ def tick(args)
     r: 92,
     g: 120,
     b: 230,
-  }
+  ]
 
   args.state.player ||= {
     x: 120,
@@ -145,6 +145,7 @@ def tick(args)
   ]
   args.state.score ||= 0
   args.state.timer ||= 30 * FPS
+
   args.state.timer -= 1
 
   if args.state.timer == 0
@@ -169,9 +170,7 @@ def tick(args)
       path: 'sprites/fireball.png',
     }
   end
-
   args.state.explosions ||= []
-
   args.state.fireballs.each do |fireball|
     fireball.x += args.state.player.speed + 2
 
@@ -196,7 +195,7 @@ def tick(args)
   end
 
   args.state.explosions.each do |explosion|
-    explosion.frame_index += 1 / 10.0
+    explosion.frame_index += 1 / 10
     if explosion.frame_index < explosion.frame_count
       explosion.path = "sprites/misc/explosion-#{explosion.frame_index.to_i + 1}.png"
     else
@@ -205,25 +204,19 @@ def tick(args)
   end
 
   args.state.explosions.reject! { |e| e.dead }
+
   args.state.targets.reject! { |t| t.dead }
   args.state.fireballs.reject! { |f| f.dead }
 
-  args.outputs.sprites << [
-    args.state.player,
-    args.state.fireballs,
-    args.state.targets,
-    args.state.explosions,
-  ]
+  args.outputs.sprites << [args.state.player, args.state.fireballs, args.state.targets, args.state.explosions]
 
   labels = []
-
   labels << {
     x: 40,
     y: args.grid.h - 40,
     text: "Score: #{args.state.score}",
     size_enum: 4,
   }
-
   labels << {
     x: args.grid.w - 40,
     y: args.grid.h - 40,
@@ -231,7 +224,6 @@ def tick(args)
     size_enum: 2,
     alignment_enum: 2,
   }
-
   args.outputs.labels << labels
 end
 

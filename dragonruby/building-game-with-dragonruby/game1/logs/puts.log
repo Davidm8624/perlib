@@ -6,3 +6,8 @@
     $gtk.trace_puts!
   end
 #+end_src
+{:x=>899.0, :y=>484.0}
+* AUTOCOMPLETE CANDIDATES: $gtk.reset seed: 1743813724..
++--------+
+| (none) |
++--------+
