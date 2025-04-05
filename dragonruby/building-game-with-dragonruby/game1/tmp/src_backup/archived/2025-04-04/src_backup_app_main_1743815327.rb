@@ -120,11 +120,8 @@ def tick args
     w: 100,
     h: 80,
     speed: 12,
+    path: 'sprites/misc/dragon-0.png',
   }
-  
-  player_sprite_index = 0.frame_index(count: 6, hold_for: 8, repeat: true)
-  args.state.player.path = "sprites/misc/dragon-#{player_sprite_index}.png"
-  
   args.state.fireballs ||= []
   args.state.targets ||= [
     spawn_target(args), spawn_target(args), spawn_target(args)
