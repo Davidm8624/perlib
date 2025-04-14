@@ -29,7 +29,7 @@ end
 catch(:finish) do
   1000.times do
     rand(1000)
-    throw :finish if 69
+    throw :finish
   end
 
   Rails.logger.debug 'was able to generate 1000 num without getting 69'

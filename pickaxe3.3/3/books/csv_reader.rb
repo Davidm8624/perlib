@@ -1,5 +1,5 @@
-require "csv"
-require_relative "book_in_stock"
+require 'csv'
+require_relative 'book_in_stock'
 
 class CsvReader
   def initialize
@@ -8,7 +8,7 @@ class CsvReader
 
   def read_in_csv_data(csv_file_name)
     CSV.foreach(csv_file_name, headers: true) do |row|
-      @books_in_stock << BookInStock.new(row["ISBN"], row["Price"])
+      @books_in_stock << BookInStock.new(row['ISBN'], row['Price'])
     end
   end
 
@@ -18,6 +18,5 @@ class CsvReader
     sum / 100.0
   end
 
-  def number_of_each_isbn
-  end
+  def number_of_each_isbn; end
 end
