@@ -1,8 +1,0 @@
-$gtk.reset seed: 1743813724
-$gtk.reset seed: 1743613282
-$gtk.reset seed: 1743562504
-$gtk.reset seed: 1743471168
-$gtk.reset seed: 1743280544
-reset
-:reset
-gtk:reset
